@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, SkipSelf, Inject} from "@angular/core";
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, SkipSelf, Inject, OnInit, OnDestroy} from "@angular/core";
 import {FormBuilder, FormControl} from "@angular/forms";
 
 import {DynamicComponentGeneric} from "../../../../ngDynamic-core";
@@ -14,14 +14,14 @@ import {FORM_COMPONENT, FormComponentApi} from "../../form/component";
     templateUrl: 'input.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InputComponent implements DynamicComponentGeneric<InputComponentOptions>
+export class InputComponent implements DynamicComponentGeneric<InputComponentOptions>, OnInit, OnDestroy
 {
-    //######################### private fields #########################
-
+    //######################### public properties - template bindings #########################
+    
     /**
      * Form control that represents this input
      */
-    private _formControl: FormControl;
+    public formControl: FormControl;
 
     //######################### public properties #########################
 
@@ -35,9 +35,27 @@ export class InputComponent implements DynamicComponentGeneric<InputComponentOpt
                 private _changeDetector: ChangeDetectorRef,
                 @SkipSelf() @Inject(FORM_COMPONENT) private _parentForm: FormComponentApi)
     {
-        this._formControl = formBuilder.control(null);
+        this.formControl = formBuilder.control(null);
+    }
 
-        console.log(this._parentForm, this._formControl);
+    //######################### public methods - implementation of OnInit #########################
+    
+    /**
+     * Initialize component
+     */
+    public ngOnInit()
+    {
+        this._parentForm.registerControl(this.options.name, this.formControl);
+    }
+
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy()
+    {
+        this._parentForm.unregisterControl(this.options.name);
     }
 
     //######################### public methods #########################

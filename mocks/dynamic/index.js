@@ -1,7 +1,7 @@
 module.exports = function(app)
 {
     //METADATA
-    app.useMock('GET', /api\/dynamic\/(.*?)$/, (_req, matches) =>
+    app.useMock('GET', /api\/dynamic\/metadata\/(.*?)$/, (_req, matches) =>
     {
         switch(matches[1])
         {
