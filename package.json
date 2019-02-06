@@ -64,7 +64,7 @@
         "@ng/grid": "5.0.3",
         "@ng/grid-extensions": "5.0.0",
         "@ng/md-help": "5.0.2",
-        "@ng/notifications": "5.0.1",
+        "@ng/notifications": "5.1.1",
         "@ng/rest": "5.0.0",
         "@ng/select": "next",
         "@ng/server-stuff": "5.0.0",
