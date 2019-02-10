@@ -25,6 +25,11 @@ export interface FormComponentApi
      * @param name Name of control to be unregistered
      */
     unregisterControl(name: string): void;
+
+    /**
+     * Indicaiton whether form was submitted
+     */
+    submitted: boolean;
 }
 
 /**
@@ -33,7 +38,12 @@ export interface FormComponentApi
 export interface FormComponentOptions
 {
     /**
-     * Array of children that are going to be rendered
+     * Content that is going to be rendered inside form
      */
     content?: DynamicComponentMetadata;
+
+    /**
+     * Name of form, used only if this form is nested in another form
+     */
+    name?: string;
 }

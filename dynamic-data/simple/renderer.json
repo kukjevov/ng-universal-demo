@@ -137,18 +137,21 @@
                         "content":
                         {
                             "id": "form-stack",
-                            "children": 
-                            [
-                                {
-                                    "id": "simple-input",
-                                    "options":
+                            "options":
+                            {
+                                "children": 
+                                [
                                     {
-                                        "name": "text-input"
-                                    },
-                                    "componentPackage": "form",
-                                    "componentName": "input"
-                                }
-                            ],
+                                        "id": "simple-input",
+                                        "options":
+                                        {
+                                            "name": "text-input"
+                                        },
+                                        "componentPackage": "form",
+                                        "componentName": "input"
+                                    }
+                                ]
+                            },
                             "componentPackage": "layout",
                             "componentName": "stack"
                         }

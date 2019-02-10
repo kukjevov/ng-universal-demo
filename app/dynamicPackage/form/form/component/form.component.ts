@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ExistingProvider, forwardRef, SkipSelf, Optional, Inject} from "@angular/core";
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ExistingProvider, forwardRef, SkipSelf, Optional, Inject, OnInit, OnDestroy} from "@angular/core";
 import {AbstractControl, FormGroup, FormBuilder} from "@angular/forms";
 
 import {DynamicComponentGeneric} from "../../../../ngDynamic-core";
@@ -21,7 +21,7 @@ import {FormComponentOptions, FormComponentApi, FORM_COMPONENT} from "./form.int
         }
     ]
 })
-export class FormComponent implements DynamicComponentGeneric<FormComponentOptions>, FormComponentApi
+export class FormComponent implements DynamicComponentGeneric<FormComponentOptions>, FormComponentApi, OnInit, OnDestroy
 {
     //######################### private fields #########################
 
@@ -30,6 +30,11 @@ export class FormComponent implements DynamicComponentGeneric<FormComponentOptio
      */
     private _formGroup: FormGroup;
 
+    /**
+     * Indication whether form was submitted
+     */
+    private _submitted: boolean = false;
+
     //######################### public properties #########################
 
     /**
@@ -37,14 +42,78 @@ export class FormComponent implements DynamicComponentGeneric<FormComponentOptio
      */
     public options: FormComponentOptions;
 
+    /**
+     * Indicaiton whether form was submitted
+     */
+    public set submitted(value: boolean)
+    {
+        if(this._parentForm)
+        {
+            this._parentForm.submitted = value;
+        }
+        else
+        {
+            this._submitted = value;
+        }
+    }
+    public get submitted(): boolean
+    {
+        if(this._parentForm)
+        {
+            return this._parentForm.submitted;
+        }
+
+        return this._submitted;
+    }
+
+    /**
+     * Gets indication whether is form valid
+     */
+    public get valid(): boolean
+    {
+        return this._formGroup.valid;
+    }
+
+    /**
+     * Gets current value of form
+     */
+    public get value(): any
+    {
+        return this._formGroup.value;
+    }
+
     //######################### constructor #########################
     constructor(formBuilder: FormBuilder,
                 private _changeDetector: ChangeDetectorRef,
                 @SkipSelf() @Optional() @Inject(FORM_COMPONENT) private _parentForm: FormComponentApi)
     {
-        console.log(this._parentForm);
-
         this._formGroup = formBuilder.group({});
+    }
+
+    //######################### public methods - implementation of OnInit #########################
+    
+    /**
+     * Initialize component
+     */
+    public ngOnInit()
+    {
+        if(this._parentForm)
+        {
+            this._parentForm.registerControl(this.options.name, this._formGroup);
+        }
+    }
+
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy()
+    {
+        if(this._parentForm)
+        {
+            this._parentForm.unregisterControl(this.options.name);
+        }
     }
 
     //######################### public methods #########################

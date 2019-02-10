@@ -1,1 +1,2 @@
-<input [formControl]="formControl">
+<input [formControl]="formControl" [ngClass]="options?.inputCssClass || defaultCssClasses?.inputCssClass">
+<div *ngIf="formSubmitted && formControl?.invalid" [ngClass]="options?.validationDivCssClass || defaultCssClasses?.validationDivCssClass"></div>
