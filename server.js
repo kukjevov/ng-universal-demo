@@ -28,7 +28,7 @@ var options =
 {
     key: key,
     cert: cert
-  };
+};
 
 /**
  * Gets function used for server side rendering
@@ -86,6 +86,9 @@ if(!!argv.webpack)
 
 //mock rest api
 require('./server.mock')(app);
+
+//REST api for server dynamic
+require('./server.dynamic.api')(app);
 
 //proxy special requests to other location
 app.use(proxy(['/api', '/swagger'], {target: proxyUrl, ws: true}));
