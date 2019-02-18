@@ -37,6 +37,11 @@ export class GridSampleComponent extends BaseAnimatedComponent
      * Grid options that are used for grid initialization
      */
     public gridLoadMoreOptions: GridOptions;
+    
+    // /**
+    //  * Grid options that are used for grid initialization
+    //  */
+    // public gridGroupedOptions: GridOptions;
 
     /**
      * Grid options that are used for grid initialization
@@ -129,6 +134,42 @@ export class GridSampleComponent extends BaseAnimatedComponent
                 // }
             }
         };
+
+        // this.gridGroupedOptions =
+        // {
+        //     plugins:
+        //     {
+        //         contentRenderer:
+        //         {
+        //             options: <TableContentRendererOptions>
+        //             {
+        //                 plugins:
+        //                 {
+        //                     headerRenderer:
+        //                     {
+        //                         type: GroupedTableHeaderContentRendererComponent
+        //                     }
+        //                 }
+        //             }
+        //         },
+        //         dataLoader:
+        //         {
+        //             options: <AsyncDataLoaderOptions<any, SimpleOrdering>>
+        //             {
+        //                 dataCallback: this._getData.bind(this)
+        //             }
+        //         },
+        //         paging:
+        //         {
+        //             options: <BasicPagingOptions>
+        //             {
+        //                 itemsPerPageValues: [10, 20],
+        //                 initialItemsPerPage: 10,
+        //                 initialPage: 1
+        //             }
+        //         }
+        //     }
+        // };
 
         this.gridLoadMoreOptions =
         {
