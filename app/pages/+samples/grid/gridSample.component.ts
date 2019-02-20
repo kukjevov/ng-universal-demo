@@ -112,13 +112,13 @@ export class GridSampleComponent extends BaseAnimatedComponent
                     {
                         itemsPerPageValues: [10, 20],
                         initialItemsPerPage: 10,
-                        initialPage: 1,
-                        pagingInitializer:
-                        {
-                            type: QueryPagingInitializerComponent
-                        }
+                        initialPage: 1
                     }
                 },
+                pagingInitializer:
+                {
+                    type: QueryPagingInitializerComponent
+                }
                 // metadataSelector:
                 // {
                 //     type: AdvancedMetadataSelectorComponent,

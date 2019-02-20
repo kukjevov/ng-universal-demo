@@ -61,7 +61,7 @@
         "@ng/bootstrap": "5.0.2",
         "@ng/common": "5.0.4",
         "@ng/error-handling": "5.0.2",
-        "@ng/grid": "5.0.3",
+        "@ng/grid": "5.0.4",
         "@ng/grid-extensions": "5.0.0",
         "@ng/md-help": "5.0.2",
         "@ng/notifications": "5.1.1",

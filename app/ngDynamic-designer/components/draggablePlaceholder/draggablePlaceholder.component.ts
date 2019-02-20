@@ -3,7 +3,7 @@ import {Injectable, ChangeDetectorRef} from "@angular/core";
 import {PlaceholderBaseComponent} from "../placeholderBase/placeholderBase.component";
 import {PackageLoader} from "../../packageLoader";
 import {PropertiesService, DragService} from "../../services";
-import {COMPONENT_PALETTE_ITEM} from "..";
+import {COMPONENT_PALETTE_ITEM} from "../componentPalette";
 import {DropEvent, DropArea} from "../../interfaces";
 
 export const COMPONENT_ITEM = "component";
