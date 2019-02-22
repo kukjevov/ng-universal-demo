@@ -1,6 +1,12 @@
 import {Type, ElementRef} from "@angular/core";
 
 import {NgSelectPluginInstances} from "../components/select";
+import {KeyboardHandler} from "../plugins/keyboardHandler";
+import {NormalState} from "../plugins/normalState";
+import {Popup} from "../plugins/popup";
+import {Positioner} from "../plugins/positioner";
+import {ReadonlyState} from "../plugins/readonlyState";
+import {ValueHandler} from "../plugins/valueHandler";
 
 /**
  * NgSelect plugin interface
@@ -57,32 +63,32 @@ export class NgSelectPluginTypes
     /**
      * Handles keyboard events
      */
-    keyboardHandler?: PluginDescription<any>;
+    keyboardHandler?: PluginDescription<KeyboardHandler>;
 
     /**
      * Component used for displaying normal state of select
      */
-    normalState?: PluginDescription<any>;
+    normalState?: PluginDescription<NormalState>;
 
     /**
      * Component used for displaying available options for selection
      */
-    popup?: PluginDescription<any>;
+    popup?: PluginDescription<Popup>;
 
     /**
      * Handles correct position of pop component
      */
-    positioner?: PluginDescription<any>;
+    positioner?: PluginDescription<Positioner>;
 
     /**
      * Component used for displaying readonly/disabled state of select, can be null, in that case normal state component is used
      */
-    readonlyState?: PluginDescription<any>;
+    readonlyState?: PluginDescription<ReadonlyState>;
 
     /**
      * Handles obtaining and setting value of component
      */
-    valueHandler?: PluginDescription<any>;
+    valueHandler?: PluginDescription<ValueHandler>;
 }
 
 /**
