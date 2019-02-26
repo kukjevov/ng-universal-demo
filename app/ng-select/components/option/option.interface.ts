@@ -18,3 +18,19 @@ export interface NgSelectOption<TValue>
      */
     group?: string;
 }
+
+/**
+ * Option for ng select
+ */
+export interface ɵNgSelectOption<TValue> extends NgSelectOption<TValue>
+{
+    /**
+     * Indication whether is item active
+     */
+    active?: boolean;
+
+    /**
+     * Indication whether is this option selected
+     */
+    selected?: boolean;
+}

@@ -1,8 +1,7 @@
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {forwardRef, ExistingProvider, Directive, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs';
-
-import {NgSelectComponent} from '../components/ngSelect.component';
+import {NgSelectComponent} from '../components';
 
 const NG_SELECT_VALUE_ACCESSOR: ExistingProvider =
 {

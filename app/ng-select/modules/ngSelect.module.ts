@@ -1,10 +1,9 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-import {NgSelectComponent} from '../components/ngSelect.component';
-import {OptionComponent} from '../components/option/option.component';
 import {NgSelectValuePipe} from '../pipes/ngSelectValue.pipe';
 import {NgSelectControlValueAccessor} from '../misc';
+import {OptGroupComponent, OptionComponent, NgSelectComponent} from '../components';
 
 /**
  * Module for select and its options
@@ -17,15 +16,17 @@ import {NgSelectControlValueAccessor} from '../misc';
     ],
     declarations:
     [
-        NgSelectComponent,
         OptionComponent,
+        OptGroupComponent,
+        NgSelectComponent,
         NgSelectValuePipe,
         NgSelectControlValueAccessor
     ],
     exports:
     [
-        NgSelectComponent,
         OptionComponent,
+        OptGroupComponent,
+        NgSelectComponent,
         NgSelectValuePipe,
         NgSelectControlValueAccessor
     ]

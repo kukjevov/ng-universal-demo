@@ -1,15 +1,17 @@
 import {Component, ChangeDetectionStrategy, Input} from "@angular/core";
 
+import {NgSelectOption} from "./option.interface";
+
 /**
  * Component used for options in select component
  */
 @Component(
 {
-    selector: 'ng-select>option',
+    selector: 'ng-select option',
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OptionComponent<TValue>
+export class OptionComponent<TValue> implements NgSelectOption<TValue>
 {
     //######################### public properties - template bindings #########################
 
@@ -26,14 +28,21 @@ export class OptionComponent<TValue>
     //######################### public properties - inputs #########################
 
     /**
-     * Value of option
+     * Value that will be used if this option will be selected
      */
     @Input()
     public value: TValue;
 
     /**
-     * Text to be displayed for this value
+     * Text that is displayed if this value is selected
      */
     @Input()
     public text: string;
+    
+    //######################### public properties #########################
+
+    /**
+     * If specified this option will be displayed in group
+     */
+    public group?: string = null;
 }
