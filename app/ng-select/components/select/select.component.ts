@@ -1,10 +1,10 @@
-import {Component, ChangeDetectionStrategy, FactoryProvider, Input, Inject, ChangeDetectorRef, Optional, Type, AfterViewInit, OnInit, ContentChildren, QueryList, EventEmitter} from "@angular/core";
+import {Component, ChangeDetectionStrategy, FactoryProvider, Input, Inject, ChangeDetectorRef, Optional, Type, AfterViewInit, OnInit, ContentChildren, QueryList, EventEmitter, forwardRef, resolveForwardRef} from "@angular/core";
 import {extend} from "@asseco/common";
 
-import {NgSelectOptions, NG_SELECT_OPTIONS, KEYBOARD_HANDLER_TYPE, NORMAL_STATE_TYPE, POPUP_TYPE, POSITIONER_TYPE, READONLY_STATE_TYPE, VALUE_HANDLER_TYPE, LIVE_SEARCH_TYPE, NgSelectPlugin, OptionsGatherer} from "../../misc";
+import {NgSelectOptions, NG_SELECT_OPTIONS, KEYBOARD_HANDLER_TYPE, NORMAL_STATE_TYPE, POPUP_TYPE, POSITIONER_TYPE, READONLY_STATE_TYPE, VALUE_HANDLER_TYPE, LIVE_SEARCH_TYPE, NgSelectPlugin, OptionsGatherer, PluginDescription} from "../../misc";
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelect, NgSelectPluginInstances} from "./select.interface";
 import {KeyboardHandler, KEYBOARD_HANDLER} from "../../plugins/keyboardHandler";
-import {NormalState, NORMAL_STATE} from "../../plugins/normalState";
+import {NormalState, NORMAL_STATE, BasicNormalStateComponent} from "../../plugins/normalState";
 import {Popup, POPUP} from "../../plugins/popup";
 import {Positioner, POSITIONER} from "../../plugins/positioner";
 import {ReadonlyState} from "../../plugins/readonlyState";
@@ -24,10 +24,10 @@ const defaultOptions: NgSelectOptions<any> =
     },
     plugins:
     {
-        // pagingInitializer: <PluginDescription<NoPagingInitializerComponent>>
-        // {
-        //     type: forwardRef(() => NoPagingInitializerComponent)
-        // }
+        normalState: <PluginDescription<BasicNormalStateComponent>>
+        {
+            type: forwardRef(() => BasicNormalStateComponent)
+        }
     }
 };
 
@@ -374,30 +374,23 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
      */
     public initOptions()
     {
-        // if(this._selectOptions.plugins)
-        // {
-        //     if(this._selectOptions.plugins.paging)
-        //     {
-        //         this._selectOptions.plugins.paging.type = resolveForwardRef(this._selectOptions.plugins.paging.type);
+        if(this._selectOptions.plugins)
+        {
+            if(this._selectOptions.plugins.normalState)
+            {
+                this._selectOptions.plugins.normalState.type = resolveForwardRef(this._selectOptions.plugins.normalState.type);
 
-        //         if(this._selectOptions.plugins.paging.instance &&
-        //            this._selectOptions.plugins.paging.instance != this._pluginInstances[PAGING])
-        //         {
-        //             this._pluginInstances[PAGING] = this._selectOptions.plugins.paging.instance;
-        //             this._selectOptions.plugins.paging.instance.gridPlugins = this._pluginInstances;
-        //         }
+                if(this._pluginInstances[NORMAL_STATE])
+                {
+                    if(this._selectOptions.plugins && this._selectOptions.plugins.normalState && this._selectOptions.plugins.normalState.options)
+                    {
+                        this._pluginInstances[NORMAL_STATE].options = this._selectOptions.plugins.normalState.options;
+                    }
 
-        //         if(this._pluginInstances[PAGING])
-        //         {
-        //             if(this._selectOptions.plugins && this._selectOptions.plugins.paging && this._selectOptions.plugins.paging.options)
-        //             {
-        //                 this._pluginInstances[PAGING].options = this._selectOptions.plugins.paging.options;
-        //             }
-
-        //             this._pluginInstances[PAGING].initOptions();
-        //         }
-        //     }
-        // }
+                    this._pluginInstances[NORMAL_STATE].initOptions();
+                }
+            }
+        }
     }
 
     /**

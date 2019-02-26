@@ -1,0 +1,17 @@
+<!-- <ng-template #defaultLook>
+    <span class="selected-value">{{optionsAndValueManager.selectedOption | ngSelectValue: nothingSelectedText}}</span>
+    <span class="selected-caret fa fa-caret-down"></span>
+</ng-template>
+
+<button class="btn btn-select" (click)="toggleOptionsDiv()">
+    <ng-container *ngTemplateOutlet="look || defaultLook; context: {$implicit: this}"></ng-container>
+</button> -->
+
+<ng-template #defaultLook>
+    <span class="selected-value">{{null | ngSelectValue: options?.nothingSelectedText}}</span>
+    <span class="selected-caret fa fa-caret-down"></span>
+</ng-template>
+
+<button class="btn btn-select">
+    <ng-container *ngTemplateOutlet="defaultLook; context: {$implicit: this}"></ng-container>
+</button>
