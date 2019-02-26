@@ -7,11 +7,13 @@ import {Popup} from "../plugins/popup";
 import {Positioner} from "../plugins/positioner";
 import {ReadonlyState} from "../plugins/readonlyState";
 import {ValueHandler} from "../plugins/valueHandler";
+import {LiveSearch} from "../plugins/liveSearch";
+import {OptionsGatherer} from "./optionsGatherer.interface";
 
 /**
  * Injection token for 'NgSelectOptions'
  */
-export const NG_SELECT_OPTIONS: InjectionToken<NgSelectOptions> = new InjectionToken<NgSelectOptions>('NG_SELECT_OPTIONS');
+export const NG_SELECT_OPTIONS: InjectionToken<NgSelectOptions<any>> = new InjectionToken<NgSelectOptions<any>>('NG_SELECT_OPTIONS');
 
 /**
  * Injection token for 'KeyboardHandler' implementation
@@ -44,9 +46,14 @@ export const READONLY_STATE_TYPE: InjectionToken<Type<ReadonlyState>> = new Inje
 export const VALUE_HANDLER_TYPE: InjectionToken<Type<ValueHandler>> = new InjectionToken<Type<ValueHandler>>('VALUE_HANDLER_TYPE');
 
 /**
+ * Injection token for 'LiveSearch' implementation
+ */
+export const LIVE_SEARCH_TYPE: InjectionToken<Type<LiveSearch>> = new InjectionToken<Type<LiveSearch>>('LIVE_SEARCH_TYPE');
+
+/**
  * Describes select options used for NgSelect
  */
-export interface NgSelectOptions
+export interface NgSelectOptions<TValue>
 {
     /**
      * Indication whether NgSelect should be initialized automaticaly during 'NgOnInit' phase
@@ -62,4 +69,9 @@ export interface NgSelectOptions
      * Object defining overrides for default plugins, default plugins can be also specified using DI
      */
     plugins?: NgSelectPluginTypes;
+
+    /**
+     * Instance of options gatherer that is used for obtaining options
+     */
+    optionsGatherer: OptionsGatherer<TValue>;
 }

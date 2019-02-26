@@ -7,6 +7,7 @@ import {Popup} from "../plugins/popup";
 import {Positioner} from "../plugins/positioner";
 import {ReadonlyState} from "../plugins/readonlyState";
 import {ValueHandler} from "../plugins/valueHandler";
+import {LiveSearch} from "../plugins/liveSearch";
 
 /**
  * NgSelect plugin interface
@@ -89,6 +90,11 @@ export class NgSelectPluginTypes
      * Handles obtaining and setting value of component
      */
     valueHandler?: PluginDescription<ValueHandler>;
+
+    /**
+     * Contains component that is used for live searching in options
+     */
+    liveSearch?: PluginDescription<LiveSearch>;
 }
 
 /**

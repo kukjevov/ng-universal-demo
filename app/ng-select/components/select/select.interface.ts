@@ -18,12 +18,12 @@ export interface NgSelectPluginInstances
 /**
  * Public API for NgSelect
  */
-export interface NgSelect
+export interface NgSelect<TValue>
 {
     /**
      * Gets or sets NgSelect options
      */
-    selectOptions: NgSelectOptions;
+    selectOptions: NgSelectOptions<TValue>;
 
     /**
      * Initialize component, automatically called once if not blocked by options
