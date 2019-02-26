@@ -5,7 +5,6 @@ import {ComponentRoute} from "@ng/common";
 import {flyInOutTrigger, slideInOutTriggerFactory} from '@ng/animations';
 import {Authorize, AuthGuard} from '@ng/authentication';
 import {FancyTreeNodeData, FancyTreeComponent} from '@ng/treeview';
-import {GetOptionsCallback, OptionComponent} from '../../ng-select';
 import {map} from 'rxjs/operators';
 
 import {DataService} from "../../services/api/data/data.service";
@@ -96,10 +95,10 @@ export class HomeComponent extends BaseAnimatedComponent implements OnInit
 
     public ngSelect: FormControl;
 
-    public optionsGetter: GetOptionsCallback<string> = (query: string, options: Array<OptionComponent<string>>) =>
-    {
-        return Promise.resolve(options.filter(itm => itm.text.indexOf(query) >= 0));
-    }
+    // public optionsGetter: GetOptionsCallback<string> = (query: string, options: Array<OptionComponent<string>>) =>
+    // {
+    //     return Promise.resolve(options.filter(itm => itm.text.indexOf(query) >= 0));
+    // }
 
     @ViewChild('treeview')
     public tree: FancyTreeComponent;

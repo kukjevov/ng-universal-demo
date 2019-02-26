@@ -1,8 +1,13 @@
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {forwardRef, ExistingProvider, Directive, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs';
+
 import {NgSelectComponent} from '../components';
 
+/**
+ * Provider for control value accessor
+ * @internal
+ */
 const NG_SELECT_VALUE_ACCESSOR: ExistingProvider =
 {
     provide: NG_VALUE_ACCESSOR,
@@ -40,6 +45,7 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
     //######################### constructor #########################
     constructor(private _select: NgSelectComponent<TValue>)
     {
+        console.log(this._lastValue, this._select);
         // this._lastValueRequestSubscription = this._select
         //     .optionsAndValueManager
         //     .lastValueRequest

@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, FactoryProvider, Input, Inject, ChangeDetectorRef, Optional, Type, AfterViewInit, OnInit, ContentChildren} from "@angular/core";
+import {Component, ChangeDetectionStrategy, FactoryProvider, Input, Inject, ChangeDetectorRef, Optional, Type, AfterViewInit, OnInit, ContentChildren, QueryList, EventEmitter} from "@angular/core";
 import {extend} from "@asseco/common";
 
 import {NgSelectOptions, NG_SELECT_OPTIONS, KEYBOARD_HANDLER_TYPE, NORMAL_STATE_TYPE, POPUP_TYPE, POSITIONER_TYPE, READONLY_STATE_TYPE, VALUE_HANDLER_TYPE, LIVE_SEARCH_TYPE, NgSelectPlugin, OptionsGatherer} from "../../misc";
@@ -10,7 +10,7 @@ import {Positioner} from "../../plugins/positioner";
 import {ReadonlyState} from "../../plugins/readonlyState";
 import {ValueHandler} from "../../plugins/valueHandler";
 import {LiveSearch} from "../../plugins/liveSearch";
-import {OptionComponent} from "../option";
+import {OptionComponent, NgSelectOption, OptGroupComponent, NgSelectOptGroup} from "../option";
 
 /**
  * Default 'NgSelectOptions'
@@ -66,6 +66,11 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
      */
     private _selectOptions: NgSelectOptions<TValue>;
 
+    /**
+     * Occurs when array of provided options has changed
+     */
+    private _optionsChange: EventEmitter<void> = new EventEmitter<void>();
+
     //######################### public properties - inputs #########################
 
     /**
@@ -81,14 +86,43 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
         return this._selectOptions;
     }
 
+    //######################### public properties - implementation of OptionsGatherer #########################
+    
+    /**
+     * Array of provided options for select
+     * @internal
+     */
+    public get options(): NgSelectOption<TValue>[]
+    {
+        return this.optionsChildren.toArray();
+    }
+
+    /**
+     * Occurs when array of provided options has changed
+     * @internal
+     */
+    public get optionsChange(): EventEmitter<void>
+    {
+        return this._optionsChange;
+    }
+
     //######################### public properties - children #########################
 
     /**
      * Options children found inside ng-select
      * @internal
      */
+    @ContentChildren(OptGroupComponent)
+    public optionsChildren: QueryList<NgSelectOption<any>>;
+
+    //######################### public properties - children #########################
+
+    /**
+     * Options groups children found inside ng-select
+     * @internal
+     */
     @ContentChildren(OptionComponent)
-    public optionsChildren: MetadataGatherer<any>;
+    public optGroupsChildren: QueryList<NgSelectOptGroup<any>>;
 
     //######################### constructors #########################
     constructor(private _changeDetector: ChangeDetectorRef,
@@ -181,6 +215,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
 
 
         this._selectOptions = extend(true, {optionsGatherer: this}, defaultOptions, opts);
+        console.log(this._selectOptions);
     }
 
     //######################### public methods - implementation of OnInit #########################
