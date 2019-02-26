@@ -40,13 +40,13 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
     //######################### constructor #########################
     constructor(private _select: NgSelectComponent<TValue>)
     {
-        this._lastValueRequestSubscription = this._select
-            .optionsAndValueManager
-            .lastValueRequest
-            .subscribe(() =>
-        {
-            this._select.optionsAndValueManager.setValue(this._lastValue, {noModelChange: true});
-        });
+        // this._lastValueRequestSubscription = this._select
+        //     .optionsAndValueManager
+        //     .lastValueRequest
+        //     .subscribe(() =>
+        // {
+        //     this._select.optionsAndValueManager.setValue(this._lastValue, {noModelChange: true});
+        // });
     }
 
     //######################### public methods - implementation of ControlValueAccessor #########################
@@ -56,12 +56,12 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
      */
     public writeValue(value: TValue|Array<TValue>): void
     {
-        this._lastValue = value;
+        // this._lastValue = value;
 
-        if(this._select.optionsAndValueManager.initialized)
-        {
-            this._select.optionsAndValueManager.setValue(value, {noModelChange: true});
-        }
+        // if(this._select.optionsAndValueManager.initialized)
+        // {
+        //     this._select.optionsAndValueManager.setValue(value, {noModelChange: true});
+        // }
     }
 
     /**
@@ -69,11 +69,11 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
      */
     public registerOnChange(fn: (data: TValue|Array<TValue>) => void): void
     {
-        this._changeSubscription = this._select.optionsAndValueManager.valueChange.subscribe(() =>
-        {
-            this._lastValue = this._select.value;
-            fn(this._select.value);
-        });
+        // this._changeSubscription = this._select.optionsAndValueManager.valueChange.subscribe(() =>
+        // {
+        //     this._lastValue = this._select.value;
+        //     fn(this._select.value);
+        // });
     }
 
     /**

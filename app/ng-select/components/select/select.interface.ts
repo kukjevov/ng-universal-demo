@@ -31,7 +31,7 @@ export interface NgSelect<TValue>
     initialize();
 
     /**
-     * Initialize options, automaticaly called during init phase, but can be used to reinitialize GridOptions
+     * Initialize options, automaticaly called during init phase, but can be used to reinitialize NgSelectOptions
      */
     initOptions();
 

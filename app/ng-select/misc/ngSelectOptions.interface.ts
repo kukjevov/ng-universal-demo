@@ -73,5 +73,5 @@ export interface NgSelectOptions<TValue>
     /**
      * Instance of options gatherer that is used for obtaining options
      */
-    optionsGatherer: OptionsGatherer<TValue>;
+    optionsGatherer?: OptionsGatherer<TValue>;
 }

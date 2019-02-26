@@ -123,7 +123,7 @@ export interface PluginDescription<PluginType>
     /**
      * Type of plugin that will be dynamically instantiated
      */
-    type: Type<PluginType>;
+    type?: Type<PluginType>;
 
     /**
      * Options that will be passed to dynamically instantiated plugin
