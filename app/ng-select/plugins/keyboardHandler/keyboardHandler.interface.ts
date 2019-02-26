@@ -1,6 +1,6 @@
 import {InjectionToken} from "@angular/core";
 
-import {PluginOptions} from "../../misc";
+import {PluginOptions, NgSelectPlugin} from "../../misc";
 
 /**
  * Constant used for accessing keyboard handler plugin in NgSelect
@@ -22,6 +22,6 @@ export interface KeyboardHandlerOptions extends PluginOptions
 /**
  * Keyboard handler plugin interface
  */
-export interface KeyboardHandler
+export interface KeyboardHandler extends NgSelectPlugin
 {
 }

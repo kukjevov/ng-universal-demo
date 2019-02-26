@@ -3,10 +3,10 @@ import {extend} from "@asseco/common";
 
 import {NgSelectOptions, NG_SELECT_OPTIONS, KEYBOARD_HANDLER_TYPE, NORMAL_STATE_TYPE, POPUP_TYPE, POSITIONER_TYPE, READONLY_STATE_TYPE, VALUE_HANDLER_TYPE, LIVE_SEARCH_TYPE, NgSelectPlugin, OptionsGatherer} from "../../misc";
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelect, NgSelectPluginInstances} from "./select.interface";
-import {KeyboardHandler} from "../../plugins/keyboardHandler";
-import {NormalState} from "../../plugins/normalState";
-import {Popup} from "../../plugins/popup";
-import {Positioner} from "../../plugins/positioner";
+import {KeyboardHandler, KEYBOARD_HANDLER} from "../../plugins/keyboardHandler";
+import {NormalState, NORMAL_STATE} from "../../plugins/normalState";
+import {Popup, POPUP} from "../../plugins/popup";
+import {Positioner, POSITIONER} from "../../plugins/positioner";
 import {ReadonlyState} from "../../plugins/readonlyState";
 import {ValueHandler} from "../../plugins/valueHandler";
 import {LiveSearch} from "../../plugins/liveSearch";
@@ -128,8 +128,8 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
     constructor(private _changeDetector: ChangeDetectorRef,
                 @Inject(NG_SELECT_PLUGIN_INSTANCES) private _pluginInstances: NgSelectPluginInstances,
                 @Inject(NG_SELECT_OPTIONS) @Optional() options?: NgSelectOptions<TValue>,
-                @Inject(KEYBOARD_HANDLER_TYPE) @Optional() keyboardHandlerType?: Type<KeyboardHandler>,
                 @Inject(NORMAL_STATE_TYPE) @Optional() normalStateType?: Type<NormalState>,
+                @Inject(KEYBOARD_HANDLER_TYPE) @Optional() keyboardHandlerType?: Type<Popup>,
                 @Inject(POPUP_TYPE) @Optional() popupType?: Type<Popup>,
                 @Inject(POSITIONER_TYPE) @Optional() positionerType?: Type<Positioner>,
                 @Inject(READONLY_STATE_TYPE) @Optional() readonlyStateType?: Type<ReadonlyState>,
@@ -215,7 +215,6 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
 
 
         this._selectOptions = extend(true, {optionsGatherer: this}, defaultOptions, opts);
-        console.log(this._selectOptions);
     }
 
     //######################### public methods - implementation of OnInit #########################
@@ -238,6 +237,116 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
         if(this._selectOptions.autoInitialize)
         {
             this.initialize();
+        }
+    }
+
+    //######################### public methods - template bindings #########################
+
+    /**
+     * Sets normal state component
+     * @param {NormalState} normalState Created normal state that is rendered
+     * @internal
+     */
+    public setNormalStateComponent(normalState: NormalState)
+    {
+        if(!normalState)
+        {
+            return;
+        }
+
+        this._pluginInstances[NORMAL_STATE] = normalState;
+
+        if(this._selectOptions.plugins && this._selectOptions.plugins.normalState && this._selectOptions.plugins.normalState.options)
+        {
+            normalState.options = this._selectOptions.plugins.normalState.options;
+        }
+
+        normalState.initOptions();
+        
+        if(this._selectOptions.plugins && this._selectOptions.plugins.normalState && this._selectOptions.plugins.normalState.instanceCallback)
+        {
+            this._selectOptions.plugins.normalState.instanceCallback(normalState);
+        }
+    }
+
+    /**
+     * Sets keyboard handler component
+     * @param {KeyboardHandler} keyboardHandler Created keyboard handler that is rendered
+     * @internal
+     */
+    public setKeyboardHandlerComponent(keyboardHandler: KeyboardHandler)
+    {
+        if(!keyboardHandler)
+        {
+            return;
+        }
+
+        this._pluginInstances[KEYBOARD_HANDLER] = keyboardHandler;
+
+        if(this._selectOptions.plugins && this._selectOptions.plugins.keyboardHandler && this._selectOptions.plugins.keyboardHandler.options)
+        {
+            keyboardHandler.options = this._selectOptions.plugins.keyboardHandler.options;
+        }
+
+        keyboardHandler.initOptions();
+        
+        if(this._selectOptions.plugins && this._selectOptions.plugins.keyboardHandler && this._selectOptions.plugins.keyboardHandler.instanceCallback)
+        {
+            this._selectOptions.plugins.keyboardHandler.instanceCallback(keyboardHandler);
+        }
+    }
+
+    /**
+     * Sets popup component
+     * @param {Popup} popup Created popup that is rendered
+     * @internal
+     */
+    public setPopupComponent(popup: Popup)
+    {
+        if(!popup)
+        {
+            return;
+        }
+
+        this._pluginInstances[POPUP] = popup;
+
+        if(this._selectOptions.plugins && this._selectOptions.plugins.popup && this._selectOptions.plugins.popup.options)
+        {
+            popup.options = this._selectOptions.plugins.popup.options;
+        }
+
+        popup.initOptions();
+        
+        if(this._selectOptions.plugins && this._selectOptions.plugins.popup && this._selectOptions.plugins.popup.instanceCallback)
+        {
+            this._selectOptions.plugins.popup.instanceCallback(popup);
+        }
+    }
+
+    /**
+     * Sets positioner component
+     * @param {Positioner} positioner Created positioner that is rendered
+     * @internal
+     */
+    public setPositionerComponent(positioner: Positioner)
+    {
+        if(!positioner)
+        {
+            return;
+        }
+
+        this._pluginInstances[POSITIONER] = positioner;
+
+        if(this._selectOptions.plugins && this._selectOptions.plugins.positioner && this._selectOptions.plugins.positioner.options)
+        {
+            positioner.options = this._selectOptions.plugins.positioner.options;
+        }
+
+        positioner.initOptions();
+        
+        if(this._selectOptions.plugins && this._selectOptions.plugins.positioner && this._selectOptions.plugins.positioner.instanceCallback)
+        {
+            this._selectOptions.plugins.positioner.instanceCallback(positioner);
         }
     }
 
@@ -265,24 +374,24 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
      */
     public initOptions()
     {
-        // if(this._gridOptions.plugins)
+        // if(this._selectOptions.plugins)
         // {
-        //     if(this._gridOptions.plugins.paging)
+        //     if(this._selectOptions.plugins.paging)
         //     {
-        //         this._gridOptions.plugins.paging.type = resolveForwardRef(this._gridOptions.plugins.paging.type);
+        //         this._selectOptions.plugins.paging.type = resolveForwardRef(this._selectOptions.plugins.paging.type);
 
-        //         if(this._gridOptions.plugins.paging.instance &&
-        //            this._gridOptions.plugins.paging.instance != this._pluginInstances[PAGING])
+        //         if(this._selectOptions.plugins.paging.instance &&
+        //            this._selectOptions.plugins.paging.instance != this._pluginInstances[PAGING])
         //         {
-        //             this._pluginInstances[PAGING] = this._gridOptions.plugins.paging.instance;
-        //             this._gridOptions.plugins.paging.instance.gridPlugins = this._pluginInstances;
+        //             this._pluginInstances[PAGING] = this._selectOptions.plugins.paging.instance;
+        //             this._selectOptions.plugins.paging.instance.gridPlugins = this._pluginInstances;
         //         }
 
         //         if(this._pluginInstances[PAGING])
         //         {
-        //             if(this._gridOptions.plugins && this._gridOptions.plugins.paging && this._gridOptions.plugins.paging.options)
+        //             if(this._selectOptions.plugins && this._selectOptions.plugins.paging && this._selectOptions.plugins.paging.options)
         //             {
-        //                 this._pluginInstances[PAGING].options = this._gridOptions.plugins.paging.options;
+        //                 this._pluginInstances[PAGING].options = this._selectOptions.plugins.paging.options;
         //             }
 
         //             this._pluginInstances[PAGING].initOptions();

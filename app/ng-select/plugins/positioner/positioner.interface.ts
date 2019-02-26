@@ -1,6 +1,6 @@
 import {InjectionToken} from "@angular/core";
 
-import {PluginOptions} from "../../misc";
+import {PluginOptions, NgSelectPlugin} from "../../misc";
 
 /**
  * Constant used for accessing positioner plugin in NgSelect
@@ -22,6 +22,6 @@ export interface PositionerOptions extends PluginOptions
 /**
  * Positioner plugin interface
  */
-export interface Positioner
+export interface Positioner extends NgSelectPlugin
 {
 }

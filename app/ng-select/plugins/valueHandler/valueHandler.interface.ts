@@ -1,6 +1,6 @@
 import {InjectionToken} from "@angular/core";
 
-import {PluginOptions} from "../../misc";
+import {PluginOptions, NgSelectPlugin} from "../../misc";
 
 /**
  * Constant used for accessing value handler plugin in NgSelect
@@ -22,6 +22,6 @@ export interface ValueHandlerOptions extends PluginOptions
 /**
  * Value handler plugin interface
  */
-export interface ValueHandler
+export interface ValueHandler extends NgSelectPlugin
 {
 }

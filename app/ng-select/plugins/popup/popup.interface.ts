@@ -1,6 +1,6 @@
 import {InjectionToken} from "@angular/core";
 
-import {PluginOptions} from "../../misc";
+import {PluginOptions, NgSelectPlugin} from "../../misc";
 
 /**
  * Constant used for accessing popup plugin in NgSelect
@@ -22,6 +22,6 @@ export interface PopupOptions extends PluginOptions
 /**
  * Popup plugin interface
  */
-export interface Popup
+export interface Popup extends NgSelectPlugin
 {
 }

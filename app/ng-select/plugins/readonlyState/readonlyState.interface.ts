@@ -1,6 +1,6 @@
 import {InjectionToken} from "@angular/core";
 
-import {PluginOptions} from "../../misc";
+import {PluginOptions, NgSelectPlugin} from "../../misc";
 
 /**
  * Constant used for accessing readonly state plugin in NgSelect
@@ -22,6 +22,6 @@ export interface ReadonlyStateOptions extends PluginOptions
 /**
  * Readonly state plugin interface
  */
-export interface ReadonlyState
+export interface ReadonlyState extends NgSelectPlugin
 {
 }

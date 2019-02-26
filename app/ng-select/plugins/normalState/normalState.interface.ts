@@ -1,6 +1,6 @@
 import {InjectionToken} from "@angular/core";
 
-import {PluginOptions} from "../../misc";
+import {PluginOptions, NgSelectPlugin} from "../../misc";
 
 /**
  * Constant used for accessing normal state plugin in NgSelect
@@ -22,6 +22,6 @@ export interface NormalStateOptions extends PluginOptions
 /**
  * Normal state plugin interface
  */
-export interface NormalState
+export interface NormalState extends NgSelectPlugin
 {
 }
