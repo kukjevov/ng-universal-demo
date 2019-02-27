@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, EventEmitter} from '@angular/core';
 import {extend} from '@asseco/common';
 import {Subscription} from 'rxjs';
 
@@ -17,7 +17,8 @@ const defaultOptions: BasicNormalStateOptions =
     texts:
     {
         nothingSelected: 'Nothing selected'
-    }
+    },
+    readonly: false
 };
 
 /**
@@ -32,24 +33,24 @@ const defaultOptions: BasicNormalStateOptions =
     [
     ]
 })
-export class BasicNormalStateComponent implements BasicNormalState, NgSelectPluginGeneric<BasicNormalStateOptions>
+export class BasicNormalStateComponent<TValue> implements BasicNormalState<TValue>, NgSelectPluginGeneric<BasicNormalStateOptions>
 {
-    //######################### private fields #########################
+    //######################### protected fields #########################
 
     /**
      * Texts locator used for handling texts
      */
-    private _textsLocator: TextsLocator;
+    protected _textsLocator: TextsLocator;
 
     /**
      * Subscription for changes in texts
      */
-    private _textsChangedSubscription: Subscription;
+    protected _textsChangedSubscription: Subscription;
 
     /**
      * Options for NgSelect plugin
      */
-    private _options: BasicNormalStateOptions;
+    protected _options: BasicNormalStateOptions;
 
     //######################### public properties - implementation of BasicNormalState #########################
 
@@ -65,6 +66,16 @@ export class BasicNormalStateComponent implements BasicNormalState, NgSelectPlug
         this._options = extend(true, this._options, options);
     }
 
+    /**
+     * Occurs when user tries to toggle popup (open options)
+     */
+    public togglePopup: EventEmitter<void> = new EventEmitter<void>();
+
+    /**
+     * Gets or sets currently displayed value
+     */
+    public value: TValue|TValue[] = null;
+
     //######################### public properties - template bindings #########################
 
     /**
@@ -76,7 +87,7 @@ export class BasicNormalStateComponent implements BasicNormalState, NgSelectPlug
     //######################### constructor #########################
     constructor(@Inject(NG_SELECT_PLUGIN_INSTANCES) @Optional() public ngSelectPlugins: NgSelectPluginInstances,
                 public pluginElement: ElementRef,
-                private _changeDetector: ChangeDetectorRef,
+                protected _changeDetector: ChangeDetectorRef,
                 @Inject(NORMAL_STATE_OPTIONS) @Optional() options?: BasicNormalStateOptions)
     {
         this._options = extend(true, {}, defaultOptions, options);
@@ -138,12 +149,12 @@ export class BasicNormalStateComponent implements BasicNormalState, NgSelectPlug
         this._changeDetector.detectChanges();
     }
 
-    //######################### private methods #########################
+    //######################### protected methods #########################
 
     /**
      * Initialize texts
      */
-    private _initTexts()
+    protected _initTexts()
     {
         Object.keys(this.options.texts).forEach(key =>
         {

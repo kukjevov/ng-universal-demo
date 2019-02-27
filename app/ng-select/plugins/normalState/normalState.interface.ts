@@ -1,4 +1,4 @@
-import {InjectionToken} from "@angular/core";
+import {InjectionToken, TemplateRef, EventEmitter} from "@angular/core";
 
 import {NgSelectPlugin, VisualPluginOptions} from "../../misc";
 
@@ -32,14 +32,32 @@ export interface NormalStateOptions<TCssClasses> extends VisualPluginOptions<TCs
      * Texts that are used within any NormalState
      */
     texts?: NormalStateTexts;
+
+    /**
+     * Template that is used within NormalState
+     */
+    template?: TemplateRef<NormalStateContext>;
+
+    /**
+     * Indication whether NgSelect should be in readonly state
+     */
+    readonly?: boolean;
 }
 
 /**
  * Normal state plugin interface
  */
-export interface NormalState extends NgSelectPlugin
+export interface NormalState<TValue> extends NgSelectPlugin
 {
+    /**
+     * Occurs when user tries to toggle popup (open options)
+     */
+    togglePopup: EventEmitter<void>;
 
+    /**
+     * Gets or sets currently displayed value
+     */
+    value: TValue|TValue[];
 }
 
 /**
@@ -50,5 +68,5 @@ export interface NormalStateContext
     /**
      * Instance of plugin itself
      */
-    $implicit: NormalState;
+    $implicit: NormalState<any>;
 }

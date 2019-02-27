@@ -25,7 +25,7 @@ const defaultOptions: NgSelectOptions<any> =
     },
     plugins:
     {
-        normalState: <PluginDescription<BasicNormalStateComponent>>
+        normalState: <PluginDescription<BasicNormalStateComponent<any>>>
         {
             type: forwardRef(() => BasicNormalStateComponent)
         },
@@ -133,7 +133,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
     constructor(private _changeDetector: ChangeDetectorRef,
                 @Inject(NG_SELECT_PLUGIN_INSTANCES) private _pluginInstances: NgSelectPluginInstances,
                 @Inject(NG_SELECT_OPTIONS) @Optional() options?: NgSelectOptions<TValue>,
-                @Inject(NORMAL_STATE_TYPE) @Optional() normalStateType?: Type<NormalState>,
+                @Inject(NORMAL_STATE_TYPE) @Optional() normalStateType?: Type<NormalState<TValue>>,
                 @Inject(KEYBOARD_HANDLER_TYPE) @Optional() keyboardHandlerType?: Type<Popup>,
                 @Inject(POPUP_TYPE) @Optional() popupType?: Type<Popup>,
                 @Inject(POSITIONER_TYPE) @Optional() positionerType?: Type<Positioner>,
@@ -262,7 +262,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
      * @param {NormalState} normalState Created normal state that is rendered
      * @internal
      */
-    public setNormalStateComponent(normalState: NormalState)
+    public setNormalStateComponent(normalState: NormalState<TValue>)
     {
         if(!normalState)
         {
