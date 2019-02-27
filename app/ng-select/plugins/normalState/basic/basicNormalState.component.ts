@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, EventEmitter} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, EventEmitter, OnDestroy} from '@angular/core';
 import {extend} from '@asseco/common';
 import {Subscription} from 'rxjs';
 
@@ -33,7 +33,7 @@ const defaultOptions: BasicNormalStateOptions =
     [
     ]
 })
-export class BasicNormalStateComponent implements BasicNormalState, NgSelectPluginGeneric<BasicNormalStateOptions>
+export class BasicNormalStateComponent implements BasicNormalState, NgSelectPluginGeneric<BasicNormalStateOptions>, OnDestroy
 {
     //######################### protected fields #########################
 

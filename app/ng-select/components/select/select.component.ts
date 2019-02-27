@@ -5,11 +5,11 @@ import {NgSelectOptions, NG_SELECT_OPTIONS, KEYBOARD_HANDLER_TYPE, NORMAL_STATE_
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelect, NgSelectPluginInstances, NgSelectAction, NgSelectFunction} from "./select.interface";
 import {KeyboardHandler, KEYBOARD_HANDLER} from "../../plugins/keyboardHandler";
 import {NormalState, NORMAL_STATE, BasicNormalStateComponent} from "../../plugins/normalState";
-import {Popup, POPUP} from "../../plugins/popup";
+import {Popup, POPUP, BasicPopupComponent} from "../../plugins/popup";
 import {Positioner, POSITIONER} from "../../plugins/positioner";
 import {ReadonlyState, READONLY_STATE} from "../../plugins/readonlyState";
 import {ValueHandler, VALUE_HANDLER} from "../../plugins/valueHandler";
-import {LiveSearch, LIVE_SEARCH} from "../../plugins/liveSearch";
+import {LiveSearch, LIVE_SEARCH, BasicLiveSearchComponent} from "../../plugins/liveSearch";
 import {TextsLocator, TEXTS_LOCATOR, NoTextsLocatorComponent} from "../../plugins/textsLocator";
 import {OptionComponent, NgSelectOption, OptGroupComponent, NgSelectOptGroup} from "../option";
 
@@ -32,6 +32,14 @@ const defaultOptions: NgSelectOptions<any> =
         textsLocator: <PluginDescription<NoTextsLocatorComponent>>
         {
             type: forwardRef(() => NoTextsLocatorComponent)
+        },
+        liveSearch: <PluginDescription<BasicLiveSearchComponent>>
+        {
+            type: forwardRef(() => BasicLiveSearchComponent)
+        },
+        popup: <PluginDescription<BasicPopupComponent>>
+        {
+            type: forwardRef(() => BasicPopupComponent)
         }
     }
 };

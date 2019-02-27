@@ -52,7 +52,7 @@ export interface NormalState extends NgSelectPlugin
     /**
      * Occurs when user tries to toggle popup (open options)
      */
-    togglePopup: EventEmitter<void>;
+    readonly togglePopup: EventEmitter<void>;
 }
 
 /**
