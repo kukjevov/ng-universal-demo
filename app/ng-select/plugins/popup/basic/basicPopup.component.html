@@ -1,5 +1,14 @@
+<ng-template #defaultOptionTextLook let-option>{{option?.text}}</ng-template>
+
 <div>
-    <div>testzzz</div>
-    <div><ng-content></ng-content></div>
-    <div>testxx</div>
+    <div *ngFor="let option of selectOptions"
+         class="optionItem"
+         [class.selected]="option?.selected"
+         [class.active]="option?.active">
+        <div class="option-item-text">
+            <ng-container *ngTemplateOutlet="defaultOptionTextLook; context: {$implicit: option, select: this}"></ng-container>
+        </div>
+
+        <!-- <div *ngIf="option?.selected && multiselect" class="fa fa-check"></div> -->
+    </div>
 </div>

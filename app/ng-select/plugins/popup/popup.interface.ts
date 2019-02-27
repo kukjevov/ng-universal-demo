@@ -1,6 +1,6 @@
 import {InjectionToken} from "@angular/core";
 
-import {NgSelectPlugin, VisualPluginOptions} from "../../misc";
+import {NgSelectPlugin, VisualPluginOptions, OptionsGatherer} from "../../misc";
 
 /**
  * Constant used for accessing popup plugin in NgSelect
@@ -22,6 +22,10 @@ export interface PopupOptions<TCssClasses> extends VisualPluginOptions<TCssClass
 /**
  * Popup plugin interface
  */
-export interface Popup extends NgSelectPlugin
+export interface Popup<TValue> extends NgSelectPlugin
 {
+    /**
+     * Instance of options gatherer, that is used for obtaining available options
+     */
+    optionsGatherer: OptionsGatherer<TValue>;
 }

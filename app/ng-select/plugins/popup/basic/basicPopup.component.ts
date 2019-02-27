@@ -1,10 +1,12 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, OnDestroy} from '@angular/core';
 import {extend} from '@asseco/common';
+import {Subscription} from 'rxjs';
 
 import {BasicPopupOptions, BasicPopup} from './basicPopup.interface';
-import {NgSelectPluginGeneric} from '../../../misc';
+import {NgSelectPluginGeneric, OptionsGatherer} from '../../../misc';
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../components/select';
 import {POPUP_OPTIONS} from '../popup.interface';
+import {ɵNgSelectOption} from '../../../components/option';
 
 /**
  * Default options for popup
@@ -29,7 +31,7 @@ const defaultOptions: BasicPopupOptions =
     [
     ]
 })
-export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<BasicPopupOptions>
+export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelectPluginGeneric<BasicPopupOptions>, OnDestroy
 {
     //######################### protected fields #########################
 
@@ -37,6 +39,16 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
      * Options for NgSelect plugin
      */
     protected _options: BasicPopupOptions;
+
+    /**
+     * Instance of previous options gatherer, that is used for obtaining available options
+     */
+    protected _optionsGatherer: OptionsGatherer<TValue>;
+
+    /**
+     * Subscription for changes of options in options gatherer
+     */
+    protected _optionsChangeSubscription: Subscription;
 
     //######################### public properties - implementation of BasicPopup #########################
 
@@ -52,6 +64,19 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
         this._options = extend(true, this._options, options);
     }
 
+    /**
+     * Instance of options gatherer, that is used for obtaining available options
+     */
+    public optionsGatherer: OptionsGatherer<TValue>;
+
+    //######################### public properties - template bindings #########################
+
+    /**
+     * Array of select options available
+     * @internal
+     */
+    public selectOptions: ɵNgSelectOption<TValue>[];
+
     //######################### constructor #########################
     constructor(@Inject(NG_SELECT_PLUGIN_INSTANCES) @Optional() public ngSelectPlugins: NgSelectPluginInstances,
                 public pluginElement: ElementRef,
@@ -61,6 +86,20 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
         this._options = extend(true, {}, defaultOptions, options);
     }
 
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy()
+    {
+        if(this._optionsChangeSubscription)
+        {
+            this._optionsChangeSubscription.unsubscribe();
+            this._optionsChangeSubscription = null;
+        }
+    }
+
     //######################### public methods - implementation of BasicPopup #########################
 
     /**
@@ -68,6 +107,22 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
      */
     public initialize()
     {
+        if(this._optionsGatherer && this._optionsGatherer != this.optionsGatherer)
+        {
+            this._optionsChangeSubscription.unsubscribe();
+            this._optionsChangeSubscription = null;
+
+            this._optionsGatherer = null;
+        }
+
+        if(!this._optionsGatherer)
+        {
+            this._optionsGatherer = this.optionsGatherer;
+
+            this._optionsChangeSubscription = this._optionsGatherer.optionsChange.subscribe(() => this.loadOptions());
+        }
+
+        this.loadOptions();
     }
 
     /**
@@ -82,6 +137,17 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
      */
     public invalidateVisuals(): void
     {
+        this._changeDetector.detectChanges();
+    }
+
+    //######################### protected methods #########################
+
+    /**
+     * Loads options
+     */
+    protected loadOptions()
+    {
+        this.selectOptions = this._optionsGatherer.options;
         this._changeDetector.detectChanges();
     }
 }

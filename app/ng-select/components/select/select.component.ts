@@ -9,7 +9,7 @@ import {Popup, POPUP, BasicPopupComponent} from "../../plugins/popup";
 import {Positioner, POSITIONER} from "../../plugins/positioner";
 import {ReadonlyState, READONLY_STATE} from "../../plugins/readonlyState";
 import {ValueHandler, VALUE_HANDLER} from "../../plugins/valueHandler";
-import {LiveSearch, LIVE_SEARCH, BasicLiveSearchComponent} from "../../plugins/liveSearch";
+import {LiveSearch, LIVE_SEARCH, NoLiveSearchComponent} from "../../plugins/liveSearch";
 import {TextsLocator, TEXTS_LOCATOR, NoTextsLocatorComponent} from "../../plugins/textsLocator";
 import {OptionComponent, NgSelectOption, OptGroupComponent, NgSelectOptGroup} from "../option";
 
@@ -33,11 +33,11 @@ const defaultOptions: NgSelectOptions<any> =
         {
             type: forwardRef(() => NoTextsLocatorComponent)
         },
-        liveSearch: <PluginDescription<BasicLiveSearchComponent>>
+        liveSearch: <PluginDescription<NoLiveSearchComponent>>
         {
-            type: forwardRef(() => BasicLiveSearchComponent)
+            type: forwardRef(() => NoLiveSearchComponent)
         },
-        popup: <PluginDescription<BasicPopupComponent>>
+        popup: <PluginDescription<BasicPopupComponent<any>>>
         {
             type: forwardRef(() => BasicPopupComponent)
         }
@@ -72,17 +72,22 @@ export function ngSelectPluginInstancesFactory()
 })
 export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, AfterViewInit, OptionsGatherer<TValue>
 {
-    //######################### private fields #########################
+    //######################### protected fields #########################
 
     /**
      * NgSelect options
      */
-    private _selectOptions: NgSelectOptions<TValue>;
+    protected _selectOptions: NgSelectOptions<TValue>;
 
     /**
      * Occurs when array of provided options has changed
      */
-    private _optionsChange: EventEmitter<void> = new EventEmitter<void>();
+    protected _optionsChange: EventEmitter<void> = new EventEmitter<void>();
+
+    /**
+     * Instance of last options gatherer
+     */
+    protected _lastOptionsGatherer: OptionsGatherer<TValue>;
 
     //######################### public properties - inputs #########################
 
@@ -133,7 +138,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
      * Options children found inside ng-select
      * @internal
      */
-    @ContentChildren(OptGroupComponent)
+    @ContentChildren(OptionComponent)
     public optionsChildren: QueryList<NgSelectOption<any>>;
 
     //######################### public properties - children #########################
@@ -142,16 +147,16 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
      * Options groups children found inside ng-select
      * @internal
      */
-    @ContentChildren(OptionComponent)
+    @ContentChildren(OptGroupComponent)
     public optGroupsChildren: QueryList<NgSelectOptGroup<any>>;
 
     //######################### constructors #########################
-    constructor(private _changeDetector: ChangeDetectorRef,
-                @Inject(NG_SELECT_PLUGIN_INSTANCES) private _pluginInstances: NgSelectPluginInstances,
+    constructor(protected _changeDetector: ChangeDetectorRef,
+                @Inject(NG_SELECT_PLUGIN_INSTANCES) protected _pluginInstances: NgSelectPluginInstances,
                 @Inject(NG_SELECT_OPTIONS) @Optional() options?: NgSelectOptions<TValue>,
                 @Inject(NORMAL_STATE_TYPE) @Optional() normalStateType?: Type<NormalState>,
                 @Inject(KEYBOARD_HANDLER_TYPE) @Optional() keyboardHandlerType?: Type<KeyboardHandler>,
-                @Inject(POPUP_TYPE) @Optional() popupType?: Type<Popup>,
+                @Inject(POPUP_TYPE) @Optional() popupType?: Type<Popup<TValue>>,
                 @Inject(POSITIONER_TYPE) @Optional() positionerType?: Type<Positioner>,
                 @Inject(READONLY_STATE_TYPE) @Optional() readonlyStateType?: Type<ReadonlyState>,
                 @Inject(VALUE_HANDLER_TYPE) @Optional() valueHandlerType?: Type<ValueHandler>,
@@ -265,6 +270,11 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
      */
     public ngAfterViewInit()
     {
+        this.optionsChildren.changes.subscribe(() =>
+        {
+            this._optionsChange.emit();
+        });
+
         if(this._selectOptions.autoInitialize)
         {
             this.initialize();
@@ -332,7 +342,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
      * @param {Popup} popup Created popup that is rendered
      * @internal
      */
-    public setPopupComponent(popup: Popup)
+    public setPopupComponent(popup: Popup<TValue>)
     {
         if(!popup)
         {
@@ -346,6 +356,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
             popup.options = this._selectOptions.plugins.popup.options;
         }
 
+        popup.optionsGatherer = this.selectOptions.optionsGatherer;
         popup.initOptions();
         
         if(this._selectOptions.plugins && this._selectOptions.plugins.popup && this._selectOptions.plugins.popup.instanceCallback)
@@ -506,12 +517,6 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
         this._pluginInstances[TEXTS_LOCATOR].initialize();
         this._pluginInstances[NORMAL_STATE].initialize();
         this._pluginInstances[POPUP].initialize();
-        // this._pluginInstances[METADATA_SELECTOR].initialize();
-        // this._pluginInstances[PAGING_INITIALIZER].initialize();
-        // this._pluginInstances[PAGING].initialize();
-        // this._pluginInstances[CONTENT_RENDERER].initialize();
-        // this._pluginInstances[NO_DATA_RENDERER].initialize();
-        // this._pluginInstances[DATA_LOADER].initialize();
     }
 
     /**
@@ -576,6 +581,9 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
                     {
                         this._pluginInstances[POPUP].options = this._selectOptions.plugins.popup.options;
                     }
+
+                    let popup = this._pluginInstances[POPUP] as Popup<TValue>;
+                    popup.optionsGatherer = this.selectOptions.optionsGatherer;
 
                     this._pluginInstances[POPUP].initOptions();
                 }
