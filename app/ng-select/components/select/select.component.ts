@@ -365,6 +365,33 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
         }
     }
 
+    /**
+     * Sets texts locator component
+     * @param {TextsLocator} textsLocator Created texts locator that is rendered
+     * @internal
+     */
+    public setTextsLocatorComponent(textsLocator: TextsLocator)
+    {
+        if(!textsLocator)
+        {
+            return;
+        }
+
+        this._pluginInstances[TEXTS_LOCATOR] = textsLocator;
+
+        if(this._selectOptions.plugins && this._selectOptions.plugins.textsLocator && this._selectOptions.plugins.textsLocator.options)
+        {
+            textsLocator.options = this._selectOptions.plugins.textsLocator.options;
+        }
+
+        textsLocator.initOptions();
+        
+        if(this._selectOptions.plugins && this._selectOptions.plugins.textsLocator && this._selectOptions.plugins.textsLocator.instanceCallback)
+        {
+            this._selectOptions.plugins.textsLocator.instanceCallback(textsLocator);
+        }
+    }
+
     //######################### public methods #########################
 
     /**
@@ -372,16 +399,14 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
      */
     public initialize()
     {
-        // this._pluginInstances[TEXTS_LOCATOR].initialize();
-        // this._pluginInstances[ROW_SELECTOR].initialize();
+        this._pluginInstances[TEXTS_LOCATOR].initialize();
+        this._pluginInstances[NORMAL_STATE].initialize();
         // this._pluginInstances[METADATA_SELECTOR].initialize();
         // this._pluginInstances[PAGING_INITIALIZER].initialize();
         // this._pluginInstances[PAGING].initialize();
         // this._pluginInstances[CONTENT_RENDERER].initialize();
         // this._pluginInstances[NO_DATA_RENDERER].initialize();
         // this._pluginInstances[DATA_LOADER].initialize();
-
-        // this._initializedSubject.next(true);
     }
 
     /**
@@ -403,6 +428,21 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
                     }
 
                     this._pluginInstances[NORMAL_STATE].initOptions();
+                }
+            }
+
+            if(this._selectOptions.plugins.textsLocator)
+            {
+                this._selectOptions.plugins.textsLocator.type = resolveForwardRef(this._selectOptions.plugins.textsLocator.type);
+
+                if(this._pluginInstances[TEXTS_LOCATOR])
+                {
+                    if(this._selectOptions.plugins && this._selectOptions.plugins.textsLocator && this._selectOptions.plugins.textsLocator.options)
+                    {
+                        this._pluginInstances[TEXTS_LOCATOR].options = this._selectOptions.plugins.textsLocator.options;
+                    }
+
+                    this._pluginInstances[TEXTS_LOCATOR].initOptions();
                 }
             }
         }

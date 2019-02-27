@@ -13,12 +13,25 @@ export const NORMAL_STATE = "NORMAL_STATE";
 export const NORMAL_STATE_OPTIONS: InjectionToken<NormalStateOptions<any>> = new InjectionToken<NormalStateOptions<any>>('NORMAL_STATE_OPTIONS');
 
 /**
+ * Texts that are used within NormalState
+ */
+export interface NormalStateTexts
+{
+    /**
+     * Displayed when there is no value selected, represents empty value, used if value is null or empty array
+     */
+    nothingSelected?: string;
+}
+
+/**
  * Options for normal state plugin
  */
 export interface NormalStateOptions<TCssClasses> extends VisualPluginOptions<TCssClasses>
 {
-    //TODO - move into texts and create plugin for text
-    nothingSelectedText?: string;
+    /**
+     * Texts that are used within any NormalState
+     */
+    texts?: NormalStateTexts;
 }
 
 /**
@@ -26,6 +39,7 @@ export interface NormalStateOptions<TCssClasses> extends VisualPluginOptions<TCs
  */
 export interface NormalState extends NgSelectPlugin
 {
+
 }
 
 /**
