@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, EventEmitter, AfterViewInit, ViewChild} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, ViewChild} from '@angular/core';
 import {extend} from '@asseco/common';
 
 import {BasicLiveSearchOptions, BasicLiveSearch} from './basicLiveSearch.interface';
@@ -29,7 +29,7 @@ const defaultOptions: BasicLiveSearchOptions =
     [
     ]
 })
-export class BasicLiveSearchComponent implements BasicLiveSearch, NgSelectPluginGeneric<BasicLiveSearchOptions>, AfterViewInit
+export class BasicLiveSearchComponent implements BasicLiveSearch, NgSelectPluginGeneric<BasicLiveSearchOptions>
 {
     //######################### protected fields #########################
 
@@ -60,11 +60,6 @@ export class BasicLiveSearchComponent implements BasicLiveSearch, NgSelectPlugin
         return this.liveSearchElementChild.nativeElement;
     }
 
-    /**
-     * Occurs when live search element changes, for example when it is available for usage
-     */
-    public liveSearchElementChange: EventEmitter<void> = new EventEmitter<void>();
-
     //######################### public properties - children #########################
 
     /**
@@ -81,16 +76,6 @@ export class BasicLiveSearchComponent implements BasicLiveSearch, NgSelectPlugin
                 @Inject(LIVE_SEARCH_OPTIONS) @Optional() options?: BasicLiveSearchOptions)
     {
         this._options = extend(true, {}, defaultOptions, options);
-    }
-
-    //######################### public methods - implementation of AfterViewInit #########################
-    
-    /**
-     * Called when view was initialized
-     */
-    public ngAfterViewInit()
-    {
-        this.liveSearchElementChange.emit();
     }
 
     //######################### public methods - implementation of BasicLiveSearch #########################
@@ -115,5 +100,17 @@ export class BasicLiveSearchComponent implements BasicLiveSearch, NgSelectPlugin
     public invalidateVisuals(): void
     {
         this._changeDetector.detectChanges();
+    }
+
+    //######################### public methods - template bindings #########################
+
+    /**
+     * 
+     * @param value 
+     * @internal
+     */
+    public handleInput(value: string)
+    {
+        console.log(value);
     }
 }

@@ -3,5 +3,5 @@
 
 <div>
     <ng-template [ngComponentOutletEx]="selectOptions?.plugins?.normalState?.type" (ngComponentOutletExCreated)="setNormalStateComponent($event)"></ng-template>
-    <ng-template [ngComponentOutletEx]="selectOptions?.plugins?.popup?.type" (ngComponentOutletExCreated)="setPopupComponent($event)"></ng-template>
+    <ng-template [ngComponentOutletEx]="selectOptions?.plugins?.popup?.type" (ngComponentOutletExCreated)="setPopupComponent($event)" [ngComponentOutletExContent]="liveSearchElement"></ng-template>
 </div>

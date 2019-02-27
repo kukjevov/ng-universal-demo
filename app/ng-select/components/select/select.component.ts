@@ -119,6 +119,14 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
         return this._optionsChange;
     }
 
+    //######################### public properties - template bindings #########################
+
+    /**
+     * Element used for live search
+     * @internal
+     */
+    public liveSearchElement: HTMLElement[][];
+
     //######################### public properties - children #########################
 
     /**
@@ -488,8 +496,16 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
      */
     public initialize()
     {
+        this._pluginInstances[LIVE_SEARCH].initialize();
+
+        let liveSearchPlugin = this._pluginInstances[LIVE_SEARCH] as LiveSearch;
+        this.liveSearchElement = [[liveSearchPlugin.liveSearchElement]];
+
+        this._changeDetector.detectChanges();
+
         this._pluginInstances[TEXTS_LOCATOR].initialize();
         this._pluginInstances[NORMAL_STATE].initialize();
+        this._pluginInstances[POPUP].initialize();
         // this._pluginInstances[METADATA_SELECTOR].initialize();
         // this._pluginInstances[PAGING_INITIALIZER].initialize();
         // this._pluginInstances[PAGING].initialize();

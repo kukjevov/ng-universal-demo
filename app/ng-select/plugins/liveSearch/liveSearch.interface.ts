@@ -1,4 +1,4 @@
-import {InjectionToken, EventEmitter} from "@angular/core";
+import {InjectionToken} from "@angular/core";
 
 import {NgSelectPlugin, VisualPluginOptions} from "../../misc";
 
@@ -28,9 +28,4 @@ export interface LiveSearch extends NgSelectPlugin
      * HTML element that represents live search
      */
     readonly liveSearchElement: HTMLElement;
-
-    /**
-     * Occurs when live search element changes, for example when it is available for usage
-     */
-    readonly liveSearchElementChange: EventEmitter<void>;
 }
