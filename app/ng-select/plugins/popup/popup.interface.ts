@@ -48,6 +48,11 @@ export interface Popup<TValue> extends NgSelectPlugin
      * Occurs when user clicks on option, clicked options is passed as argument
      */
     readonly optionClick: EventEmitter<NgSelectOption<TValue>>;
+
+    /**
+     * Occurs when visibility of popup has changed
+     */
+    readonly visibilityChange: EventEmitter<void>;
 }
 
 /**

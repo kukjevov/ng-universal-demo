@@ -8,6 +8,7 @@ import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../comp
 import {POPUP_OPTIONS} from '../popup.interface';
 import {ɵNgSelectOption, NgSelectOption} from '../../../components/option';
 import {NormalState, NORMAL_STATE} from '../../normalState';
+import {Positioner, POSITIONER} from '../../positioner';
 
 /**
  * Default options for popup
@@ -44,6 +45,7 @@ const defaultOptions: BasicPopupOptions =
             border-radius: 4px;
             border: 1px solid #BBBBBB;
             overflow: auto;
+            min-width: 100%;
         }
         
         .option-item
@@ -107,6 +109,11 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
     protected _clickSubscription: Subscription;
 
     /**
+     * Subscription for changes in popup coordinates
+     */
+    protected _popupCoordinatesChangeSubscription: Subscription;
+
+    /**
      * Normal state that is displayed
      */
     protected _normalState: NormalState;
@@ -135,6 +142,11 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
      */
     public optionClick: EventEmitter<NgSelectOption<TValue>> = new EventEmitter<NgSelectOption<TValue>>();
 
+    /**
+     * Occurs when visibility of popup has changed
+     */
+    public visibilityChange: EventEmitter<void> = new EventEmitter<void>();
+
     //######################### public properties - template bindings #########################
 
     /**
@@ -142,6 +154,12 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
      * @internal
      */
     public selectOptions: ɵNgSelectOption<TValue>[];
+
+    /**
+     * Positioner used for setting position of popup
+     * @internal
+     */
+    public positioner: Positioner;
 
     //######################### public properties - host #########################
 
@@ -153,6 +171,16 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
     public get cssClass(): string
     {
         return this.options.cssClasses.popupDiv;
+    }
+
+    /**
+     * Min width applied to plugin
+     * @internal
+     */
+    @HostBinding('style.display')
+    public get minWidth(): string
+    {
+        return this.options.visible ? 'block' : 'none';
     }
 
     //######################### constructor #########################
@@ -181,6 +209,12 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
         {
             this._clickSubscription.unsubscribe();
             this._clickSubscription = null;
+        }
+
+        if(this._popupCoordinatesChangeSubscription)
+        {
+            this._popupCoordinatesChangeSubscription.unsubscribe();
+            this._popupCoordinatesChangeSubscription = null;
         }
     }
 
@@ -223,6 +257,23 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
             this._clickSubscription = this._normalState.click.subscribe(() => this.togglePopup());
         }
 
+        let positioner: Positioner = this.ngSelectPlugins[POSITIONER] as Positioner;
+
+        if(this.positioner && this.positioner != positioner)
+        {
+            this._popupCoordinatesChangeSubscription.unsubscribe();
+            this._popupCoordinatesChangeSubscription = null;
+            
+            this.positioner = null;
+        }
+        
+        if(!this.positioner)
+        {
+            this.positioner = positioner;
+            
+            this._popupCoordinatesChangeSubscription = this.positioner.popupCoordinatesChange.subscribe(() => this._changeDetector.detectChanges());
+        }
+
         this.loadOptions();
     }
 
@@ -259,5 +310,6 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
     {
         this.options.visible = !this.options.visible;
         this._changeDetector.detectChanges();
+        this.visibilityChange.emit();
     }
 }

@@ -31,6 +31,24 @@ const defaultOptions: BasicNormalStateOptions =
     changeDetection: ChangeDetectionStrategy.OnPush,
     styles:
     [
+        `button.btn-select
+         {
+             display: flex;
+             width: 100%;
+             padding: 4px 0px 4px 4px;
+         }
+       
+         button.btn-select .selected-value
+         {
+             flex: 1;
+             text-align: left;
+         }
+       
+         button.btn-select .selected-caret
+         {
+             flex: 0 0 20px;
+             align-self: center;
+         }`
     ]
 })
 export class BasicNormalStateComponent implements BasicNormalState, NgSelectPluginGeneric<BasicNormalStateOptions>, OnDestroy

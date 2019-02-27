@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, FactoryProvider, Input, Inject, ChangeDetectorRef, Optional, Type, AfterViewInit, OnInit, ContentChildren, QueryList, EventEmitter, forwardRef, resolveForwardRef} from "@angular/core";
+import {Component, ChangeDetectionStrategy, FactoryProvider, Input, Inject, ChangeDetectorRef, Optional, Type, AfterViewInit, OnInit, ContentChildren, QueryList, EventEmitter, forwardRef, resolveForwardRef, ElementRef} from "@angular/core";
 import {extend} from "@asseco/common";
 
 import {NgSelectOptions, NG_SELECT_OPTIONS, KEYBOARD_HANDLER_TYPE, NORMAL_STATE_TYPE, POPUP_TYPE, POSITIONER_TYPE, READONLY_STATE_TYPE, VALUE_HANDLER_TYPE, LIVE_SEARCH_TYPE, NgSelectPlugin, OptionsGatherer, PluginDescription} from "../../misc";
@@ -6,7 +6,7 @@ import {NG_SELECT_PLUGIN_INSTANCES, NgSelect, NgSelectPluginInstances, NgSelectA
 import {KeyboardHandler, KEYBOARD_HANDLER} from "../../plugins/keyboardHandler";
 import {NormalState, NORMAL_STATE, BasicNormalStateComponent} from "../../plugins/normalState";
 import {Popup, POPUP, BasicPopupComponent} from "../../plugins/popup";
-import {Positioner, POSITIONER} from "../../plugins/positioner";
+import {Positioner, POSITIONER, BasicPositionerComponent} from "../../plugins/positioner";
 import {ReadonlyState, READONLY_STATE} from "../../plugins/readonlyState";
 import {ValueHandler, VALUE_HANDLER} from "../../plugins/valueHandler";
 import {LiveSearch, LIVE_SEARCH, NoLiveSearchComponent} from "../../plugins/liveSearch";
@@ -40,6 +40,10 @@ const defaultOptions: NgSelectOptions<any> =
         popup: <PluginDescription<BasicPopupComponent<any>>>
         {
             type: forwardRef(() => BasicPopupComponent)
+        },
+        positioner: <PluginDescription<BasicPositionerComponent>>
+        {
+            type: forwardRef(() => BasicPositionerComponent)
         }
     }
 };
@@ -68,6 +72,14 @@ export function ngSelectPluginInstancesFactory()
             provide: NG_SELECT_PLUGIN_INSTANCES,
             useFactory: ngSelectPluginInstancesFactory
         }
+    ],
+    styles:
+    [
+        `:host
+        {
+            display: block;
+            position: relative;
+        }`
     ]
 })
 export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, AfterViewInit, OptionsGatherer<TValue>
@@ -152,6 +164,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
 
     //######################### constructors #########################
     constructor(protected _changeDetector: ChangeDetectorRef,
+                protected _element: ElementRef<HTMLElement>,
                 @Inject(NG_SELECT_PLUGIN_INSTANCES) protected _pluginInstances: NgSelectPluginInstances,
                 @Inject(NG_SELECT_OPTIONS) @Optional() options?: NgSelectOptions<TValue>,
                 @Inject(NORMAL_STATE_TYPE) @Optional() normalStateType?: Type<NormalState>,
@@ -384,6 +397,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
             positioner.options = this._selectOptions.plugins.positioner.options;
         }
 
+        positioner.selectElement = this._element.nativeElement;
         positioner.initOptions();
         
         if(this._selectOptions.plugins && this._selectOptions.plugins.positioner && this._selectOptions.plugins.positioner.instanceCallback)
@@ -515,6 +529,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
         this._changeDetector.detectChanges();
 
         this._pluginInstances[TEXTS_LOCATOR].initialize();
+        this._pluginInstances[POSITIONER].initialize();
         this._pluginInstances[NORMAL_STATE].initialize();
         this._pluginInstances[POPUP].initialize();
     }
@@ -599,6 +614,9 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
                     {
                         this._pluginInstances[POSITIONER].options = this._selectOptions.plugins.positioner.options;
                     }
+
+                    let positioner = this._pluginInstances[POSITIONER] as Positioner;
+                    positioner.selectElement = this._element.nativeElement;
 
                     this._pluginInstances[POSITIONER].initOptions();
                 }

@@ -1,4 +1,4 @@
-import {InjectionToken} from "@angular/core";
+import {InjectionToken, EventEmitter} from "@angular/core";
 
 import {PluginOptions, NgSelectPlugin} from "../../misc";
 
@@ -17,6 +17,15 @@ export const POSITIONER_OPTIONS: InjectionToken<PositionerOptions> = new Injecti
  */
 export interface PositionerOptions extends PluginOptions
 {
+    /**
+     * Coordinates of options popup relative to select
+     */
+    optionsCoordinates?: Positions.PositionsCoordinates;
+
+    /**
+     * Coordinates of select relative to options
+     */
+    selectCoordinates?: Positions.PositionsCoordinates;
 }
 
 /**
@@ -24,4 +33,18 @@ export interface PositionerOptions extends PluginOptions
  */
 export interface Positioner extends NgSelectPlugin
 {
+    /**
+     * HTML element that represents select itself
+     */
+    selectElement: HTMLElement;
+
+    /**
+     * Computed coordinates of popup
+     */
+    readonly popupCoordinates: Positions.PositionsCss;
+
+    /**
+     * Occurs when computed coordinates of popup change
+     */
+    readonly popupCoordinatesChange: EventEmitter<void>;
 }
