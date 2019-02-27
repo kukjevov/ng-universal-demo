@@ -3,9 +3,11 @@ import {CommonModule} from '@angular/common';
 import {CommonModule as NgCommonModule} from '@ng/common';
 
 import {NgSelectValuePipe} from '../pipes/ngSelectValue.pipe';
-import {OptGroupComponent, OptionComponent, NgSelectComponent} from '../components';
 import {NgSelectControlValueAccessor} from '../misc/ngSelectControlValueAccessor.directive';
 import {BasicNormalStateComponent} from '../plugins/normalState';
+import {NoTextsLocatorComponent} from '../plugins/textsLocator';
+import {OptGroupComponent, OptionComponent} from '../components/option';
+import {NgSelectComponent} from '../components/select';
 
 /**
  * Module for select and its options
@@ -24,7 +26,8 @@ import {BasicNormalStateComponent} from '../plugins/normalState';
         NgSelectComponent,
         NgSelectValuePipe,
         NgSelectControlValueAccessor,
-        BasicNormalStateComponent
+        BasicNormalStateComponent,
+        NoTextsLocatorComponent
     ],
     exports:
     [
@@ -36,7 +39,8 @@ import {BasicNormalStateComponent} from '../plugins/normalState';
     ],
     entryComponents:
     [
-        BasicNormalStateComponent
+        BasicNormalStateComponent,
+        NoTextsLocatorComponent
     ]
 })
 export class NgSelectModule

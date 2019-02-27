@@ -10,6 +10,7 @@ import {Positioner, POSITIONER} from "../../plugins/positioner";
 import {ReadonlyState} from "../../plugins/readonlyState";
 import {ValueHandler} from "../../plugins/valueHandler";
 import {LiveSearch} from "../../plugins/liveSearch";
+import {TextsLocator, TEXTS_LOCATOR, NoTextsLocatorComponent} from "../../plugins/textsLocator";
 import {OptionComponent, NgSelectOption, OptGroupComponent, NgSelectOptGroup} from "../option";
 
 /**
@@ -27,6 +28,10 @@ const defaultOptions: NgSelectOptions<any> =
         normalState: <PluginDescription<BasicNormalStateComponent>>
         {
             type: forwardRef(() => BasicNormalStateComponent)
+        },
+        textsLocator: <PluginDescription<NoTextsLocatorComponent>>
+        {
+            type: forwardRef(() => NoTextsLocatorComponent)
         }
     }
 };
@@ -134,7 +139,8 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
                 @Inject(POSITIONER_TYPE) @Optional() positionerType?: Type<Positioner>,
                 @Inject(READONLY_STATE_TYPE) @Optional() readonlyStateType?: Type<ReadonlyState>,
                 @Inject(VALUE_HANDLER_TYPE) @Optional() valueHandlerType?: Type<ValueHandler>,
-                @Inject(LIVE_SEARCH_TYPE) @Optional() liveSearchType?: Type<LiveSearch>)
+                @Inject(LIVE_SEARCH_TYPE) @Optional() liveSearchType?: Type<LiveSearch>,
+                @Inject(TEXTS_LOCATOR) @Optional() textsLocatorType?: Type<TextsLocator>)
     {
         let opts: NgSelectOptions<TValue> = extend(true, {}, options);
 
@@ -213,6 +219,15 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
             opts.plugins.liveSearch.type = liveSearchType;
         }
 
+        if(textsLocatorType)
+        {
+            if(!opts.plugins.textsLocator)
+            {
+                opts.plugins.textsLocator = {};
+            }
+
+            opts.plugins.textsLocator.type = textsLocatorType;
+        }
 
         this._selectOptions = extend(true, {optionsGatherer: this}, defaultOptions, opts);
     }

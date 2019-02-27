@@ -8,6 +8,7 @@ import {Positioner} from "../plugins/positioner";
 import {ReadonlyState} from "../plugins/readonlyState";
 import {ValueHandler} from "../plugins/valueHandler";
 import {LiveSearch} from "../plugins/liveSearch";
+import {TextsLocator} from "../plugins/textsLocator";
 
 /**
  * NgSelect plugin interface
@@ -95,6 +96,11 @@ export class NgSelectPluginTypes
      * Contains component that is used for live searching in options
      */
     liveSearch?: PluginDescription<LiveSearch>;
+
+    /**
+     * Used for obtaining texts that are displayed in NgSelect
+     */
+    textsLocator?: PluginDescription<TextsLocator>;
 }
 
 /**

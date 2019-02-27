@@ -9,6 +9,7 @@ import {ReadonlyState} from "../plugins/readonlyState";
 import {ValueHandler} from "../plugins/valueHandler";
 import {LiveSearch} from "../plugins/liveSearch";
 import {OptionsGatherer} from "./optionsGatherer.interface";
+import {TextsLocator} from "../plugins/textsLocator";
 
 /**
  * Injection token for 'NgSelectOptions'
@@ -49,6 +50,11 @@ export const VALUE_HANDLER_TYPE: InjectionToken<Type<ValueHandler>> = new Inject
  * Injection token for 'LiveSearch' implementation
  */
 export const LIVE_SEARCH_TYPE: InjectionToken<Type<LiveSearch>> = new InjectionToken<Type<LiveSearch>>('LIVE_SEARCH_TYPE');
+
+/**
+ * Injection token for 'TextsLocator' implementation
+ */
+export const TEXTS_LOCATOR_TYPE: InjectionToken<Type<TextsLocator>> = new InjectionToken<Type<TextsLocator>>('TEXTS_LOCATOR_TYPE');
 
 /**
  * Describes select options used for NgSelect

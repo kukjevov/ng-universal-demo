@@ -3,9 +3,7 @@ import {extend} from '@asseco/common';
 
 import {BasicNormalStateOptions, BasicNormalState} from './basicNormalState.interface';
 import {NgSelectPluginGeneric} from '../../../misc';
-import {NgSelectPluginInstances} from '../../../components';
-import {NG_SELECT_PLUGIN_INSTANCES} from '../../../components/select/select.interface';
-
+import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../components/select';
 import {NORMAL_STATE_OPTIONS} from '../normalState.interface';
 
 /**
