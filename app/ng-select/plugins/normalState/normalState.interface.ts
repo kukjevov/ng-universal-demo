@@ -27,3 +27,14 @@ export interface NormalStateOptions<TCssClasses> extends VisualPluginOptions<TCs
 export interface NormalState extends NgSelectPlugin
 {
 }
+
+/**
+ * Context for template that is used within normal state plugin
+ */
+export interface NormalStateContext
+{
+    /**
+     * Instance of plugin itself
+     */
+    $implicit: NormalState;
+}

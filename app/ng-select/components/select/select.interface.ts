@@ -45,4 +45,26 @@ export interface NgSelect<TValue>
      * Explicitly runs invalidation of content (change detection)
      */
     invalidateVisuals(): void;
+
+    /**
+     * Executes actions on NgSelect
+     * @param actions Array of actions that are executed over NgSelect
+     */
+    execute(...actions: NgSelectAction<TValue>[]);
+
+    /**
+     * Executes function on NgSelect and returns result
+     * @param func Function that is executed and its result is returned
+     */
+    executeAndReturn<TResult>(func: NgSelectFunction<TResult, TValue>): TResult;
 }
+
+/**
+ * Defintion of action that can be executed on NgSelect
+ */
+export type NgSelectAction<TValue> = (ngSelect: NgSelect<TValue>) => void;
+
+/**
+ * Definition of function that can be executed on NgSelect and returns some data
+ */
+export type NgSelectFunction<TResult, TValue> = (ngSelect: NgSelect<TValue>) => TResult;

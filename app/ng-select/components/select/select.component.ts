@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, FactoryProvider, Input, Inject, Chan
 import {extend} from "@asseco/common";
 
 import {NgSelectOptions, NG_SELECT_OPTIONS, KEYBOARD_HANDLER_TYPE, NORMAL_STATE_TYPE, POPUP_TYPE, POSITIONER_TYPE, READONLY_STATE_TYPE, VALUE_HANDLER_TYPE, LIVE_SEARCH_TYPE, NgSelectPlugin, OptionsGatherer, PluginDescription} from "../../misc";
-import {NG_SELECT_PLUGIN_INSTANCES, NgSelect, NgSelectPluginInstances} from "./select.interface";
+import {NG_SELECT_PLUGIN_INSTANCES, NgSelect, NgSelectPluginInstances, NgSelectAction, NgSelectFunction} from "./select.interface";
 import {KeyboardHandler, KEYBOARD_HANDLER} from "../../plugins/keyboardHandler";
 import {NormalState, NORMAL_STATE, BasicNormalStateComponent} from "../../plugins/normalState";
 import {Popup, POPUP} from "../../plugins/popup";
@@ -423,5 +423,33 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
     public getPlugin<PluginType extends NgSelectPlugin>(pluginId: string): PluginType
     {
         return this._pluginInstances[pluginId] as PluginType;
+    }
+
+    /**
+     * Executes actions on NgSelect
+     * @param actions Array of actions that are executed over NgSelect
+     */
+    public execute(...actions: NgSelectAction<TValue>[])
+    {
+        if(!actions)
+        {
+            return;
+        }
+
+        actions.forEach(action => action(this));
+    }
+
+    /**
+     * Executes function on NgSelect and returns result
+     * @param func Function that is executed and its result is returned
+     */
+    public executeAndReturn<TResult>(func: NgSelectFunction<TResult, TValue>): TResult
+    {
+        if(!func)
+        {
+            return null;
+        }
+
+        return func(this);
     }
 }
