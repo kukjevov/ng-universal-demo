@@ -1,14 +1,16 @@
 <ng-template #defaultOptionTextLook let-option>{{option?.text}}</ng-template>
 
-<ng-template [ngIf]="options?.visible">
+<div #popupDiv 
+     *ngIf="options?.visible"
+     [ngClass]="options?.cssClasses?.popupDiv"
+     [style.left.px]="positioner?.popupCoordinates?.left"
+     [style.top.px]="positioner?.popupCoordinates?.top">
     <ng-content></ng-content>
 
     <div *ngFor="let option of selectOptions"
          [ngClass]="options?.cssClasses?.optionItemDiv"
          [class.selected]="option?.selected"
          [class.active]="option?.active"
-         [style.left.px]="positioner?.popupCoordinates?.left"
-         [style.top.px]="positioner?.popupCoordinates?.top"
          (click)="optionClick?.emit(option)">
         <div [ngClass]="options?.cssClasses?.optionItemTextDiv">
             <ng-container *ngTemplateOutlet="options?.optionTemplate || defaultOptionTextLook; context: {$implicit: option, popup: this}"></ng-container>
@@ -16,4 +18,4 @@
 
         <div *ngIf="option?.selected && options?.multiple" [ngClass]="options?.cssClasses?.optionChecked"></div>
     </div>
-</ng-template>
+</div>

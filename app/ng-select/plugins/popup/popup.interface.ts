@@ -53,6 +53,11 @@ export interface Popup<TValue> extends NgSelectPlugin
      * Occurs when visibility of popup has changed
      */
     readonly visibilityChange: EventEmitter<void>;
+
+    /**
+     * Html element that represents popup itself
+     */
+    readonly popupElement: HTMLElement;
 }
 
 /**

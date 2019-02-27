@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, OnDestroy, EventEmitter, HostBinding} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, OnDestroy, EventEmitter, ViewChildren, QueryList, AfterViewInit} from '@angular/core';
 import {extend} from '@asseco/common';
 import {Subscription} from 'rxjs';
 
@@ -21,7 +21,7 @@ const defaultOptions: BasicPopupOptions =
         optionChecked: 'fa fa-check',
         optionItemDiv: 'option-item',
         optionItemTextDiv: 'option-item-text',
-        popupDiv: 'ng-select-popup'
+        popupDiv: 'popup-div'
     },
     multiple: false,
     visible: false
@@ -37,7 +37,7 @@ const defaultOptions: BasicPopupOptions =
     changeDetection: ChangeDetectionStrategy.OnPush,
     styles:
     [
-        `:host.ng-select-popup
+        `.popup-div
         {
             position: absolute;
             z-index: 250;
@@ -59,6 +59,7 @@ const defaultOptions: BasicPopupOptions =
         {
             min-width: 0;
             flex: 1;
+            white-space: nowrap;
         }
 
         .option-item .option-item-text:hover
@@ -84,7 +85,7 @@ const defaultOptions: BasicPopupOptions =
         }`
     ]
 })
-export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelectPluginGeneric<BasicPopupOptions>, OnDestroy
+export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelectPluginGeneric<BasicPopupOptions>, AfterViewInit, OnDestroy
 {
     //######################### protected fields #########################
 
@@ -107,11 +108,6 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
      * Subscription for click event on normal state
      */
     protected _clickSubscription: Subscription;
-
-    /**
-     * Subscription for changes in popup coordinates
-     */
-    protected _popupCoordinatesChangeSubscription: Subscription;
 
     /**
      * Normal state that is displayed
@@ -147,6 +143,21 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
      */
     public visibilityChange: EventEmitter<void> = new EventEmitter<void>();
 
+    /**
+     * Html element that represents popup itself
+     */
+    public get popupElement(): HTMLElement
+    {
+        let ref = this.popupElementChildren.first;
+
+        if(!ref)
+        {
+            return null;
+        }
+
+        return ref.nativeElement;
+    }
+
     //######################### public properties - template bindings #########################
 
     /**
@@ -161,27 +172,14 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
      */
     public positioner: Positioner;
 
-    //######################### public properties - host #########################
+    //######################### public properties - children #########################
 
     /**
-     * Css class applied to this component
+     * Watch for visibility of popup div element
      * @internal
      */
-    @HostBinding('class')
-    public get cssClass(): string
-    {
-        return this.options.cssClasses.popupDiv;
-    }
-
-    /**
-     * Min width applied to plugin
-     * @internal
-     */
-    @HostBinding('style.display')
-    public get minWidth(): string
-    {
-        return this.options.visible ? 'block' : 'none';
-    }
+    @ViewChildren('popupDiv')
+    public popupElementChildren: QueryList<ElementRef<HTMLElement>>;
 
     //######################### constructor #########################
     constructor(@Inject(NG_SELECT_PLUGIN_INSTANCES) @Optional() public ngSelectPlugins: NgSelectPluginInstances,
@@ -190,6 +188,16 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
                 @Inject(POPUP_OPTIONS) @Optional() options?: BasicPopupOptions)
     {
         this._options = extend(true, {}, defaultOptions, options);
+    }
+
+    //######################### public methods - implementation of AfterViewInit #########################
+    
+    /**
+     * Called when view was initialized
+     */
+    public ngAfterViewInit()
+    {
+        this.popupElementChildren.changes.subscribe(() => this.visibilityChange.emit());
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -209,12 +217,6 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
         {
             this._clickSubscription.unsubscribe();
             this._clickSubscription = null;
-        }
-
-        if(this._popupCoordinatesChangeSubscription)
-        {
-            this._popupCoordinatesChangeSubscription.unsubscribe();
-            this._popupCoordinatesChangeSubscription = null;
         }
     }
 
@@ -261,17 +263,12 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
 
         if(this.positioner && this.positioner != positioner)
         {
-            this._popupCoordinatesChangeSubscription.unsubscribe();
-            this._popupCoordinatesChangeSubscription = null;
-            
             this.positioner = null;
         }
         
         if(!this.positioner)
         {
             this.positioner = positioner;
-            
-            this._popupCoordinatesChangeSubscription = this.positioner.popupCoordinatesChange.subscribe(() => this._changeDetector.detectChanges());
         }
 
         this.loadOptions();
@@ -310,6 +307,5 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
     {
         this.options.visible = !this.options.visible;
         this._changeDetector.detectChanges();
-        this.visibilityChange.emit();
     }
 }
