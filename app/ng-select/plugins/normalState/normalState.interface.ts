@@ -47,17 +47,12 @@ export interface NormalStateOptions<TCssClasses> extends VisualPluginOptions<TCs
 /**
  * Normal state plugin interface
  */
-export interface NormalState<TValue> extends NgSelectPlugin
+export interface NormalState extends NgSelectPlugin
 {
     /**
      * Occurs when user tries to toggle popup (open options)
      */
     togglePopup: EventEmitter<void>;
-
-    /**
-     * Gets or sets currently displayed value
-     */
-    value: TValue|TValue[];
 }
 
 /**
@@ -68,5 +63,5 @@ export interface NormalStateContext
     /**
      * Instance of plugin itself
      */
-    $implicit: NormalState<any>;
+    $implicit: NormalState;
 }

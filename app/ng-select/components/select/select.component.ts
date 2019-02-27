@@ -7,9 +7,9 @@ import {KeyboardHandler, KEYBOARD_HANDLER} from "../../plugins/keyboardHandler";
 import {NormalState, NORMAL_STATE, BasicNormalStateComponent} from "../../plugins/normalState";
 import {Popup, POPUP} from "../../plugins/popup";
 import {Positioner, POSITIONER} from "../../plugins/positioner";
-import {ReadonlyState} from "../../plugins/readonlyState";
-import {ValueHandler} from "../../plugins/valueHandler";
-import {LiveSearch} from "../../plugins/liveSearch";
+import {ReadonlyState, READONLY_STATE} from "../../plugins/readonlyState";
+import {ValueHandler, VALUE_HANDLER} from "../../plugins/valueHandler";
+import {LiveSearch, LIVE_SEARCH} from "../../plugins/liveSearch";
 import {TextsLocator, TEXTS_LOCATOR, NoTextsLocatorComponent} from "../../plugins/textsLocator";
 import {OptionComponent, NgSelectOption, OptGroupComponent, NgSelectOptGroup} from "../option";
 
@@ -25,7 +25,7 @@ const defaultOptions: NgSelectOptions<any> =
     },
     plugins:
     {
-        normalState: <PluginDescription<BasicNormalStateComponent<any>>>
+        normalState: <PluginDescription<BasicNormalStateComponent>>
         {
             type: forwardRef(() => BasicNormalStateComponent)
         },
@@ -133,8 +133,8 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
     constructor(private _changeDetector: ChangeDetectorRef,
                 @Inject(NG_SELECT_PLUGIN_INSTANCES) private _pluginInstances: NgSelectPluginInstances,
                 @Inject(NG_SELECT_OPTIONS) @Optional() options?: NgSelectOptions<TValue>,
-                @Inject(NORMAL_STATE_TYPE) @Optional() normalStateType?: Type<NormalState<TValue>>,
-                @Inject(KEYBOARD_HANDLER_TYPE) @Optional() keyboardHandlerType?: Type<Popup>,
+                @Inject(NORMAL_STATE_TYPE) @Optional() normalStateType?: Type<NormalState>,
+                @Inject(KEYBOARD_HANDLER_TYPE) @Optional() keyboardHandlerType?: Type<KeyboardHandler>,
                 @Inject(POPUP_TYPE) @Optional() popupType?: Type<Popup>,
                 @Inject(POSITIONER_TYPE) @Optional() positionerType?: Type<Positioner>,
                 @Inject(READONLY_STATE_TYPE) @Optional() readonlyStateType?: Type<ReadonlyState>,
@@ -262,7 +262,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
      * @param {NormalState} normalState Created normal state that is rendered
      * @internal
      */
-    public setNormalStateComponent(normalState: NormalState<TValue>)
+    public setNormalStateComponent(normalState: NormalState)
     {
         if(!normalState)
         {
@@ -392,6 +392,87 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
         }
     }
 
+    /**
+     * Sets readonly state component
+     * @param {ReadonlyState} readonlyState Created readonly state that is rendered
+     * @internal
+     */
+    public setReadonlyStateComponent(readonlyState: ReadonlyState)
+    {
+        if(!readonlyState)
+        {
+            return;
+        }
+
+        this._pluginInstances[READONLY_STATE] = readonlyState;
+
+        if(this._selectOptions.plugins && this._selectOptions.plugins.readonlyState && this._selectOptions.plugins.readonlyState.options)
+        {
+            readonlyState.options = this._selectOptions.plugins.readonlyState.options;
+        }
+
+        readonlyState.initOptions();
+        
+        if(this._selectOptions.plugins && this._selectOptions.plugins.readonlyState && this._selectOptions.plugins.readonlyState.instanceCallback)
+        {
+            this._selectOptions.plugins.readonlyState.instanceCallback(readonlyState);
+        }
+    }
+
+    /**
+     * Sets value handler component
+     * @param {ValueHandler} valueHandler Created value handler that is rendered
+     * @internal
+     */
+    public setValueHandlerComponent(valueHandler: ValueHandler)
+    {
+        if(!valueHandler)
+        {
+            return;
+        }
+
+        this._pluginInstances[VALUE_HANDLER] = valueHandler;
+
+        if(this._selectOptions.plugins && this._selectOptions.plugins.valueHandler && this._selectOptions.plugins.valueHandler.options)
+        {
+            valueHandler.options = this._selectOptions.plugins.valueHandler.options;
+        }
+
+        valueHandler.initOptions();
+        
+        if(this._selectOptions.plugins && this._selectOptions.plugins.valueHandler && this._selectOptions.plugins.valueHandler.instanceCallback)
+        {
+            this._selectOptions.plugins.valueHandler.instanceCallback(valueHandler);
+        }
+    }
+
+    /**
+     * Sets live search component
+     * @param {LiveSearch} liveSearch Created live search that is rendered
+     * @internal
+     */
+    public setLiveSearchComponent(liveSearch: LiveSearch)
+    {
+        if(!liveSearch)
+        {
+            return;
+        }
+
+        this._pluginInstances[LIVE_SEARCH] = liveSearch;
+
+        if(this._selectOptions.plugins && this._selectOptions.plugins.liveSearch && this._selectOptions.plugins.liveSearch.options)
+        {
+            liveSearch.options = this._selectOptions.plugins.liveSearch.options;
+        }
+
+        liveSearch.initOptions();
+        
+        if(this._selectOptions.plugins && this._selectOptions.plugins.liveSearch && this._selectOptions.plugins.liveSearch.instanceCallback)
+        {
+            this._selectOptions.plugins.liveSearch.instanceCallback(liveSearch);
+        }
+    }
+
     //######################### public methods #########################
 
     /**
@@ -443,6 +524,96 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
                     }
 
                     this._pluginInstances[TEXTS_LOCATOR].initOptions();
+                }
+            }
+
+            if(this._selectOptions.plugins.keyboardHandler)
+            {
+                this._selectOptions.plugins.keyboardHandler.type = resolveForwardRef(this._selectOptions.plugins.keyboardHandler.type);
+
+                if(this._pluginInstances[KEYBOARD_HANDLER])
+                {
+                    if(this._selectOptions.plugins && this._selectOptions.plugins.keyboardHandler && this._selectOptions.plugins.keyboardHandler.options)
+                    {
+                        this._pluginInstances[KEYBOARD_HANDLER].options = this._selectOptions.plugins.keyboardHandler.options;
+                    }
+
+                    this._pluginInstances[KEYBOARD_HANDLER].initOptions();
+                }
+            }
+
+            if(this._selectOptions.plugins.popup)
+            {
+                this._selectOptions.plugins.popup.type = resolveForwardRef(this._selectOptions.plugins.popup.type);
+
+                if(this._pluginInstances[POPUP])
+                {
+                    if(this._selectOptions.plugins && this._selectOptions.plugins.popup && this._selectOptions.plugins.popup.options)
+                    {
+                        this._pluginInstances[POPUP].options = this._selectOptions.plugins.popup.options;
+                    }
+
+                    this._pluginInstances[POPUP].initOptions();
+                }
+            }
+
+            if(this._selectOptions.plugins.positioner)
+            {
+                this._selectOptions.plugins.positioner.type = resolveForwardRef(this._selectOptions.plugins.positioner.type);
+
+                if(this._pluginInstances[POSITIONER])
+                {
+                    if(this._selectOptions.plugins && this._selectOptions.plugins.positioner && this._selectOptions.plugins.positioner.options)
+                    {
+                        this._pluginInstances[POSITIONER].options = this._selectOptions.plugins.positioner.options;
+                    }
+
+                    this._pluginInstances[POSITIONER].initOptions();
+                }
+            }
+
+            if(this._selectOptions.plugins.readonlyState)
+            {
+                this._selectOptions.plugins.readonlyState.type = resolveForwardRef(this._selectOptions.plugins.readonlyState.type);
+
+                if(this._pluginInstances[READONLY_STATE])
+                {
+                    if(this._selectOptions.plugins && this._selectOptions.plugins.readonlyState && this._selectOptions.plugins.readonlyState.options)
+                    {
+                        this._pluginInstances[READONLY_STATE].options = this._selectOptions.plugins.readonlyState.options;
+                    }
+
+                    this._pluginInstances[READONLY_STATE].initOptions();
+                }
+            }
+
+            if(this._selectOptions.plugins.valueHandler)
+            {
+                this._selectOptions.plugins.valueHandler.type = resolveForwardRef(this._selectOptions.plugins.valueHandler.type);
+
+                if(this._pluginInstances[VALUE_HANDLER])
+                {
+                    if(this._selectOptions.plugins && this._selectOptions.plugins.valueHandler && this._selectOptions.plugins.valueHandler.options)
+                    {
+                        this._pluginInstances[VALUE_HANDLER].options = this._selectOptions.plugins.valueHandler.options;
+                    }
+
+                    this._pluginInstances[VALUE_HANDLER].initOptions();
+                }
+            }
+
+            if(this._selectOptions.plugins.liveSearch)
+            {
+                this._selectOptions.plugins.liveSearch.type = resolveForwardRef(this._selectOptions.plugins.liveSearch.type);
+
+                if(this._pluginInstances[LIVE_SEARCH])
+                {
+                    if(this._selectOptions.plugins && this._selectOptions.plugins.liveSearch && this._selectOptions.plugins.liveSearch.options)
+                    {
+                        this._pluginInstances[LIVE_SEARCH].options = this._selectOptions.plugins.liveSearch.options;
+                    }
+
+                    this._pluginInstances[LIVE_SEARCH].initOptions();
                 }
             }
         }

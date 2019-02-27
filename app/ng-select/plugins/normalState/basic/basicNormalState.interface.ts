@@ -17,6 +17,6 @@ export interface BasicNormalStateOptions extends NormalStateOptions<CssClassesBa
 /**
  * Public API for 'BasicNormalStateComponent'
  */
-export interface BasicNormalState<TValue> extends NormalState<TValue>
+export interface BasicNormalState extends NormalState
 {
 }

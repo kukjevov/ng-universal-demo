@@ -24,7 +24,7 @@ export const KEYBOARD_HANDLER_TYPE: InjectionToken<Type<KeyboardHandler>> = new 
 /**
  * Injection token for 'NormalState' implementation
  */
-export const NORMAL_STATE_TYPE: InjectionToken<Type<NormalState<any>>> = new InjectionToken<Type<NormalState<any>>>('NORMAL_STATE_TYPE');
+export const NORMAL_STATE_TYPE: InjectionToken<Type<NormalState>> = new InjectionToken<Type<NormalState>>('NORMAL_STATE_TYPE');
 
 /**
  * Injection token for 'Popup' implementation

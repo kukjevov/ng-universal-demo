@@ -70,7 +70,7 @@ export class NgSelectPluginTypes
     /**
      * Component used for displaying normal state of select
      */
-    normalState?: PluginDescription<NormalState<any>>;
+    normalState?: PluginDescription<NormalState>;
 
     /**
      * Component used for displaying available options for selection

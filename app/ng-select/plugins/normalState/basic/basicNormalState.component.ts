@@ -33,7 +33,7 @@ const defaultOptions: BasicNormalStateOptions =
     [
     ]
 })
-export class BasicNormalStateComponent<TValue> implements BasicNormalState<TValue>, NgSelectPluginGeneric<BasicNormalStateOptions>
+export class BasicNormalStateComponent implements BasicNormalState, NgSelectPluginGeneric<BasicNormalStateOptions>
 {
     //######################### protected fields #########################
 
@@ -70,11 +70,6 @@ export class BasicNormalStateComponent<TValue> implements BasicNormalState<TValu
      * Occurs when user tries to toggle popup (open options)
      */
     public togglePopup: EventEmitter<void> = new EventEmitter<void>();
-
-    /**
-     * Gets or sets currently displayed value
-     */
-    public value: TValue|TValue[] = null;
 
     //######################### public properties - template bindings #########################
 
