@@ -67,9 +67,9 @@ export class BasicNormalStateComponent implements BasicNormalState, NgSelectPlug
     }
 
     /**
-     * Occurs when user tries to toggle popup (open options)
+     * Occurs when user clicks on normal state
      */
-    public togglePopup: EventEmitter<void> = new EventEmitter<void>();
+    public click: EventEmitter<void> = new EventEmitter<void>();
 
     //######################### public properties - template bindings #########################
 

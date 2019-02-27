@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, OnDestroy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, OnDestroy, EventEmitter, HostBinding} from '@angular/core';
 import {extend} from '@asseco/common';
 import {Subscription} from 'rxjs';
 
@@ -6,7 +6,8 @@ import {BasicPopupOptions, BasicPopup} from './basicPopup.interface';
 import {NgSelectPluginGeneric, OptionsGatherer} from '../../../misc';
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../components/select';
 import {POPUP_OPTIONS} from '../popup.interface';
-import {ɵNgSelectOption} from '../../../components/option';
+import {ɵNgSelectOption, NgSelectOption} from '../../../components/option';
+import {NormalState, NORMAL_STATE} from '../../normalState';
 
 /**
  * Default options for popup
@@ -16,7 +17,13 @@ const defaultOptions: BasicPopupOptions =
 {
     cssClasses:
     {
-    }
+        optionChecked: 'fa fa-check',
+        optionItemDiv: 'option-item',
+        optionItemTextDiv: 'option-item-text',
+        popupDiv: 'ng-select-popup'
+    },
+    multiple: false,
+    visible: false
 };
 
 /**
@@ -29,6 +36,50 @@ const defaultOptions: BasicPopupOptions =
     changeDetection: ChangeDetectionStrategy.OnPush,
     styles:
     [
+        `:host.ng-select-popup
+        {
+            position: absolute;
+            z-index: 250;
+            background-color: #FFFFFF;
+            border-radius: 4px;
+            border: 1px solid #BBBBBB;
+            overflow: auto;
+        }
+        
+        .option-item
+        {
+            padding: 3px 6px;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-item .option-item-text
+        {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .option-item .option-item-text:hover
+        {
+            cursor: pointer;
+        }
+
+        .option-item .fa-check
+        {
+            margin-left: 8px;
+        }
+
+        .option-item.selected,
+        .option-item.active
+        {
+            background-color: #BBBBBB;
+        }
+
+        .option-item:hover
+        {
+            background-color: #E0E0E0;
+            cursor: pointer;
+        }`
     ]
 })
 export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelectPluginGeneric<BasicPopupOptions>, OnDestroy
@@ -50,6 +101,16 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
      */
     protected _optionsChangeSubscription: Subscription;
 
+    /**
+     * Subscription for click event on normal state
+     */
+    protected _clickSubscription: Subscription;
+
+    /**
+     * Normal state that is displayed
+     */
+    protected _normalState: NormalState;
+
     //######################### public properties - implementation of BasicPopup #########################
 
     /**
@@ -69,6 +130,11 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
      */
     public optionsGatherer: OptionsGatherer<TValue>;
 
+    /**
+     * Occurs when user clicks on option, clicked options is passed as argument
+     */
+    public optionClick: EventEmitter<NgSelectOption<TValue>> = new EventEmitter<NgSelectOption<TValue>>();
+
     //######################### public properties - template bindings #########################
 
     /**
@@ -76,6 +142,18 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
      * @internal
      */
     public selectOptions: ɵNgSelectOption<TValue>[];
+
+    //######################### public properties - host #########################
+
+    /**
+     * Css class applied to this component
+     * @internal
+     */
+    @HostBinding('class')
+    public get cssClass(): string
+    {
+        return this.options.cssClasses.popupDiv;
+    }
 
     //######################### constructor #########################
     constructor(@Inject(NG_SELECT_PLUGIN_INSTANCES) @Optional() public ngSelectPlugins: NgSelectPluginInstances,
@@ -97,6 +175,12 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
         {
             this._optionsChangeSubscription.unsubscribe();
             this._optionsChangeSubscription = null;
+        }
+
+        if(this._clickSubscription)
+        {
+            this._clickSubscription.unsubscribe();
+            this._clickSubscription = null;
         }
     }
 
@@ -120,6 +204,23 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
             this._optionsGatherer = this.optionsGatherer;
 
             this._optionsChangeSubscription = this._optionsGatherer.optionsChange.subscribe(() => this.loadOptions());
+        }
+        
+        let normalState: NormalState = this.ngSelectPlugins[NORMAL_STATE] as NormalState;
+
+        if(this._normalState && this._normalState != normalState)
+        {
+            this._clickSubscription.unsubscribe();
+            this._clickSubscription = null;
+            
+            this._normalState = null;
+        }
+        
+        if(!this._normalState)
+        {
+            this._normalState = normalState;
+            
+            this._clickSubscription = this._normalState.click.subscribe(() => this.togglePopup());
         }
 
         this.loadOptions();
@@ -148,6 +249,15 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
     protected loadOptions()
     {
         this.selectOptions = this._optionsGatherer.options;
+        this._changeDetector.detectChanges();
+    }
+
+    /**
+     * Toggles popup visibility
+     */
+    protected togglePopup()
+    {
+        this.options.visible = !this.options.visible;
         this._changeDetector.detectChanges();
     }
 }

@@ -1,41 +1,41 @@
 <div>
         <h3>{{subs}}</h3>
-    
+
         <div>
             <button (click)="inc()">click</button>
             <button (click)="toggle()">toggle</button>
             <button (click)="longCall()">long call</button>
             <button (click)="continue()">continue</button>
         </div>
-    
+
         <div style="overflow: hidden;" @slideInOut *ngIf="trigger == 'in'">
             <div class="alert alert-warning">
                 This is warning
             </div>
         </div>
-    
+
         <div [@test]="trigger">
             <span>{{counter}}</span>
             <div *ngIf="trigger == 'in'">
                 <span>XXXXXXXXXXXXXX</span>
             </div>
-    
+
             <div *ngIf="trigger == 'out'">
                 <div>YYYYYYYYYYYYYY</div>
             </div>
-    
+
             <div *ngIf="show">
                 <div>ZZZZZZZZZZZZ</div>
             </div>
         </div>
-    
+
         <ng-template #strongNode let-nodeData><strong>{{nodeData?.content}}</strong></ng-template>
-    
+
         {{trigger}}
-    
+
         <fancytree [options]="treeOptions" #treeview>
             <fancytree-node content="test 1 {{trigger}}" [contentHtml]="strongNode" [unselectable]="true"></fancytree-node>
-    
+
             <fancytree-node content="test 2" [folder]="true" [expanded]="true" [key]="'xxx'" [extraClasses]="'italic'">
                 <fancytree-node content='node 2.1'>
                     <fancytree-node content='node 2.1.1' [contentHtml]="strongNode"></fancytree-node>
@@ -43,15 +43,15 @@
                 </fancytree-node>
             </fancytree-node>
         </fancytree>
-    
+
         <fancytree [options]="treeOptions" [data]="treeData"></fancytree>
-    
+
         <input type="checkbox" bootstrap-switch data-size="mini" checked data-label-text="test" onCssClass="success" offCssClass="danger">
     </div>
-    
+
     <div>
         <div>x{{ngSelect?.value | json}}x</div>
-    
+
         <ng-select [formControl]="ngSelect" readonly="true">
             <option value="first" text="123"></option>
             <option value="second" text="452"></option>
@@ -59,7 +59,7 @@
             <option value="fourth" text="asdf asdf asdf"></option>
             <option value="fifth" text="efasdff asdfaefae"></option>
         </ng-select>
-    
+
         <div>aflskdj</div>
         <div>aflskdjafsdfa</div>
         <div>aflskdj</div>

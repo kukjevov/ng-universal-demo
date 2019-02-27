@@ -3,6 +3,6 @@
     <span class="selected-caret fa fa-caret-down"></span>
 </ng-template>
 
-<button class="btn btn-select" (click)="togglePopup.emit()" [disabled]="!!options?.readonly" type="button">
+<button class="btn btn-select" (click)="click.emit()" [disabled]="!!options?.readonly" type="button">
     <ng-container *ngTemplateOutlet="options?.template || defaultLook; context: {$implicit: this}"></ng-container>
 </button>
