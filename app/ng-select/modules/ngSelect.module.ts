@@ -9,6 +9,7 @@ import {NoTextsLocatorComponent} from '../plugins/textsLocator';
 import {BasicLiveSearchComponent, NoLiveSearchComponent} from '../plugins/liveSearch';
 import {BasicPopupComponent} from '../plugins/popup';
 import {BasicPositionerComponent} from '../plugins/positioner';
+import {BasicKeyboardHandlerComponent} from '../plugins/keyboardHandler';
 import {OptGroupComponent, OptionComponent} from '../components/option';
 import {NgSelectComponent} from '../components/select';
 
@@ -34,7 +35,8 @@ import {NgSelectComponent} from '../components/select';
         NoLiveSearchComponent,
         BasicLiveSearchComponent,
         BasicPopupComponent,
-        BasicPositionerComponent
+        BasicPositionerComponent,
+        BasicKeyboardHandlerComponent
     ],
     exports:
     [
@@ -51,7 +53,8 @@ import {NgSelectComponent} from '../components/select';
         NoLiveSearchComponent,
         BasicLiveSearchComponent,
         BasicPopupComponent,
-        BasicPositionerComponent
+        BasicPositionerComponent,
+        BasicKeyboardHandlerComponent
     ]
 })
 export class NgSelectModule

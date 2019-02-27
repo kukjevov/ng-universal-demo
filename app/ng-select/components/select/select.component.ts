@@ -3,7 +3,7 @@ import {extend} from "@asseco/common";
 
 import {NgSelectOptions, NG_SELECT_OPTIONS, KEYBOARD_HANDLER_TYPE, NORMAL_STATE_TYPE, POPUP_TYPE, POSITIONER_TYPE, READONLY_STATE_TYPE, VALUE_HANDLER_TYPE, LIVE_SEARCH_TYPE, NgSelectPlugin, OptionsGatherer, PluginDescription} from "../../misc";
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelect, NgSelectPluginInstances, NgSelectAction, NgSelectFunction} from "./select.interface";
-import {KeyboardHandler, KEYBOARD_HANDLER} from "../../plugins/keyboardHandler";
+import {KeyboardHandler, KEYBOARD_HANDLER, BasicKeyboardHandlerComponent} from "../../plugins/keyboardHandler";
 import {NormalState, NORMAL_STATE, BasicNormalStateComponent} from "../../plugins/normalState";
 import {Popup, POPUP, BasicPopupComponent} from "../../plugins/popup";
 import {Positioner, POSITIONER, BasicPositionerComponent} from "../../plugins/positioner";
@@ -44,6 +44,10 @@ const defaultOptions: NgSelectOptions<any> =
         positioner: <PluginDescription<BasicPositionerComponent>>
         {
             type: forwardRef(() => BasicPositionerComponent)
+        },
+        keyboardHandler: <PluginDescription<BasicKeyboardHandlerComponent>>
+        {
+            type: forwardRef(() => BasicKeyboardHandlerComponent)
         }
     }
 };
@@ -530,6 +534,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
 
         this._pluginInstances[TEXTS_LOCATOR].initialize();
         this._pluginInstances[POSITIONER].initialize();
+        this._pluginInstances[KEYBOARD_HANDLER].initialize();
         this._pluginInstances[NORMAL_STATE].initialize();
         this._pluginInstances[POPUP].initialize();
     }
