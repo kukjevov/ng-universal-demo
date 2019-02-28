@@ -1,5 +1,6 @@
 import {Component, ChangeDetectionStrategy, FactoryProvider, Input, Inject, ChangeDetectorRef, Optional, Type, AfterViewInit, OnInit, ContentChildren, QueryList, EventEmitter, forwardRef, resolveForwardRef, ElementRef, OnChanges, SimpleChanges, Attribute} from "@angular/core";
 import {extend, nameof, isBoolean, isPresent} from "@asseco/common";
+import {BehaviorSubject, Observable} from "rxjs";
 
 import {NgSelectOptions, NG_SELECT_OPTIONS, KEYBOARD_HANDLER_TYPE, NORMAL_STATE_TYPE, POPUP_TYPE, POSITIONER_TYPE, READONLY_STATE_TYPE, VALUE_HANDLER_TYPE, LIVE_SEARCH_TYPE, NgSelectPlugin, OptionsGatherer, PluginDescription} from "../../misc";
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelect, NgSelectPluginInstances, NgSelectAction, NgSelectFunction} from "./select.interface";
@@ -104,6 +105,11 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
     protected _selectOptions: NgSelectOptions<TValue>;
 
     /**
+     * Subject used for indication that NgSelect was initialized
+     */
+    private _initializedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+    /**
      * Occurs when array of provided options has changed
      */
     protected _optionsChange: EventEmitter<void> = new EventEmitter<void>();
@@ -139,6 +145,16 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
      */
     @Input()
     public readonly: boolean;
+
+    //######################### public properties - implementation of NgSelect #########################
+
+    /**
+     * Occurs every time when NgSelect is initialized or reinitialized, if value is false NgSelect was not initialized yet
+     */
+    public get initialized(): Observable<boolean>
+    {
+        return this._initializedSubject.asObservable();
+    }
 
     //######################### public properties - implementation of OptionsGatherer #########################
     
@@ -606,6 +622,8 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
         this._pluginInstances[KEYBOARD_HANDLER].initialize();
         this._pluginInstances[NORMAL_STATE].initialize();
         this._pluginInstances[POPUP].initialize();
+
+        this._initializedSubject.next(true);
     }
 
     /**

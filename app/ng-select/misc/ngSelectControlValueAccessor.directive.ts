@@ -76,11 +76,23 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
      */
     public registerOnChange(fn: (data: TValue|Array<TValue>) => void): void
     {
-        this._changeSubscription = this._select.executeAndReturn(valueChange(value =>
+        this._select.initialized.subscribe(initialized =>
         {
-            // this._lastValue = this._select.value;
-            fn(value);
-        }));
+            if(initialized)
+            {
+                if(this._changeSubscription)
+                {
+                    this._changeSubscription.unsubscribe();
+                    this._changeSubscription = null;
+                }
+
+                this._changeSubscription = this._select.executeAndReturn(valueChange(value =>
+                {
+                    // this._lastValue = this._select.value;
+                    fn(value);
+                }));
+            }
+        });
     }
 
     /**

@@ -1,4 +1,5 @@
 import {InjectionToken} from "@angular/core";
+import {Observable} from "rxjs";
 
 import {NgSelectPlugin, NgSelectOptions} from "../../misc";
 
@@ -20,6 +21,11 @@ export interface NgSelectPluginInstances
  */
 export interface NgSelect<TValue>
 {
+    /**
+     * Occurs every time when NgSelect is initialized or reinitialized, if value is false NgSelect was not initialized yet
+     */
+    readonly initialized: Observable<boolean>;
+
     /**
      * Gets or sets NgSelect options
      */
