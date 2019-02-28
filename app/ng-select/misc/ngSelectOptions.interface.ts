@@ -44,7 +44,7 @@ export const READONLY_STATE_TYPE: InjectionToken<Type<ReadonlyState>> = new Inje
 /**
  * Injection token for 'ValueHandler' implementation
  */
-export const VALUE_HANDLER_TYPE: InjectionToken<Type<ValueHandler>> = new InjectionToken<Type<ValueHandler>>('VALUE_HANDLER_TYPE');
+export const VALUE_HANDLER_TYPE: InjectionToken<Type<ValueHandler<any>>> = new InjectionToken<Type<ValueHandler<any>>>('VALUE_HANDLER_TYPE');
 
 /**
  * Injection token for 'LiveSearch' implementation

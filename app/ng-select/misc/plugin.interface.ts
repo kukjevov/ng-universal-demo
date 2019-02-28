@@ -90,7 +90,7 @@ export class NgSelectPluginTypes
     /**
      * Handles obtaining and setting value of component
      */
-    valueHandler?: PluginDescription<ValueHandler>;
+    valueHandler?: PluginDescription<ValueHandler<any>>;
 
     /**
      * Contains component that is used for live searching in options

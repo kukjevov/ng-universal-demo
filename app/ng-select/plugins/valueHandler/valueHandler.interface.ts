@@ -1,4 +1,4 @@
-import {InjectionToken} from "@angular/core";
+import {InjectionToken, EventEmitter} from "@angular/core";
 
 import {PluginOptions, NgSelectPlugin} from "../../misc";
 
@@ -22,6 +22,10 @@ export interface ValueHandlerOptions extends PluginOptions
 /**
  * Value handler plugin interface
  */
-export interface ValueHandler extends NgSelectPlugin
+export interface ValueHandler<TValue> extends NgSelectPlugin
 {
+    /**
+     * Occurs when value of NgSelect changes
+     */
+    readonly valueChange: EventEmitter<TValue|TValue[]>;
 }

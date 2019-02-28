@@ -3,6 +3,7 @@ import {forwardRef, ExistingProvider, Directive, OnDestroy} from '@angular/core'
 import {Subscription} from 'rxjs';
 
 import {NgSelectComponent} from '../components/select';
+import {valueChange} from '../extensions';
 
 /**
  * Provider for control value accessor
@@ -45,7 +46,7 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
     //######################### constructor #########################
     constructor(private _select: NgSelectComponent<TValue>)
     {
-        console.log(this._lastValue, this._select);
+        console.log(this._lastValue);
         // this._lastValueRequestSubscription = this._select
         //     .optionsAndValueManager
         //     .lastValueRequest
@@ -75,11 +76,11 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
      */
     public registerOnChange(fn: (data: TValue|Array<TValue>) => void): void
     {
-        // this._changeSubscription = this._select.optionsAndValueManager.valueChange.subscribe(() =>
-        // {
-        //     this._lastValue = this._select.value;
-        //     fn(this._select.value);
-        // });
+        this._changeSubscription = this._select.executeAndReturn(valueChange(value =>
+        {
+            // this._lastValue = this._select.value;
+            fn(value);
+        }));
     }
 
     /**

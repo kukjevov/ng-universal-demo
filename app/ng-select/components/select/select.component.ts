@@ -53,7 +53,7 @@ const defaultOptions: NgSelectOptions<any> =
         {
             type: forwardRef(() => BasicNormalStateComponent)
         },
-        valueHandler: <PluginDescription<BasicValueHandlerComponent>>
+        valueHandler: <PluginDescription<BasicValueHandlerComponent<any>>>
         {
             type: forwardRef(() => BasicValueHandlerComponent)
         }
@@ -196,7 +196,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
                 @Inject(POPUP_TYPE) @Optional() popupType?: Type<Popup>,
                 @Inject(POSITIONER_TYPE) @Optional() positionerType?: Type<Positioner>,
                 @Inject(READONLY_STATE_TYPE) @Optional() readonlyStateType?: Type<ReadonlyState>,
-                @Inject(VALUE_HANDLER_TYPE) @Optional() valueHandlerType?: Type<ValueHandler>,
+                @Inject(VALUE_HANDLER_TYPE) @Optional() valueHandlerType?: Type<ValueHandler<any>>,
                 @Inject(LIVE_SEARCH_TYPE) @Optional() liveSearchType?: Type<LiveSearch>,
                 @Inject(TEXTS_LOCATOR) @Optional() textsLocatorType?: Type<TextsLocator>,
                 @Attribute('readonly') readonly?: string,
@@ -538,7 +538,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
      * @param {ValueHandler} valueHandler Created value handler that is rendered
      * @internal
      */
-    public setValueHandlerComponent(valueHandler: ValueHandler)
+    public setValueHandlerComponent(valueHandler: ValueHandler<TValue>)
     {
         if(!valueHandler)
         {

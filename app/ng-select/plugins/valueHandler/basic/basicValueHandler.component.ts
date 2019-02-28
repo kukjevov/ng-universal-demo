@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, EventEmitter} from '@angular/core';
 import {extend} from '@asseco/common';
 
 import {BasicValueHandlerOptions, BasicValueHandler} from './basicValueHandler.interface';
@@ -23,7 +23,7 @@ const defaultOptions: BasicValueHandlerOptions =
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BasicValueHandlerComponent implements BasicValueHandler, NgSelectPluginGeneric<BasicValueHandlerOptions>
+export class BasicValueHandlerComponent<TValue> implements BasicValueHandler<TValue>, NgSelectPluginGeneric<BasicValueHandlerOptions>
 {
     //######################### protected fields #########################
 
@@ -45,6 +45,11 @@ export class BasicValueHandlerComponent implements BasicValueHandler, NgSelectPl
     {
         this._options = extend(true, this._options, options);
     }
+
+    /**
+     * Occurs when value of NgSelect changes
+     */
+    public valueChange: EventEmitter<TValue|TValue[]> = new EventEmitter<TValue|TValue[]>();
 
     //######################### constructor #########################
     constructor(@Inject(NG_SELECT_PLUGIN_INSTANCES) @Optional() public ngSelectPlugins: NgSelectPluginInstances,
