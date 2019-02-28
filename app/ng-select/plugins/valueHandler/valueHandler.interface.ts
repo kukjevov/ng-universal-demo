@@ -1,6 +1,6 @@
 import {InjectionToken, EventEmitter} from "@angular/core";
 
-import {PluginOptions, NgSelectPlugin} from "../../misc";
+import {PluginOptions, NgSelectPlugin, OptionsGatherer} from "../../misc";
 
 /**
  * Constant used for accessing value handler plugin in NgSelect
@@ -17,6 +17,10 @@ export const VALUE_HANDLER_OPTIONS: InjectionToken<ValueHandlerOptions> = new In
  */
 export interface ValueHandlerOptions extends PluginOptions
 {
+    /**
+     * Indication that multiple values can be selected
+     */
+    multiple?: boolean;
 }
 
 /**
@@ -25,7 +29,17 @@ export interface ValueHandlerOptions extends PluginOptions
 export interface ValueHandler<TValue> extends NgSelectPlugin
 {
     /**
+     * Instance of options gatherer, that is used for obtaining available options
+     */
+    optionsGatherer: OptionsGatherer<TValue>;
+
+    /**
      * Occurs when value of NgSelect changes
      */
     readonly valueChange: EventEmitter<TValue|TValue[]>;
+
+    /**
+     * Occurs when there is requested for change of visibility of popup using keyboard
+     */
+    readonly popupVisibilityRequest: EventEmitter<boolean>;
 }

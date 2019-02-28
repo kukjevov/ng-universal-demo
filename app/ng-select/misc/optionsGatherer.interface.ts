@@ -1,6 +1,7 @@
 import {EventEmitter} from "@angular/core";
 
 import {NgSelectOption} from "../components/option/option.interface";
+import {NgSelectPluginInstances} from "../components/select";
 
 /**
  * Gatherer used for obtaining options for select
@@ -16,4 +17,9 @@ export interface OptionsGatherer<TValue>
      * Occurs when array of provided options has changed
      */
     readonly optionsChange: EventEmitter<void>;
+
+    /**
+     * NgSelect plugin instances available for gatherer
+     */
+    ngSelectPlugins: NgSelectPluginInstances;
 }

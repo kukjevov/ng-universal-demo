@@ -176,6 +176,12 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
         return this._optionsChange;
     }
 
+    /**
+     * NgSelect plugin instances available for gatherer
+     * @internal
+     */
+    public ngSelectPlugins: NgSelectPluginInstances;
+
     //######################### public properties - template bindings #########################
 
     /**
@@ -631,6 +637,8 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
      */
     public initOptions()
     {
+        this.selectOptions.optionsGatherer.ngSelectPlugins = this._pluginInstances;
+
         if(this._selectOptions.plugins)
         {
             if(this._selectOptions.plugins.normalState)

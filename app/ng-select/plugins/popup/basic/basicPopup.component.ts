@@ -11,6 +11,7 @@ import {ɵNgSelectOption, NgSelectOption} from '../../../components/option';
 import {NormalState, NORMAL_STATE} from '../../normalState';
 import {Positioner, POSITIONER} from '../../positioner';
 import {KeyboardHandler, KEYBOARD_HANDLER} from '../../keyboardHandler';
+import {ValueHandler, VALUE_HANDLER} from '../../valueHandler';
 
 /**
  * Default options for popup
@@ -112,9 +113,14 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
     protected _clickSubscription: Subscription;
 
     /**
-     * Subscription for popup visibility request
+     * Subscription for popup visibility request from keyboard handler
      */
-    protected _popupVisibilityRequestSubscription: Subscription;
+    protected _khPopupVisibilityRequestSubscription: Subscription;
+
+    /**
+     * Subscription for popup visibility request from value handler
+     */
+    protected _vhPopupVisibilityRequestSubscription: Subscription;
 
     /**
      * Normal state that is displayed
@@ -125,6 +131,11 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
      * Keyboard handler that is used
      */
     protected _keyboardHandler: KeyboardHandler;
+
+    /**
+     * Value handler that is used
+     */
+    protected _valueHandler: ValueHandler<any>;
 
     //######################### public properties - implementation of BasicPopup #########################
 
@@ -251,10 +262,16 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
             this._clickSubscription = null;
         }
 
-        if(this._popupVisibilityRequestSubscription)
+        if(this._khPopupVisibilityRequestSubscription)
         {
-            this._popupVisibilityRequestSubscription.unsubscribe();
-            this._popupVisibilityRequestSubscription = null;
+            this._khPopupVisibilityRequestSubscription.unsubscribe();
+            this._khPopupVisibilityRequestSubscription = null;
+        }
+
+        if(this._vhPopupVisibilityRequestSubscription)
+        {
+            this._vhPopupVisibilityRequestSubscription.unsubscribe();
+            this._vhPopupVisibilityRequestSubscription = null;
         }
     }
 
@@ -313,8 +330,8 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
 
         if(this._keyboardHandler && this._keyboardHandler != keyboardHandler)
         {
-            this._popupVisibilityRequestSubscription.unsubscribe();
-            this._popupVisibilityRequestSubscription = null;
+            this._khPopupVisibilityRequestSubscription.unsubscribe();
+            this._khPopupVisibilityRequestSubscription = null;
 
             this._keyboardHandler = null;
         }
@@ -323,14 +340,24 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
         {
             this._keyboardHandler = keyboardHandler;
 
-            this._popupVisibilityRequestSubscription = this._keyboardHandler.popupVisibilityRequest.subscribe(visible => 
-            {
-                if(this.options.visible != visible)
-                {
-                    this.options.visible = visible;
-                    this._changeDetector.detectChanges();
-                }
-            });
+            this._khPopupVisibilityRequestSubscription = this._keyboardHandler.popupVisibilityRequest.subscribe(this._handleVisibilityChange);
+        }
+
+        let valueHandler = this.ngSelectPlugins[VALUE_HANDLER] as ValueHandler<any>;
+
+        if(this._valueHandler && this._valueHandler != valueHandler)
+        {
+            this._vhPopupVisibilityRequestSubscription.unsubscribe();
+            this._vhPopupVisibilityRequestSubscription = null;
+
+            this._valueHandler = null;
+        }
+
+        if(!this._valueHandler)
+        {
+            this._valueHandler = valueHandler;
+
+            this._vhPopupVisibilityRequestSubscription = this._valueHandler.popupVisibilityRequest.subscribe(this._handleVisibilityChange);
         }
 
         this.loadOptions();
@@ -382,4 +409,16 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
             this.togglePopup();
         }
     }
+
+    /**
+     * Handles visibility change
+     */
+    protected _handleVisibilityChange = (visible: boolean) => 
+    {
+        if(this.options.visible != visible)
+        {
+            this.options.visible = visible;
+            this._changeDetector.detectChanges();
+        }
+    };
 }

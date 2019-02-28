@@ -199,6 +199,8 @@ export class BasicKeyboardHandlerComponent implements BasicKeyboardHandler, NgSe
             {
                 this.optionSelect.emit(activeOption);
             }
+
+            event.preventDefault();
         }
 
         if(event.key == "Tab")
