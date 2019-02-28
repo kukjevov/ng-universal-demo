@@ -429,6 +429,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
             popup.options = this._selectOptions.plugins.popup.options;
         }
 
+        popup.selectElement = this._element.nativeElement;
         popup.optionsGatherer = this.selectOptions.optionsGatherer;
         popup.initOptions();
         
@@ -665,6 +666,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
                     }
 
                     let popup = this._pluginInstances[POPUP] as Popup<TValue>;
+                    popup.selectElement = this._element.nativeElement;
                     popup.optionsGatherer = this.selectOptions.optionsGatherer;
 
                     this._pluginInstances[POPUP].initOptions();

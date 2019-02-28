@@ -45,6 +45,11 @@ export interface Popup<TValue> extends NgSelectPlugin
     optionsGatherer: OptionsGatherer<TValue>;
 
     /**
+     * HTML element that represents select itself
+     */
+    selectElement: HTMLElement;
+
+    /**
      * Occurs when user clicks on option, clicked options is passed as argument
      */
     readonly optionClick: EventEmitter<NgSelectOption<TValue>>;

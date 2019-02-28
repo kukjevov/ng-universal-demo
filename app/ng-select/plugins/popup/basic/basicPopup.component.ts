@@ -1,5 +1,6 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, OnDestroy, EventEmitter, ViewChildren, QueryList, AfterViewInit} from '@angular/core';
-import {extend} from '@asseco/common';
+import {DOCUMENT} from '@angular/common';
+import {extend, isDescendant} from '@asseco/common';
 import {Subscription} from 'rxjs';
 
 import {BasicPopupOptions, BasicPopup} from './basicPopup.interface';
@@ -134,6 +135,11 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
     public optionsGatherer: OptionsGatherer<TValue>;
 
     /**
+     * HTML element that represents select itself
+     */
+    public selectElement: HTMLElement;
+
+    /**
      * Occurs when user clicks on option, clicked options is passed as argument
      */
     public optionClick: EventEmitter<NgSelectOption<TValue>> = new EventEmitter<NgSelectOption<TValue>>();
@@ -185,7 +191,8 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
     constructor(@Inject(NG_SELECT_PLUGIN_INSTANCES) @Optional() public ngSelectPlugins: NgSelectPluginInstances,
                 public pluginElement: ElementRef,
                 protected _changeDetector: ChangeDetectorRef,
-                @Inject(POPUP_OPTIONS) @Optional() options?: BasicPopupOptions)
+                @Inject(POPUP_OPTIONS) @Optional() options?: BasicPopupOptions,
+                @Inject(DOCUMENT) protected _document?: HTMLDocument)
     {
         this._options = extend(true, {}, defaultOptions, options);
     }
@@ -197,7 +204,21 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
      */
     public ngAfterViewInit()
     {
-        this.popupElementChildren.changes.subscribe(() => this.visibilityChange.emit());
+        this.popupElementChildren.changes.subscribe(() =>
+        {
+            //handle click outside
+            if(this.popupElementChildren.first)
+            {
+                this._document.addEventListener('mouseup', this._handleClickOutside);
+            }
+            //unregister handle click outside
+            else
+            {
+                this._document.removeEventListener('mouseup', this._handleClickOutside);
+            }
+
+            this.visibilityChange.emit()
+        });
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -307,5 +328,17 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
     {
         this.options.visible = !this.options.visible;
         this._changeDetector.detectChanges();
+    }
+
+    /**
+     * Handles click outside of select element
+     * @param event Mouse event object
+     */
+    protected _handleClickOutside = (event: MouseEvent) =>
+    {
+        if(this.selectElement != event.target && !isDescendant(this.selectElement, event.target as HTMLElement))
+        {
+            this.togglePopup();
+        }
     }
 }
