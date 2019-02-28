@@ -258,9 +258,6 @@
 //      */
 //     public ngOnInit()
 //     {
-//         this._document.addEventListener('mouseup', this._handleClickOutside);
-//         window.addEventListener('resize', this._handleResizeAndScroll);
-//         window.addEventListener('scroll', this._handleResizeAndScroll);
 //     }
 
 //     //######################### public methods - implementation of OnChanges #########################
@@ -292,7 +289,6 @@
 //     {
 //         this._optionsDivVisibleSubscription = this.optionsDiv.changes.subscribe(() =>
 //         {
-//             this._calculatePositionAndDimensions();
 //         });
 //     }
 
@@ -332,9 +328,6 @@
 //             this._optionsChildrenSubscription = null;
 //         }
 
-//         this._document.removeEventListener('mouseup', this._handleClickOutside);
-//         window.removeEventListener('resize', this._handleResizeAndScroll);
-//         window.removeEventListener('scroll', this._handleResizeAndScroll);
 //     }
 
 //     //######################### public methods - host #########################
@@ -424,221 +417,4 @@
 
 //         this._optionsAndValueManager.options.forEach(option => option.active = false);
 //     }
-
-//     //######################### protected methods #########################
-
-//     /**
-//      * Handles resize event
-//      */
-//     protected _handleResizeAndScroll = () =>
-//     {
-//         this._calculatePositionAndDimensions();
-//     };
-
-//     /**
-//      * Handles click outside of select element
-//      * @param event Mouse event object
-//      */
-//     protected _handleClickOutside = (event: MouseEvent) =>
-//     {
-//         if(this._element.nativeElement != event.target && !isDescendant(this._element.nativeElement, event.target as HTMLElement))
-//         {
-//             this.optionsDivVisible = false;
-
-//             this._changeDetector.detectChanges();
-//         }
-//     }
-
-//     /**
-//      * Calculates positions and dimensions of popup
-//      */
-//     protected _calculatePositionAndDimensions()
-//     {
-//         let optionsDiv = this.optionsDiv.first;
-
-//         if(optionsDiv)
-//         {
-//             optionsDiv.nativeElement.style.minWidth = `${this._element.nativeElement.clientWidth}px`;
-
-//             //set to default position
-//             this.optionsDivStyle = positions(optionsDiv.nativeElement, this.optionsCoordinates, this._element.nativeElement, this.selectCoordinates);
-//             this._changeDetector.detectChanges();
-
-//             //flip if collision with viewport
-//             this.optionsDivStyle = this._flipIfCollision(optionsDiv.nativeElement);
-//             this._changeDetector.detectChanges();
-
-//             //set maxHeight if there is not more place
-//             if(this._updateHeight(optionsDiv.nativeElement))
-//             {
-//                 this.optionsDivStyle = this._flipIfCollision(optionsDiv.nativeElement);
-//                 this._changeDetector.detectChanges();
-//             }
-//         }
-//     }
-
-//     /**
-//      * Updates height of element
-//      * @param optionsDiv Html element for options div
-//      */
-//     protected _updateHeight(optionsDiv: HTMLElement): boolean
-//     {
-//         let rect = optionsDiv.getBoundingClientRect(),
-//             selectRect = this._element.nativeElement.getBoundingClientRect(),
-//             h = Math.max(this._document.documentElement.clientHeight, window.innerHeight || 0);
-
-//         //options are above
-//         if(rect.top < selectRect.top)
-//         {
-//             //space above is not enough
-//             if(selectRect.top < rect.height)
-//             {
-//                 optionsDiv.style.maxHeight = `${selectRect.top - 2}px`;
-
-//                 return true;
-//             }
-//             else
-//             {
-//                 optionsDiv.style.maxHeight = '';
-
-//                 return false;
-//             }
-//         }
-//         //options are below
-//         else
-//         {
-//             //space below is not enough
-//             if(h - selectRect.bottom < rect.height)
-//             {
-//                 optionsDiv.style.maxHeight = `${h - selectRect.bottom - 2}px`;
-
-//                 return true;
-//             }
-//             else
-//             {
-//                 optionsDiv.style.maxHeight = '';
-
-//                 return false;
-//             }
-//         }
-//     }
-
-//     /**
-//      * Flips html element position if collision occur
-//      * @param optionsDiv Html element to be flipped if collisions occur
-//      */
-//     protected _flipIfCollision(optionsDiv: HTMLElement): Positions.PositionsCss
-//     {
-//         let w = Math.max(this._document.documentElement.clientWidth, window.innerWidth || 0),
-//             h = Math.max(this._document.documentElement.clientHeight, window.innerHeight || 0),
-//             rect = optionsDiv.getBoundingClientRect(),
-//             selectRect = this._element.nativeElement.getBoundingClientRect(),
-//             spaceAbove = selectRect.top,
-//             spaceUnder = h - selectRect.bottom,
-//             spaceBefore = selectRect.left,
-//             spaceAfter = w - selectRect.right,
-//             optionsCoordinates = this.optionsCoordinates,
-//             selectCoordinates = this.selectCoordinates;
-
-//         //vertical overflow
-//         if((h < (rect.top + rect.height) &&
-//             spaceUnder < spaceAbove) ||
-//            (rect.top < 0 &&
-//             spaceAbove < spaceUnder))
-//         {
-//             optionsCoordinates = this._flipVertiacal(optionsCoordinates);
-//             selectCoordinates = this._flipVertiacal(selectCoordinates);
-//         }
-
-//         //horizontal overflow
-//         if((w < (rect.left + rect.width) &&
-//             spaceAfter < spaceBefore) ||
-//            (rect.left < 0 &&
-//             spaceBefore < spaceAfter))
-//         {
-//             optionsCoordinates = this._flipHorizontal(optionsCoordinates);
-//             selectCoordinates = this._flipHorizontal(selectCoordinates);
-//         }
-
-//         return positions(optionsDiv, optionsCoordinates, this._element.nativeElement, selectCoordinates);
-//     }
-
-//     /**
-//      * Flips vertical position
-//      * @param position Position to be flipped vertically
-//      */
-//     protected _flipVertiacal(position: Positions.PositionsCoordinates): Positions.PositionsCoordinates
-//     {
-//         if(position.indexOf('top') >= 0)
-//         {
-//             return position.replace('top', 'bottom') as Positions.PositionsCoordinates;
-//         }
-//         else if(position.indexOf('bottom') >= 0)
-//         {
-//             return position.replace('bottom', 'top') as Positions.PositionsCoordinates;
-//         }
-
-//         return position;
-//     }
-
-//     /**
-//      * Flips horizontal position
-//      * @param position Position to be flipped horizontally
-//      */
-//     protected _flipHorizontal(position: Positions.PositionsCoordinates): Positions.PositionsCoordinates
-//     {
-//         if(position.indexOf('right') >= 0)
-//         {
-//             return position.replace('right', 'left') as Positions.PositionsCoordinates;
-//         }
-//         else if(position.indexOf('left') >= 0)
-//         {
-//             return position.replace('left', 'right') as Positions.PositionsCoordinates;
-//         }
-
-//         return position;
-//     }
 // }
-
-// /**
-//  * Gets indication whether is child descendand of parent
-//  * @param parent Parent to be tested
-//  * @param child Child to be looked for
-//  */
-// function isDescendant(parent: HTMLElement, child: HTMLElement): boolean
-// {
-//     let node = child.parentNode;
-
-//     while (node != null)
-//     {
-//         if (node == parent)
-//         {
-//             return true;
-//         }
-
-//         node = node.parentNode;
-//     }
-
-//     return false;
-// }
-
-// // /**
-// //  * Computes offset of element against document
-// //  * @param element Html element which offset is counted
-// //  * @param doc Html document to be used for extracting scroll offset
-// //  */
-// // function offset(element: HTMLElement, doc?: HTMLDocument)
-// // {
-// //     doc = doc || document;
-
-// //     let rect = element.getBoundingClientRect(),
-// //         scrollLeft = window.pageXOffset || doc.documentElement.scrollLeft,
-// //         scrollTop = window.pageYOffset || doc.documentElement.scrollTop;
-
-// //     return {
-// //         top: rect.top + scrollTop,
-// //         left: rect.left + scrollLeft,
-// //         bottom: rect.top + scrollTop + rect.height,
-// //         right: rect.left + scrollLeft + rect.width
-// //     };
-// // }

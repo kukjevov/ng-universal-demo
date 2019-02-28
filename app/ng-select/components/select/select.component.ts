@@ -402,6 +402,8 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
             keyboardHandler.options = this._selectOptions.plugins.keyboardHandler.options;
         }
 
+        keyboardHandler.selectElement = this._element.nativeElement;
+        keyboardHandler.optionsGatherer = this.selectOptions.optionsGatherer;
         keyboardHandler.initOptions();
         
         if(this._selectOptions.plugins && this._selectOptions.plugins.keyboardHandler && this._selectOptions.plugins.keyboardHandler.instanceCallback)
@@ -649,6 +651,10 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
                     {
                         this._pluginInstances[KEYBOARD_HANDLER].options = this._selectOptions.plugins.keyboardHandler.options;
                     }
+
+                    let keyboardHandler = this._pluginInstances[KEYBOARD_HANDLER] as KeyboardHandler;
+                    keyboardHandler.selectElement = this._element.nativeElement;
+                    keyboardHandler.optionsGatherer = this.selectOptions.optionsGatherer;
 
                     this._pluginInstances[KEYBOARD_HANDLER].initOptions();
                 }
