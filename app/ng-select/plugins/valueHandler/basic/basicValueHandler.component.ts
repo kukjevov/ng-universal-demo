@@ -8,7 +8,8 @@ import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../comp
 import {VALUE_HANDLER_OPTIONS} from '../valueHandler.interface';
 import {KeyboardHandler, KEYBOARD_HANDLER} from '../../keyboardHandler';
 import {Popup, POPUP} from '../../popup';
-import {ɵNgSelectOption} from '../../../components/option';
+import {ɵNgSelectOption, NgSelectOption} from '../../../components/option';
+import {NormalState, NORMAL_STATE} from '../../normalState';
 
 /**
  * Default options for value handler
@@ -48,6 +49,11 @@ export class BasicValueHandlerComponent<TValue> implements BasicValueHandler<TVa
     protected _popup: Popup;
 
     /**
+     * Normal state that is used
+     */
+    protected _normalState: NormalState;
+
+    /**
      * Subscription for option selection using keyboard
      */
     protected _optionSelectSubscription: Subscription;
@@ -85,6 +91,11 @@ export class BasicValueHandlerComponent<TValue> implements BasicValueHandler<TVa
      * Occurs when there is requested for change of visibility of popup using keyboard
      */
     public popupVisibilityRequest: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    /**
+     * Current value of NgSelect
+     */
+    public value: NgSelectOption<TValue>|NgSelectOption<TValue>[];
 
     //######################### constructor #########################
     constructor(@Inject(NG_SELECT_PLUGIN_INSTANCES) @Optional() public ngSelectPlugins: NgSelectPluginInstances,
@@ -136,7 +147,7 @@ export class BasicValueHandlerComponent<TValue> implements BasicValueHandler<TVa
         {
             this._keyboardHandler = keyboardHandler;
 
-            this._optionSelectSubscription = this._keyboardHandler.optionSelect.subscribe((option: ɵNgSelectOption<TValue>) => console.log(option));
+            this._optionSelectSubscription = this._keyboardHandler.optionSelect.subscribe(this._setValue);
         }
 
         let popup = this.ngSelectPlugins[POPUP] as Popup;
@@ -153,7 +164,19 @@ export class BasicValueHandlerComponent<TValue> implements BasicValueHandler<TVa
         {
             this._popup = popup;
 
-            this._optionClickSubscription = this._popup.optionClick.subscribe((option: ɵNgSelectOption<TValue>) => console.log(option));
+            this._optionClickSubscription = this._popup.optionClick.subscribe(this._setValue);
+        }
+
+        let normalState = this.ngSelectPlugins[NORMAL_STATE] as NormalState;
+
+        if(this._normalState && this._normalState != normalState)
+        {
+            this._normalState = null;
+        }
+
+        if(!this._normalState)
+        {
+            this._normalState = normalState;
         }
     }
 
@@ -169,5 +192,19 @@ export class BasicValueHandlerComponent<TValue> implements BasicValueHandler<TVa
      */
     public invalidateVisuals(): void
     {
+    }
+
+    //######################### protected methods #########################
+
+    /**
+     * Sets value 
+     */
+    protected _setValue = (option: ɵNgSelectOption<TValue>) =>
+    {
+        option.selected = true;
+
+        this.value = option;
+
+        this._normalState.invalidateVisuals();
     }
 }

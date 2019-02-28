@@ -429,7 +429,6 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
         }
 
         keyboardHandler.selectElement = this._element.nativeElement;
-        keyboardHandler.optionsGatherer = this.selectOptions.optionsGatherer;
         keyboardHandler.initOptions();
         
         if(this._selectOptions.plugins && this._selectOptions.plugins.keyboardHandler && this._selectOptions.plugins.keyboardHandler.instanceCallback)
@@ -626,6 +625,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
         this._pluginInstances[TEXTS_LOCATOR].initialize();
         this._pluginInstances[POSITIONER].initialize();
         this._pluginInstances[KEYBOARD_HANDLER].initialize();
+        this._pluginInstances[VALUE_HANDLER].initialize();
         this._pluginInstances[NORMAL_STATE].initialize();
         this._pluginInstances[POPUP].initialize();
 
@@ -684,7 +684,6 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
 
                     let keyboardHandler = this._pluginInstances[KEYBOARD_HANDLER] as KeyboardHandler;
                     keyboardHandler.selectElement = this._element.nativeElement;
-                    keyboardHandler.optionsGatherer = this.selectOptions.optionsGatherer;
 
                     this._pluginInstances[KEYBOARD_HANDLER].initOptions();
                 }

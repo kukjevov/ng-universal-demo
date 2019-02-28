@@ -1,7 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {isBlank} from '@asseco/common';
 
-import {OptionComponent} from '../components/option/option.component';
+import {NgSelectOption} from '../components/option';
 
 /**
  * Pipe to transform ng select selected option into
@@ -13,10 +13,10 @@ export class NgSelectValuePipe<TValue> implements PipeTransform
     
     /**
      * Transforms selected option into string
-     * @param {OptionComponent<TValue>|Array<OptionComponent<TValue>>} options Selected options to be transformed into text
+     * @param {NgSelectOption<TValue>|Array<NgSelectOption<TValue>>} options Selected options to be transformed into text
      * @param {string} nothingSelectedText Text displayed if nothing is selected
      */   
-    public transform(options: OptionComponent<TValue>|Array<OptionComponent<TValue>>, nothingSelectedText: string): string
+    public transform(options: NgSelectOption<TValue>|Array<NgSelectOption<TValue>>, nothingSelectedText: string): string
     {
         if(isBlank(options) || (Array.isArray(options) && !options.length))
         {

@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef, OnDest
 import {extend} from '@asseco/common';
 
 import {BasicKeyboardHandlerOptions, BasicKeyboardHandler} from './basicKeyboardHandler.interface';
-import {NgSelectPluginGeneric, OptionsGatherer} from '../../../misc';
+import {NgSelectPluginGeneric} from '../../../misc';
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../components/select';
 import {KEYBOARD_HANDLER_OPTIONS} from '../keyboardHandler.interface';
 import {ɵNgSelectOption, NgSelectOption} from '../../../components/option';
@@ -46,7 +46,7 @@ export class BasicKeyboardHandlerComponent implements BasicKeyboardHandler, NgSe
      */
     protected get availableOptions(): ɵNgSelectOption<any>[]
     {
-        return this.optionsGatherer.options;
+        return this._popup.availableOptions;
     }
 
     //######################### public properties - implementation of BasicKeyboardHandler #########################
@@ -62,11 +62,6 @@ export class BasicKeyboardHandlerComponent implements BasicKeyboardHandler, NgSe
     {
         this._options = extend(true, this._options, options);
     }
-
-    /**
-     * Instance of options gatherer, that is used for obtaining available options
-     */
-    public optionsGatherer: OptionsGatherer<any>;
 
     /**
      * HTML element that represents select itself

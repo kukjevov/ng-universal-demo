@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, ViewChild} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, ViewChild, EventEmitter} from '@angular/core';
 import {extend} from '@asseco/common';
 
 import {BasicLiveSearchOptions, BasicLiveSearch} from './basicLiveSearch.interface';
@@ -60,6 +60,16 @@ export class BasicLiveSearchComponent implements BasicLiveSearch, NgSelectPlugin
         return this.liveSearchElementChild.nativeElement;
     }
 
+    /**
+     * Current value of live search
+     */
+    public searchValue: string = null;
+
+    /**
+     * Occurs when current value of live search changes
+     */
+    public searchValueChange: EventEmitter<void> = new EventEmitter<void>();
+
     //######################### public properties - children #########################
 
     /**
@@ -105,12 +115,13 @@ export class BasicLiveSearchComponent implements BasicLiveSearch, NgSelectPlugin
     //######################### public methods - template bindings #########################
 
     /**
-     * 
-     * @param value 
+     * Handle input value
+     * @param value Value of input
      * @internal
      */
     public handleInput(value: string)
     {
-        console.log(value);
+        this.searchValue = value;
+        this.searchValueChange.emit();
     }
 }

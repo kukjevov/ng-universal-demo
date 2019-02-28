@@ -7,6 +7,7 @@ import {NgSelectPluginGeneric} from '../../../misc';
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../components/select';
 import {NORMAL_STATE_OPTIONS, NormalStateTexts} from '../normalState.interface';
 import {TextsLocator, TEXTS_LOCATOR} from '../../textsLocator';
+import {ValueHandler, VALUE_HANDLER} from '../../valueHandler';
 
 /**
  * Default options for normal state
@@ -97,6 +98,12 @@ export class BasicNormalStateComponent implements BasicNormalState, NgSelectPlug
      */
     public texts: NormalStateTexts = {};
 
+    /**
+     * Value handler used in NgSelect
+     * @internal
+     */
+    public valueHandler: ValueHandler<any>;
+
     //######################### constructor #########################
     constructor(@Inject(NG_SELECT_PLUGIN_INSTANCES) @Optional() public ngSelectPlugins: NgSelectPluginInstances,
                 public pluginElement: ElementRef,
@@ -127,7 +134,7 @@ export class BasicNormalStateComponent implements BasicNormalState, NgSelectPlug
      */
     public initialize()
     {
-        let textsLocator: TextsLocator = this.ngSelectPlugins[TEXTS_LOCATOR] as TextsLocator;
+        let textsLocator = this.ngSelectPlugins[TEXTS_LOCATOR] as TextsLocator;
 
         if(this._textsLocator && this._textsLocator != textsLocator)
         {
@@ -142,6 +149,18 @@ export class BasicNormalStateComponent implements BasicNormalState, NgSelectPlug
             this._textsLocator = textsLocator;
 
             this._textsChangedSubscription = this._textsLocator.textsChange.subscribe(() => this._initTexts());
+        }
+
+        let valueHandler = this.ngSelectPlugins[VALUE_HANDLER] as ValueHandler<any>;
+
+        if(this.valueHandler && this.valueHandler != valueHandler)
+        {
+            this.valueHandler = null;
+        }
+
+        if(!this.valueHandler)
+        {
+            this.valueHandler = valueHandler;
         }
 
         this._initTexts();

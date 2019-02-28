@@ -1,3 +1,5 @@
 <div style="display: none;">
-    <input #liveSearchElement type="text" (input)="handleInput($event.target.value)">
+    <div #liveSearchElement>
+        <input type="text" (input)="handleInput($event.target.value)">
+    </div>
 </div>

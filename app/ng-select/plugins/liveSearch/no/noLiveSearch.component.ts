@@ -1,9 +1,9 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, ViewChild} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef, ViewChild, EventEmitter} from '@angular/core';
+import {DOCUMENT} from '@angular/common';
 
 import {NoLiveSearchOptions, NoLiveSearch} from './noLiveSearch.interface';
 import {NgSelectPluginGeneric} from '../../../misc';
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../components/select';
-import {DOCUMENT} from '@angular/common';
 
 /**
  * Component used for no live search
@@ -38,6 +38,16 @@ export class NoLiveSearchComponent implements NoLiveSearch, NgSelectPluginGeneri
         return this._document.createElement("span");
     }
 
+    /**
+     * Current value of live search
+     */
+    public searchValue: string = null;
+
+    /**
+     * Occurs when current value of live search changes
+     */
+    public searchValueChange: EventEmitter<void> = new EventEmitter<void>();
+
     //######################### public properties - children #########################
 
     /**
@@ -50,7 +60,6 @@ export class NoLiveSearchComponent implements NoLiveSearch, NgSelectPluginGeneri
     //######################### constructor #########################
     constructor(@Inject(NG_SELECT_PLUGIN_INSTANCES) @Optional() public ngSelectPlugins: NgSelectPluginInstances,
                 public pluginElement: ElementRef,
-                protected _changeDetector: ChangeDetectorRef,
                 @Inject(DOCUMENT) private _document: HTMLDocument)
     {
     }

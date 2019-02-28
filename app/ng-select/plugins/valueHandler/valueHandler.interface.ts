@@ -1,6 +1,7 @@
 import {InjectionToken, EventEmitter} from "@angular/core";
 
 import {PluginOptions, NgSelectPlugin, OptionsGatherer} from "../../misc";
+import {NgSelectOption} from "../../components/option";
 
 /**
  * Constant used for accessing value handler plugin in NgSelect
@@ -32,6 +33,11 @@ export interface ValueHandler<TValue> extends NgSelectPlugin
      * Instance of options gatherer, that is used for obtaining available options
      */
     optionsGatherer: OptionsGatherer<TValue>;
+
+    /**
+     * Current value of NgSelect
+     */
+    readonly value: NgSelectOption<TValue>|NgSelectOption<TValue>[];
 
     /**
      * Occurs when value of NgSelect changes
