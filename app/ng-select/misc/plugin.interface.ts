@@ -75,7 +75,7 @@ export class NgSelectPluginTypes
     /**
      * Component used for displaying available options for selection
      */
-    popup?: PluginDescription<Popup<any>>;
+    popup?: PluginDescription<Popup>;
 
     /**
      * Handles correct position of pop component

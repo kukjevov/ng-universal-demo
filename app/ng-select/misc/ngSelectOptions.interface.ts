@@ -29,7 +29,7 @@ export const NORMAL_STATE_TYPE: InjectionToken<Type<NormalState>> = new Injectio
 /**
  * Injection token for 'Popup' implementation
  */
-export const POPUP_TYPE: InjectionToken<Type<Popup<any>>> = new InjectionToken<Type<Popup<any>>>('POPUP_TYPE');
+export const POPUP_TYPE: InjectionToken<Type<Popup>> = new InjectionToken<Type<Popup>>('POPUP_TYPE');
 
 /**
  * Injection token for 'Positioner' implementation

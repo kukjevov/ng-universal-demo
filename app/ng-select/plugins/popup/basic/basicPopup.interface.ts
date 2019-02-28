@@ -36,6 +36,6 @@ export interface BasicPopupOptions extends PopupOptions<CssClassesBasicPopup>
 /**
  * Public API for 'BasicPopupComponent'
  */
-export interface BasicPopup<TValue> extends Popup<TValue>
+export interface BasicPopup extends Popup
 {
 }

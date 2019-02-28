@@ -10,6 +10,7 @@ import {POPUP_OPTIONS} from '../popup.interface';
 import {ɵNgSelectOption, NgSelectOption} from '../../../components/option';
 import {NormalState, NORMAL_STATE} from '../../normalState';
 import {Positioner, POSITIONER} from '../../positioner';
+import {KeyboardHandler, KEYBOARD_HANDLER} from '../../keyboardHandler';
 
 /**
  * Default options for popup
@@ -48,7 +49,7 @@ const defaultOptions: BasicPopupOptions =
             overflow: auto;
             min-width: 100%;
         }
-        
+
         .option-item
         {
             padding: 3px 6px;
@@ -86,7 +87,7 @@ const defaultOptions: BasicPopupOptions =
         }`
     ]
 })
-export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelectPluginGeneric<BasicPopupOptions>, AfterViewInit, OnDestroy
+export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<BasicPopupOptions>, AfterViewInit, OnDestroy
 {
     //######################### protected fields #########################
 
@@ -98,7 +99,7 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
     /**
      * Instance of previous options gatherer, that is used for obtaining available options
      */
-    protected _optionsGatherer: OptionsGatherer<TValue>;
+    protected _optionsGatherer: OptionsGatherer<any>;
 
     /**
      * Subscription for changes of options in options gatherer
@@ -111,9 +112,19 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
     protected _clickSubscription: Subscription;
 
     /**
+     * Subscription for popup visibility request
+     */
+    protected _popupVisibilityRequestSubscription: Subscription;
+
+    /**
      * Normal state that is displayed
      */
     protected _normalState: NormalState;
+
+    /**
+     * Keyboard handler that is used
+     */
+    protected _keyboardHandler: KeyboardHandler;
 
     //######################### public properties - implementation of BasicPopup #########################
 
@@ -132,7 +143,7 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
     /**
      * Instance of options gatherer, that is used for obtaining available options
      */
-    public optionsGatherer: OptionsGatherer<TValue>;
+    public optionsGatherer: OptionsGatherer<any>;
 
     /**
      * HTML element that represents select itself
@@ -142,7 +153,7 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
     /**
      * Occurs when user clicks on option, clicked options is passed as argument
      */
-    public optionClick: EventEmitter<NgSelectOption<TValue>> = new EventEmitter<NgSelectOption<TValue>>();
+    public optionClick: EventEmitter<NgSelectOption<any>> = new EventEmitter<NgSelectOption<any>>();
 
     /**
      * Occurs when visibility of popup has changed
@@ -170,7 +181,7 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
      * Array of select options available
      * @internal
      */
-    public selectOptions: ɵNgSelectOption<TValue>[];
+    public selectOptions: ɵNgSelectOption<any>[];
 
     /**
      * Positioner used for setting position of popup
@@ -198,7 +209,7 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
     }
 
     //######################### public methods - implementation of AfterViewInit #########################
-    
+
     /**
      * Called when view was initialized
      */
@@ -222,7 +233,7 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
@@ -238,6 +249,12 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
         {
             this._clickSubscription.unsubscribe();
             this._clickSubscription = null;
+        }
+
+        if(this._popupVisibilityRequestSubscription)
+        {
+            this._popupVisibilityRequestSubscription.unsubscribe();
+            this._popupVisibilityRequestSubscription = null;
         }
     }
 
@@ -262,34 +279,58 @@ export class BasicPopupComponent<TValue> implements BasicPopup<TValue>, NgSelect
 
             this._optionsChangeSubscription = this._optionsGatherer.optionsChange.subscribe(() => this.loadOptions());
         }
-        
-        let normalState: NormalState = this.ngSelectPlugins[NORMAL_STATE] as NormalState;
+
+        let normalState = this.ngSelectPlugins[NORMAL_STATE] as NormalState;
 
         if(this._normalState && this._normalState != normalState)
         {
             this._clickSubscription.unsubscribe();
             this._clickSubscription = null;
-            
+
             this._normalState = null;
         }
-        
+
         if(!this._normalState)
         {
             this._normalState = normalState;
-            
+
             this._clickSubscription = this._normalState.click.subscribe(() => this.togglePopup());
         }
 
-        let positioner: Positioner = this.ngSelectPlugins[POSITIONER] as Positioner;
+        let positioner = this.ngSelectPlugins[POSITIONER] as Positioner;
 
         if(this.positioner && this.positioner != positioner)
         {
             this.positioner = null;
         }
-        
+
         if(!this.positioner)
         {
             this.positioner = positioner;
+        }
+
+        let keyboardHandler = this.ngSelectPlugins[KEYBOARD_HANDLER] as KeyboardHandler;
+
+        if(this._keyboardHandler && this._keyboardHandler != keyboardHandler)
+        {
+            this._popupVisibilityRequestSubscription.unsubscribe();
+            this._popupVisibilityRequestSubscription = null;
+
+            this._keyboardHandler = null;
+        }
+
+        if(!this._keyboardHandler)
+        {
+            this._keyboardHandler = keyboardHandler;
+
+            this._popupVisibilityRequestSubscription = this._keyboardHandler.popupVisibilityRequest.subscribe(visible => 
+            {
+                if(this.options.visible != visible)
+                {
+                    this.options.visible = visible;
+                    this._changeDetector.detectChanges();
+                }
+            });
         }
 
         this.loadOptions();

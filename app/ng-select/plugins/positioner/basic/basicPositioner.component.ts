@@ -1,4 +1,5 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, EventEmitter, OnDestroy} from '@angular/core';
+import {DOCUMENT} from '@angular/common';
 import {extend} from '@asseco/common';
 import {Subscription} from 'rxjs';
 import * as positions from 'positions';
@@ -8,7 +9,6 @@ import {NgSelectPluginGeneric} from '../../../misc';
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../components/select';
 import {POSITIONER_OPTIONS} from '../positioner.interface';
 import {POPUP, Popup} from '../../popup';
-import {DOCUMENT} from '@angular/common';
 
 /**
  * Default options for positioner
@@ -46,7 +46,7 @@ export class BasicPositionerComponent implements BasicPositioner, NgSelectPlugin
     /**
      * Popup that is displayed
      */
-    protected _popup: Popup<any>;
+    protected _popup: Popup;
 
     /**
      * Html element of popup plugin
@@ -116,7 +116,7 @@ export class BasicPositionerComponent implements BasicPositioner, NgSelectPlugin
      */
     public initialize()
     {
-        let popup: Popup<any> = this.ngSelectPlugins[POPUP] as Popup<any>;
+        let popup: Popup = this.ngSelectPlugins[POPUP] as Popup;
 
         if(this._popup && this._popup != popup)
         {

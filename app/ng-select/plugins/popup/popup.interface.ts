@@ -37,12 +37,12 @@ export interface PopupOptions<TCssClasses> extends VisualPluginOptions<TCssClass
 /**
  * Popup plugin interface
  */
-export interface Popup<TValue> extends NgSelectPlugin
+export interface Popup extends NgSelectPlugin
 {
     /**
      * Instance of options gatherer, that is used for obtaining available options
      */
-    optionsGatherer: OptionsGatherer<TValue>;
+    optionsGatherer: OptionsGatherer<any>;
 
     /**
      * HTML element that represents select itself
@@ -52,7 +52,7 @@ export interface Popup<TValue> extends NgSelectPlugin
     /**
      * Occurs when user clicks on option, clicked options is passed as argument
      */
-    readonly optionClick: EventEmitter<NgSelectOption<TValue>>;
+    readonly optionClick: EventEmitter<NgSelectOption<any>>;
 
     /**
      * Occurs when visibility of popup has changed
@@ -78,5 +78,5 @@ export interface PopupContext
     /**
      * Instance of plugin itself
      */
-    popup: Popup<any>;
+    popup: Popup;
 }

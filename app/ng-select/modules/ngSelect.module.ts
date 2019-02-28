@@ -10,6 +10,7 @@ import {BasicLiveSearchComponent, NoLiveSearchComponent} from '../plugins/liveSe
 import {BasicPopupComponent} from '../plugins/popup';
 import {BasicPositionerComponent} from '../plugins/positioner';
 import {BasicKeyboardHandlerComponent} from '../plugins/keyboardHandler';
+import {BasicValueHandlerComponent} from '../plugins/valueHandler';
 import {OptGroupComponent, OptionComponent} from '../components/option';
 import {NgSelectComponent} from '../components/select';
 
@@ -36,7 +37,8 @@ import {NgSelectComponent} from '../components/select';
         BasicLiveSearchComponent,
         BasicPopupComponent,
         BasicPositionerComponent,
-        BasicKeyboardHandlerComponent
+        BasicKeyboardHandlerComponent,
+        BasicValueHandlerComponent
     ],
     exports:
     [
@@ -54,7 +56,8 @@ import {NgSelectComponent} from '../components/select';
         BasicLiveSearchComponent,
         BasicPopupComponent,
         BasicPositionerComponent,
-        BasicKeyboardHandlerComponent
+        BasicKeyboardHandlerComponent,
+        BasicValueHandlerComponent
     ]
 })
 export class NgSelectModule

@@ -1,11 +1,12 @@
-import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef, OnDestroy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef, OnDestroy, EventEmitter} from '@angular/core';
 import {extend} from '@asseco/common';
 
 import {BasicKeyboardHandlerOptions, BasicKeyboardHandler} from './basicKeyboardHandler.interface';
 import {NgSelectPluginGeneric, OptionsGatherer} from '../../../misc';
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../components/select';
 import {KEYBOARD_HANDLER_OPTIONS} from '../keyboardHandler.interface';
-import {ɵNgSelectOption} from '../../../components/option';
+import {ɵNgSelectOption, NgSelectOption} from '../../../components/option';
+import {Popup, POPUP} from '../../popup';
 
 /**
  * Default options for keyboard handler
@@ -32,6 +33,11 @@ export class BasicKeyboardHandlerComponent implements BasicKeyboardHandler, NgSe
      * Options for NgSelect plugin
      */
     protected _options: BasicKeyboardHandlerOptions;
+
+    /**
+     * Popup that is displayed
+     */
+    protected _popup: Popup;
 
     //######################### protected properties #########################
 
@@ -67,6 +73,16 @@ export class BasicKeyboardHandlerComponent implements BasicKeyboardHandler, NgSe
      */
     public selectElement: HTMLElement;
 
+    /**
+     * Occurs when there is requested for change of visibility of popup using keyboard
+     */
+    public popupVisibilityRequest: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    /**
+     * Occurs when option was selected using keyboard
+     */
+    public optionSelect: EventEmitter<NgSelectOption<any>> = new EventEmitter<NgSelectOption<any>>();
+
     //######################### constructor #########################
     constructor(@Inject(NG_SELECT_PLUGIN_INSTANCES) @Optional() public ngSelectPlugins: NgSelectPluginInstances,
                 public pluginElement: ElementRef,
@@ -99,6 +115,18 @@ export class BasicKeyboardHandlerComponent implements BasicKeyboardHandler, NgSe
         {
             this.selectElement.addEventListener('keydown', this._handleKeyboard);
         }
+
+        let popup = this.ngSelectPlugins[POPUP] as Popup;
+
+        if(this._popup && this._popup != popup)
+        {
+            this._popup = null;
+        }
+        
+        if(!this._popup)
+        {
+            this._popup = popup;
+        }
     }
 
     /**
@@ -123,12 +151,9 @@ export class BasicKeyboardHandlerComponent implements BasicKeyboardHandler, NgSe
      */
     protected _handleKeyboard = (event: KeyboardEvent) =>
     {
-        console.log('ok');
-
         if(event.key == "ArrowDown" || event.key == "ArrowUp")
         {
-            //TODO - open 
-            // this.optionsDivVisible = true;
+            this.popupVisibilityRequest.emit(true);
             let activeOption = this.availableOptions.find(itm => itm.active);
 
             if(activeOption)
@@ -162,6 +187,7 @@ export class BasicKeyboardHandlerComponent implements BasicKeyboardHandler, NgSe
                 this.availableOptions[0].active = true;
             }
 
+            this._popup.invalidateVisuals();
             event.preventDefault();
         }
 
@@ -171,14 +197,13 @@ export class BasicKeyboardHandlerComponent implements BasicKeyboardHandler, NgSe
 
             if(activeOption)
             {
-                // this._optionsAndValueManager.setSelected(activeOption);
+                this.optionSelect.emit(activeOption);
             }
         }
 
         if(event.key == "Tab")
         {
-            //TODO - close 
-            // this.optionsDivVisible = false;
+            this.popupVisibilityRequest.emit(false);
         }
     }
 }

@@ -8,7 +8,7 @@ import {NormalState, NORMAL_STATE, BasicNormalStateComponent} from "../../plugin
 import {Popup, POPUP, BasicPopupComponent} from "../../plugins/popup";
 import {Positioner, POSITIONER, BasicPositionerComponent} from "../../plugins/positioner";
 import {ReadonlyState, READONLY_STATE, ReadonlyStateOptions} from "../../plugins/readonlyState";
-import {ValueHandler, VALUE_HANDLER} from "../../plugins/valueHandler";
+import {ValueHandler, VALUE_HANDLER, BasicValueHandlerComponent} from "../../plugins/valueHandler";
 import {LiveSearch, LIVE_SEARCH, NoLiveSearchComponent} from "../../plugins/liveSearch";
 import {TextsLocator, TEXTS_LOCATOR, NoTextsLocatorComponent} from "../../plugins/textsLocator";
 import {OptionComponent, NgSelectOption, OptGroupComponent, NgSelectOptGroup} from "../option";
@@ -37,7 +37,7 @@ const defaultOptions: NgSelectOptions<any> =
         {
             type: forwardRef(() => NoLiveSearchComponent)
         },
-        popup: <PluginDescription<BasicPopupComponent<any>>>
+        popup: <PluginDescription<BasicPopupComponent>>
         {
             type: forwardRef(() => BasicPopupComponent)
         },
@@ -52,6 +52,10 @@ const defaultOptions: NgSelectOptions<any> =
         readonlyState: <PluginDescription<ReadonlyState>>
         {
             type: forwardRef(() => BasicNormalStateComponent)
+        },
+        valueHandler: <PluginDescription<BasicValueHandlerComponent>>
+        {
+            type: forwardRef(() => BasicValueHandlerComponent)
         }
     }
 };
@@ -189,7 +193,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
                 @Inject(NG_SELECT_OPTIONS) @Optional() options?: NgSelectOptions<TValue>,
                 @Inject(NORMAL_STATE_TYPE) @Optional() normalStateType?: Type<NormalState>,
                 @Inject(KEYBOARD_HANDLER_TYPE) @Optional() keyboardHandlerType?: Type<KeyboardHandler>,
-                @Inject(POPUP_TYPE) @Optional() popupType?: Type<Popup<TValue>>,
+                @Inject(POPUP_TYPE) @Optional() popupType?: Type<Popup>,
                 @Inject(POSITIONER_TYPE) @Optional() positionerType?: Type<Positioner>,
                 @Inject(READONLY_STATE_TYPE) @Optional() readonlyStateType?: Type<ReadonlyState>,
                 @Inject(VALUE_HANDLER_TYPE) @Optional() valueHandlerType?: Type<ValueHandler>,
@@ -417,7 +421,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
      * @param {Popup} popup Created popup that is rendered
      * @internal
      */
-    public setPopupComponent(popup: Popup<TValue>)
+    public setPopupComponent(popup: Popup)
     {
         if(!popup)
         {
@@ -671,7 +675,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
                         this._pluginInstances[POPUP].options = this._selectOptions.plugins.popup.options;
                     }
 
-                    let popup = this._pluginInstances[POPUP] as Popup<TValue>;
+                    let popup = this._pluginInstances[POPUP] as Popup;
                     popup.selectElement = this._element.nativeElement;
                     popup.optionsGatherer = this.selectOptions.optionsGatherer;
 
