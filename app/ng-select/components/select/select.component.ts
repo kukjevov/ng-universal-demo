@@ -1,5 +1,5 @@
-import {Component, ChangeDetectionStrategy, FactoryProvider, Input, Inject, ChangeDetectorRef, Optional, Type, AfterViewInit, OnInit, ContentChildren, QueryList, EventEmitter, forwardRef, resolveForwardRef, ElementRef} from "@angular/core";
-import {extend} from "@asseco/common";
+import {Component, ChangeDetectionStrategy, FactoryProvider, Input, Inject, ChangeDetectorRef, Optional, Type, AfterViewInit, OnInit, ContentChildren, QueryList, EventEmitter, forwardRef, resolveForwardRef, ElementRef, OnChanges, SimpleChanges, Attribute} from "@angular/core";
+import {extend, nameof, isBoolean, isPresent} from "@asseco/common";
 
 import {NgSelectOptions, NG_SELECT_OPTIONS, KEYBOARD_HANDLER_TYPE, NORMAL_STATE_TYPE, POPUP_TYPE, POSITIONER_TYPE, READONLY_STATE_TYPE, VALUE_HANDLER_TYPE, LIVE_SEARCH_TYPE, NgSelectPlugin, OptionsGatherer, PluginDescription} from "../../misc";
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelect, NgSelectPluginInstances, NgSelectAction, NgSelectFunction} from "./select.interface";
@@ -7,7 +7,7 @@ import {KeyboardHandler, KEYBOARD_HANDLER, BasicKeyboardHandlerComponent} from "
 import {NormalState, NORMAL_STATE, BasicNormalStateComponent} from "../../plugins/normalState";
 import {Popup, POPUP, BasicPopupComponent} from "../../plugins/popup";
 import {Positioner, POSITIONER, BasicPositionerComponent} from "../../plugins/positioner";
-import {ReadonlyState, READONLY_STATE} from "../../plugins/readonlyState";
+import {ReadonlyState, READONLY_STATE, ReadonlyStateOptions} from "../../plugins/readonlyState";
 import {ValueHandler, VALUE_HANDLER} from "../../plugins/valueHandler";
 import {LiveSearch, LIVE_SEARCH, NoLiveSearchComponent} from "../../plugins/liveSearch";
 import {TextsLocator, TEXTS_LOCATOR, NoTextsLocatorComponent} from "../../plugins/textsLocator";
@@ -48,6 +48,10 @@ const defaultOptions: NgSelectOptions<any> =
         keyboardHandler: <PluginDescription<BasicKeyboardHandlerComponent>>
         {
             type: forwardRef(() => BasicKeyboardHandlerComponent)
+        },
+        readonlyState: <PluginDescription<ReadonlyState>>
+        {
+            type: forwardRef(() => BasicNormalStateComponent)
         }
     }
 };
@@ -86,7 +90,7 @@ export function ngSelectPluginInstancesFactory()
         }`
     ]
 })
-export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, AfterViewInit, OptionsGatherer<TValue>
+export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, OnInit, AfterViewInit, OptionsGatherer<TValue>
 {
     //######################### protected fields #########################
 
@@ -119,6 +123,18 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
     {
         return this._selectOptions;
     }
+
+    /**
+     * Indication whether should be NgSelect disabled or not
+     */
+    @Input()
+    public disabled: boolean;
+
+    /**
+     * Indication whether should be NgSelect readonly or not
+     */
+    @Input()
+    public readonly: boolean;
 
     //######################### public properties - implementation of OptionsGatherer #########################
     
@@ -178,8 +194,18 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
                 @Inject(READONLY_STATE_TYPE) @Optional() readonlyStateType?: Type<ReadonlyState>,
                 @Inject(VALUE_HANDLER_TYPE) @Optional() valueHandlerType?: Type<ValueHandler>,
                 @Inject(LIVE_SEARCH_TYPE) @Optional() liveSearchType?: Type<LiveSearch>,
-                @Inject(TEXTS_LOCATOR) @Optional() textsLocatorType?: Type<TextsLocator>)
+                @Inject(TEXTS_LOCATOR) @Optional() textsLocatorType?: Type<TextsLocator>,
+                @Attribute('readonly') readonly?: string,
+                @Attribute('disabled') disabled?: string)
     {
+        let readonlyDefault = false;
+
+        //at least on of following is present (value is not important)
+        if(isPresent(readonly) || isPresent(disabled))
+        {
+            readonlyDefault = true;
+        }
+
         let opts: NgSelectOptions<TValue> = extend(true, {}, options);
 
         if(!opts.plugins)
@@ -267,7 +293,37 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
             opts.plugins.textsLocator.type = textsLocatorType;
         }
 
-        this._selectOptions = extend(true, {optionsGatherer: this}, defaultOptions, opts);
+        this._selectOptions = extend(true, {optionsGatherer: this, readonly: readonlyDefault}, defaultOptions, opts);
+    }
+
+    //######################### public methods - implementation of OnChanges #########################
+    
+    /**
+     * Called when input value changes
+     */
+    public ngOnChanges(changes: SimpleChanges): void
+    {
+        let updateReadonly = (state: boolean, firstChange: boolean) =>
+        {
+            //update options
+            this.selectOptions.readonly = state;
+
+            if(!firstChange)
+            {
+                this.initOptions();
+                this.initialize();
+            }
+        };
+
+        if(nameof<NgSelectComponent<TValue>>('disabled') in changes && isBoolean(this.disabled))
+        {
+            updateReadonly(this.disabled, changes[nameof<NgSelectComponent<TValue>>('disabled')].firstChange);
+        }
+
+        if(nameof<NgSelectComponent<TValue>>('readonly') in changes && isBoolean(this.readonly))
+        {
+            updateReadonly(this.readonly, changes[nameof<NgSelectComponent<TValue>>('readonly')].firstChange);
+        }
     }
 
     //######################### public methods - implementation of OnInit #########################
@@ -446,16 +502,22 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
     {
         if(!readonlyState)
         {
+            this._pluginInstances[READONLY_STATE] = null;
+            
             return;
         }
 
         this._pluginInstances[READONLY_STATE] = readonlyState;
+        this._pluginInstances[NORMAL_STATE] = readonlyState;
 
         if(this._selectOptions.plugins && this._selectOptions.plugins.readonlyState && this._selectOptions.plugins.readonlyState.options)
         {
             readonlyState.options = this._selectOptions.plugins.readonlyState.options;
         }
 
+        let options = readonlyState.options as ReadonlyStateOptions<any>;
+
+        options.readonly = true;
         readonlyState.initOptions();
         
         if(this._selectOptions.plugins && this._selectOptions.plugins.readonlyState && this._selectOptions.plugins.readonlyState.instanceCallback)
@@ -638,6 +700,9 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnInit, Afte
                         this._pluginInstances[READONLY_STATE].options = this._selectOptions.plugins.readonlyState.options;
                     }
 
+                    let options = this._pluginInstances[READONLY_STATE].options as ReadonlyStateOptions<any>;
+
+                    options.readonly = true;
                     this._pluginInstances[READONLY_STATE].initOptions();
                 }
             }
