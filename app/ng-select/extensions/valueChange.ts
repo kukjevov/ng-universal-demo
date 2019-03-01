@@ -12,6 +12,6 @@ export function valueChange<TValue>(callback: (value: TValue|TValue[]) => void):
     {
         let valueHandler = ngSelect.getPlugin(VALUE_HANDLER) as ValueHandler<TValue>;
 
-        return valueHandler.valueChange.subscribe(callback);
+        return valueHandler.valueChange.subscribe(() => callback(valueHandler.value));
     };
 }

@@ -56,6 +56,32 @@ export const LIVE_SEARCH_TYPE: InjectionToken<Type<LiveSearch>> = new InjectionT
  */
 export const TEXTS_LOCATOR_TYPE: InjectionToken<Type<TextsLocator>> = new InjectionToken<Type<TextsLocator>>('TEXTS_LOCATOR_TYPE');
 
+// /**
+//  * Callback used for obtaining options
+//  */
+// export interface GetOptionsCallback<TValue>
+// {
+//     /**
+//      * Gets array of options based on query
+//      * @param query Query for obtaining options
+//      * @param options All available options
+//      */
+//     (query: string|TValue, options?: Array<OptionComponent<TValue>>): Promise<Array<OptionComponent<TValue>>>;
+// }
+
+/**
+ * Function used for comparing two values
+ */
+export interface CompareValueFunc<TValue>
+{
+    /**
+     * Compares two values and returns true if objects are equal, otherwise false
+     * @param source First value to be compared
+     * @param target Second value to be compared
+     */
+    (source: TValue, target: TValue): boolean;
+}
+
 /**
  * Describes select options used for NgSelect
  */
@@ -85,4 +111,9 @@ export interface NgSelectOptions<TValue>
      * Indication whether is NgSelect readonly or not
      */
     readonly?: boolean;
+
+    /**
+     * Function of value comparer that is used for comparison of values
+     */
+    valueComparer?: CompareValueFunc<TValue>;
 }

@@ -27,7 +27,6 @@ const defaultOptions: BasicPopupOptions =
         optionItemTextDiv: 'option-item-text',
         popupDiv: 'popup-div'
     },
-    multiple: false,
     visible: false
 };
 
@@ -311,7 +310,7 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
         {
             this._optionsGatherer = this.optionsGatherer;
 
-            this._optionsChangeSubscription = this._optionsGatherer.optionsChange.subscribe(() => this.loadOptions());
+            this._optionsChangeSubscription = this._optionsGatherer.availableOptionsChange.subscribe(() => this.loadOptions());
         }
 
         let normalState = this.ngSelectPlugins[NORMAL_STATE] as NormalState;
@@ -419,7 +418,7 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
      */
     protected loadOptions()
     {
-        this.selectOptions = this._optionsGatherer.options;
+        this.selectOptions = this._optionsGatherer.availableOptions;
         this._changeDetector.detectChanges();
     }
 

@@ -1,6 +1,6 @@
 import {InjectionToken, EventEmitter} from "@angular/core";
 
-import {PluginOptions, NgSelectPlugin, OptionsGatherer} from "../../misc";
+import {PluginOptions, NgSelectPlugin, OptionsGatherer, CompareValueFunc} from "../../misc";
 import {NgSelectOption} from "../../components/option";
 
 /**
@@ -35,17 +35,33 @@ export interface ValueHandler<TValue> extends NgSelectPlugin
     optionsGatherer: OptionsGatherer<TValue>;
 
     /**
-     * Current value of NgSelect
+     * Function of value comparer that is used for comparison of values
      */
-    readonly value: NgSelectOption<TValue>|NgSelectOption<TValue>[];
+    valueComparer: CompareValueFunc<TValue>;
+
+    /**
+     * Current selected options of NgSelect
+     */
+    readonly selectedOptions: NgSelectOption<TValue>|NgSelectOption<TValue>[];
+
+    /**
+     * Current selected value of NgSelect
+     */
+    readonly value: TValue|TValue[];
 
     /**
      * Occurs when value of NgSelect changes
      */
-    readonly valueChange: EventEmitter<TValue|TValue[]>;
+    readonly valueChange: EventEmitter<void>;
 
     /**
      * Occurs when there is requested for change of visibility of popup using keyboard
      */
     readonly popupVisibilityRequest: EventEmitter<boolean>;
+
+    /**
+     * Sets value for NgSelect
+     * @param value Value to be set
+     */
+    setValue(value:TValue|TValue[]): void;
 }

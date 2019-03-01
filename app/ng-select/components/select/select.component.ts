@@ -6,10 +6,10 @@ import {NgSelectOptions, NG_SELECT_OPTIONS, KEYBOARD_HANDLER_TYPE, NORMAL_STATE_
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelect, NgSelectPluginInstances, NgSelectAction, NgSelectFunction} from "./select.interface";
 import {KeyboardHandler, KEYBOARD_HANDLER, BasicKeyboardHandlerComponent} from "../../plugins/keyboardHandler";
 import {NormalState, NORMAL_STATE, BasicNormalStateComponent} from "../../plugins/normalState";
-import {Popup, POPUP, BasicPopupComponent} from "../../plugins/popup";
+import {Popup, POPUP, BasicPopupComponent, PopupOptions} from "../../plugins/popup";
 import {Positioner, POSITIONER, BasicPositionerComponent} from "../../plugins/positioner";
 import {ReadonlyState, READONLY_STATE, ReadonlyStateOptions} from "../../plugins/readonlyState";
-import {ValueHandler, VALUE_HANDLER, BasicValueHandlerComponent} from "../../plugins/valueHandler";
+import {ValueHandler, VALUE_HANDLER, BasicValueHandlerComponent, ValueHandlerOptions} from "../../plugins/valueHandler";
 import {LiveSearch, LIVE_SEARCH, NoLiveSearchComponent} from "../../plugins/liveSearch";
 import {TextsLocator, TEXTS_LOCATOR, NoTextsLocatorComponent} from "../../plugins/textsLocator";
 import {OptionComponent, NgSelectOption, OptGroupComponent, NgSelectOptGroup} from "../option";
@@ -21,6 +21,10 @@ import {OptionComponent, NgSelectOption, OptGroupComponent, NgSelectOptGroup} fr
 const defaultOptions: NgSelectOptions<any> =
 {
     autoInitialize: true,
+    valueComparer: (source, target) =>
+    {
+        return source == target;
+    },
     cssClasses: 
     {
     },
@@ -292,9 +296,11 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
                 @Inject(LIVE_SEARCH_TYPE) @Optional() liveSearchType?: Type<LiveSearch>,
                 @Inject(TEXTS_LOCATOR) @Optional() textsLocatorType?: Type<TextsLocator>,
                 @Attribute('readonly') readonly?: string,
-                @Attribute('disabled') disabled?: string)
+                @Attribute('disabled') disabled?: string,
+                @Attribute('multiple') multiple?: string)
     {
         let readonlyDefault = false;
+        let multipleDefault = isPresent(multiple);
 
         //at least on of following is present (value is not important)
         if(isPresent(readonly) || isPresent(disabled))
@@ -389,7 +395,31 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
             opts.plugins.textsLocator.type = textsLocatorType;
         }
 
-        this._selectOptions = extend(true, {optionsGatherer: this, readonly: readonlyDefault}, defaultOptions, opts);
+        this._selectOptions = extend(true, 
+                                     <NgSelectOptions<TValue>>
+                                     {
+                                         optionsGatherer: this, 
+                                         readonly: readonlyDefault,
+                                         plugins:
+                                         {
+                                             popup:
+                                             {
+                                                 options: <PopupOptions<any>>
+                                                 {
+                                                     multiple: multipleDefault
+                                                 }
+                                             },
+                                             valueHandler:
+                                             {
+                                                 options: <ValueHandlerOptions>
+                                                 {
+                                                     multiple: multipleDefault
+                                                 }
+                                             }
+                                         }
+                                     }, 
+                                     defaultOptions, 
+                                     opts);
     }
 
     //######################### public methods - implementation of OnChanges #########################
@@ -662,6 +692,8 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
             valueHandler.options = this._selectOptions.plugins.valueHandler.options;
         }
 
+        valueHandler.valueComparer = this.selectOptions.valueComparer;
+        valueHandler.optionsGatherer = this.selectOptions.optionsGatherer;
         valueHandler.initOptions();
         
         if(this._selectOptions.plugins && this._selectOptions.plugins.valueHandler && this._selectOptions.plugins.valueHandler.instanceCallback)
@@ -847,6 +879,9 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
                         this._pluginInstances[VALUE_HANDLER].options = this._selectOptions.plugins.valueHandler.options;
                     }
 
+                    let valueHandler = this._pluginInstances[VALUE_HANDLER] as ValueHandler<TValue>;
+
+                    valueHandler.valueComparer = this.selectOptions.valueComparer;
                     this._pluginInstances[VALUE_HANDLER].initOptions();
                 }
             }
