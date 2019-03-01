@@ -183,11 +183,6 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
     public visibilityChange: EventEmitter<void> = new EventEmitter<void>();
 
     /**
-     * Array of available options currently displayed
-     */
-    public availableOptions: NgSelectOption<any>[];
-
-    /**
      * Html element that represents popup itself
      */
     public get popupElement(): HTMLElement

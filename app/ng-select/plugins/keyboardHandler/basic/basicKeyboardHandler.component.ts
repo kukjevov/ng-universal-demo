@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef, OnDest
 import {extend} from '@asseco/common';
 
 import {BasicKeyboardHandlerOptions, BasicKeyboardHandler} from './basicKeyboardHandler.interface';
-import {NgSelectPluginGeneric} from '../../../misc';
+import {NgSelectPluginGeneric, OptionsGatherer} from '../../../misc';
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../components/select';
 import {KEYBOARD_HANDLER_OPTIONS} from '../keyboardHandler.interface';
 import {ɵNgSelectOption, NgSelectOption} from '../../../components/option';
@@ -46,7 +46,7 @@ export class BasicKeyboardHandlerComponent implements BasicKeyboardHandler, NgSe
      */
     protected get availableOptions(): ɵNgSelectOption<any>[]
     {
-        return this._popup.availableOptions;
+        return this.optionsGatherer.availableOptions;
     }
 
     //######################### public properties - implementation of BasicKeyboardHandler #########################
@@ -67,6 +67,11 @@ export class BasicKeyboardHandlerComponent implements BasicKeyboardHandler, NgSe
      * HTML element that represents select itself
      */
     public selectElement: HTMLElement;
+
+    /**
+     * Instance of options gatherer, that is used for obtaining available options
+     */
+    public optionsGatherer: OptionsGatherer<any>;
 
     /**
      * Occurs when there is requested for change of visibility of popup using keyboard

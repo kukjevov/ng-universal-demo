@@ -63,11 +63,6 @@ export interface Popup extends NgSelectPlugin
      * Html element that represents popup itself
      */
     readonly popupElement: HTMLElement;
-
-    /**
-     * Array of available options currently displayed
-     */
-    readonly availableOptions: NgSelectOption<any>[];
 }
 
 /**

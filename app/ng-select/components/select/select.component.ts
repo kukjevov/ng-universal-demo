@@ -1,6 +1,6 @@
-import {Component, ChangeDetectionStrategy, FactoryProvider, Input, Inject, ChangeDetectorRef, Optional, Type, AfterViewInit, OnInit, ContentChildren, QueryList, EventEmitter, forwardRef, resolveForwardRef, ElementRef, OnChanges, SimpleChanges, Attribute} from "@angular/core";
+import {Component, ChangeDetectionStrategy, FactoryProvider, Input, Inject, ChangeDetectorRef, Optional, Type, AfterViewInit, OnInit, ContentChildren, QueryList, EventEmitter, forwardRef, resolveForwardRef, ElementRef, OnChanges, SimpleChanges, Attribute, OnDestroy} from "@angular/core";
 import {extend, nameof, isBoolean, isPresent} from "@asseco/common";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, Subscription} from "rxjs";
 
 import {NgSelectOptions, NG_SELECT_OPTIONS, KEYBOARD_HANDLER_TYPE, NORMAL_STATE_TYPE, POPUP_TYPE, POSITIONER_TYPE, READONLY_STATE_TYPE, VALUE_HANDLER_TYPE, LIVE_SEARCH_TYPE, NgSelectPlugin, OptionsGatherer, PluginDescription} from "../../misc";
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelect, NgSelectPluginInstances, NgSelectAction, NgSelectFunction} from "./select.interface";
@@ -95,7 +95,7 @@ export function ngSelectPluginInstancesFactory()
         }`
     ]
 })
-export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, OnInit, AfterViewInit, OptionsGatherer<TValue>
+export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, OnInit, AfterViewInit, OnDestroy, OptionsGatherer<TValue>
 {
     //######################### protected fields #########################
 
@@ -115,9 +115,29 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
     protected _optionsChange: EventEmitter<void> = new EventEmitter<void>();
 
     /**
+     * Occurs when array of visible, displayed options has changed
+     */
+    protected _availableOptionsChange: EventEmitter<void> = new EventEmitter<void>();
+
+    /**
      * Instance of last options gatherer
      */
     protected _lastOptionsGatherer: OptionsGatherer<TValue>;
+
+    /**
+     * Array of available options to be displayed
+     */
+    protected _availableOptions: NgSelectOption<TValue>[] = [];
+
+    /**
+     * Live search plugin currently used in NgSelect
+     */
+    protected _liveSearch: LiveSearch;
+
+    /**
+     * Subscription for changes of live search value
+     */
+    protected _searchValueChangeSubscription: Subscription;
 
     //######################### public properties - inputs #########################
 
@@ -177,10 +197,60 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
     }
 
     /**
+     * Array of visible, displayed options for select
+     */
+    public get availableOptions(): NgSelectOption<TValue>[]
+    {
+        return this._availableOptions;
+    }
+
+    /**
+     * Occurs when array of visible, displayed options has changed
+     */
+    public get availableOptionsChange(): EventEmitter<void>
+    {
+        return this._availableOptionsChange;
+    }
+
+    /**
      * NgSelect plugin instances available for gatherer
      * @internal
      */
     public ngSelectPlugins: NgSelectPluginInstances;
+
+    /**
+     * Initialize gatherer during initialization phase
+     */
+    public initializeGatherer(): void
+    {
+        let liveSearch = this._pluginInstances[LIVE_SEARCH] as LiveSearch;
+
+        if(this._liveSearch && this._liveSearch != liveSearch)
+        {
+            this._searchValueChangeSubscription.unsubscribe();
+            this._searchValueChangeSubscription = null;
+
+            this._liveSearch = null;
+        }
+
+        if(!this._liveSearch)
+        {
+            this._liveSearch = liveSearch;
+
+            this._searchValueChangeSubscription = this._liveSearch.searchValueChange.subscribe(() => 
+            {
+                if(!this._liveSearch.searchValue)
+                {
+                    this._availableOptions = this.options;
+                    this._availableOptionsChange.emit();
+
+                    return;
+                }
+
+                //TODO - add mapping method for filtering
+            });
+        }
+    }
 
     //######################### public properties - template bindings #########################
 
@@ -369,14 +439,32 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
      */
     public ngAfterViewInit()
     {
+        this._availableOptions = this.options;
+
         this.optionsChildren.changes.subscribe(() =>
         {
+            this._availableOptions = this.options;
             this._optionsChange.emit();
+            this._availableOptionsChange.emit();
         });
 
         if(this._selectOptions.autoInitialize)
         {
             this.initialize();
+        }
+    }
+
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy()
+    {
+        if(this._searchValueChangeSubscription)
+        {
+            this._searchValueChangeSubscription.unsubscribe();
+            this._searchValueChangeSubscription = null;
         }
     }
 
@@ -429,6 +517,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
         }
 
         keyboardHandler.selectElement = this._element.nativeElement;
+        keyboardHandler.optionsGatherer = this.selectOptions.optionsGatherer;
         keyboardHandler.initOptions();
         
         if(this._selectOptions.plugins && this._selectOptions.plugins.keyboardHandler && this._selectOptions.plugins.keyboardHandler.instanceCallback)
@@ -615,6 +704,8 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
      */
     public initialize()
     {
+        this.selectOptions.optionsGatherer.initializeGatherer();
+
         this._pluginInstances[LIVE_SEARCH].initialize();
 
         let liveSearchPlugin = this._pluginInstances[LIVE_SEARCH] as LiveSearch;
@@ -684,6 +775,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
 
                     let keyboardHandler = this._pluginInstances[KEYBOARD_HANDLER] as KeyboardHandler;
                     keyboardHandler.selectElement = this._element.nativeElement;
+                    keyboardHandler.optionsGatherer = this.selectOptions.optionsGatherer;
 
                     this._pluginInstances[KEYBOARD_HANDLER].initOptions();
                 }

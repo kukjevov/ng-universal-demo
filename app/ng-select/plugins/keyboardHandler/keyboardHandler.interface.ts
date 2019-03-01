@@ -1,6 +1,6 @@
 import {InjectionToken, EventEmitter} from "@angular/core";
 
-import {PluginOptions, NgSelectPlugin} from "../../misc";
+import {PluginOptions, NgSelectPlugin, OptionsGatherer} from "../../misc";
 import {NgSelectOption} from "../../components/option";
 
 /**
@@ -29,6 +29,11 @@ export interface KeyboardHandler extends NgSelectPlugin
      * HTML element that represents select itself
      */
     selectElement: HTMLElement;
+
+    /**
+     * Instance of options gatherer, that is used for obtaining available options
+     */
+    optionsGatherer: OptionsGatherer<any>;
 
     /**
      * Occurs when there is requested for change of visibility of popup using keyboard

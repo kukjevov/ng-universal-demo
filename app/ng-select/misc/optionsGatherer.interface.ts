@@ -11,7 +11,7 @@ export interface OptionsGatherer<TValue>
     /**
      * Array of provided options for select
      */
-    readonly options?: NgSelectOption<TValue>[];
+    readonly options: NgSelectOption<TValue>[];
 
     /**
      * Occurs when array of provided options has changed
@@ -19,7 +19,22 @@ export interface OptionsGatherer<TValue>
     readonly optionsChange: EventEmitter<void>;
 
     /**
+     * Array of visible, displayed options for select
+     */
+    readonly availableOptions: NgSelectOption<TValue>[];
+
+    /**
+     * Occurs when array of visible, displayed options has changed
+     */
+    readonly availableOptionsChange: EventEmitter<void>;
+
+    /**
      * NgSelect plugin instances available for gatherer
      */
     ngSelectPlugins: NgSelectPluginInstances;
+
+    /**
+     * Initialize gatherer during initialization phase
+     */
+    initializeGatherer(): void;
 }
