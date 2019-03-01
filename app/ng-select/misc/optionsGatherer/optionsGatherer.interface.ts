@@ -1,7 +1,7 @@
 import {EventEmitter} from "@angular/core";
 
-import {NgSelectOption} from "../components/option/option.interface";
-import {NgSelectPluginInstances} from "../components/select";
+import {NgSelectOption} from "../../components/option/option.interface";
+import {NgSelectPluginInstances} from "../../components/select";
 
 /**
  * Gatherer used for obtaining options for select
@@ -37,4 +37,9 @@ export interface OptionsGatherer<TValue>
      * Initialize gatherer during initialization phase
      */
     initializeGatherer(): void;
+
+    /**
+     * Called when gatherer needs to be destroyed
+     */
+    destroyGatherer(): void;
 }

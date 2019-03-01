@@ -9,7 +9,7 @@ import {ReadonlyState} from "../plugins/readonlyState";
 import {ValueHandler} from "../plugins/valueHandler";
 import {LiveSearch} from "../plugins/liveSearch";
 import {TextsLocator} from "../plugins/textsLocator";
-import {OptionsGatherer} from "./optionsGatherer.interface";
+import {OptionsGatherer} from "./optionsGatherer/optionsGatherer.interface";
 import {TemplateGatherer} from "./templateGatherer.interface";
 
 /**
@@ -56,19 +56,6 @@ export const LIVE_SEARCH_TYPE: InjectionToken<Type<LiveSearch>> = new InjectionT
  * Injection token for 'TextsLocator' implementation
  */
 export const TEXTS_LOCATOR_TYPE: InjectionToken<Type<TextsLocator>> = new InjectionToken<Type<TextsLocator>>('TEXTS_LOCATOR_TYPE');
-
-// /**
-//  * Callback used for obtaining options
-//  */
-// export interface GetOptionsCallback<TValue>
-// {
-//     /**
-//      * Gets array of options based on query
-//      * @param query Query for obtaining options
-//      * @param options All available options
-//      */
-//     (query: string|TValue, options?: Array<OptionComponent<TValue>>): Promise<Array<OptionComponent<TValue>>>;
-// }
 
 /**
  * Function used for comparing two values

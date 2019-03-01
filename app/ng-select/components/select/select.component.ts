@@ -245,42 +245,6 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
      */
     public ngSelectPlugins: NgSelectPluginInstances;
 
-    /**
-     * Initialize gatherer during initialization phase
-     * @internal
-     */
-    public initializeGatherer(): void
-    {
-        let liveSearch = this._pluginInstances[LIVE_SEARCH] as LiveSearch;
-
-        if(this._liveSearch && this._liveSearch != liveSearch)
-        {
-            this._searchValueChangeSubscription.unsubscribe();
-            this._searchValueChangeSubscription = null;
-
-            this._liveSearch = null;
-        }
-
-        if(!this._liveSearch)
-        {
-            this._liveSearch = liveSearch;
-
-            this._searchValueChangeSubscription = this._liveSearch.searchValueChange.subscribe(() =>
-            {
-                if(!this._liveSearch.searchValue)
-                {
-                    this._availableOptions = this.options;
-                    this._availableOptionsChange.emit();
-
-                    return;
-                }
-
-                this._availableOptions = this.options.filter(itm => itm.text.indexOf(this._liveSearch.searchValue) >= 0);
-                this._availableOptionsChange.emit();
-            });
-        }
-    }
-
     //######################### public properties - template bindings #########################
 
     /**
@@ -516,6 +480,58 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
             this._searchValueChangeSubscription.unsubscribe();
             this._searchValueChangeSubscription = null;
         }
+
+        if(this.selectOptions.optionsGatherer)
+        {
+            this.selectOptions.optionsGatherer.destroyGatherer();
+        }
+    }
+
+    //######################### public methods - implementation of OptionsGatherer #########################
+
+    /**
+     * Initialize gatherer during initialization phase
+     * @internal
+     */
+    public initializeGatherer(): void
+    {
+        let liveSearch = this._pluginInstances[LIVE_SEARCH] as LiveSearch;
+
+        if(this._liveSearch && this._liveSearch != liveSearch)
+        {
+            this._searchValueChangeSubscription.unsubscribe();
+            this._searchValueChangeSubscription = null;
+
+            this._liveSearch = null;
+        }
+
+        if(!this._liveSearch)
+        {
+            this._liveSearch = liveSearch;
+
+            this._searchValueChangeSubscription = this._liveSearch.searchValueChange.subscribe(() =>
+            {
+                if(!this._liveSearch.searchValue)
+                {
+                    this._availableOptions = this.options;
+                    this._availableOptionsChange.emit();
+
+                    return;
+                }
+
+                //TODO - make option from callback
+                this._availableOptions = this.options.filter(itm => itm.text.indexOf(this._liveSearch.searchValue) >= 0);
+                this._availableOptionsChange.emit();
+            });
+        }
+    }
+
+    /**
+     * Called when gatherer needs to be destroyed
+     * @internal
+     */
+    public destroyGatherer(): void
+    {
     }
 
     //######################### public methods - template bindings #########################
