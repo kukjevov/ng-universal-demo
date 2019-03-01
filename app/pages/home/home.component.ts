@@ -9,6 +9,7 @@ import {map} from 'rxjs/operators';
 
 import {DataService} from "../../services/api/data/data.service";
 import {BaseAnimatedComponent} from "../../misc/baseAnimatedComponent";
+import {NgSelectOptions, BasicLiveSearchComponent} from '../../ng-select';
 
 /**
  * Home component
@@ -51,6 +52,8 @@ export class HomeComponent extends BaseAnimatedComponent implements OnInit
     public subs: string;
     public show: boolean = false;
     public counter = 0;
+
+    public selectOptions: NgSelectOptions<any>;
 
     public treeOptions: Fancytree.FancytreeOptions =
     {
@@ -110,6 +113,17 @@ export class HomeComponent extends BaseAnimatedComponent implements OnInit
         super();
 
         this.ngSelect = formBuilder.control('third');
+
+        this.selectOptions =
+        {
+            plugins:
+            {
+                liveSearch:
+                {
+                    type: BasicLiveSearchComponent
+                }
+            }
+        };
     }
 
     //######################### public methods #########################

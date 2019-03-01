@@ -252,6 +252,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
                 }
 
                 this._availableOptions = this.options.filter(itm => itm.text.indexOf(this._liveSearch.searchValue) >= 0);
+                this._availableOptionsChange.emit();
             });
         }
     }

@@ -12,7 +12,6 @@ import {NormalState, NORMAL_STATE} from '../../normalState';
 import {Positioner, POSITIONER} from '../../positioner';
 import {KeyboardHandler, KEYBOARD_HANDLER} from '../../keyboardHandler';
 import {ValueHandler, VALUE_HANDLER} from '../../valueHandler';
-import {LiveSearch, LIVE_SEARCH} from '../../liveSearch';
 
 /**
  * Default options for popup
@@ -123,11 +122,6 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
     protected _vhPopupVisibilityRequestSubscription: Subscription;
 
     /**
-     * Subscription for live search changes
-     */
-    protected _searchValueChangeSubscription: Subscription;
-
-    /**
      * Normal state that is displayed
      */
     protected _normalState: NormalState;
@@ -136,11 +130,6 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
      * Keyboard handler that is used
      */
     protected _keyboardHandler: KeyboardHandler;
-
-    /**
-     * Live search that is used
-     */
-    protected _liveSearch: LiveSearch;
 
     /**
      * Value handler that is used
@@ -283,12 +272,6 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
             this._vhPopupVisibilityRequestSubscription.unsubscribe();
             this._vhPopupVisibilityRequestSubscription = null;
         }
-
-        if(this._searchValueChangeSubscription)
-        {
-            this._searchValueChangeSubscription.unsubscribe();
-            this._searchValueChangeSubscription = null;
-        }
     }
 
     //######################### public methods - implementation of BasicPopup #########################
@@ -374,23 +357,6 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
             this._valueHandler = valueHandler;
 
             this._vhPopupVisibilityRequestSubscription = this._valueHandler.popupVisibilityRequest.subscribe(this._handleVisibilityChange);
-        }
-
-        let liveSearch = this.ngSelectPlugins[LIVE_SEARCH] as LiveSearch;
-
-        if(this._liveSearch && this._liveSearch != liveSearch)
-        {
-            this._searchValueChangeSubscription.unsubscribe();
-            this._searchValueChangeSubscription = null;
-
-            this._liveSearch = null;
-        }
-
-        if(!this._liveSearch)
-        {
-            this._liveSearch = liveSearch;
-
-            this._searchValueChangeSubscription = this._liveSearch.searchValueChange.subscribe(() => console.log('search'));
         }
 
         this.loadOptions();
