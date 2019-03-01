@@ -87,6 +87,9 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
         {
             if(initialized)
             {
+                this._initializedSubscription.unsubscribe();
+                this._initializedSubscription = null;
+                
                 this._select.execute(setValue(value));
             }
         });
@@ -155,6 +158,9 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
         {
             if(initialized)
             {
+                this._disabledInitializedSubscription.unsubscribe();
+                this._disabledInitializedSubscription = null;
+
                 this._select.execute(setReadonly(isDisabled));
             }
         });
