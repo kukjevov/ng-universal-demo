@@ -271,7 +271,18 @@ export class BasicValueHandlerComponent<TValue> implements BasicValueHandler<TVa
             }
             else
             {
-                this.selectedOptions.push(option);
+                let index: number;
+
+                //value exists, removing from list
+                if((index = this.selectedOptions.indexOf(option)) >= 0)
+                {
+                    this.selectedOptions.splice(index, 1);
+                }
+                //adding value
+                else
+                {
+                    this.selectedOptions.push(option);
+                }
             }
         }
         else
