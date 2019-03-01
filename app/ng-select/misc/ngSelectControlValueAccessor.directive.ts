@@ -3,7 +3,7 @@ import {forwardRef, ExistingProvider, Directive, OnDestroy} from '@angular/core'
 import {Subscription} from 'rxjs';
 
 import {NgSelectComponent} from '../components/select';
-import {valueChange, setValue} from '../extensions';
+import {valueChange, setValue, onFocus, setReadonly} from '../extensions';
 
 /**
  * Provider for control value accessor
@@ -29,9 +29,34 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
     //######################### private fields #########################
 
     /**
+     * Subscription for initialized status of NgSelect, used for writeValue
+     */
+    private _initializedSubscription: Subscription;
+
+    /**
+     * Subscription for initialized status of NgSelect, used for registerOnChange
+     */
+    private _changeInitializedSubscription: Subscription;
+
+    /**
+     * Subscription for initialized status of NgSelect, used for registerOnTouched
+     */
+    private _touchInitializedSubscription: Subscription;
+
+    /**
+     * Subscription for initialized status of NgSelect, used for setDisabledState
+     */
+    private _disabledInitializedSubscription: Subscription;
+
+    /**
      * Subscription that looks for changes of select
      */
     private _changeSubscription: Subscription = null;
+
+    /**
+     * Subscription that looks for changes of select
+     */
+    private _focusSubscription: Subscription = null;
 
     //######################### constructor #########################
     constructor(private _select: NgSelectComponent<TValue>)
@@ -45,7 +70,20 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
      */
     public writeValue(value: TValue|Array<TValue>): void
     {
-        this._select.initialized.subscribe(initialized =>
+        if(this._select.isInitialized)
+        {
+            this._select.execute(setValue(value));
+
+            return;
+        }
+
+        if(this._initializedSubscription)
+        {
+            this._initializedSubscription.unsubscribe();
+            this._initializedSubscription = null;
+        }
+
+        this._initializedSubscription = this._select.initialized.subscribe(initialized =>
         {
             if(initialized)
             {
@@ -59,7 +97,7 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
      */
     public registerOnChange(fn: (data: TValue|Array<TValue>) => void): void
     {
-        this._select.initialized.subscribe(initialized =>
+        this._changeInitializedSubscription = this._select.initialized.subscribe(initialized =>
         {
             if(initialized)
             {
@@ -69,11 +107,7 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
                     this._changeSubscription = null;
                 }
 
-                this._changeSubscription = this._select.executeAndReturn(valueChange(value =>
-                {
-                    // this._lastValue = this._select.value;
-                    fn(value);
-                }));
+                this._changeSubscription = this._select.executeAndReturn(valueChange(fn));
             }
         });
     }
@@ -81,8 +115,49 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
     /**
      * Registers callback that is called when select is closed
      */
-    public registerOnTouched(): void
+    public registerOnTouched(fn: () => void): void
     {
+        this._touchInitializedSubscription = this._select.initialized.subscribe(initialized =>
+        {
+            if(initialized)
+            {
+                if(this._focusSubscription)
+                {
+                    this._focusSubscription.unsubscribe();
+                    this._focusSubscription = null;
+                }
+
+                this._focusSubscription = this._select.executeAndReturn(onFocus(fn));
+            }
+        });
+    }
+
+    /**
+     * Sets NgSelect as disabled/readonly
+     * @param isDisabled Indication whether is control disabled or not
+     */
+    public setDisabledState(isDisabled: boolean): void 
+    {
+        if(this._select.isInitialized)
+        {
+            this._select.execute(setReadonly(isDisabled));
+
+            return;
+        }
+
+        if(this._disabledInitializedSubscription)
+        {
+            this._disabledInitializedSubscription.unsubscribe();
+            this._disabledInitializedSubscription = null;
+        }
+
+        this._disabledInitializedSubscription = this._select.initialized.subscribe(initialized =>
+        {
+            if(initialized)
+            {
+                this._select.execute(setReadonly(isDisabled));
+            }
+        });
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -96,6 +171,36 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
         {
             this._changeSubscription.unsubscribe();
             this._changeSubscription = null;
+        }
+
+        if(this._initializedSubscription)
+        {
+            this._initializedSubscription.unsubscribe();
+            this._initializedSubscription = null;
+        }
+
+        if(this._changeInitializedSubscription)
+        {
+            this._changeInitializedSubscription.unsubscribe();
+            this._changeInitializedSubscription = null;
+        }
+
+        if(this._touchInitializedSubscription)
+        {
+            this._touchInitializedSubscription.unsubscribe();
+            this._touchInitializedSubscription = null;
+        }
+
+        if(this._focusSubscription)
+        {
+            this._focusSubscription.unsubscribe();
+            this._focusSubscription = null;
+        }
+
+        if(this._disabledInitializedSubscription)
+        {
+            this._disabledInitializedSubscription.unsubscribe();
+            this._disabledInitializedSubscription = null;
         }
     }
 }

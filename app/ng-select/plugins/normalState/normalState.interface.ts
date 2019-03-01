@@ -53,6 +53,11 @@ export interface NormalState extends NgSelectPlugin
      * Occurs when user clicks on normal state
      */
     readonly click: EventEmitter<void>;
+
+    /**
+     * Occurs when normal state gains focus
+     */
+    readonly focus: EventEmitter<void>;
 }
 
 /**

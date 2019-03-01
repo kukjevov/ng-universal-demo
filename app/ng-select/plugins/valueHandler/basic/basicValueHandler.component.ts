@@ -387,6 +387,8 @@ export class BasicValueHandlerComponent<TValue> implements BasicValueHandler<TVa
             }
         }
 
+        this._clearSelected();
+        this._markValueAsSelected();
         this._unmappedValue = null;
         this._normalState.invalidateVisuals();
     }

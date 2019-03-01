@@ -90,6 +90,11 @@ export class BasicNormalStateComponent implements BasicNormalState, NgSelectPlug
      */
     public click: EventEmitter<void> = new EventEmitter<void>();
 
+    /**
+     * Occurs when normal state gains focus
+     */
+    public focus: EventEmitter<void> = new EventEmitter<void>();
+
     //######################### public properties - template bindings #########################
 
     /**

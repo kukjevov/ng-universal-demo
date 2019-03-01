@@ -180,6 +180,11 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
         return this._initializedSubject.asObservable();
     }
 
+    /**
+     * Gets current state of initialization
+     */
+    public isInitialized: boolean = false;
+
     //######################### public properties - implementation of OptionsGatherer #########################
     
     /**
@@ -753,6 +758,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
         this._pluginInstances[NORMAL_STATE].initialize();
         this._pluginInstances[POPUP].initialize();
 
+        this.isInitialized = true;
         this._initializedSubject.next(true);
     }
 

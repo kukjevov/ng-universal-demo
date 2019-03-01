@@ -27,6 +27,11 @@ export interface NgSelect<TValue>
     readonly initialized: Observable<boolean>;
 
     /**
+     * Gets current state of initialization
+     */
+    readonly isInitialized: boolean;
+
+    /**
      * Gets or sets NgSelect options
      */
     selectOptions: NgSelectOptions<TValue>;
