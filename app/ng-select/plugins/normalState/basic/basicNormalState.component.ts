@@ -43,6 +43,11 @@ const defaultOptions: BasicNormalStateOptions =
              display: flex;
              width: 100%;
              padding: 4px 0px 4px 4px;
+             background-color: #ffffff;
+             background-image: none;
+             border: 1px solid #cccccc;
+             border-radius: 4px;
+             box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
          }
        
          button.btn-select .selected-value

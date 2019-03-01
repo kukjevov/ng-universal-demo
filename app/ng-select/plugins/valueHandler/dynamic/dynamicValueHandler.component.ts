@@ -4,7 +4,7 @@ import {extend} from '@asseco/common';
 import {DynamicValueHandlerOptions, DynamicValueHandler} from './dynamicValueHandler.interface';
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../components/select';
 import {VALUE_HANDLER_OPTIONS} from '../valueHandler.interface';
-import {ɵNgSelectOption, } from '../../../components/option';
+import {ɵNgSelectOption} from '../../../components/option';
 import {ValueHandlerBase} from '../valueHandlerBase';
 
 /**

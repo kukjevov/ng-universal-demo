@@ -48,11 +48,13 @@ const defaultOptions: BasicPopupOptions =
             border: 1px solid #BBBBBB;
             overflow: auto;
             min-width: 100%;
+            padding: 5px 0;
+            box-shadow: 0 6px 12px rgba(0,0,0,.175);
         }
 
         .option-item
         {
-            padding: 3px 6px;
+            padding: 3px 12px;
             display: flex;
             align-items: center;
         }
@@ -77,12 +79,14 @@ const defaultOptions: BasicPopupOptions =
         .option-item.selected,
         .option-item.active
         {
-            background-color: #BBBBBB;
+            background-color: #E8E8E8;
+            background-image: linear-gradient(to bottom,#F5F5F5 0,#E8E8E8 100%);
         }
 
         .option-item:hover
         {
-            background-color: #E0E0E0;
+            background-color: #E8E8E8;
+            background-image: linear-gradient(to bottom,#F5F5F5 0,#E8E8E8 100%);
             cursor: pointer;
         }`
     ]
