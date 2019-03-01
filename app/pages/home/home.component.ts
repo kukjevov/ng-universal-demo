@@ -123,6 +123,7 @@ export class HomeComponent extends BaseAnimatedComponent implements OnInit
                     type: BasicLiveSearchComponent
                 }
             }
+            // optionsGatherer: new DynamicOptionsGatherer({dynamicOptionsCallback: () => Promise.resolve([])})
         };
     }
 
