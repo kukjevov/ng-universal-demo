@@ -3,7 +3,7 @@ import {forwardRef, ExistingProvider, Directive, OnDestroy} from '@angular/core'
 import {Subscription} from 'rxjs';
 
 import {NgSelectComponent} from '../components/select';
-import {valueChange} from '../extensions';
+import {valueChange, setValue} from '../extensions';
 
 /**
  * Provider for control value accessor
@@ -33,27 +33,9 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
      */
     private _changeSubscription: Subscription = null;
 
-    /**
-     * Subscription for last value request
-     */
-    private _lastValueRequestSubscription: Subscription = null;
-
-    /**
-     * Last set value to this control
-     */
-    private _lastValue: TValue|Array<TValue>;
-
     //######################### constructor #########################
     constructor(private _select: NgSelectComponent<TValue>)
     {
-        console.log(this._lastValue);
-        // this._lastValueRequestSubscription = this._select
-        //     .optionsAndValueManager
-        //     .lastValueRequest
-        //     .subscribe(() =>
-        // {
-        //     this._select.optionsAndValueManager.setValue(this._lastValue, {noModelChange: true});
-        // });
     }
 
     //######################### public methods - implementation of ControlValueAccessor #########################
@@ -63,12 +45,13 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
      */
     public writeValue(value: TValue|Array<TValue>): void
     {
-        // this._lastValue = value;
-
-        // if(this._select.optionsAndValueManager.initialized)
-        // {
-        //     this._select.optionsAndValueManager.setValue(value, {noModelChange: true});
-        // }
+        this._select.initialized.subscribe(initialized =>
+        {
+            if(initialized)
+            {
+                this._select.execute(setValue(value));
+            }
+        });
     }
 
     /**
@@ -113,12 +96,6 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
         {
             this._changeSubscription.unsubscribe();
             this._changeSubscription = null;
-        }
-
-        if(this._lastValueRequestSubscription)
-        {
-            this._lastValueRequestSubscription.unsubscribe();
-            this._lastValueRequestSubscription = null;
         }
     }
 }
