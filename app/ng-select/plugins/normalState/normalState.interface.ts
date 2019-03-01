@@ -1,6 +1,6 @@
-import {InjectionToken, TemplateRef, EventEmitter} from "@angular/core";
+import {InjectionToken, EventEmitter} from "@angular/core";
 
-import {NgSelectPlugin, VisualPluginOptions} from "../../misc";
+import {NgSelectPlugin, VisualPluginOptions, TemplateGatherer} from "../../misc";
 
 /**
  * Constant used for accessing normal state plugin in NgSelect
@@ -34,11 +34,6 @@ export interface NormalStateOptions<TCssClasses> extends VisualPluginOptions<TCs
     texts?: NormalStateTexts;
 
     /**
-     * Template that is used within NormalState
-     */
-    template?: TemplateRef<NormalStateContext>;
-
-    /**
      * Indication whether NgSelect should be in readonly state
      */
     readonly?: boolean;
@@ -49,6 +44,11 @@ export interface NormalStateOptions<TCssClasses> extends VisualPluginOptions<TCs
  */
 export interface NormalState extends NgSelectPlugin
 {
+    /**
+     * Gatherer used for obtaining custom templates
+     */
+    templateGatherer: TemplateGatherer;
+
     /**
      * Occurs when user clicks on normal state
      */

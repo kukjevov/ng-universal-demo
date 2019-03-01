@@ -5,6 +5,20 @@ import {NormalState, NormalStateOptions} from "../normalState.interface";
  */
 export interface CssClassesBasicNormalState
 {
+    /**
+     * Applied to currently selected value, which is visible to user (default template)
+     */
+    selectedValue?: string;
+
+    /**
+     * Applied to "carret", indicating that it is select and there is more options available
+     */
+    selectedCarret?: string;
+
+    /**
+     * Applied to HTML element that represents normal default state visible to user
+     */
+    normalStateElement?: string;
 }
 
 /**

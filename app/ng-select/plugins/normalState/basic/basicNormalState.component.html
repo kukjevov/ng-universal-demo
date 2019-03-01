@@ -1,8 +1,8 @@
 <ng-template #defaultLook>
-    <span class="selected-value">{{valueHandler?.selectedOptions | ngSelectValue: texts?.nothingSelected}}</span>
-    <span class="selected-caret fa fa-caret-down"></span>
+    <span [ngClass]="options?.cssClasses?.selectedValue">{{valueHandler?.selectedOptions | ngSelectValue: texts?.nothingSelected}}</span>
+    <span [ngClass]="options?.cssClasses?.selectedCarret"></span>
 </ng-template>
 
-<button class="btn btn-select" (click)="click.emit()" (focus)="focus?.emit()" [disabled]="!!options?.readonly" type="button">
-    <ng-container *ngTemplateOutlet="options?.template || defaultLook; context: {$implicit: this}"></ng-container>
+<button [ngClass]="options?.cssClasses?.normalStateElement" (click)="click.emit()" (focus)="focus?.emit()" [disabled]="!!options?.readonly" type="button">
+    <ng-container *ngTemplateOutlet="templateGatherer?.normalStateTemplate || defaultLook; context: {$implicit: this}"></ng-container>
 </button>

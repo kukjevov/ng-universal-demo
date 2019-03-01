@@ -8,8 +8,9 @@ import {Positioner} from "../plugins/positioner";
 import {ReadonlyState} from "../plugins/readonlyState";
 import {ValueHandler} from "../plugins/valueHandler";
 import {LiveSearch} from "../plugins/liveSearch";
-import {OptionsGatherer} from "./optionsGatherer.interface";
 import {TextsLocator} from "../plugins/textsLocator";
+import {OptionsGatherer} from "./optionsGatherer.interface";
+import {TemplateGatherer} from "./templateGatherer.interface";
 
 /**
  * Injection token for 'NgSelectOptions'
@@ -106,6 +107,11 @@ export interface NgSelectOptions<TValue>
      * Instance of options gatherer that is used for obtaining options
      */
     optionsGatherer?: OptionsGatherer<TValue>;
+
+    /**
+     * Instance of template gatherer used for obtaining custom templates
+     */
+    templateGatherer?: TemplateGatherer;
 
     /**
      * Indication whether is NgSelect readonly or not

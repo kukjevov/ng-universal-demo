@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, EventEmitter, OnDestroy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef, EventEmitter, OnDestroy} from '@angular/core';
 import {extend} from '@asseco/common';
 import {Subscription} from 'rxjs';
 
@@ -134,7 +134,6 @@ export class BasicValueHandlerComponent<TValue> implements BasicValueHandler<TVa
     //######################### constructor #########################
     constructor(@Inject(NG_SELECT_PLUGIN_INSTANCES) @Optional() public ngSelectPlugins: NgSelectPluginInstances,
                 public pluginElement: ElementRef,
-                protected _changeDetector: ChangeDetectorRef,
                 @Inject(VALUE_HANDLER_OPTIONS) @Optional() options?: BasicValueHandlerOptions)
     {
         this._options = extend(true, {}, defaultOptions, options);

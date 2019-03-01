@@ -1,12 +1,12 @@
-import {Component, ChangeDetectionStrategy, FactoryProvider, Input, Inject, ChangeDetectorRef, Optional, Type, AfterViewInit, OnInit, ContentChildren, QueryList, EventEmitter, forwardRef, resolveForwardRef, ElementRef, OnChanges, SimpleChanges, Attribute, OnDestroy} from "@angular/core";
+import {Component, ChangeDetectionStrategy, FactoryProvider, Input, Inject, ChangeDetectorRef, Optional, Type, AfterViewInit, OnInit, ContentChildren, QueryList, EventEmitter, forwardRef, resolveForwardRef, ElementRef, OnChanges, SimpleChanges, Attribute, OnDestroy, TemplateRef, ContentChild} from "@angular/core";
 import {extend, nameof, isBoolean, isPresent} from "@asseco/common";
 import {BehaviorSubject, Observable, Subscription} from "rxjs";
 
-import {NgSelectOptions, NG_SELECT_OPTIONS, KEYBOARD_HANDLER_TYPE, NORMAL_STATE_TYPE, POPUP_TYPE, POSITIONER_TYPE, READONLY_STATE_TYPE, VALUE_HANDLER_TYPE, LIVE_SEARCH_TYPE, NgSelectPlugin, OptionsGatherer, PluginDescription} from "../../misc";
+import {NgSelectOptions, NG_SELECT_OPTIONS, KEYBOARD_HANDLER_TYPE, NORMAL_STATE_TYPE, POPUP_TYPE, POSITIONER_TYPE, READONLY_STATE_TYPE, VALUE_HANDLER_TYPE, LIVE_SEARCH_TYPE, NgSelectPlugin, OptionsGatherer, PluginDescription, TemplateGatherer} from "../../misc";
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelect, NgSelectPluginInstances, NgSelectAction, NgSelectFunction} from "./select.interface";
 import {KeyboardHandler, KEYBOARD_HANDLER, BasicKeyboardHandlerComponent} from "../../plugins/keyboardHandler";
-import {NormalState, NORMAL_STATE, BasicNormalStateComponent} from "../../plugins/normalState";
-import {Popup, POPUP, BasicPopupComponent, PopupOptions} from "../../plugins/popup";
+import {NormalState, NORMAL_STATE, BasicNormalStateComponent, NormalStateContext} from "../../plugins/normalState";
+import {Popup, POPUP, BasicPopupComponent, PopupOptions, PopupContext} from "../../plugins/popup";
 import {Positioner, POSITIONER, BasicPositionerComponent} from "../../plugins/positioner";
 import {ReadonlyState, READONLY_STATE, ReadonlyStateOptions} from "../../plugins/readonlyState";
 import {ValueHandler, VALUE_HANDLER, BasicValueHandlerComponent, ValueHandlerOptions} from "../../plugins/valueHandler";
@@ -25,7 +25,7 @@ const defaultOptions: NgSelectOptions<any> =
     {
         return source == target;
     },
-    cssClasses: 
+    cssClasses:
     {
     },
     plugins:
@@ -99,7 +99,7 @@ export function ngSelectPluginInstancesFactory()
         }`
     ]
 })
-export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, OnInit, AfterViewInit, OnDestroy, OptionsGatherer<TValue>
+export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, OnInit, AfterViewInit, OnDestroy, OptionsGatherer<TValue>, TemplateGatherer
 {
     //######################### protected fields #########################
 
@@ -185,8 +185,24 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
      */
     public isInitialized: boolean = false;
 
+    //######################### public properties - implementation of TemplateGatherer #########################
+
+    /**
+     * Template used within normal state
+     * @internal
+     */
+    @ContentChild('normalStateTemplate')
+    public normalStateTemplate: TemplateRef<NormalStateContext>;
+
+    /**
+     * Template that is used within Popup as option
+     * @internal
+     */
+    @ContentChild('optionTemplate')
+    public optionTemplate?: TemplateRef<PopupContext>;
+
     //######################### public properties - implementation of OptionsGatherer #########################
-    
+
     /**
      * Array of provided options for select
      * @internal
@@ -249,7 +265,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
         {
             this._liveSearch = liveSearch;
 
-            this._searchValueChangeSubscription = this._liveSearch.searchValueChange.subscribe(() => 
+            this._searchValueChangeSubscription = this._liveSearch.searchValueChange.subscribe(() =>
             {
                 if(!this._liveSearch.searchValue)
                 {
@@ -398,10 +414,11 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
             opts.plugins.textsLocator.type = textsLocatorType;
         }
 
-        this._selectOptions = extend(true, 
+        this._selectOptions = extend(true,
                                      <NgSelectOptions<TValue>>
                                      {
-                                         optionsGatherer: this, 
+                                         optionsGatherer: this,
+                                         templateGatherer: this,
                                          readonly: readonlyDefault,
                                          plugins:
                                          {
@@ -420,13 +437,13 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
                                                  }
                                              }
                                          }
-                                     }, 
-                                     defaultOptions, 
+                                     },
+                                     defaultOptions,
                                      opts);
     }
 
     //######################### public methods - implementation of OnChanges #########################
-    
+
     /**
      * Called when input value changes
      */
@@ -456,7 +473,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
     }
 
     //######################### public methods - implementation of OnInit #########################
-    
+
     /**
      * Initialize component
      */
@@ -466,7 +483,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
     }
 
     //######################### public methods - implementation of AfterViewInit #########################
-    
+
     /**
      * Called when view was initialized
      */
@@ -488,7 +505,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
@@ -522,8 +539,9 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
             normalState.options = this._selectOptions.plugins.normalState.options;
         }
 
+        normalState.templateGatherer = this.selectOptions.templateGatherer;
         normalState.initOptions();
-        
+
         if(this._selectOptions.plugins && this._selectOptions.plugins.normalState && this._selectOptions.plugins.normalState.instanceCallback)
         {
             this._selectOptions.plugins.normalState.instanceCallback(normalState);
@@ -552,7 +570,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
         keyboardHandler.selectElement = this._element.nativeElement;
         keyboardHandler.optionsGatherer = this.selectOptions.optionsGatherer;
         keyboardHandler.initOptions();
-        
+
         if(this._selectOptions.plugins && this._selectOptions.plugins.keyboardHandler && this._selectOptions.plugins.keyboardHandler.instanceCallback)
         {
             this._selectOptions.plugins.keyboardHandler.instanceCallback(keyboardHandler);
@@ -580,8 +598,9 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
 
         popup.selectElement = this._element.nativeElement;
         popup.optionsGatherer = this.selectOptions.optionsGatherer;
+        popup.templateGatherer = this.selectOptions.templateGatherer;
         popup.initOptions();
-        
+
         if(this._selectOptions.plugins && this._selectOptions.plugins.popup && this._selectOptions.plugins.popup.instanceCallback)
         {
             this._selectOptions.plugins.popup.instanceCallback(popup);
@@ -609,7 +628,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
 
         positioner.selectElement = this._element.nativeElement;
         positioner.initOptions();
-        
+
         if(this._selectOptions.plugins && this._selectOptions.plugins.positioner && this._selectOptions.plugins.positioner.instanceCallback)
         {
             this._selectOptions.plugins.positioner.instanceCallback(positioner);
@@ -636,7 +655,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
         }
 
         textsLocator.initOptions();
-        
+
         if(this._selectOptions.plugins && this._selectOptions.plugins.textsLocator && this._selectOptions.plugins.textsLocator.instanceCallback)
         {
             this._selectOptions.plugins.textsLocator.instanceCallback(textsLocator);
@@ -653,7 +672,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
         if(!readonlyState)
         {
             this._pluginInstances[READONLY_STATE] = null;
-            
+
             return;
         }
 
@@ -669,7 +688,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
 
         options.readonly = true;
         readonlyState.initOptions();
-        
+
         if(this._selectOptions.plugins && this._selectOptions.plugins.readonlyState && this._selectOptions.plugins.readonlyState.instanceCallback)
         {
             this._selectOptions.plugins.readonlyState.instanceCallback(readonlyState);
@@ -698,7 +717,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
         valueHandler.valueComparer = this.selectOptions.valueComparer;
         valueHandler.optionsGatherer = this.selectOptions.optionsGatherer;
         valueHandler.initOptions();
-        
+
         if(this._selectOptions.plugins && this._selectOptions.plugins.valueHandler && this._selectOptions.plugins.valueHandler.instanceCallback)
         {
             this._selectOptions.plugins.valueHandler.instanceCallback(valueHandler);
@@ -725,7 +744,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
         }
 
         liveSearch.initOptions();
-        
+
         if(this._selectOptions.plugins && this._selectOptions.plugins.liveSearch && this._selectOptions.plugins.liveSearch.instanceCallback)
         {
             this._selectOptions.plugins.liveSearch.instanceCallback(liveSearch);
@@ -779,6 +798,9 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
                         this._pluginInstances[NORMAL_STATE].options = this._selectOptions.plugins.normalState.options;
                     }
 
+                    let normalState = this._pluginInstances[NORMAL_STATE] as NormalState;
+                    normalState.templateGatherer = this.selectOptions.templateGatherer;
+
                     this._pluginInstances[NORMAL_STATE].initOptions();
                 }
             }
@@ -831,6 +853,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
                     let popup = this._pluginInstances[POPUP] as Popup;
                     popup.selectElement = this._element.nativeElement;
                     popup.optionsGatherer = this.selectOptions.optionsGatherer;
+                    popup.templateGatherer = this.selectOptions.templateGatherer;
 
                     this._pluginInstances[POPUP].initOptions();
                 }

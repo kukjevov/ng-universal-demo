@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, EventEmitter, OnDestroy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef, EventEmitter, OnDestroy} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {extend} from '@asseco/common';
 import {Subscription} from 'rxjs';
@@ -85,7 +85,6 @@ export class BasicPositionerComponent implements BasicPositioner, NgSelectPlugin
     //######################### constructor #########################
     constructor(@Inject(NG_SELECT_PLUGIN_INSTANCES) @Optional() public ngSelectPlugins: NgSelectPluginInstances,
                 public pluginElement: ElementRef,
-                protected _changeDetector: ChangeDetectorRef,
                 @Inject(POSITIONER_OPTIONS) @Optional() options?: BasicPositionerOptions,
                 @Inject(DOCUMENT) protected _document?: HTMLDocument)
     {
@@ -148,7 +147,6 @@ export class BasicPositionerComponent implements BasicPositioner, NgSelectPlugin
      */
     public invalidateVisuals(): void
     {
-        this._changeDetector.detectChanges();
     }
 
     //######################### protected methods #########################

@@ -4,7 +4,7 @@ import {extend, isDescendant} from '@asseco/common';
 import {Subscription} from 'rxjs';
 
 import {BasicPopupOptions, BasicPopup} from './basicPopup.interface';
-import {NgSelectPluginGeneric, OptionsGatherer} from '../../../misc';
+import {NgSelectPluginGeneric, OptionsGatherer, TemplateGatherer} from '../../../misc';
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../components/select';
 import {POPUP_OPTIONS} from '../popup.interface';
 import {ɵNgSelectOption, NgSelectOption} from '../../../components/option';
@@ -154,6 +154,11 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
      * Instance of options gatherer, that is used for obtaining available options
      */
     public optionsGatherer: OptionsGatherer<any>;
+
+    /**
+     * Gatherer used for obtaining custom templates
+     */
+    public templateGatherer: TemplateGatherer;
 
     /**
      * HTML element that represents select itself

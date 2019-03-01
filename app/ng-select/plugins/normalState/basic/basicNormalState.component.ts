@@ -3,7 +3,7 @@ import {extend} from '@asseco/common';
 import {Subscription} from 'rxjs';
 
 import {BasicNormalStateOptions, BasicNormalState} from './basicNormalState.interface';
-import {NgSelectPluginGeneric} from '../../../misc';
+import {NgSelectPluginGeneric, TemplateGatherer} from '../../../misc';
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../components/select';
 import {NORMAL_STATE_OPTIONS, NormalStateTexts} from '../normalState.interface';
 import {TextsLocator, TEXTS_LOCATOR} from '../../textsLocator';
@@ -15,6 +15,12 @@ import {ValueHandler, VALUE_HANDLER} from '../../valueHandler';
  */
 const defaultOptions: BasicNormalStateOptions =
 {
+    cssClasses:
+    {
+        normalStateElement: 'btn btn-select',
+        selectedCarret: 'selected-caret fa fa-caret-down',
+        selectedValue: 'selected-value'
+    },
     texts:
     {
         nothingSelected: 'Nothing selected'
@@ -94,6 +100,11 @@ export class BasicNormalStateComponent implements BasicNormalState, NgSelectPlug
      * Occurs when normal state gains focus
      */
     public focus: EventEmitter<void> = new EventEmitter<void>();
+
+    /**
+     * Gatherer used for obtaining custom templates
+     */
+    public templateGatherer: TemplateGatherer;
 
     //######################### public properties - template bindings #########################
 

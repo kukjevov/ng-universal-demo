@@ -1,6 +1,6 @@
-import {InjectionToken, EventEmitter, TemplateRef} from "@angular/core";
+import {InjectionToken, EventEmitter} from "@angular/core";
 
-import {NgSelectPlugin, VisualPluginOptions, OptionsGatherer} from "../../misc";
+import {NgSelectPlugin, VisualPluginOptions, OptionsGatherer, TemplateGatherer} from "../../misc";
 import {NgSelectOption} from "../../components/option";
 
 /**
@@ -27,11 +27,6 @@ export interface PopupOptions<TCssClasses> extends VisualPluginOptions<TCssClass
      * Indication that multiple values can be selected
      */
     multiple?: boolean;
-
-    /**
-     * Template that is used within NormalState as option
-     */
-    optionTemplate?: TemplateRef<PopupContext>;
 }
 
 /**
@@ -43,6 +38,11 @@ export interface Popup extends NgSelectPlugin
      * Instance of options gatherer, that is used for obtaining available options
      */
     optionsGatherer: OptionsGatherer<any>;
+
+    /**
+     * Gatherer used for obtaining custom templates
+     */
+    templateGatherer: TemplateGatherer;
 
     /**
      * HTML element that represents select itself

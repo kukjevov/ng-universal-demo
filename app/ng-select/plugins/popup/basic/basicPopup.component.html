@@ -13,7 +13,7 @@
          [class.active]="option?.active"
          (click)="optionClick?.emit(option)">
         <div [ngClass]="options?.cssClasses?.optionItemTextDiv">
-            <ng-container *ngTemplateOutlet="options?.optionTemplate || defaultOptionTextLook; context: {$implicit: option, popup: this}"></ng-container>
+            <ng-container *ngTemplateOutlet="templateGatherer?.optionTemplate || defaultOptionTextLook; context: {$implicit: option, popup: this}"></ng-container>
         </div>
 
         <div *ngIf="option?.selected && options?.multiple" [ngClass]="options?.cssClasses?.optionChecked"></div>
