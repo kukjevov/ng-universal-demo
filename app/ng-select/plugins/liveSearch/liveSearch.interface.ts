@@ -13,10 +13,25 @@ export const LIVE_SEARCH = "LIVE_SEARCH";
 export const LIVE_SEARCH_OPTIONS: InjectionToken<LiveSearchOptions<any>> = new InjectionToken<LiveSearchOptions<any>>('LIVE_SEARCH_OPTIONS');
 
 /**
+ * Texts that are used within LiveSearch
+ */
+export interface LiveSearchTexts
+{
+    /**
+     * Displayed when nothing was entered into input
+     */
+    inputPlaceholder?: string;
+}
+
+/**
  * Options for live search plugin
  */
 export interface LiveSearchOptions<TCssClasses> extends VisualPluginOptions<TCssClasses>
 {
+    /**
+     * Texts that are used within any LiveSearch
+     */
+    texts?: LiveSearchTexts;
 }
 
 /**

@@ -18,12 +18,12 @@ export class OptionComponent<TValue> implements NgSelectOption<TValue>
     /**
      * Indication whether is item active
      */
-    public active?: boolean = false;
+    public active: boolean = false;
 
     /**
      * Indication whether this option is selected
      */
-    public selected?: boolean = false;
+    public selected: boolean = false;
 
     //######################### public properties - inputs #########################
 
@@ -44,5 +44,5 @@ export class OptionComponent<TValue> implements NgSelectOption<TValue>
     /**
      * If specified this option will be displayed in group
      */
-    public group?: string = null;
+    public group: string = null;
 }

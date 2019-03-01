@@ -1,5 +1,5 @@
 <div style="display: none;">
-    <div #liveSearchElement style="padding: 4px; border-bottom: 1px solid #666; margin-bottom: 2px;">
-        <input class="form-control" type="text" (input)="handleInput($event.target.value)" style="width: 100%;" placeholder="Filter options">
+    <div #liveSearchElement [ngClass]="options?.cssClasses?.wrapperDiv">
+        <input [ngClass]="options?.cssClasses?.input" type="text" (input)="handleInput($event.target.value)" placeholder="texts?.inputPlaceholder">
     </div>
 </div>

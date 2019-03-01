@@ -207,6 +207,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
 
     /**
      * Array of visible, displayed options for select
+     * @internal
      */
     public get availableOptions(): NgSelectOption<TValue>[]
     {
@@ -215,6 +216,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
 
     /**
      * Occurs when array of visible, displayed options has changed
+     * @internal
      */
     public get availableOptionsChange(): EventEmitter<void>
     {
@@ -229,6 +231,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
 
     /**
      * Initialize gatherer during initialization phase
+     * @internal
      */
     public initializeGatherer(): void
     {
@@ -305,15 +308,9 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
                 @Attribute('disabled') disabled?: string,
                 @Attribute('multiple') multiple?: string)
     {
-        let readonlyDefault = false;
-        let multipleDefault = isPresent(multiple);
-
         //at least on of following is present (value is not important)
-        if(isPresent(readonly) || isPresent(disabled))
-        {
-            readonlyDefault = true;
-        }
-
+        let readonlyDefault = isPresent(readonly) || isPresent(disabled);
+        let multipleDefault = isPresent(multiple);
         let opts: NgSelectOptions<TValue> = extend(true, {}, options);
 
         if(!opts.plugins)

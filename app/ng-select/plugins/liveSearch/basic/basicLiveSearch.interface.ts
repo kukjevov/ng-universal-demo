@@ -5,6 +5,15 @@ import {LiveSearch, LiveSearchOptions} from "../liveSearch.interface";
  */
 export interface CssClassesBasicLiveSearch
 {
+    /**
+     * Applied to wrapper div around input
+     */
+    wrapperDiv?: string;
+
+    /**
+     * Applied to input that represents live search
+     */
+    input?: string;
 }
 
 /**
