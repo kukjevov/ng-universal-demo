@@ -1,5 +1,5 @@
 <div style="display: none;">
     <div #liveSearchElement [ngClass]="options?.cssClasses?.wrapperDiv">
-        <input [ngClass]="options?.cssClasses?.input" type="text" (input)="handleInput($event.target.value)" placeholder="texts?.inputPlaceholder">
+        <input [ngClass]="options?.cssClasses?.input" type="text" (input)="handleInput($event.target.value)" placeholder="{{texts?.inputPlaceholder}}">
     </div>
 </div>

@@ -301,6 +301,10 @@ export class BasicValueHandlerComponent<TValue> implements BasicValueHandler<TVa
         {
             this.popupVisibilityRequest.emit(false);
         }
+        else
+        {
+            this._popup.invalidateVisuals();
+        }
     }
 
     /**
