@@ -71,3 +71,17 @@
 
 <ng-select [selectOptions]="dynamicSelectOptions">
 </ng-select>
+
+<h4>Select with static options, custom readonly</h4>
+
+<button (click)="readonly = !readonly">
+    <span>{{readonly ? 'to normal' : 'to readonly'}}</span>
+</button>
+
+<ng-select [readonly]="readonly" [selectOptions]="readonlySelectOptions">
+    <option value="first" text="First value text"></option>
+    <option value="second" text="Second value text"></option>
+    <option value="third" text="Third value text"></option>
+    <option value="fourth" text="Fourth value text"></option>
+    <option value="fifth" text="Fifth value text"></option>
+</ng-select>

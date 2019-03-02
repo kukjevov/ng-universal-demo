@@ -8,6 +8,7 @@ import {KodPopisValue} from '../../../misc/types';
 import {BaseAnimatedComponent} from "../../../misc/baseAnimatedComponent";
 import {DataService} from '../../../services/api/data/data.service';
 import {NgSelectOptions, GetOptionsCallback, NgSelectOption, BasicLiveSearchComponent, DynamicValueHandlerComponent, DynamicValueHandlerOptions, DynamicOptionsGatherer} from '../../../ng-select';
+import {CustomReadonlyStateComponent} from '../grid/customReadonlyState.component';
 
 /**
  * Select samples component
@@ -30,6 +31,11 @@ export class SelectSampleComponent extends BaseAnimatedComponent
      * Select options that are used for select initialization, dynamic
      */
     public dynamicSelectOptions: NgSelectOptions<KodPopisValue>;
+
+    /**
+     * Select options that are used for select initialization, custom readonly
+     */
+    public readonlySelectOptions: NgSelectOptions<KodPopisValue>;
 
     /**
      * Select options that are used for select initialization, live search
@@ -73,6 +79,17 @@ export class SelectSampleComponent extends BaseAnimatedComponent
                 liveSearch:
                 {
                     type: BasicLiveSearchComponent
+                }
+            }
+        };
+
+        this.readonlySelectOptions =
+        {
+            plugins:
+            {
+                readonlyState:
+                {
+                    type: CustomReadonlyStateComponent
                 }
             }
         };
