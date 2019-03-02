@@ -11,6 +11,7 @@ import {LiveSearch} from "../plugins/liveSearch";
 import {TextsLocator} from "../plugins/textsLocator";
 import {OptionsGatherer} from "./optionsGatherer/optionsGatherer.interface";
 import {TemplateGatherer} from "./templateGatherer.interface";
+import {NgSelectOption} from "../components/option";
 
 /**
  * Injection token for 'NgSelectOptions'
@@ -109,4 +110,9 @@ export interface NgSelectOptions<TValue>
      * Function of value comparer that is used for comparison of values
      */
     valueComparer?: CompareValueFunc<TValue>;
+
+    /**
+     * Method that is used for filtering when live search is running on static data
+     */
+    liveSearchFilter?: (query: string) => (option: NgSelectOption<TValue>) => boolean;
 }

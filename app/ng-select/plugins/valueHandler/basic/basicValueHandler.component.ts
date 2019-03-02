@@ -96,7 +96,8 @@ export class BasicValueHandlerComponent<TValue> extends ValueHandlerBase<TValue,
             {
                 this.selectedOptions = [];
             }
-            else
+
+            if(Array.isArray(this.selectedOptions))
             {
                 let index: number;
 

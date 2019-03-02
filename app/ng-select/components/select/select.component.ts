@@ -25,6 +25,10 @@ const defaultOptions: NgSelectOptions<any> =
     {
         return source == target;
     },
+    liveSearchFilter: (query: string) =>
+    {
+        return itm => itm.text.indexOf(query) >= 0;
+    },
     cssClasses:
     {
     },
@@ -519,8 +523,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
                     return;
                 }
 
-                //TODO - make option from callback
-                this._availableOptions = this.options.filter(itm => itm.text.indexOf(this._liveSearch.searchValue) >= 0);
+                this._availableOptions = this.options.filter(this.selectOptions.liveSearchFilter(this._liveSearch.searchValue));
                 this._availableOptionsChange.emit();
             });
         }
