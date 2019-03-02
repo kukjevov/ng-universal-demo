@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {trigger, animate, style, query, transition, group} from '@angular/animations';
 import {FormBuilder, FormControl} from '@angular/forms';
+import {isString} from '@asseco/common';
 import {ComponentRoute} from "@ng/common";
 import {flyInOutTrigger, slideInOutTriggerFactory} from '@ng/animations';
 import {Authorize, AuthGuard} from '@ng/authentication';
@@ -9,7 +10,8 @@ import {map} from 'rxjs/operators';
 
 import {DataService} from "../../services/api/data/data.service";
 import {BaseAnimatedComponent} from "../../misc/baseAnimatedComponent";
-import {NgSelectOptions, BasicLiveSearchComponent} from '../../ng-select';
+import {NgSelectOptions, BasicLiveSearchComponent, DynamicValueHandlerComponent, DynamicOptionsGatherer, GetOptionsCallback, NgSelectOption, DynamicValueHandlerOptions} from '../../ng-select';
+import {KodPopisValue} from '../../misc/types';
 
 /**
  * Home component
@@ -121,9 +123,17 @@ export class HomeComponent extends BaseAnimatedComponent implements OnInit
                 liveSearch:
                 {
                     type: BasicLiveSearchComponent
+                },
+                valueHandler:
+                {
+                    type: DynamicValueHandlerComponent,
+                    options: <DynamicValueHandlerOptions<KodPopisValue>>
+                    {
+                        dynamicOptionsCallback: this._getData
+                    }
                 }
-            }
-            // optionsGatherer: new DynamicOptionsGatherer({dynamicOptionsCallback: () => Promise.resolve([])})
+            },
+            optionsGatherer: new DynamicOptionsGatherer({dynamicOptionsCallback: this._getData}),
         };
     }
 
@@ -169,4 +179,30 @@ export class HomeComponent extends BaseAnimatedComponent implements OnInit
     {
         this.show = !this.show;
     }
+
+    private _getData: GetOptionsCallback<KodPopisValue> = (async value =>
+    {
+        if(!isString(value))
+        {
+            value = value.kod;
+        }
+
+        let result = await this.dataSvc
+            .getCis(value, 1)
+            .toPromise();
+
+        if(!result || !result.content || !result.content.length)
+        {
+            return [];
+        }
+
+        return result.content.map(itm =>
+        {
+            return <NgSelectOption<KodPopisValue>>
+            {
+                value: itm.kod,
+                text: itm.popis
+            };
+        });
+    });
 }

@@ -27,13 +27,6 @@ const defaultOptions: DynamicValueHandlerOptions<any> =
 })
 export class DynamicValueHandlerComponent<TValue> extends ValueHandlerBase<TValue, DynamicValueHandlerOptions<TValue>> implements DynamicValueHandler<TValue>
 {
-    //######################### protected fields #########################
-
-    /**
-     * Backed up unmapped value that was set before options were obtained
-     */
-    protected _unmappedValue: TValue|TValue[];
-
     //######################### public properties - implementation of DynamicValueHandler #########################
 
     /**
@@ -99,11 +92,12 @@ export class DynamicValueHandlerComponent<TValue> extends ValueHandlerBase<TValu
             }
             else
             {
-                let index: number;
+                let opt: ɵNgSelectOption<TValue>;
 
                 //value exists, removing from list
-                if((index = this.selectedOptions.indexOf(option)) >= 0)
+                if((opt = this.selectedOptions.find(selOpt => this.valueComparer(selOpt.value, opt.value))))
                 {
+                    let index = this.selectedOptions.indexOf(option);
                     this.selectedOptions.splice(index, 1);
                 }
                 //adding value
@@ -141,14 +135,13 @@ export class DynamicValueHandlerComponent<TValue> extends ValueHandlerBase<TValu
      */
     protected _loadOptions()
     {
-        this._useOptionsAsValue(this._unmappedValue || this.value);
     }
 
     /**
      * Converts value to options
      * @param value Value to be changed to options
      */
-    protected _useOptionsAsValue(value: TValue|TValue[])
+    protected async _useOptionsAsValue(value: TValue|TValue[])
     {
         //set empty value
         if(!value || (Array.isArray(value) && !value.length))
@@ -158,17 +151,73 @@ export class DynamicValueHandlerComponent<TValue> extends ValueHandlerBase<TValu
             return;
         }
 
-        //no options available yet
-        if(!this.optionsGatherer.options || !this.optionsGatherer.options.length)
+        if(this.options.multiple)
         {
-            this._unmappedValue = value;
+            if(Array.isArray(value))
+            {
+                let items = value;
+                let options: ɵNgSelectOption<TValue>[] = [];
 
-            return;
+                for(let itm of items)
+                {
+                    options.push(await this._loadText(itm));
+                }
+
+                this.selectedOptions = options;
+            }
+            else
+            {
+                throw new Error('Don`t you have redundant "multiple"?');
+            }
+        }
+        else
+        {
+            if(Array.isArray(value))
+            {
+                throw new Error('Are you missing attribute "multiple"?');
+            }
+            else
+            {
+                let item = value;
+
+                this.selectedOptions = await this._loadText(item);
+            }
         }
 
         this._clearSelected();
         this._markValueAsSelected();
-        this._unmappedValue = null;
         this._normalState.invalidateVisuals();
+    }
+
+    /**
+     * Loads text for specified value
+     * @param value Value that is going to be used for obtaining option
+     */
+    protected async _loadText(value: TValue): Promise<ɵNgSelectOption<TValue>>
+    {
+        //load option dynamically
+        if(this.options.dynamicOptionsCallback)
+        {
+            let opts = await this.options.dynamicOptionsCallback(value);
+
+            if(opts && opts.length)
+            {
+                let opt: ɵNgSelectOption<TValue> = opts[0];
+
+                opt.value = value;
+                opt.selected = true;
+
+                return opt;
+            }
+        }
+
+        //load option from value
+        return <ɵNgSelectOption<TValue>>
+        {
+            selected: true,
+            active: false,
+            value: value,
+            text: this.options.textExtractor(value)
+        };
     }
 }

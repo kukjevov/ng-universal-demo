@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, ViewChild, EventEmitter} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, Optional, ElementRef, ViewChild, EventEmitter, OnDestroy} from '@angular/core';
 import {extend} from '@asseco/common';
 import {Subscription} from 'rxjs';
 
@@ -7,6 +7,7 @@ import {NgSelectPluginGeneric} from '../../../misc';
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../components/select';
 import {LIVE_SEARCH_OPTIONS, LiveSearchTexts} from '../liveSearch.interface';
 import {TextsLocator, TEXTS_LOCATOR} from '../../textsLocator';
+import {Popup, POPUP} from '../../popup';
 
 /**
  * Default options for live search
@@ -48,7 +49,7 @@ const defaultOptions: BasicLiveSearchOptions =
         }`
     ]
 })
-export class BasicLiveSearchComponent implements BasicLiveSearch, NgSelectPluginGeneric<BasicLiveSearchOptions>
+export class BasicLiveSearchComponent implements BasicLiveSearch, NgSelectPluginGeneric<BasicLiveSearchOptions>, OnDestroy
 {
     //######################### protected fields #########################
 
@@ -58,9 +59,19 @@ export class BasicLiveSearchComponent implements BasicLiveSearch, NgSelectPlugin
     protected _textsLocator: TextsLocator;
 
     /**
+     * Popup used in NgSelect
+     */
+    protected _popup: Popup;
+
+    /**
      * Subscription for changes in texts
      */
     protected _textsChangedSubscription: Subscription;
+
+    /**
+     * Subscription for changes of popup visibility
+     */
+    protected _visibilityChangeSubscription: Subscription;
 
     /**
      * Options for NgSelect plugin
@@ -125,6 +136,26 @@ export class BasicLiveSearchComponent implements BasicLiveSearch, NgSelectPlugin
         this._options = extend(true, {}, defaultOptions, options);
     }
 
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy()
+    {
+        if(this._visibilityChangeSubscription)
+        {
+            this._visibilityChangeSubscription.unsubscribe();
+            this._visibilityChangeSubscription = null;
+        }
+
+        if(this._textsChangedSubscription)
+        {
+            this._textsChangedSubscription.unsubscribe();
+            this._textsChangedSubscription = null;
+        }
+    }
+
     //######################### public methods - implementation of BasicLiveSearch #########################
 
     /**
@@ -147,6 +178,27 @@ export class BasicLiveSearchComponent implements BasicLiveSearch, NgSelectPlugin
             this._textsLocator = textsLocator;
 
             this._textsChangedSubscription = this._textsLocator.textsChange.subscribe(() => this._initTexts());
+        }
+
+        let popup = this.ngSelectPlugins[POPUP] as Popup;
+
+        if(this._popup && this._popup != popup)
+        {
+            this._visibilityChangeSubscription.unsubscribe();
+            this._visibilityChangeSubscription = null;
+
+            this._popup = null;
+        }
+
+        if(!this._popup)
+        {
+            this._popup = popup;
+
+            this._visibilityChangeSubscription = this._popup.visibilityChange.subscribe(() =>
+            {
+                this.searchValue = '';
+                this.searchValueChange.emit();
+            });
         }
 
         this._initTexts();

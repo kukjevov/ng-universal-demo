@@ -9,7 +9,7 @@ import {NotificationsModule} from '@ng/notifications';
 import {InternalServerErrorModule, ServerValidationsModule} from '@ng/error-handling';
 import {AuthorizationModule} from '@ng/authentication';
 import {FancyTreeModule} from '@ng/treeview';
-import {NgSelectModule} from '../ng-select';
+import {NgSelectModule, NgSelectDynamicModule} from '../ng-select';
 import {TranslateModule} from '@ngx-translate/core';
 
 /**
@@ -31,6 +31,7 @@ import {TranslateModule} from '@ngx-translate/core';
         AuthorizationModule,
         FancyTreeModule,
         NgSelectModule,
+        NgSelectDynamicModule,
         InternalServerErrorModule,
         ServerValidationsModule,
         BootstrapModule
