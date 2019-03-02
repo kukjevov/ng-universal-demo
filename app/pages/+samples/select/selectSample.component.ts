@@ -27,9 +27,9 @@ export class SelectSampleComponent extends BaseAnimatedComponent
     //######################### public properties - template bindings #########################
 
     /**
-     * Select options that are used for select initialization
+     * Select options that are used for select initialization, dynamic
      */
-    public selectOptions: NgSelectOptions<KodPopisValue>;
+    public dynamicSelectOptions: NgSelectOptions<KodPopisValue>;
 
     /**
      * Select options that are used for select initialization, live search
@@ -46,7 +46,7 @@ export class SelectSampleComponent extends BaseAnimatedComponent
     {
         super();
 
-        this.selectOptions =
+        this.dynamicSelectOptions =
         {
             plugins:
             {

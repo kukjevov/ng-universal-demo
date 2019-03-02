@@ -1,8 +1,6 @@
-<ng-template #defaultLook>
-    <span [ngClass]="options?.cssClasses?.selectedValue">{{valueHandler?.selectedOptions | ngSelectValue: texts?.nothingSelected}}</span>
-    <span [ngClass]="options?.cssClasses?.selectedCarret"></span>
-</ng-template>
+<ng-template #defaultLook>{{valueHandler?.selectedOptions | ngSelectValue: texts?.nothingSelected}}</ng-template>
 
 <button [ngClass]="options?.cssClasses?.normalStateElement" (click)="click.emit()" (focus)="focus?.emit()" [disabled]="!!options?.readonly" type="button">
-    <ng-container *ngTemplateOutlet="templateGatherer?.normalStateTemplate || defaultLook; context: {$implicit: this}"></ng-container>
+    <span [ngClass]="options?.cssClasses?.selectedValue"><ng-container *ngTemplateOutlet="templateGatherer?.normalStateTemplate || defaultLook; context: {$implicit: this}"></ng-container></span>
+    <span [ngClass]="options?.cssClasses?.selectedCarret"></span>
 </button>
