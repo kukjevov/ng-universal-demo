@@ -1,0 +1,55 @@
+<h3>Select Sample</h3>
+
+<h4>Select with static options</h4>
+
+<ng-select>
+    <option value="first" text="First value text"></option>
+    <option value="second" text="Second value text"></option>
+    <option value="third" text="Third value text"></option>
+    <option value="fourth" text="Fourth value text"></option>
+    <option value="fifth" text="Fifth value text"></option>
+</ng-select>
+
+<h4>Select with static options, readonly</h4>
+
+<ng-select readonly>
+    <option value="first" text="First value text"></option>
+    <option value="second" text="Second value text"></option>
+    <option value="third" text="Third value text"></option>
+    <option value="fourth" text="Fourth value text"></option>
+    <option value="fifth" text="Fifth value text"></option>
+</ng-select>
+
+<h4>Select with static options, multiple</h4>
+
+<ng-select multiple>
+    <option value="first" text="First value text"></option>
+    <option value="second" text="Second value text"></option>
+    <option value="third" text="Third value text"></option>
+    <option value="fourth" text="Fourth value text"></option>
+    <option value="fifth" text="Fifth value text"></option>
+</ng-select>
+
+<h4>Select with static options, dynamic readonly</h4>
+
+<button (click)="readonly = !readonly">
+    <span>{{readonly ? 'to normal' : 'to readonly'}}</span>
+</button>
+
+<ng-select [readonly]="readonly">
+    <option value="first" text="First value text"></option>
+    <option value="second" text="Second value text"></option>
+    <option value="third" text="Third value text"></option>
+    <option value="fourth" text="Fourth value text"></option>
+    <option value="fifth" text="Fifth value text"></option>
+</ng-select>
+
+<h4>Select with static options, live search</h4>
+
+<ng-select [selectOptions]="liveSearchSelectOptions">
+    <option value="first" text="First value text"></option>
+    <option value="second" text="Second value text"></option>
+    <option value="third" text="Third value text"></option>
+    <option value="fourth" text="Fourth value text"></option>
+    <option value="fifth" text="Fifth value text"></option>
+</ng-select>
