@@ -23,7 +23,8 @@ const defaultOptions: BasicLiveSearchOptions =
     texts:
     {
         inputPlaceholder: 'Filter options'
-    }
+    },
+    keepSearchValue: false
 };
 
 /**
@@ -196,8 +197,12 @@ export class BasicLiveSearchComponent implements BasicLiveSearch, NgSelectPlugin
 
             this._visibilityChangeSubscription = this._popup.visibilityChange.subscribe(() =>
             {
-                this.searchValue = '';
-                this.searchValueChange.emit();
+                if(!this.options.keepSearchValue)
+                {
+                    this.searchValue = '';
+                    this.searchValueChange.emit();
+                    this._changeDetector.detectChanges();
+                }
             });
         }
 

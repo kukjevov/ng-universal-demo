@@ -187,8 +187,6 @@ export class BasicPositionerComponent implements BasicPositioner, NgSelectPlugin
      */
     protected _calculatePositionAndDimensions()
     {
-        // this._popupElement.style.minWidth = `${this.selectElement.clientWidth}px`;
-
         //set to default position
         this.popupCoordinates = positions(this._popupElement, this.options.optionsCoordinates, this.selectElement, this.options.selectCoordinates);
         this._popup.invalidateVisuals();

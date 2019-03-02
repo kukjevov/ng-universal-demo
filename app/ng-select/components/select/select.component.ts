@@ -774,15 +774,13 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
      */
     public initialize()
     {
+        let liveSearchPlugin = this._pluginInstances[LIVE_SEARCH] as LiveSearch;
+        this.liveSearchElement = [[liveSearchPlugin.liveSearchElement]];
+        this._changeDetector.detectChanges();
+        
         this.selectOptions.optionsGatherer.initializeGatherer();
 
         this._pluginInstances[LIVE_SEARCH].initialize();
-
-        let liveSearchPlugin = this._pluginInstances[LIVE_SEARCH] as LiveSearch;
-        this.liveSearchElement = [[liveSearchPlugin.liveSearchElement]];
-
-        this._changeDetector.detectChanges();
-
         this._pluginInstances[TEXTS_LOCATOR].initialize();
         this._pluginInstances[POSITIONER].initialize();
         this._pluginInstances[KEYBOARD_HANDLER].initialize();

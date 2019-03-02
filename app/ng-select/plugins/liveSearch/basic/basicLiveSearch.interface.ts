@@ -21,6 +21,10 @@ export interface CssClassesBasicLiveSearch
  */
 export interface BasicLiveSearchOptions extends LiveSearchOptions<CssClassesBasicLiveSearch>
 {
+    /**
+     * Indication whether keep search value after popup close
+     */
+    keepSearchValue?: boolean;
 }
 
 /**

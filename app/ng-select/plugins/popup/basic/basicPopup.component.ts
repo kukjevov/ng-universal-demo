@@ -140,6 +140,11 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
      */
     protected _valueHandler: ValueHandler<any>;
 
+    /**
+     * Indication whether is popup visible
+     */
+    protected _popupVisible: boolean = false;
+
     //######################### public properties - implementation of BasicPopup #########################
 
     /**
@@ -236,6 +241,11 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
     {
         this.popupElementChildren.changes.subscribe(() =>
         {
+            if(!!this.popupElementChildren.first == this._popupVisible)
+            {
+                return;
+            }
+
             //handle click outside
             if(this.popupElementChildren.first)
             {
@@ -247,6 +257,7 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
                 this._document.removeEventListener('mouseup', this._handleClickOutside);
             }
 
+            this._popupVisible = !!this.popupElementChildren.first;
             this.visibilityChange.emit()
         });
     }
