@@ -51,6 +51,11 @@ export abstract class ValueHandlerBase<TValue, TOptions extends ValueHandlerOpti
      */
     protected _optionsChangeSubscription: Subscription;
 
+    /**
+     * Subscription for canceling an option
+     */
+    protected _cancelOptionSubscription: Subscription;
+
     //######################### public properties - implementation of DynamicValueHandler #########################
 
     /**
@@ -133,6 +138,12 @@ export abstract class ValueHandlerBase<TValue, TOptions extends ValueHandlerOpti
             this._optionsChangeSubscription.unsubscribe();
             this._optionsChangeSubscription = null;
         }
+
+        if(this._cancelOptionSubscription)
+        {
+            this._cancelOptionSubscription.unsubscribe();
+            this._cancelOptionSubscription = null;
+        }
     }
 
     //######################### public methods - implementation of DynamicValueHandler #########################
@@ -199,9 +210,19 @@ export abstract class ValueHandlerBase<TValue, TOptions extends ValueHandlerOpti
 
         let normalState = this.ngSelectPlugins[NORMAL_STATE] as NormalState;
 
-        if(!this._normalState || this._normalState != normalState)
+        if(this._normalState && this._normalState != normalState)
+        {
+            this._cancelOptionSubscription.unsubscribe();
+            this._cancelOptionSubscription = null;
+
+            this._normalState = null;
+        }
+
+        if(!this._normalState)
         {
             this._normalState = normalState;
+
+            this._cancelOptionSubscription = this._normalState.cancelOption.subscribe(this._cancelValue);
         }
 
         this._loadOptions();
@@ -227,6 +248,36 @@ export abstract class ValueHandlerBase<TValue, TOptions extends ValueHandlerOpti
      * Sets value 
      */
     protected abstract _setValue: (option: ɵNgSelectOption<TValue>) => void;
+
+    /**
+     * Cancels, removes option from selected options
+     * @param option Option to be canceled
+     */
+    protected _cancelValue = (option: ɵNgSelectOption<TValue>): void =>
+    {
+        if(Array.isArray(this.selectedOptions))
+        {
+            let index = this.selectedOptions.indexOf(option);
+
+            if(index >= 0)
+            {
+                this.selectedOptions.splice(index, 1);
+            }
+        }
+        else
+        {
+            if(this.selectedOptions == option)
+            {
+                this.selectedOptions = null;
+            }
+        }
+
+        this._clearSelected();
+        this._markValueAsSelected();
+
+        this._normalState.invalidateVisuals();
+        this.valueChange.emit();
+    }
 
     /**
      * Clears all selected values

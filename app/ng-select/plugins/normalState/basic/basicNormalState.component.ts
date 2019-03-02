@@ -8,6 +8,7 @@ import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../comp
 import {NORMAL_STATE_OPTIONS, NormalStateTexts} from '../normalState.interface';
 import {TextsLocator, TEXTS_LOCATOR} from '../../textsLocator';
 import {ValueHandler, VALUE_HANDLER} from '../../valueHandler';
+import {NgSelectOption} from '../../../components/option';
 
 /**
  * Default options for normal state
@@ -105,6 +106,11 @@ export class BasicNormalStateComponent implements BasicNormalState, NgSelectPlug
      * Occurs when normal state gains focus
      */
     public focus: EventEmitter<void> = new EventEmitter<void>();
+
+    /**
+     * Occurs when user tries to cancel one of selected values
+     */
+    public cancelOption: EventEmitter<NgSelectOption<any>> = new EventEmitter<NgSelectOption<any>>();
 
     /**
      * Gatherer used for obtaining custom templates

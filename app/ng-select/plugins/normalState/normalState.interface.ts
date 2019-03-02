@@ -1,6 +1,7 @@
 import {InjectionToken, EventEmitter} from "@angular/core";
 
 import {NgSelectPlugin, VisualPluginOptions, TemplateGatherer} from "../../misc";
+import {NgSelectOption} from "../../components/option";
 
 /**
  * Constant used for accessing normal state plugin in NgSelect
@@ -58,6 +59,11 @@ export interface NormalState extends NgSelectPlugin
      * Occurs when normal state gains focus
      */
     readonly focus: EventEmitter<void>;
+
+    /**
+     * Occurs when user tries to cancel one of selected values
+     */
+    readonly cancelOption: EventEmitter<NgSelectOption<any>>;
 }
 
 /**
