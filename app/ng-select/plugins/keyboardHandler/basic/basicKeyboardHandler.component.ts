@@ -203,7 +203,7 @@ export class BasicKeyboardHandlerComponent implements BasicKeyboardHandler, NgSe
             event.preventDefault();
         }
 
-        if(event.key == "Tab")
+        if(event.key == "Tab" || event.key == "Escape")
         {
             this.popupVisibilityRequest.emit(false);
         }
