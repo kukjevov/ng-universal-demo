@@ -12,6 +12,14 @@
     <option value="fifth" text="Fifth value text"></option>
 </ng-select>
 
+<h4>Select with static options, lazy loaded</h4>
+
+<div>Value: {{selectLazy?.value | json}}</div>
+
+<ng-select [formControl]="selectLazy">
+    <option *ngFor="let option of lazyOptions" [value]="option?.kod" [text]="option?.popis"></option>
+</ng-select>
+
 <h4>Select with static options, readonly</h4>
 
 <div>Value: {{selectReadonly?.value | json}}</div>
