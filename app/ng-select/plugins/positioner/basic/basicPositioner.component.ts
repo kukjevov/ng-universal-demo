@@ -1,11 +1,11 @@
-import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef, EventEmitter, OnDestroy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, Optional, ElementRef, OnDestroy} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {extend} from '@asseco/common';
 import {Subscription} from 'rxjs';
 import * as positions from 'positions';
 
 import {BasicPositionerOptions, BasicPositioner} from './basicPositioner.interface';
-import {NgSelectPluginGeneric} from '../../../misc';
+import {NgSelectPluginGeneric, OptionsGatherer} from '../../../misc';
 import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../components/select';
 import {POSITIONER_OPTIONS} from '../positioner.interface';
 import {POPUP, Popup} from '../../popup';
@@ -34,6 +34,11 @@ export class BasicPositionerComponent implements BasicPositioner, NgSelectPlugin
     //######################### protected fields #########################
 
     /**
+     * Instance of previous options gatherer, that is used for obtaining available options
+     */
+    protected _optionsGatherer: OptionsGatherer<any>;
+
+    /**
      * Options for NgSelect plugin
      */
     protected _options: BasicPositionerOptions;
@@ -42,6 +47,11 @@ export class BasicPositionerComponent implements BasicPositioner, NgSelectPlugin
      * Subscription for visibility change of popup
      */
     protected _visibilitySubscription: Subscription;
+
+    /**
+     * Subscription for changes of options in options gatherer
+     */
+    protected _optionsChangeSubscription: Subscription;
 
     /**
      * Popup that is displayed
@@ -73,14 +83,9 @@ export class BasicPositionerComponent implements BasicPositioner, NgSelectPlugin
     public selectElement: HTMLElement;
 
     /**
-     * Computed coordinates of popup
+     * Instance of options gatherer, that is used for obtaining available options
      */
-    public popupCoordinates: Positions.PositionsCss = {};
-
-    /**
-     * Occurs when computed coordinates of popup change
-     */
-    public popupCoordinatesChange: EventEmitter<void> = new EventEmitter<void>();
+    public optionsGatherer: OptionsGatherer<any>;
 
     //######################### constructor #########################
     constructor(@Inject(NG_SELECT_PLUGIN_INSTANCES) @Optional() public ngSelectPlugins: NgSelectPluginInstances,
@@ -92,7 +97,7 @@ export class BasicPositionerComponent implements BasicPositioner, NgSelectPlugin
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
@@ -102,6 +107,12 @@ export class BasicPositionerComponent implements BasicPositioner, NgSelectPlugin
         {
             this._visibilitySubscription.unsubscribe();
             this._visibilitySubscription = null;
+        }
+
+        if(this._optionsChangeSubscription)
+        {
+            this._optionsChangeSubscription.unsubscribe();
+            this._optionsChangeSubscription = null;
         }
 
         window.removeEventListener('resize', this._handleResizeAndScroll);
@@ -115,20 +126,41 @@ export class BasicPositionerComponent implements BasicPositioner, NgSelectPlugin
      */
     public initialize()
     {
+        if(this._optionsGatherer && this._optionsGatherer != this.optionsGatherer)
+        {
+            this._optionsChangeSubscription.unsubscribe();
+            this._optionsChangeSubscription = null;
+
+            this._optionsGatherer = null;
+        }
+
+        if(!this._optionsGatherer)
+        {
+            this._optionsGatherer = this.optionsGatherer;
+
+            this._optionsChangeSubscription = this._optionsGatherer.availableOptionsChange.subscribe(() =>
+            {
+                if(this._popup.popupElement && this.optionsGatherer.availableOptions && this.optionsGatherer.availableOptions.length)
+                {
+                    this._handlePosition();
+                }
+            });
+        }
+
         let popup: Popup = this.ngSelectPlugins[POPUP] as Popup;
 
         if(this._popup && this._popup != popup)
         {
             this._visibilitySubscription.unsubscribe();
             this._visibilitySubscription = null;
-            
+
             this._popup = null;
         }
-        
+
         if(!this._popup)
         {
             this._popup = popup;
-            
+
             this._visibilitySubscription = this._popup.visibilityChange.subscribe(() => this._handlePosition());
         }
 
@@ -188,28 +220,32 @@ export class BasicPositionerComponent implements BasicPositioner, NgSelectPlugin
     protected _calculatePositionAndDimensions()
     {
         //set to default position
-        this.popupCoordinates = positions(this._popupElement, this.options.optionsCoordinates, this.selectElement, this.options.selectCoordinates);
-        this._popup.invalidateVisuals();
+        let popupCoordinates = positions(this._popupElement, this.options.optionsCoordinates, this.selectElement, this.options.selectCoordinates);
+        this._popupElement.style.left = `${popupCoordinates.left}px`;
+        this._popupElement.style.top = `${popupCoordinates.top}px`;
+        this._popupElement.style.maxHeight = '';
 
         //flip if collision with viewport
-        this.popupCoordinates = this._flipIfCollision(this._popupElement);
-        this._popup.invalidateVisuals();
+        let optionsCoordinates: Positions.PositionsCoordinates;
+        let selectCoordinates: Positions.PositionsCoordinates;
+        [popupCoordinates, optionsCoordinates, selectCoordinates] = this._flipIfCollision(this._popupElement);
+        this._popupElement.style.left = `${popupCoordinates.left}px`;
+        this._popupElement.style.top = `${popupCoordinates.top}px`;
 
         //set maxHeight if there is not more place
-        if(this._updateHeight(this._popupElement))
-        {
-            this.popupCoordinates = this._flipIfCollision(this._popupElement);
-            this._popup.invalidateVisuals();
-        }
+        this._updateHeight(this._popupElement);
+        popupCoordinates = positions(this._popupElement, optionsCoordinates, this.selectElement, selectCoordinates);
+        this._popupElement.style.left = `${popupCoordinates.left}px`;
+        this._popupElement.style.top = `${popupCoordinates.top}px`;
     }
 
     /**
      * Updates height of element
-     * @param popupDiv Html element for popup div
+     * @param popupElement Html element for popup div
      */
-    protected _updateHeight(popupDiv: HTMLElement): boolean
+    protected _updateHeight(popupElement: HTMLElement): void
     {
-        let rect = popupDiv.getBoundingClientRect(),
+        let rect = popupElement.getBoundingClientRect(),
             selectRect = this.selectElement.getBoundingClientRect(),
             h = Math.max(this._document.documentElement.clientHeight, window.innerHeight || 0);
 
@@ -217,47 +253,25 @@ export class BasicPositionerComponent implements BasicPositioner, NgSelectPlugin
         if(rect.top < selectRect.top)
         {
             //space above is not enough
-            if(selectRect.top < rect.height)
-            {
-                popupDiv.style.maxHeight = `${selectRect.top - 2}px`;
-
-                return true;
-            }
-            else
-            {
-                popupDiv.style.maxHeight = '';
-
-                return false;
-            }
+            popupElement.style.maxHeight = `${selectRect.top - 6}px`;
         }
         //popup is below
         else
         {
             //space below is not enough
-            if(h - selectRect.bottom < rect.height)
-            {
-                popupDiv.style.maxHeight = `${h - selectRect.bottom - 2}px`;
-
-                return true;
-            }
-            else
-            {
-                popupDiv.style.maxHeight = '';
-
-                return false;
-            }
+            popupElement.style.maxHeight = `${h - selectRect.bottom - 6}px`;
         }
     }
 
     /**
      * Flips html element position if collision occur
-     * @param popupDiv Html element to be flipped if collisions occur
+     * @param popupElement Html element to be flipped if collisions occur
      */
-    protected _flipIfCollision(popupDiv: HTMLElement): Positions.PositionsCss
+    protected _flipIfCollision(popupElement: HTMLElement): [Positions.PositionsCss, Positions.PositionsCoordinates, Positions.PositionsCoordinates]
     {
         let w = Math.max(this._document.documentElement.clientWidth, window.innerWidth || 0),
             h = Math.max(this._document.documentElement.clientHeight, window.innerHeight || 0),
-            rect = popupDiv.getBoundingClientRect(),
+            rect = popupElement.getBoundingClientRect(),
             selectRect = this.selectElement.getBoundingClientRect(),
             spaceAbove = selectRect.top,
             spaceUnder = h - selectRect.bottom,
@@ -267,7 +281,7 @@ export class BasicPositionerComponent implements BasicPositioner, NgSelectPlugin
             selectCoordinates = this.options.selectCoordinates;
 
         //vertical overflow
-        if((h < (rect.top + rect.height) &&
+        if((h < rect.bottom &&
             spaceUnder < spaceAbove) ||
            (rect.top < 0 &&
             spaceAbove < spaceUnder))
@@ -286,7 +300,7 @@ export class BasicPositionerComponent implements BasicPositioner, NgSelectPlugin
             selectCoordinates = this._flipHorizontal(selectCoordinates);
         }
 
-        return positions(popupDiv, optionsCoordinates, this.selectElement, selectCoordinates);
+        return [positions(popupElement, optionsCoordinates, this.selectElement, selectCoordinates), optionsCoordinates, selectCoordinates];
     }
 
     /**

@@ -2,9 +2,7 @@
 
 <div #popupDiv 
      *ngIf="options?.visible"
-     [ngClass]="options?.cssClasses?.popupDiv"
-     [style.left.px]="positioner?.popupCoordinates?.left"
-     [style.top.px]="positioner?.popupCoordinates?.top">
+     [ngClass]="options?.cssClasses?.popupDiv">
     <ng-content></ng-content>
 
     <div *ngFor="let option of selectOptions"

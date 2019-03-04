@@ -1,6 +1,6 @@
-import {InjectionToken, EventEmitter} from "@angular/core";
+import {InjectionToken} from "@angular/core";
 
-import {PluginOptions, NgSelectPlugin} from "../../misc";
+import {PluginOptions, NgSelectPlugin, OptionsGatherer} from "../../misc";
 
 /**
  * Constant used for accessing positioner plugin in NgSelect
@@ -39,12 +39,7 @@ export interface Positioner extends NgSelectPlugin
     selectElement: HTMLElement;
 
     /**
-     * Computed coordinates of popup
+     * Instance of options gatherer, that is used for obtaining available options
      */
-    readonly popupCoordinates: Positions.PositionsCss;
-
-    /**
-     * Occurs when computed coordinates of popup change
-     */
-    readonly popupCoordinatesChange: EventEmitter<void>;
+    optionsGatherer: OptionsGatherer<any>;
 }

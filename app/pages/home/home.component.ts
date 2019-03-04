@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {trigger, animate, style, query, transition, group} from '@angular/animations';
-import {FormBuilder, FormControl} from '@angular/forms';
-import {isString} from '@asseco/common';
+import {FormBuilder} from '@angular/forms';
 import {ComponentRoute} from "@ng/common";
 import {flyInOutTrigger, slideInOutTriggerFactory} from '@ng/animations';
 import {Authorize, AuthGuard} from '@ng/authentication';
@@ -10,8 +9,6 @@ import {map} from 'rxjs/operators';
 
 import {DataService} from "../../services/api/data/data.service";
 import {BaseAnimatedComponent} from "../../misc/baseAnimatedComponent";
-import {NgSelectOptions, BasicLiveSearchComponent, DynamicValueHandlerComponent, DynamicOptionsGatherer, GetOptionsCallback, NgSelectOption, DynamicValueHandlerOptions} from '../../ng-select';
-import {KodPopisValue} from '../../misc/types';
 
 /**
  * Home component
@@ -55,8 +52,6 @@ export class HomeComponent extends BaseAnimatedComponent implements OnInit
     public show: boolean = false;
     public counter = 0;
 
-    public selectOptions: NgSelectOptions<any>;
-
     public treeOptions: Fancytree.FancytreeOptions =
     {
         icon: (val, val2: Fancytree.EventData) =>
@@ -98,8 +93,6 @@ export class HomeComponent extends BaseAnimatedComponent implements OnInit
 
     public trigger = "in";
 
-    public ngSelect: FormControl;
-
     // public optionsGetter: GetOptionsCallback<string> = (query: string, options: Array<OptionComponent<string>>) =>
     // {
     //     return Promise.resolve(options.filter(itm => itm.text.indexOf(query) >= 0));
@@ -113,28 +106,6 @@ export class HomeComponent extends BaseAnimatedComponent implements OnInit
                 formBuilder: FormBuilder)
     {
         super();
-
-        this.ngSelect = formBuilder.control('third');
-
-        this.selectOptions =
-        {
-            plugins:
-            {
-                liveSearch:
-                {
-                    type: BasicLiveSearchComponent
-                },
-                valueHandler:
-                {
-                    type: DynamicValueHandlerComponent,
-                    options: <DynamicValueHandlerOptions<KodPopisValue>>
-                    {
-                        dynamicOptionsCallback: this._getData
-                    }
-                }
-            },
-            optionsGatherer: new DynamicOptionsGatherer({dynamicOptionsCallback: this._getData}),
-        };
     }
 
     //######################### public methods #########################
@@ -179,30 +150,4 @@ export class HomeComponent extends BaseAnimatedComponent implements OnInit
     {
         this.show = !this.show;
     }
-
-    private _getData: GetOptionsCallback<KodPopisValue> = (async value =>
-    {
-        if(!isString(value))
-        {
-            value = value.kod;
-        }
-
-        let result = await this.dataSvc
-            .getCis(value, 1)
-            .toPromise();
-
-        if(!result || !result.content || !result.content.length)
-        {
-            return [];
-        }
-
-        return result.content.map(itm =>
-        {
-            return <NgSelectOption<KodPopisValue>>
-            {
-                value: itm.kod,
-                text: itm.popis
-            };
-        });
-    });
 }

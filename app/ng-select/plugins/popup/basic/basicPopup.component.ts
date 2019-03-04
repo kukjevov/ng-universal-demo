@@ -9,7 +9,6 @@ import {NG_SELECT_PLUGIN_INSTANCES, NgSelectPluginInstances} from '../../../comp
 import {POPUP_OPTIONS} from '../popup.interface';
 import {ɵNgSelectOption, NgSelectOption} from '../../../components/option';
 import {NormalState, NORMAL_STATE} from '../../normalState';
-import {Positioner, POSITIONER} from '../../positioner';
 import {KeyboardHandler, KEYBOARD_HANDLER} from '../../keyboardHandler';
 import {ValueHandler, VALUE_HANDLER} from '../../valueHandler';
 
@@ -207,12 +206,6 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
      */
     public selectOptions: ɵNgSelectOption<any>[];
 
-    /**
-     * Positioner used for setting position of popup
-     * @internal
-     */
-    public positioner: Positioner;
-
     //######################### public properties - children #########################
 
     /**
@@ -292,6 +285,8 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
             this._vhPopupVisibilityRequestSubscription.unsubscribe();
             this._vhPopupVisibilityRequestSubscription = null;
         }
+
+        this._document.removeEventListener('mouseup', this._handleClickOutside);
     }
 
     //######################### public methods - implementation of BasicPopup #########################
@@ -331,18 +326,6 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
             this._normalState = normalState;
 
             this._clickSubscription = this._normalState.click.subscribe(() => this.togglePopup());
-        }
-
-        let positioner = this.ngSelectPlugins[POSITIONER] as Positioner;
-
-        if(this.positioner && this.positioner != positioner)
-        {
-            this.positioner = null;
-        }
-
-        if(!this.positioner)
-        {
-            this.positioner = positioner;
         }
 
         let keyboardHandler = this.ngSelectPlugins[KEYBOARD_HANDLER] as KeyboardHandler;

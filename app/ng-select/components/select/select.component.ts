@@ -646,6 +646,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
         }
 
         positioner.selectElement = this._element.nativeElement;
+        positioner.optionsGatherer = this.selectOptions.optionsGatherer;
         positioner.initOptions();
 
         if(this._selectOptions.plugins && this._selectOptions.plugins.positioner && this._selectOptions.plugins.positioner.instanceCallback)
@@ -785,11 +786,11 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
 
         this._pluginInstances[LIVE_SEARCH].initialize();
         this._pluginInstances[TEXTS_LOCATOR].initialize();
-        this._pluginInstances[POSITIONER].initialize();
         this._pluginInstances[KEYBOARD_HANDLER].initialize();
         this._pluginInstances[VALUE_HANDLER].initialize();
         this._pluginInstances[NORMAL_STATE].initialize();
         this._pluginInstances[POPUP].initialize();
+        this._pluginInstances[POSITIONER].initialize();
 
         this.isInitialized = true;
         this._initializedSubject.next(true);
@@ -889,6 +890,7 @@ export class NgSelectComponent<TValue> implements NgSelect<TValue>, OnChanges, O
 
                     let positioner = this._pluginInstances[POSITIONER] as Positioner;
                     positioner.selectElement = this._element.nativeElement;
+                    positioner.optionsGatherer = this.selectOptions.optionsGatherer;
 
                     this._pluginInstances[POSITIONER].initOptions();
                 }
