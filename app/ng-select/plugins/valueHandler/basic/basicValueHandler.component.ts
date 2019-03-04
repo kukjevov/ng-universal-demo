@@ -111,6 +111,8 @@ export class BasicValueHandlerComponent<TValue> extends ValueHandlerBase<TValue,
                 {
                     this.selectedOptions.push(option);
                 }
+
+                this.selectedOptions = [...this.selectedOptions];
             }
         }
         else

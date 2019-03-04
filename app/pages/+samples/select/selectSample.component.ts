@@ -1,10 +1,11 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {FormControl} from '@angular/forms';
 import {isString} from '@asseco/common';
 import {ComponentRoute} from '@ng/common';
 import {AuthGuard, Authorize} from '@ng/authentication';
 import {flyInOutTrigger} from '@ng/animations';
-import {KodPopisValue} from '../../../misc/types';
 
+import {KodPopisValue} from '../../../misc/types';
 import {BaseAnimatedComponent} from "../../../misc/baseAnimatedComponent";
 import {DataService} from '../../../services/api/data/data.service';
 import {NgSelectOptions, GetOptionsCallback, NgSelectOption, BasicLiveSearchComponent, DynamicValueHandlerComponent, DynamicValueHandlerOptions, DynamicOptionsGatherer} from '../../../ng-select';
@@ -43,6 +44,46 @@ export class SelectSampleComponent extends BaseAnimatedComponent
     public liveSearchSelectOptions: NgSelectOptions<KodPopisValue>;
 
     /**
+     * Form control sample
+     */
+    public select: FormControl;
+
+    /**
+     * Form control sample, readonly
+     */
+    public selectReadonly: FormControl;
+
+    /**
+     * Form control sample, custom readonly
+     */
+    public selectCustomReadonly: FormControl;
+
+    /**
+     * Form control sample, multiple
+     */
+    public selectMultiple: FormControl;
+
+    /**
+     * Form control sample, dynamic readonly
+     */
+    public selectDynamicReadonly: FormControl;
+
+    /**
+     * Form control sample, live search
+     */
+    public selectLiveSearch: FormControl;
+
+    /**
+     * Form control sample, custom templates
+     */
+    public selectCustomTemplates: FormControl;
+
+    /**
+     * Form control sample, dynamic
+     */
+    public selectDynamic: FormControl;
+
+    /**
      * Indication whether is NgSelect readonly
      */
     public readonly: boolean = false;
@@ -51,6 +92,15 @@ export class SelectSampleComponent extends BaseAnimatedComponent
     constructor(private _dataSvc: DataService)
     {
         super();
+
+        this.select = new FormControl(null);
+        this.selectReadonly = new FormControl(null);
+        this.selectCustomReadonly = new FormControl(null);
+        this.selectMultiple = new FormControl(null);
+        this.selectDynamicReadonly = new FormControl(null);
+        this.selectLiveSearch = new FormControl(null);
+        this.selectCustomTemplates = new FormControl(null);
+        this.selectDynamic = new FormControl(null);
 
         this.dynamicSelectOptions =
         {

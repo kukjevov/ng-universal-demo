@@ -2,7 +2,9 @@
 
 <h4>Select with static options</h4>
 
-<ng-select>
+<div>Value: {{select?.value | json}}</div>
+
+<ng-select [formControl]="select">
     <option value="first" text="First value text"></option>
     <option value="second" text="Second value text"></option>
     <option value="third" text="Third value text"></option>
@@ -12,7 +14,9 @@
 
 <h4>Select with static options, readonly</h4>
 
-<ng-select readonly>
+<div>Value: {{selectReadonly?.value | json}}</div>
+
+<ng-select readonly [formControl]="selectReadonly">
     <option value="first" text="First value text"></option>
     <option value="second" text="Second value text"></option>
     <option value="third" text="Third value text"></option>
@@ -22,7 +26,9 @@
 
 <h4>Select with static options, multiple</h4>
 
-<ng-select multiple>
+<div>Value: {{selectMultiple?.value | json}}</div>
+
+<ng-select multiple [formControl]="selectMultiple">
     <option value="first" text="First value text"></option>
     <option value="second" text="Second value text"></option>
     <option value="third" text="Third value text"></option>
@@ -32,11 +38,13 @@
 
 <h4>Select with static options, dynamic readonly</h4>
 
+<div>Value: {{selectDynamicReadonly?.value | json}}</div>
+
 <button (click)="readonly = !readonly">
     <span>{{readonly ? 'to normal' : 'to readonly'}}</span>
 </button>
 
-<ng-select [readonly]="readonly">
+<ng-select [readonly]="readonly" [formControl]="selectDynamicReadonly">
     <option value="first" text="First value text"></option>
     <option value="second" text="Second value text"></option>
     <option value="third" text="Third value text"></option>
@@ -46,7 +54,9 @@
 
 <h4>Select with static options, live search</h4>
 
-<ng-select [selectOptions]="liveSearchSelectOptions">
+<div>Value: {{selectLiveSearch?.value | json}}</div>
+
+<ng-select [selectOptions]="liveSearchSelectOptions" [formControl]="selectLiveSearch">
     <option value="first" text="First value text"></option>
     <option value="second" text="Second value text"></option>
     <option value="third" text="Third value text"></option>
@@ -56,7 +66,9 @@
 
 <h4>Select with static options, custom templates</h4>
 
-<ng-select>
+<div>Value: {{selectCustomTemplates?.value | json}}</div>
+
+<ng-select [formControl]="selectCustomTemplates">
     <option value="first" text="First value text"></option>
     <option value="second" text="Second value text"></option>
     <option value="third" text="Third value text"></option>
@@ -69,16 +81,20 @@
 
 <h4>Select with static options, dynamic</h4>
 
-<ng-select [selectOptions]="dynamicSelectOptions">
+<div>Value: {{selectDynamic?.value | json}}</div>
+
+<ng-select [selectOptions]="dynamicSelectOptions" [formControl]="selectDynamic">
 </ng-select>
 
 <h4>Select with static options, custom readonly</h4>
+
+<div>Value: {{selectCustomReadonly?.value | json}}</div>
 
 <button (click)="readonly = !readonly">
     <span>{{readonly ? 'to normal' : 'to readonly'}}</span>
 </button>
 
-<ng-select [readonly]="readonly" [selectOptions]="readonlySelectOptions">
+<ng-select [readonly]="readonly" [selectOptions]="readonlySelectOptions" [formControl]="selectCustomReadonly">
     <option value="first" text="First value text"></option>
     <option value="second" text="Second value text"></option>
     <option value="third" text="Third value text"></option>

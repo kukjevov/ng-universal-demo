@@ -6,7 +6,7 @@
 
 <div>
     <ng-template [ngIf]="!selectOptions?.readonly">
-        <ng-template [ngComponentOutletEx]="selectOptions?.plugins?.normalState?.type" (ngComponentOutletExCreated)="setNormalStateComponent($event)"></ng-template>
+        <ng-template [ngComponentOutletEx]="selectOptions?.plugins?.normalState?.type" (ngComponentOutletExCreated)="setNormalStateComponent($event)" [ngComponentOutletExContent]="liveSearchElement"></ng-template>
     </ng-template>
 
     <ng-template [ngIf]="selectOptions?.readonly">
