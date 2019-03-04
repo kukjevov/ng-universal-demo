@@ -187,6 +187,7 @@ export class DynamicValueHandlerComponent<TValue> extends ValueHandlerBase<TValu
         this._clearSelected();
         this._markValueAsSelected();
         this._normalState.invalidateVisuals();
+        this.valueChange.emit();
     }
 
     /**

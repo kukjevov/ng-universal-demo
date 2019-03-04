@@ -3,7 +3,7 @@ import {forwardRef, ExistingProvider, Directive, OnDestroy} from '@angular/core'
 import {Subscription} from 'rxjs';
 
 import {NgSelectComponent} from '../components/select';
-import {valueChange, setValue, onFocus, setReadonly} from '../extensions';
+import {valueChange, setValue, onFocus, setReadonly, getValue} from '../extensions';
 
 /**
  * Provider for control value accessor
@@ -58,6 +58,11 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
      */
     private _focusSubscription: Subscription = null;
 
+    /**
+     * Last set value to this control
+     */
+    private _value: TValue|TValue[];
+
     //######################### constructor #########################
     constructor(private _select: NgSelectComponent<TValue>)
     {
@@ -70,6 +75,8 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
      */
     public writeValue(value: TValue|Array<TValue>): void
     {
+        this._value = value;
+
         if(this._select.isInitialized)
         {
             this._select.execute(setValue(value));
@@ -111,6 +118,13 @@ export class NgSelectControlValueAccessor<TValue> implements ControlValueAccesso
                 }
 
                 this._changeSubscription = this._select.executeAndReturn(valueChange(fn));
+                let value = this._select.executeAndReturn(getValue());
+
+                if(this._value != value)
+                {
+                    this._value = value;
+                    fn(value);
+                }
             }
         });
     }
