@@ -234,10 +234,14 @@ export class BasicPopupComponent implements BasicPopup, NgSelectPluginGeneric<Ba
     {
         this.popupElementChildren.changes.subscribe(() =>
         {
+            aceDevMode && console.log('BasicPopupComponent.popupElementChildren: changes');
+
             if(!!this.popupElementChildren.first == this._popupVisible)
             {
                 return;
             }
+
+            aceDevMode && console.log('BasicPopupComponent.popupElementChildren: visibility changes');
 
             //handle click outside
             if(this.popupElementChildren.first)

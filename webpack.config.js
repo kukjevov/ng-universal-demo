@@ -274,6 +274,7 @@ module.exports = [function(options, args)
             {
                 isProduction: prod,
                 isNgsw: ngsw,
+                aceDevMode: false,
                 isAot: aot,
                 designerMetadata: true
                 // localPackage: JSON.stringify("@localDynamic/")

@@ -1,3 +1,5 @@
+import './ngDevMode';
+
 export * from './components/option';
 export * from './components/select';
 export * from './misc';
