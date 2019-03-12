@@ -3,7 +3,7 @@ import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, AUTH_INTERCEPTOR_CONFI
 import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService} from "@ng/common";
 import {ERROR_RESPONSE_MAP_PROVIDER, REPORTING_EXCEPTION_HANDLER_PROVIDER, HttpErrorInterceptorOptions, HTTP_ERROR_INTERCEPTOR_PROVIDER, BadRequestDetail, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER} from '@ng/error-handling';
 import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions} from '@ng/grid';
-import * as scrollmagic from 'scrollmagic';
+// import * as scrollmagic from 'scrollmagic';
 import * as config from 'config/global';
 // import 'ScrollMagic/scrollmagic/uncompressed/plugins/debug.addIndicators';
 
@@ -79,20 +79,20 @@ export function httpErrorInterceptorMappingFunction(err: any) : BadRequestDetail
     return result;
 }
 
-/**
- * Factory method for creating scrollmagic controller
- */
-export function scrollMagicControllerFactory()
-{
-    return new scrollmagic.Controller(
-    {
-        globalSceneOptions:
-        {
-            triggerHook: "onLeave"
-        }
-        // addIndicators: true
-    });
-}
+// /**
+//  * Factory method for creating scrollmagic controller
+//  */
+// export function scrollMagicControllerFactory()
+// {
+//     return new scrollmagic.Controller(
+//     {
+//         globalSceneOptions:
+//         {
+//             triggerHook: "onLeave"
+//         }
+//         // addIndicators: true
+//     });
+// }
 
 /**
  * Factory method for creating HttpGatewayTimeoutInterceptorOptions

@@ -1,1 +1,0 @@
-export * from './readonlyState.interface';

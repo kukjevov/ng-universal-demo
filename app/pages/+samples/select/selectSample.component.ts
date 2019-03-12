@@ -8,7 +8,7 @@ import {flyInOutTrigger} from '@ng/animations';
 import {KodPopisValue} from '../../../misc/types';
 import {BaseAnimatedComponent} from "../../../misc/baseAnimatedComponent";
 import {DataService} from '../../../services/api/data/data.service';
-import {NgSelectOptions, GetOptionsCallback, NgSelectOption, BasicLiveSearchComponent, DynamicValueHandlerComponent, DynamicValueHandlerOptions, DynamicOptionsGatherer} from '../../../ng-select';
+import {NgSelectOptions, GetOptionsCallback, NgSelectOption, BasicLiveSearchComponent, DynamicValueHandlerComponent, DynamicValueHandlerOptions, DynamicOptionsGatherer} from '@ng/select';
 import {CustomReadonlyStateComponent} from '../grid/customReadonlyState.component';
 
 /**

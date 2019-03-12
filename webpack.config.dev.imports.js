@@ -39,6 +39,7 @@ import "@ng/grid-extensions";
 import "@ng/md-help/web";
 import "@ng/notifications";
 import "@ng/rest";
+import "@ng/select"
 import "@ng/translate-extensions";
 import "@ng/treeview";
 import "@ngx-translate/core";

@@ -3,6 +3,14 @@ import {Observable} from 'rxjs';
 import * as moment from 'moment';
 import * as config from 'config/global';
 
+(function(global: any) 
+{
+    if(!global.HTMLDocument)
+    {
+        global.HTMLDocument = function(){};
+    }
+})(typeof window != 'undefined' && window || typeof self != 'undefined' && self || typeof global != 'undefined' && global);
+
 //HACK - prevents application crash if no error handler provided
 var observableSubscribe = Observable.prototype.subscribe;
 
