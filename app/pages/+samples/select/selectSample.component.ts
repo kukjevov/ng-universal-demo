@@ -1,14 +1,15 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {isString} from '@asseco/common';
 import {ComponentRoute} from '@ng/common';
 import {AuthGuard, Authorize} from '@ng/authentication';
 import {flyInOutTrigger} from '@ng/animations';
+import {NgSelectOptions, GetOptionsCallback, NgSelectOption, BasicLiveSearchComponent, DynamicValueHandlerComponent, DynamicValueHandlerOptions, DynamicOptionsGatherer, NgSelect} from '@ng/select';
+import {getValue} from '@ng/select/extensions';
 
 import {KodPopisValue} from '../../../misc/types';
 import {BaseAnimatedComponent} from "../../../misc/baseAnimatedComponent";
 import {DataService} from '../../../services/api/data/data.service';
-import {NgSelectOptions, GetOptionsCallback, NgSelectOption, BasicLiveSearchComponent, DynamicValueHandlerComponent, DynamicValueHandlerOptions, DynamicOptionsGatherer} from '@ng/select';
 import {CustomReadonlyStateComponent} from '../grid/customReadonlyState.component';
 
 /**
@@ -24,7 +25,7 @@ import {CustomReadonlyStateComponent} from '../grid/customReadonlyState.componen
 })
 @ComponentRoute({path: 'select', canActivate: [AuthGuard]})
 @Authorize("selectSample-page")
-export class SelectSampleComponent extends BaseAnimatedComponent
+export class SelectSampleComponent extends BaseAnimatedComponent implements AfterViewInit
 {
     //######################### public properties - template bindings #########################
 
@@ -97,6 +98,14 @@ export class SelectSampleComponent extends BaseAnimatedComponent
      * Array of lazy options
      */
     public lazyOptions: KodPopisValue[] = [];
+
+    //######################### public properties - children #########################
+
+    /**
+     * Instance of NgSelect
+     */
+    @ViewChild('ngSelect')
+    public ngSelect: NgSelect<string>;
 
     //######################### constructor #########################
     constructor(private _dataSvc: DataService,
@@ -184,6 +193,16 @@ export class SelectSampleComponent extends BaseAnimatedComponent
 
             this._changeDetector.detectChanges();
         }, 2500);
+    }
+
+    //######################### public methods - implementation of AfterViewInit #########################
+    
+    /**
+     * Called when view was initialized
+     */
+    public ngAfterViewInit()
+    {
+        console.log(this.ngSelect.executeAndReturn(getValue()));
     }
 
     //######################### private methods #########################

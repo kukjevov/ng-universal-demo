@@ -4,7 +4,7 @@
 
 <div>Value: {{select?.value | json}}</div>
 
-<ng-select [formControl]="select">
+<ng-select #ngSelect [formControl]="select">
     <option value="first" text="First value text"></option>
     <option value="second" text="Second value text"></option>
     <option value="third" text="Third value text"></option>
