@@ -5,11 +5,11 @@
 <div>Value: {{select?.value | json}}</div>
 
 <ng-select #ngSelect [formControl]="select">
-    <option value="first" text="First value text"></option>
-    <option value="second" text="Second value text"></option>
-    <option value="third" text="Third value text"></option>
-    <option value="fourth" text="Fourth value text"></option>
-    <option value="fifth" text="Fifth value text"></option>
+    <ng-option value="first" text="First value text"></ng-option>
+    <ng-option value="second" text="Second value text"></ng-option>
+    <ng-option value="third" text="Third value text"></ng-option>
+    <ng-option value="fourth" text="Fourth value text"></ng-option>
+    <ng-option value="fifth" text="Fifth value text"></ng-option>
 </ng-select>
 
 <h4>Select with static options, lazy loaded</h4>
@@ -17,7 +17,7 @@
 <div>Value: {{selectLazy?.value | json}}</div>
 
 <ng-select [formControl]="selectLazy">
-    <option *ngFor="let option of lazyOptions" [value]="option?.kod" [text]="option?.popis"></option>
+    <ng-option *ngFor="let option of lazyOptions" [value]="option?.kod" [text]="option?.popis"></ng-option>
 </ng-select>
 
 <h4>Select with static options, readonly</h4>
@@ -25,11 +25,11 @@
 <div>Value: {{selectReadonly?.value | json}}</div>
 
 <ng-select readonly [formControl]="selectReadonly">
-    <option value="first" text="First value text"></option>
-    <option value="second" text="Second value text"></option>
-    <option value="third" text="Third value text"></option>
-    <option value="fourth" text="Fourth value text"></option>
-    <option value="fifth" text="Fifth value text"></option>
+    <ng-option value="first" text="First value text"></ng-option>
+    <ng-option value="second" text="Second value text"></ng-option>
+    <ng-option value="third" text="Third value text"></ng-option>
+    <ng-option value="fourth" text="Fourth value text"></ng-option>
+    <ng-option value="fifth" text="Fifth value text"></ng-option>
 </ng-select>
 
 <h4>Select with static options, multiple</h4>
@@ -37,11 +37,11 @@
 <div>Value: {{selectMultiple?.value | json}}</div>
 
 <ng-select multiple [formControl]="selectMultiple">
-    <option value="first" text="First value text"></option>
-    <option value="second" text="Second value text"></option>
-    <option value="third" text="Third value text"></option>
-    <option value="fourth" text="Fourth value text"></option>
-    <option value="fifth" text="Fifth value text"></option>
+    <ng-option value="first" text="First value text"></ng-option>
+    <ng-option value="second" text="Second value text"></ng-option>
+    <ng-option value="third" text="Third value text"></ng-option>
+    <ng-option value="fourth" text="Fourth value text"></ng-option>
+    <ng-option value="fifth" text="Fifth value text"></ng-option>
 </ng-select>
 
 <h4>Select with static options, dynamic readonly</h4>
@@ -53,11 +53,11 @@
 </button>
 
 <ng-select [readonly]="readonly" [formControl]="selectDynamicReadonly">
-    <option value="first" text="First value text"></option>
-    <option value="second" text="Second value text"></option>
-    <option value="third" text="Third value text"></option>
-    <option value="fourth" text="Fourth value text"></option>
-    <option value="fifth" text="Fifth value text"></option>
+    <ng-option value="first" text="First value text"></ng-option>
+    <ng-option value="second" text="Second value text"></ng-option>
+    <ng-option value="third" text="Third value text"></ng-option>
+    <ng-option value="fourth" text="Fourth value text"></ng-option>
+    <ng-option value="fifth" text="Fifth value text"></ng-option>
 </ng-select>
 
 <h4>Select with static options, live search</h4>
@@ -65,11 +65,11 @@
 <div>Value: {{selectLiveSearch?.value | json}}</div>
 
 <ng-select [selectOptions]="liveSearchSelectOptions" [formControl]="selectLiveSearch">
-    <option value="first" text="First value text"></option>
-    <option value="second" text="Second value text"></option>
-    <option value="third" text="Third value text"></option>
-    <option value="fourth" text="Fourth value text"></option>
-    <option value="fifth" text="Fifth value text"></option>
+    <ng-option value="first" text="First value text"></ng-option>
+    <ng-option value="second" text="Second value text"></ng-option>
+    <ng-option value="third" text="Third value text"></ng-option>
+    <ng-option value="fourth" text="Fourth value text"></ng-option>
+    <ng-option value="fifth" text="Fifth value text"></ng-option>
 </ng-select>
 
 <h4>Select with static options, custom templates</h4>
@@ -77,11 +77,11 @@
 <div>Value: {{selectCustomTemplates?.value | json}}</div>
 
 <ng-select [formControl]="selectCustomTemplates">
-    <option value="first" text="First value text"></option>
-    <option value="second" text="Second value text"></option>
-    <option value="third" text="Third value text"></option>
-    <option value="fourth" text="Fourth value text"></option>
-    <option value="fifth" text="Fifth value text"></option>
+    <ng-option value="first" text="First value text"></ng-option>
+    <ng-option value="second" text="Second value text"></ng-option>
+    <ng-option value="third" text="Third value text"></ng-option>
+    <ng-option value="fourth" text="Fourth value text"></ng-option>
+    <ng-option value="fifth" text="Fifth value text"></ng-option>
 
     <ng-template #normalStateTemplate let-normalState>{{normalState?.valueHandler?.selectedOptions?.value}} - {{normalState?.valueHandler?.selectedOptions | ngSelectValue: normalState?.texts?.nothingSelected}}</ng-template>
     <ng-template #optionTemplate let-option>{{option?.value}} - {{option?.text}}</ng-template>
@@ -103,9 +103,9 @@
 </button>
 
 <ng-select [readonly]="readonly" [selectOptions]="readonlySelectOptions" [formControl]="selectCustomReadonly">
-    <option value="first" text="First value text"></option>
-    <option value="second" text="Second value text"></option>
-    <option value="third" text="Third value text"></option>
-    <option value="fourth" text="Fourth value text"></option>
-    <option value="fifth" text="Fifth value text"></option>
+    <ng-option value="first" text="First value text"></ng-option>
+    <ng-option value="second" text="Second value text"></ng-option>
+    <ng-option value="third" text="Third value text"></ng-option>
+    <ng-option value="fourth" text="Fourth value text"></ng-option>
+    <ng-option value="fifth" text="Fifth value text"></ng-option>
 </ng-select>
