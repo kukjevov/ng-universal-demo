@@ -14,7 +14,6 @@ import {appComponents, appRoutesModule} from './app.component.routes';
 import {CommonSharedModule} from './commonShared.module';
 import {APP_TRANSFER_ID} from '../misc/constants';
 import {providers} from './app.config';
-import {NgDynamicCoreModule} from '../ngDynamic-core';
 import {CustomReadonlyStateComponent} from '../pages/+samples/grid/customReadonlyState.component';
 
 /**
@@ -57,7 +56,6 @@ export function externalTranslationLoaderFactory(http: HttpClient, injector: Inj
         ProgressIndicatorModule,
         ServiceWorkerModule.register('/ngsw-worker.js', {enabled: false}),
         PrebootModule.withConfig({ appRoot: 'app' }),
-        NgDynamicCoreModule.forRoot(),
         CommonSharedModule,
         appRoutesModule
     ],

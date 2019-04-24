@@ -1,1 +1,0 @@
-export {InputModuleNgFactory as ngModuleFactory} from './input.module.ngfactory';

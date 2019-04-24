@@ -1,1 +1,0 @@
-export {SimpleModuleNgFactory as ngModuleFactory} from './simple.module.ngfactory';

@@ -1,1 +1,0 @@
-export {ButtonComponentOptions} from './button/component';

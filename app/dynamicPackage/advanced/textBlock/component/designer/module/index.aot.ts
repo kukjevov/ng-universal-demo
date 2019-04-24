@@ -1,1 +1,0 @@
-export {TextBlockDesignerModuleNgFactory as ngModuleFactory} from './textBlockDesigner.module.ngfactory';
