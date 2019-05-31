@@ -21,6 +21,7 @@
         [
             "moment",
             "node",
+            "bootstrap",
             "jasmine",
             "positions",
             "reflect-metadata",

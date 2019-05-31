@@ -24,8 +24,6 @@ import "@angular/common/http";
 import "@angular/platform-browser";
 import "@angular/platform-browser-dynamic";
 import "@angular/platform-browser-dynamic/testing";
-import "@angular/http";
-import "@angular/http/testing";
 import "@angular/forms";
 import "@angular/router";
 import "@angular/router/testing";
@@ -35,13 +33,11 @@ import "@ng/bootstrap";
 import "@ng/common";
 import "@ng/error-handling";
 import "@ng/grid";
-import "@ng/grid-extensions";
 import "@ng/md-help/web";
 import "@ng/notifications";
 import "@ng/rest";
 import "@ng/select"
 import "@ng/translate-extensions";
-import "@ng/treeview";
 import "@ngx-translate/core";
 
 import 'zone.js/dist/zone';

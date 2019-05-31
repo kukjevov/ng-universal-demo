@@ -61,27 +61,27 @@ export class GridSampleComponent extends BaseAnimatedComponent
     /**
      * Grid component instance
      */
-    @ViewChild('gridSample')
+    @ViewChild('gridSample', {static: false})
     public _sampleGrid: GridComponent;
 
     /**
      * Grid component instance
      */
-    @ViewChild('gridLoadMore')
+    @ViewChild('gridLoadMore', {static: false})
     public _gridLoadMore: GridComponent;
 
 
     /**
      * Grid component instance
      */
-    @ViewChild('gridContentScroll')
+    @ViewChild('gridContentScroll', {static: false})
     public _gridContentScroll: GridComponent;
 
 
     /**
      * Grid component instance
      */
-    @ViewChild('gridPageScroll')
+    @ViewChild('gridPageScroll', {static: false})
     public _gridPageScroll: GridComponent;
 
     //######################### constructor #########################

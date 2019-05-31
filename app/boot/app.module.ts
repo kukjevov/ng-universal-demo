@@ -28,8 +28,8 @@ export function externalTranslationLoaderFactory(http: HttpClient, injector: Inj
                                                                                "pages/home",
                                                                                "pages/samplePages"],
                                                                               ".json"),
-                                         injector.get(SERVER_BASE_URL, null),
-                                         http);
+                                         http,
+                                         injector.get(SERVER_BASE_URL, null));
 }
 
 /**

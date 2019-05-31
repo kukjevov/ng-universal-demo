@@ -104,7 +104,7 @@ export class SelectSampleComponent extends BaseAnimatedComponent implements Afte
     /**
      * Instance of NgSelect
      */
-    @ViewChild('ngSelect')
+    @ViewChild('ngSelect', {static: false})
     public ngSelect: NgSelect<string>;
 
     //######################### constructor #########################

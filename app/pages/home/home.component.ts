@@ -1,10 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {trigger, animate, style, query, transition, group} from '@angular/animations';
-import {FormBuilder} from '@angular/forms';
 import {ComponentRoute} from "@ng/common";
 import {flyInOutTrigger, slideInOutTriggerFactory} from '@ng/animations';
 import {Authorize, AuthGuard} from '@ng/authentication';
-import {FancyTreeNodeData, FancyTreeComponent} from '@ng/treeview';
 import {map} from 'rxjs/operators';
 
 import {DataService} from "../../services/api/data/data.service";
@@ -61,63 +59,21 @@ export class HomeComponent extends BaseAnimatedComponent implements OnInit
         debugLevel: 0
     };
 
-    public treeData: FancyTreeNodeData[] =
-    [
-        {
-            content: 'uzol 1'
-        },
-        {
-            content: 'uzol 2',
-            folder: true,
-            extraClasses: 'italic',
-            key: 'zzz',
-            expanded: true,
-            children:
-            [
-                {
-                    content: 'uzol 2.1'
-                },
-                {
-                    content: 'uzol 2.2',
-                    children:
-                    [
-                        {
-                            content: 'uzol 2.2.1',
-                            extraClasses: 'bold'
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-
     public trigger = "in";
 
-    // public optionsGetter: GetOptionsCallback<string> = (query: string, options: Array<OptionComponent<string>>) =>
-    // {
-    //     return Promise.resolve(options.filter(itm => itm.text.indexOf(query) >= 0));
-    // }
-
-    @ViewChild('treeview')
-    public tree: FancyTreeComponent;
-
     //######################### constructor #########################
-    constructor(private dataSvc: DataService,
-                formBuilder: FormBuilder)
+    constructor(private dataSvc: DataService)
     {
         super();
     }
 
     //######################### public methods #########################
-    public ngOnInit()
+    public async ngOnInit()
     {
-        this.dataSvc.getData().pipe(map(data =>
+        this.subs = await this.dataSvc.getData().pipe(map(data =>
         {
             return `${data.greeting} ${data.name}`;
-        })).subscribe(data =>
-        {
-            this.subs = data;
-        });
+        })).toPromise();
     }
 
     public longCall()
@@ -137,7 +93,6 @@ export class HomeComponent extends BaseAnimatedComponent implements OnInit
      */
     public ngAfterViewChecked()
     {
-        this.tree.invalidateVisuals();
     }
 
     public inc()

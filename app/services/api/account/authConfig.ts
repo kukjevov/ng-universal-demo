@@ -1,7 +1,5 @@
 import {Injectable, Injector} from "@angular/core";
-import {AuthenticationService, AUTHENTICATION_SERVICE_OPTIONS, AuthenticationServiceOptions, AuthInterceptorConfig} from "@ng/authentication";
-
-import {UserIdentity} from "@ng/authentication/dist/common/userIdentity";
+import {AuthenticationService, AUTHENTICATION_SERVICE_OPTIONS, AuthenticationServiceOptions, AuthInterceptorConfig, UserIdentity} from "@ng/authentication";
 
 /**
  * Auth Interceptor Config implementation
