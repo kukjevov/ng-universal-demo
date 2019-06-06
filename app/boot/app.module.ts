@@ -14,7 +14,6 @@ import {appComponents, appRoutesModule} from './app.component.routes';
 import {CommonSharedModule} from './commonShared.module';
 import {APP_TRANSFER_ID} from '../misc/constants';
 import {providers} from './app.config';
-import {CustomReadonlyStateComponent} from '../pages/+samples/grid/customReadonlyState.component';
 
 /**
  * Factory method that is used for creating external translation loader
@@ -60,8 +59,7 @@ export function externalTranslationLoaderFactory(http: HttpClient, injector: Inj
         appRoutesModule
     ],
     providers: providers,
-    declarations: [AppComponent, NavigationComponent, CustomReadonlyStateComponent, ...appComponents],
-    entryComponents: [CustomReadonlyStateComponent],
+    declarations: [AppComponent, NavigationComponent, ...appComponents],
     exports: [AppComponent]
 })
 export class AppModule

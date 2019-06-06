@@ -7,12 +7,10 @@
     "exclude":
     [
         "node_modules",
-        "app",
         "karma-test-shim.ts"
     ],
     "angularCompilerOptions":
     {
-        "entryModule": "./app.aot/boot/browser-app.module#BrowserAppModule",
-        "skipMetadataEmit": true
+        "enableIvy": true
     }
 }

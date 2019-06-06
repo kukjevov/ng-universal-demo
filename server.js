@@ -68,7 +68,7 @@ console.log(`Using proxy url '${proxyUrl}'`);
 if(!!argv.webpack)
 {
     var webpack = require('webpack'),
-        webpackConfig = require('./webpack.config.js')[0]({hmr: true, dll: true}),
+        webpackConfig = require('./webpack.config.js')[0]({hmr: true, dll: true, aot: true}),
         webpackDev = require('webpack-dev-middleware'),
         hmr = require("webpack-hot-middleware");
 

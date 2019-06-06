@@ -24,16 +24,15 @@ const tsconfigs =
 
 /**
  * Gets entries for webpack
- * @param {boolean} aot Indicates that it should be AOT entries
  * @param {boolean} ssr Indicates that it should be entries for server side rendering
  * @param {boolean} hmr Indication that currently is running hmr build
  */
-function getEntries(aot, ssr, hmr, dll)
+function getEntries(ssr, hmr, dll)
 {
     if(ssr)
     {
         return {
-            server: aot ? path.join(__dirname, "app.aot/main.server.ts") : path.join(__dirname, "app/main.server.ts")
+            server: path.join(__dirname, "app/main.server.ts")
         };
     }
     else
@@ -41,7 +40,7 @@ function getEntries(aot, ssr, hmr, dll)
         var entries =
         {
             style: [path.join(__dirname, "content/site.scss")],
-            client: hmr ? [path.join(__dirname, "app/main.browser.hmr.ts")] : (aot ? [path.join(__dirname, "app.aot/main.browser.ts")] : [path.join(__dirname, "app/main.browser.ts")]),
+            client: hmr ? [path.join(__dirname, "app/main.browser.hmr.ts")] : [path.join(__dirname, "app/main.browser.ts")],
             externalStyle:
             [
                 "font-awesome/css/font-awesome.min.css",
@@ -140,7 +139,7 @@ module.exports = [function(options, args)
 
     var config =
     {
-        entry: getEntries(aot, ssr, hmr, dll),
+        entry: getEntries(ssr, hmr, dll),
         output:
         {
             globalObject: 'self',
@@ -150,7 +149,7 @@ module.exports = [function(options, args)
             chunkFilename: `[name].${ssr ? 'server' : 'client'}.chunk.js`
         },
         mode: 'development',
-        devtool: hmr ? 'none' : 'source-map',
+        devtool: 'source-map',
         target: ssr ? 'node' : 'web',
         resolve:
         {
@@ -166,7 +165,8 @@ module.exports = [function(options, args)
                 "config/global": path.join(__dirname, prod ? "config/global.json" : "config/global.development.json"),
                 "config/version": path.join(__dirname, "config/version.json"),
                 "app": path.join(__dirname, "app")
-            })
+            }),
+            mainFields: ['browser', 'esm2015', 'module', 'main']
         },
         module:
         {

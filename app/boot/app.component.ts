@@ -3,10 +3,11 @@ import {Router, NavigationStart, NavigationEnd, NavigationError, NavigationCance
 import {GlobalizationService, ProgressIndicatorService, CookieService} from '@ng/common';
 import {AuthenticationService} from '@ng/authentication';
 import {TranslateService} from "@ngx-translate/core";
-import {LANG_COOKIE} from '../misc/constants';
 import {Subscription} from 'rxjs';
 import * as global from 'config/global';
 import * as moment from 'moment';
+
+import {LANG_COOKIE} from '../misc/constants';
 
 /**
  * Application entry component

@@ -2,7 +2,7 @@ import './dependencies';
 import './dependencies.browser';
 import 'zone.js/dist/zone';
 import './hacks';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import {platformBrowser} from '@angular/platform-browser';
 import {NgModuleRef, enableProdMode} from '@angular/core';
 import {Utils} from '@ng/common';
 import {RestTransferStateService} from '@ng/rest';
@@ -16,7 +16,7 @@ if(isProduction)
 
 document.addEventListener('DOMContentLoaded', () => 
 {
-    Utils.common.runWhenModuleStable(platformBrowserDynamic().bootstrapModule(BrowserAppModule), (moduleRef: NgModuleRef<{}>) => 
+    Utils.common.runWhenModuleStable(platformBrowser().bootstrapModule(BrowserAppModule), (moduleRef: NgModuleRef<{}>) => 
     {
         moduleRef.injector.get(RestTransferStateService).clearAndDeactivate();
     }, config.debug);

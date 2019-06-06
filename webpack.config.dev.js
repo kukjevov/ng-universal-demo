@@ -32,7 +32,8 @@ module.exports = function()
                 "typeahead": path.join(__dirname, "node_modules/typeahead.js/dist/typeahead.jquery.js"),
                 "jquery.fancytree": path.join(__dirname, "node_modules/jquery.fancytree/src"),
                 "moment": path.join(__dirname, "node_modules/moment/min/moment-with-locales.js")
-            }
+            },
+            mainFields: ['browser', 'esm2015', 'module', 'main']
         },
         module:
         {
