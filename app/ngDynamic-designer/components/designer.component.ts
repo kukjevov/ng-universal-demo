@@ -69,19 +69,19 @@ export class DesignerPageComponent implements OnInit, OnDestroy
     /**
      * Instance of layout designer component
      */
-    @ViewChild(LayoutDesignerComponent)
+    @ViewChild(LayoutDesignerComponent, {static: false})
     public ɵLayoutDesigner: LayoutDesignerComponent;
 
     /**
      * Instance of node designer component
      */
-    @ViewChild(NodeDesignerModeComponent)
+    @ViewChild(NodeDesignerModeComponent, {static: false})
     public ɵNodeDesigner: NodeDesignerModeComponent;
 
     /**
      * Instance of code editor component
      */
-    @ViewChild(CodeEditorComponent)
+    @ViewChild(CodeEditorComponent, {static: false})
     public ɵCodeEditor: CodeEditorComponent;
 
     //######################### constructor #########################

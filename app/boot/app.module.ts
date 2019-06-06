@@ -15,6 +15,7 @@ import {APP_TRANSFER_ID} from '../misc/constants';
 import {providers} from './app.config';
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
 import {TestContent, TestWrapper} from '../components/test';
+import {NgDynamicCoreModule} from '../ngDynamic-core';
 
 
 /**
@@ -44,6 +45,7 @@ import {TestContent, TestWrapper} from '../components/test';
                 useClass: WebpackTranslateLoaderService
             }
         })
+        NgDynamicCoreModule,
     ],
     providers: providers,
     declarations: [AppComponent, NavigationComponent, TestWrapper, TestContent, ...routes],
