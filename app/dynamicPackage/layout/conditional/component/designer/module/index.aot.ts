@@ -1,1 +1,0 @@
-export {ConditionalDesignerModuleNgFactory as ngModuleFactory} from './conditionalDesigner.module.ngfactory';

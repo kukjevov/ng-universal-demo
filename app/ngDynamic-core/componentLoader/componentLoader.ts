@@ -1,11 +1,9 @@
-import {Injectable, ComponentFactory, Injector, NgModuleRef, NgModuleFactory, Compiler, Optional, Inject} from "@angular/core";
+import {Injectable, ComponentFactory, Injector, NgModuleRef, ɵNgModuleFactory as NgModuleFactory, Optional, Inject, ComponentFactoryResolver} from "@angular/core";
 import {isString} from "@asseco/common";
 
 import {DynamicComponentMetadata, DynamicComponent} from "../interfaces";
 import {DynamicModule} from "./componentLoader.interface";
 import {DYNAMIC_MODULE_LOADERS, DynamicModuleLoader} from "../dynamicModuleLoader";
-
-declare var isAot: boolean;
 
 /**
  * Loader used for obtaining ComponentFactory from component`s metadata
@@ -25,7 +23,7 @@ export class ComponentLoader
     {
         if(!this._moduleLoaders || !Array.isArray(this._moduleLoaders) || !this._moduleLoaders.length)
         {
-            throw new Error('There is "dynamic module loader" provided!');
+            throw new Error('There is no "dynamic module loader" provided!');
         }
     }
 
@@ -68,33 +66,39 @@ export class ComponentLoader
 
     /**
      * Resolves component factory and its ngModule from dynamic module
-     * @param dynamicModule Dynamic module to be resolved as component factory with its ngModule
+     * @param dynamicModule Dynamic module to be resolved as component factory
+     * @param parentInjector Injector provided from parent to be used
+     * @param componentName Name of component used for displaying if error occurs
      */
     public static async resolveComponentFactory(dynamicModule: DynamicModule, parentInjector: Injector, componentName: string): Promise<{factory: ComponentFactory<DynamicComponent>, module: NgModuleRef<any>}>
     {
-        let moduleFactoryPromise = await dynamicModule.moduleFactory;
-        let moduleFactory: NgModuleFactory<any> = moduleFactoryPromise && moduleFactoryPromise.ngModuleFactory;
+        let moduleFactory: NgModuleFactory<any>;
 
-        //not aot build
-        if(!isAot && !moduleFactory && dynamicModule.module)
+        //NgModule provided
+        if(dynamicModule.module)
         {
-            let compiler: Compiler = parentInjector.get(Compiler);
-            moduleFactory = compiler.compileModuleSync(dynamicModule.module);
+            moduleFactory = new NgModuleFactory(dynamicModule.module);
         }
 
-        //module not found
-        if(!moduleFactory)
-        {
-            throw new Error(`Unable to obtain component\`s module for '${componentName}'!`);
-        }
-
+        //mising component name
         if(!dynamicModule.component)
         {
             throw new Error(`Unable to obtain '${componentName}' component!`);
         }
 
-        let parentModule = parentInjector.get(NgModuleRef);
-        let moduleRef = moduleFactory.create(parentModule.injector);
+        //component without module
+        if(!moduleFactory)
+        {
+            let componentResolver: ComponentFactoryResolver = parentInjector.get(ComponentFactoryResolver);
+
+            return {
+                factory: componentResolver.resolveComponentFactory(dynamicModule.component),
+                module: null
+            };
+        }
+
+        //with module providers
+        let moduleRef = moduleFactory.create(parentInjector);
         let componentFactory = moduleRef.componentFactoryResolver.resolveComponentFactory(dynamicModule.component);
 
         return {
