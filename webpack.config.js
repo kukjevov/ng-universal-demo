@@ -144,7 +144,8 @@ module.exports = [function(options, args)
                 "moment": path.join(__dirname, "node_modules/moment/min/moment-with-locales.js"),
                 "config/global": path.join(__dirname, prod ? "config/global.json" : "config/global.development.json"),
                 "config/version": path.join(__dirname, "config/version.json"),
-                "app": path.join(__dirname, "app")
+                "app": path.join(__dirname, "app"),
+                "@ngDynamic": path.join(__dirname, "app/dynamicPackage")
             }),
             mainFields: ['browser', 'esm2015', 'module', 'main']
         },
