@@ -15,6 +15,7 @@ import {CommonSharedModule} from './commonShared.module';
 import {APP_TRANSFER_ID} from '../misc/constants';
 import {providers} from './app.config';
 import {HelloWorldModule} from '../pages/ivy/hello-world.module';
+import {NgDynamicCoreModule} from '../ngDynamic-core';
 
 /**
  * Factory method that is used for creating external translation loader
@@ -58,6 +59,7 @@ export function externalTranslationLoaderFactory(http: HttpClient, injector: Inj
         PrebootModule.withConfig({ appRoot: 'app' }),
         CommonSharedModule,
         HelloWorldModule,
+        NgDynamicCoreModule,
         appRoutesModule
     ],
     providers: providers,

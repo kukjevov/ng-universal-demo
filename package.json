@@ -55,6 +55,7 @@
         "@angular/platform-browser-dynamic": "8.0.0",
         "@angular/router": "8.0.0",
         "@angular/service-worker": "8.0.0",
+        "@angular/cdk": "8.0.0",
         "@ng/animations": "6.0.0",
         "@ng/authentication": "6.0.0",
         "@ng/bootstrap": "6.0.0",

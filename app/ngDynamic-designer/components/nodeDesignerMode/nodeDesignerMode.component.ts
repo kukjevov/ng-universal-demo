@@ -64,13 +64,13 @@ export class NodeDesignerModeComponent implements OnDestroy, AfterViewInit
     /**
      * Node designer instance
      */
-    @ViewChild(NodeDesignerComponent)
+    @ViewChild(NodeDesignerComponent, {static: false})
     public nodeDesigner: NodeDesignerComponent;
 
     /**
      * Node component palette instance
      */
-    @ViewChild(NodeComponentPaletteComponent)
+    @ViewChild(NodeComponentPaletteComponent, {static: false})
     public nodeComponentPallete: NodeComponentPaletteComponent;
 
     //######################### constructor #########################

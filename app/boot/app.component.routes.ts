@@ -6,6 +6,7 @@ import {HomeComponent} from '../pages/home/home.component';
 import {AccessDeniedComponent} from "../pages/accessDenied/accessDenied.component";
 import {LoginComponent} from "../pages/login/login.component";
 import {NotFoundComponent} from "../pages/notFound/notFound.component";
+import {dynamicComponentPageRoute} from '../ngDynamic-core';
 
 var componentRoutes = Utils.routerHelper.extractRoutes([HomeComponent,
                                                         AccessDeniedComponent,
@@ -14,6 +15,7 @@ var componentRoutes = Utils.routerHelper.extractRoutes([HomeComponent,
 
 var routes = 
 [
+    dynamicComponentPageRoute,
     {
         path: 'samples',
         loadChildren: () => import('../pages/+samples/samples.module').then(({SamplesModule}) => SamplesModule)
