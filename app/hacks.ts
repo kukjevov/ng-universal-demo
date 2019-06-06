@@ -1,7 +1,9 @@
-import {isFunction, isBlank} from '@asseco/common';
+import {isFunction, isBlank, initializeAceDevMode} from '@asseco/common';
 import {Observable} from 'rxjs';
 import * as moment from 'moment';
 import * as config from 'config/global';
+
+initializeAceDevMode();
 
 (function(global: any) 
 {

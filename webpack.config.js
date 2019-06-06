@@ -12,7 +12,6 @@ var webpack = require('webpack'),
     BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
     rxPaths = require('rxjs/_esm5/path-mapping'),
     extend = require('extend'),
-    // HardSourceWebpackPlugin = require('hard-source-webpack-plugin'),
     AngularCompilerPlugin =  require('@ngtools/webpack').AngularCompilerPlugin;
 
 //array of paths for server and browser tsconfigs
@@ -25,9 +24,9 @@ const tsconfigs =
 /**
  * Gets entries for webpack
  * @param {boolean} ssr Indicates that it should be entries for server side rendering
- * @param {boolean} hmr Indication that currently is running hmr build
+ * @param {boolean} dll Indicates that it should be entries for server side rendering
  */
-function getEntries(ssr, hmr, dll)
+function getEntries(ssr, dll)
 {
     if(ssr)
     {
@@ -39,8 +38,7 @@ function getEntries(ssr, hmr, dll)
     {
         var entries =
         {
-            style: [path.join(__dirname, "content/site.scss")],
-            client: hmr ? [path.join(__dirname, "app/main.browser.hmr.ts")] : [path.join(__dirname, "app/main.browser.ts")],
+            ...dll ? {"import-dependencies": './webpack.config.dev.imports'} : {},
             externalStyle:
             [
                 "font-awesome/css/font-awesome.min.css",
@@ -51,13 +49,12 @@ function getEntries(ssr, hmr, dll)
                 "jquery.fancytree/skin-lion/ui.fancytree.css",
                 "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",
                 "highlight.js/styles/googlecode.css"
-            ]
+            ],
+            style: [path.join(__dirname, "content/site.scss")],
+            client: [path.join(__dirname, "app/main.browser.ts")],
         };
 
-        if(dll)
-        {
-            entries['import-dependencies'] = './webpack.config.dev.imports';
-        }
+        entryPoints = Object.keys(entries);
 
         return entries;
     }
@@ -79,24 +76,6 @@ function getAotPlugin(platform)
 }
 
 /**
- * Gets array of webpack loaders for typescript files
- * @param {boolean} aot Indication that currently is running build using AOT
- * @param {boolean} hmr Indication that currently is running build using HMR
- */
-function getTypescriptLoaders(aot, hmr)
-{
-    if(aot)
-    {
-        return ['@ngtools/webpack'];
-    }
-    else
-    {
-        return ['awesome-typescript-loader', 'angular2-template-loader', 'webpack-lazy-module-loader']
-            .concat(hmr ? ['webpack-hmr-module-loader'] : []);
-    }
-}
-
-/**
  * Gets array of webpack loaders for external style files
  * @param {boolean} prod Indication that currently is running production build
  */
@@ -115,6 +94,7 @@ function getStyleLoaders(prod)
 }
 
 var distPath = "wwwroot/dist";
+var entryPoints = [];
 
 module.exports = [function(options, args)
 {
@@ -139,7 +119,7 @@ module.exports = [function(options, args)
 
     var config =
     {
-        entry: getEntries(ssr, hmr, dll),
+        entry: getEntries(ssr, dll),
         output:
         {
             globalObject: 'self',
@@ -149,7 +129,7 @@ module.exports = [function(options, args)
             chunkFilename: `[name].${ssr ? 'server' : 'client'}.chunk.js`
         },
         mode: 'development',
-        devtool: 'source-map',
+        devtool: hmr ? 'none' : 'source-map',
         target: ssr ? 'node' : 'web',
         resolve:
         {
@@ -210,8 +190,8 @@ module.exports = [function(options, args)
                 },
                 //file processing
                 {
-                    test: aot ? /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/ : /\.ts$/,
-                    use: getTypescriptLoaders(aot, hmr)
+                    test: /\.ts$/,
+                    loader: '@ngtools/webpack'
                 },
                 {
                     test: /\.html$/,
@@ -249,36 +229,19 @@ module.exports = [function(options, args)
         },
         plugins:
         [
-            new WebpackNotifierPlugin({title: `Webpack - ${hmr ? 'HMR' : (ssr ? 'SSR' : 'BUILD')}`, excludeWarnings: true, alwaysNotify: true}),
+            new WebpackNotifierPlugin({title: `Webpack - ${hmr ? 'HMR' : (ssr ? 'SSR' : 'BUILD')}`, excludeWarnings: true, alwaysNotify: true, sound: false}),
             //copy external dependencies
             new CopyWebpackPlugin(
             [
-                // {
-                //     context: path.join(__dirname, "content/help"),
-                //     from: '**/*.*',
-                //     to: 'md'
-                // },
-                // {
-                //     from: path.join(__dirname, "../changelog.md"),
-                //     to: 'md',
-                //     flatten: true
-                // },
-                // {
-                //     from: path.join(__dirname, "../readme.md"),
-                //     to: 'md',
-                //     flatten: true
-                // }
             ]),
             new webpack.DefinePlugin(
             {
                 isProduction: prod,
                 isNgsw: ngsw,
-                aceDevMode: false,
-                isAot: aot,
+                aceDevMode: !prod,
+                ngDevMode: !prod,
                 designerMetadata: true
-                // localPackage: JSON.stringify("@localDynamic/")
             })
-            // new webpack.IgnorePlugin(/\.\/locale$/),
         ]
     };
 
@@ -294,30 +257,23 @@ module.exports = [function(options, args)
             filename: "../index.html",
             template: path.join(__dirname, "index.html"),
             inject: 'head',
-            chunksSortMode: function orderEntryLast(a, b)
+            chunksSortMode: function orderEntryLast(left, right)
             {
-                //import-dependencies always as first
-                if(a.names[0] == 'import-dependencies')
-                {
-                    return -1;
-                }
+                let leftIndex = entryPoints.indexOf(left.names[0]);
+                let rightIndex = entryPoints.indexOf(right.names[0]);
 
-                if(b.names[0] == 'import-dependencies')
+                if (leftIndex > rightIndex)
                 {
                     return 1;
                 }
-
-                if(a.names[0] == 'externalStyle')
+                else if (leftIndex < rightIndex)
                 {
                     return -1;
                 }
-
-                if(b.names[0] == 'externalStyle')
+                else
                 {
-                    return 1;
+                    return 0;
                 }
-
-                return 0;
             }
         }));
 
@@ -383,16 +339,7 @@ module.exports = [function(options, args)
 
         config.plugins.push(new CompressionPlugin({test: /\.js$|\.css$/}));
     }
-    else
-    {
-        // config.plugins.push(new HardSourceWebpackPlugin());
-        // config.plugins.push(new HardSourceWebpackPlugin.ExcludeModulePlugin(
-        // [
-        //     {
-        //         test: /mini-css-extract-plugin[\\/]dist[\\/]loader/,
-        //     }
-        // ]));
-    }
+
 
     //this is used for debugging speed of compilation
     if(debug)

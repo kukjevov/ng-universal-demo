@@ -14,6 +14,7 @@ import 'highlight.js';
 import 'sourcemapped-stacktrace';
 import 'file-saver';
 
+import "@asseco/common";
 import "@angular/animations";
 import "@angular/core";
 import "@angular/core/testing";
