@@ -19,6 +19,10 @@ export const routesOptions: ModuleRoutesOptions =
             loadChildren: () => import('./lazyRoute/lazyRoute.module').then(({LazyRouteModule}) => LazyRouteModule)
         },
         {
+            path: 'samples',
+            loadChildren: () => import('../+samples/samples.module').then(({SamplesModule}) => SamplesModule)
+        },
+        {
             path: 'static',
             component: StaticRoutedComponent
         }

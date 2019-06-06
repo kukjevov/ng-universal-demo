@@ -1,0 +1,111 @@
+<h3>Select Sample</h3>
+
+<h4>Select with static options</h4>
+
+<div>Value: {{select?.value | json}}</div>
+
+<ng-select #ngSelect [formControl]="select">
+    <ng-option value="first" text="First value text"></ng-option>
+    <ng-option value="second" text="Second value text"></ng-option>
+    <ng-option value="third" text="Third value text"></ng-option>
+    <ng-option value="fourth" text="Fourth value text"></ng-option>
+    <ng-option value="fifth" text="Fifth value text"></ng-option>
+</ng-select>
+
+<h4>Select with static options, lazy loaded</h4>
+
+<div>Value: {{selectLazy?.value | json}}</div>
+
+<ng-select [formControl]="selectLazy">
+    <ng-option *ngFor="let option of lazyOptions" [value]="option?.kod" [text]="option?.popis"></ng-option>
+</ng-select>
+
+<h4>Select with static options, readonly</h4>
+
+<div>Value: {{selectReadonly?.value | json}}</div>
+
+<ng-select readonly [formControl]="selectReadonly">
+    <ng-option value="first" text="First value text"></ng-option>
+    <ng-option value="second" text="Second value text"></ng-option>
+    <ng-option value="third" text="Third value text"></ng-option>
+    <ng-option value="fourth" text="Fourth value text"></ng-option>
+    <ng-option value="fifth" text="Fifth value text"></ng-option>
+</ng-select>
+
+<h4>Select with static options, multiple</h4>
+
+<div>Value: {{selectMultiple?.value | json}}</div>
+
+<ng-select multiple [formControl]="selectMultiple">
+    <ng-option value="first" text="First value text"></ng-option>
+    <ng-option value="second" text="Second value text"></ng-option>
+    <ng-option value="third" text="Third value text"></ng-option>
+    <ng-option value="fourth" text="Fourth value text"></ng-option>
+    <ng-option value="fifth" text="Fifth value text"></ng-option>
+</ng-select>
+
+<h4>Select with static options, dynamic readonly</h4>
+
+<div>Value: {{selectDynamicReadonly?.value | json}}</div>
+
+<button (click)="readonly = !readonly">
+    <span>{{readonly ? 'to normal' : 'to readonly'}}</span>
+</button>
+
+<ng-select [readonly]="readonly" [formControl]="selectDynamicReadonly">
+    <ng-option value="first" text="First value text"></ng-option>
+    <ng-option value="second" text="Second value text"></ng-option>
+    <ng-option value="third" text="Third value text"></ng-option>
+    <ng-option value="fourth" text="Fourth value text"></ng-option>
+    <ng-option value="fifth" text="Fifth value text"></ng-option>
+</ng-select>
+
+<h4>Select with static options, live search</h4>
+
+<div>Value: {{selectLiveSearch?.value | json}}</div>
+
+<ng-select [selectOptions]="liveSearchSelectOptions" [formControl]="selectLiveSearch">
+    <ng-option value="first" text="First value text"></ng-option>
+    <ng-option value="second" text="Second value text"></ng-option>
+    <ng-option value="third" text="Third value text"></ng-option>
+    <ng-option value="fourth" text="Fourth value text"></ng-option>
+    <ng-option value="fifth" text="Fifth value text"></ng-option>
+</ng-select>
+
+<h4>Select with static options, custom templates</h4>
+
+<div>Value: {{selectCustomTemplates?.value | json}}</div>
+
+<ng-select [formControl]="selectCustomTemplates">
+    <ng-option value="first" text="First value text"></ng-option>
+    <ng-option value="second" text="Second value text"></ng-option>
+    <ng-option value="third" text="Third value text"></ng-option>
+    <ng-option value="fourth" text="Fourth value text"></ng-option>
+    <ng-option value="fifth" text="Fifth value text"></ng-option>
+
+    <ng-template #normalStateTemplate let-normalState>{{normalState?.valueHandler?.selectedOptions?.value}} - {{normalState?.valueHandler?.selectedOptions | ngSelectValue: normalState?.texts?.nothingSelected}}</ng-template>
+    <ng-template #optionTemplate let-option>{{option?.value}} - {{option?.text}}</ng-template>
+</ng-select>
+
+<h4>Select with static options, dynamic</h4>
+
+<div>Value: {{selectDynamic?.value | json}}</div>
+
+<ng-select [selectOptions]="dynamicSelectOptions" [formControl]="selectDynamic">
+</ng-select>
+
+<h4>Select with static options, custom readonly</h4>
+
+<div>Value: {{selectCustomReadonly?.value | json}}</div>
+
+<button (click)="readonly = !readonly">
+    <span>{{readonly ? 'to normal' : 'to readonly'}}</span>
+</button>
+
+<ng-select [readonly]="readonly" [selectOptions]="readonlySelectOptions" [formControl]="selectCustomReadonly">
+    <ng-option value="first" text="First value text"></ng-option>
+    <ng-option value="second" text="Second value text"></ng-option>
+    <ng-option value="third" text="Third value text"></ng-option>
+    <ng-option value="fourth" text="Fourth value text"></ng-option>
+    <ng-option value="fifth" text="Fifth value text"></ng-option>
+</ng-select>
