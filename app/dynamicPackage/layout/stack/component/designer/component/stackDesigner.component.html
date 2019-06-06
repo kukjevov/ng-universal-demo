@@ -1,0 +1,22 @@
+<designer-component-header [layoutMetadata]="options"></designer-component-header>
+
+<div
+    droppable
+    (dropped)="onDrop($event, index)"
+    draggable="true" 
+    [class.inline-block]="options?.value['inline']"
+    [style.paddingTop.px]="options?.value['padding.top']"
+    [style.paddingLeft.px]="options?.value['padding.left']"
+    [style.paddingRight.px]="options?.value['padding.right']"
+    [style.paddingBottom.px]="options?.value['padding.bottom']"
+    [style.marginTop.px]="options?.value['margin.top']"
+    [style.marginLeft.px]="options?.value['margin.left']"
+    [style.marginRight.px]="options?.value['margin.right']"
+    [style.marginBottom.px]="options?.value['margin.bottom']"
+    *ngFor="let child of childrenData; let index = index">
+    <ng-template [designerComponentRenderer]="child" #layoutComponents="designerComponentRenderer"></ng-template>
+</div>
+<drop-area *ngIf="childrenData.length == 0"
+           droppable="true"
+           (dropped)="onDrop($event)">
+</drop-area>

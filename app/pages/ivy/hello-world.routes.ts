@@ -11,7 +11,6 @@ export const routes: Type<any>[] =
 
 export const routesOptions: ModuleRoutesOptions =
 {
-    rootModule: true,
     staticRoutesBefore:
     [
         {

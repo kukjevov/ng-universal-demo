@@ -1,0 +1,56 @@
+<!-- TOTO je len ukazka -->
+<div *ngIf="propertiesMetadata">
+    <h3>{{propertiesMetadata?.name}}</h3>
+    <div>{{propertiesMetadata?.description}}</div>
+</div>
+
+<div style="margin-top: 20px;">
+    <ng-container *ngFor="let property of propertiesMetadata?.properties | onlyVisible">
+        <ng-container [ngSwitch]="property.type">
+            <ng-template [ngSwitchCase]="propertyTypes.Collection">
+                <div class="collection">
+                    <div style="font-weight: bold;">
+                        <span style="float: right; font-size: 1.2em; cursor: pointer;" (click)="addCollectionItem(property, propertiesForm?.controls[property.id])">+</span>
+                        <span>{{property.name}}</span>
+                    </div>
+    
+                    <div>{{property.description}}</div>
+    
+                    <div *ngFor="let collectionGroup of propertiesForm?.controls[property.id]?.controls; let index=index"
+                         style="border-top: 1px solid #333;">
+                        <div style="float: right; font-size: 1.2em; cursor: pointer;" (click)="propertiesForm?.controls[property.id].removeAt(index)">-</div>
+                        <div *ngFor="let itemProperty of property.arrayItemProperty | onlyVisible"
+                             style="margin-bottom: 10px;"
+                             [property]="itemProperty"
+                             [control]="collectionGroup.controls[itemProperty.id]"></div>
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template [ngSwitchCase]="propertyTypes.Array">
+                <div class="collection">
+                    <div style="font-weight: bold;">
+                        <span style="float: right; font-size: 1.2em; cursor: pointer;" (click)="addArrayItem(property, propertiesForm?.controls[property.id])">+</span>
+                        <span>{{property.name}}</span>
+                    </div>
+    
+                    <div>{{property.description}}</div>
+
+                    <div *ngFor="let arrayControl of propertiesForm?.controls[property.id]?.controls; let index=index">
+                        <div style="float: right; font-size: 1.2em; cursor: pointer;" (click)="propertiesForm?.controls[property.id].removeAt(index)">-</div>
+                        <div style="margin-bottom: 10px;"
+                             [property]="property"
+                             [control]="arrayControl"
+                             [arrayItem]="true"></div>
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template ngSwitchDefault>
+                <div style="margin-bottom: 20px;"
+                     [property]="property"
+                     [control]="propertiesForm?.controls[property.id]"></div>
+            </ng-template>
+        </ng-container>
+    </ng-container>
+</div>
