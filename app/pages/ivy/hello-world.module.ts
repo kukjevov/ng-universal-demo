@@ -1,19 +1,15 @@
 import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {CommonModule} from '@angular/common';
-import {RouterModule} from '@angular/router';
 
 import {HelloWorld} from './hello-world';
 import {ModuleRoutes} from './moduleRoutes';
 import {routes, routesOptions} from './hello-world.routes';
+import {CommonSharedModule} from '../../boot/commonShared.module';
 
 @NgModule(
 {
   imports:
   [
-    CommonModule,
-    BrowserModule,
-    RouterModule
+    CommonSharedModule
   ],
   declarations: 
   [

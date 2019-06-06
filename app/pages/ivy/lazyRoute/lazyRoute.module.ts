@@ -1,17 +1,15 @@
 import {NgModule, ValueProvider} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {CommonModule as NgCommonModule} from '@ng/common';
 
 import {components} from './lazyRoute.routes';
 import {ModuleRoutes} from '../moduleRoutes';
 import {ProvideClass} from '../provider';
+import {CommonSharedModule} from '../../../boot/commonShared.module';
 
 @NgModule(
 {
   imports:
   [
-    CommonModule,
-    NgCommonModule
+    CommonSharedModule
   ],
   declarations: 
   [

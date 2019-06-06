@@ -7,6 +7,8 @@ import {map} from 'rxjs/operators';
 
 import {DataService} from "../../services/api/data/data.service";
 import {BaseAnimatedComponent} from "../../misc/baseAnimatedComponent";
+import {GridOptions, TableContentRendererOptions, AsyncDataLoaderOptions, SimpleOrdering, BasicPagingOptions, QueryPagingInitializerComponent, DataResponse} from '@ng/grid';
+import {GridDataService} from '../../services/api/gridData/gridData.service';
 
 /**
  * Home component
@@ -15,7 +17,7 @@ import {BaseAnimatedComponent} from "../../misc/baseAnimatedComponent";
 {
     selector: 'home-view',
     templateUrl: 'home.component.html',
-    providers: [DataService],
+    providers: [DataService, GridDataService],
     animations:
     [
         slideInOutTriggerFactory({inParams: {heightDuration: '150ms', opacityDuration: '350ms'}, outParams: {heightDuration: '150ms 150ms', opacityDuration: '250ms'}}),
@@ -50,6 +52,11 @@ export class HomeComponent extends BaseAnimatedComponent implements OnInit
     public show: boolean = false;
     public counter = 0;
 
+    /**
+     * Grid options that are used for grid initialization
+     */
+    public gridOptions: GridOptions;
+
     public treeOptions: Fancytree.FancytreeOptions =
     {
         icon: (val, val2: Fancytree.EventData) =>
@@ -62,9 +69,43 @@ export class HomeComponent extends BaseAnimatedComponent implements OnInit
     public trigger = "in";
 
     //######################### constructor #########################
-    constructor(private dataSvc: DataService)
+    constructor(private dataSvc: DataService,
+                private _grdDataSvc: GridDataService)
     {
         super();
+
+        this.gridOptions =
+        {
+            plugins:
+            {
+                contentRenderer:
+                {
+                    options: <TableContentRendererOptions>
+                    {
+                    }
+                },
+                dataLoader:
+                {
+                    options: <AsyncDataLoaderOptions<any, SimpleOrdering>>
+                    {
+                        dataCallback: this._getData.bind(this)
+                    }
+                },
+                paging:
+                {
+                    options: <BasicPagingOptions>
+                    {
+                        itemsPerPageValues: [10, 20],
+                        initialItemsPerPage: 10,
+                        initialPage: 1
+                    }
+                },
+                pagingInitializer:
+                {
+                    type: QueryPagingInitializerComponent
+                }
+            }
+        };
     }
 
     //######################### public methods #########################
@@ -104,5 +145,26 @@ export class HomeComponent extends BaseAnimatedComponent implements OnInit
     public toggle()
     {
         this.show = !this.show;
+    }
+
+    /**
+     * Callback used for obtaining data
+     * @param  {number} page Index of requested page
+     * @param  {number} itemsPerPage Number of items per page
+     * @param  {TOrdering} ordering Order by column name
+     */
+    private async _getData(page: number, itemsPerPage: number, ordering: SimpleOrdering): Promise<DataResponse<any>>
+    {
+        let result = await this._grdDataSvc
+            .getGridData(
+            {
+                page: (page - 1),
+                size: itemsPerPage
+            }).toPromise();
+
+        return {
+            data: result.content,
+            totalCount: result.totalElements
+        };
     }
 }

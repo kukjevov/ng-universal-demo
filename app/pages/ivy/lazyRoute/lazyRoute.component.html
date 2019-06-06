@@ -5,3 +5,18 @@
 <div>{{12354.123 | numeral: '0,0.00'}}</div>
 
 <ng-template [ngComponentOutletEx]="type"></ng-template>
+
+<ng-grid [gridOptions]="gridOptions">
+    <basic-table-metadata>
+        <basic-table-column id="id" name="id" title="ID"></basic-table-column>
+        <basic-table-column id="index" name="index" title="Index"></basic-table-column>
+        <basic-table-column id="isActive" name="isActive" title="Active"></basic-table-column>
+        <basic-table-column id="balance" name="balance" title="Balance"></basic-table-column>
+        <basic-table-column id="age" name="age" title="Age"></basic-table-column>
+        <basic-table-column id="name" name="name" title="First name"></basic-table-column>
+        <basic-table-column id="surname" name="surname" title="Surname"></basic-table-column>
+        <basic-table-column id="email" name="email" title="E-Mail"></basic-table-column>
+        <basic-table-column id="address" name="address" title="Address"></basic-table-column>
+        <basic-table-column id="phone" name="phone" title="Phone"></basic-table-column>
+    </basic-table-metadata>
+</ng-grid>

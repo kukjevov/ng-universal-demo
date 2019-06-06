@@ -1,4 +1,6 @@
 import {NgModule} from '@angular/core';
+import {GridModule} from '@ng/grid';
+import {NgSelectModule} from '@ng/select';
 
 import {sampleComponents} from './samples.component.routes';
 import {CommonSharedModule} from "../../boot/commonShared.module";
@@ -11,6 +13,8 @@ import {ModuleRoutes} from '../ivy/moduleRoutes';
     imports:
     [
         CommonSharedModule,
+        GridModule,
+        NgSelectModule
     ]
 })
 @ModuleRoutes(sampleComponents)

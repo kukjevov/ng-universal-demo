@@ -14,6 +14,10 @@ var componentRoutes = Utils.routerHelper.extractRoutes([HomeComponent,
 
 var routes = 
 [
+    {
+        path: 'samples',
+        loadChildren: () => import('../pages/+samples/samples.module').then(({SamplesModule}) => SamplesModule)
+    },
     ...componentRoutes
 ];
 
