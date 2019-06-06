@@ -1,0 +1,42 @@
+:host
+{
+    display: block;
+    padding: 8px;
+    color: #F8F8F8;
+
+    &>.title
+    {
+        font-size: 1.5em;
+        text-align: center;
+    }
+}
+
+.section
+{
+    margin-top: 20px;
+    box-shadow: 0 -7px 8px -7px #F8F8F8;
+
+    .title
+    {
+        font-size: 1.3em;
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+
+    .uppercase
+    {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: bold;
+    }
+
+    .component-item
+    {
+        background-image: linear-gradient(to bottom, #334435, #134718);
+        border-radius: 4px;
+        margin: 5px 0;
+        padding: 0 4px;
+        cursor: grab;
+    }
+}
+

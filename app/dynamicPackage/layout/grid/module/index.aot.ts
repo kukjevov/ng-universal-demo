@@ -1,0 +1,1 @@
+export {GridModuleNgFactory as ngModuleFactory} from './grid.module.ngfactory';

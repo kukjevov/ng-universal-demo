@@ -1,0 +1,1 @@
+export {StackModuleNgFactory as ngModuleFactory} from './stack.module.ngfactory';

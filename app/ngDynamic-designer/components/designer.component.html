@@ -1,0 +1,26 @@
+<div class="layout-designer">
+    <header>
+        <button type="button" class="btn btn-primary pull-right" (click)="save()">
+            Save
+        </button>
+        <button type="button" class="btn btn-primary" [class.active]="isMode(designerModes.LAYOUT)" (click)="setMode(designerModes.LAYOUT)">
+            Layout
+        </button>
+        <button type="button" class="btn btn-primary" [class.active]="isMode(designerModes.NODE)" (click)="setMode(designerModes.NODE)">
+            Node
+        </button>
+        <button type="button" class="btn btn-primary" [class.active]="isMode(designerModes.CODE)" (click)="setMode(designerModes.CODE)" *ngIf="isMode(designerModes.CODE)">
+            Code
+        </button>
+
+        <span style="margin-left: 10px;">Name: {{id}}</span>
+    </header>
+    
+    <layout-designer [style.display]="isMode(designerModes.LAYOUT) ? 'contents': 'none'" [packageNames]="designerPackageNames" [rootComponentMetadata]="designerState?.metadata?.layout"></layout-designer>
+    <node-designer-mode [style.display]="isMode(designerModes.NODE) ? 'contents': 'none'" [relationsMetadata]="designerState?.metadata?.relations || []" [metadata]="designerState?.designerMetadata?.nodeDesignerMetadata || []"></node-designer-mode>
+    <div code-editor [style.display]="isMode(designerModes.CODE) ? 'block': 'none'"></div>
+
+    <aside class="right">
+        <properties></properties>
+    </aside>
+</div>

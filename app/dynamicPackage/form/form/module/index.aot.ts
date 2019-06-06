@@ -1,0 +1,1 @@
+export {FormModuleNgFactory as ngModuleFactory} from './form.module.ngfactory';
