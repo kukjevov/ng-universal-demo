@@ -15,8 +15,7 @@ export const layoutMetadata: LayoutMetadata =
             customTypeComponent: 
             {
                 component: LeftTopRightBottomNumberComponent,
-                module: null,
-                moduleFactory: null
+                module: null
             }
         },
         {

@@ -1,1 +1,0 @@
-export {BlockModuleNgFactory as ngModuleFactory} from './block.module.ngfactory';
