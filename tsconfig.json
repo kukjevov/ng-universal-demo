@@ -28,8 +28,7 @@
             "jquery.fancytree",
             "jquery.fancytree.extended",
             "scrollmagic",
-            "highlight.js",
-            "handlebars"
+            "highlight.js"
         ],
         "typeRoots": 
         [
