@@ -1,6 +1,6 @@
-import {Component, ChangeDetectionStrategy, ValueProvider, SkipSelf} from "@angular/core";
+import {Component, ChangeDetectionStrategy, ValueProvider, SkipSelf, Optional} from "@angular/core";
 
-import {ProvideClass} from "../provider";
+import {ProvideClass, Test} from "../provider";
 
 @Component(
 {
@@ -22,9 +22,11 @@ import {ProvideClass} from "../provider";
 export class SelectComponent
 {
     constructor(provideClass: ProvideClass,
-                @SkipSelf() parentProvideClass: ProvideClass)
+                @SkipSelf() parentProvideClass: ProvideClass,
+                @Optional() test: Test)
     {
         console.log(provideClass);
         console.log(parentProvideClass);
+        console.log('sel', test);
     }
 }

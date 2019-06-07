@@ -1,4 +1,5 @@
-import {Component, ChangeDetectionStrategy} from "@angular/core";
+import {Component, ChangeDetectionStrategy, Optional} from "@angular/core";
+import {Test} from "./provider";
 
 @Component(
 {
@@ -11,6 +12,11 @@ import {Component, ChangeDetectionStrategy} from "@angular/core";
 export class Lazy2Component
 {
     array: number[] = [];
+
+    constructor(@Optional() test: Test)
+    {
+        console.log('test2', test);
+    }
 
     add()
     {
