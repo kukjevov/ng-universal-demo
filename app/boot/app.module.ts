@@ -45,7 +45,7 @@ import {NgDynamicCoreModule} from '../ngDynamic-core';
                 useClass: WebpackTranslateLoaderService
             }
         })
-        NgDynamicCoreModule,
+        NgDynamicCoreModule.forRoot(),
     ],
     providers: providers,
     declarations: [AppComponent, NavigationComponent, TestWrapper, TestContent, ...routes],

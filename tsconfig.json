@@ -12,24 +12,24 @@
         "strictNullChecks": false,
         "moduleResolution": "node",
         "outDir": "wwwroot/app",
-        "lib": 
+        "lib":
         [
             "es2016",
             "dom"
         ],
-        "types": 
+        "types":
         [
             "node",
             "bootstrap",
             "highlight.js",
             "konami.js"
         ],
-        "typeRoots": 
+        "typeRoots":
         [
             "node_modules/@types",
             "node_modules/@anglr/types"
         ],
-        "plugins": 
+        "plugins":
         [
             {
                 "name": "@angular/language-service"
@@ -45,7 +45,7 @@
         "app/**/*.ts",
         "packages/**/*.ts"
     ],
-    "exclude": 
+    "exclude":
     [
         "node_modules"
     ]
