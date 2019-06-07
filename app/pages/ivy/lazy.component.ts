@@ -1,4 +1,5 @@
-import {Component, ChangeDetectionStrategy} from "@angular/core";
+import {Component, ChangeDetectionStrategy, Optional} from "@angular/core";
+import {Test} from "./provider";
 
 @Component(
 {
@@ -15,5 +16,10 @@ export class LazyComponent
     toggle()
     {
         this.cond = !this.cond;
+    }
+
+    constructor(@Optional() test: Test)
+    {
+        console.log('test', test);
     }
 }
