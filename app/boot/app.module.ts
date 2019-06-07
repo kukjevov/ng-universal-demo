@@ -59,7 +59,7 @@ export function externalTranslationLoaderFactory(http: HttpClient, injector: Inj
         PrebootModule.withConfig({ appRoot: 'app' }),
         CommonSharedModule,
         HelloWorldModule,
-        NgDynamicCoreModule,
+        NgDynamicCoreModule.forRoot(),
         appRoutesModule
     ],
     providers: providers,

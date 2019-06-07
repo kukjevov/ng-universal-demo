@@ -12,12 +12,12 @@
         "strictNullChecks": false,
         "moduleResolution": "node",
         "outDir": "wwwroot/app",
-        "lib": 
+        "lib":
         [
             "es2016",
             "dom"
         ],
-        "types": 
+        "types":
         [
             "moment",
             "node",
@@ -30,19 +30,19 @@
             "scrollmagic",
             "highlight.js"
         ],
-        "typeRoots": 
+        "typeRoots":
         [
             "node_modules/@types",
             "node_modules/@ng/types"
         ],
-        "plugins": 
+        "plugins":
         [
             {
                 "name": "@angular/language-service"
             }
         ]
     },
-    "exclude": 
+    "exclude":
     [
         "node_modules"
     ]
