@@ -51,7 +51,7 @@ function getEntries(ssr, dll)
                 "highlight.js/styles/googlecode.css"
             ],
             style: [path.join(__dirname, "content/site.scss")],
-            client: [path.join(__dirname, "app/main.browser.ts")],
+            client: [path.join(__dirname, "app/main.browser.ts")]
         };
 
         entryPoints = Object.keys(entries);

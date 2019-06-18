@@ -13,6 +13,7 @@ import 'scrollmagic';
 import 'highlight.js';
 import 'sourcemapped-stacktrace';
 import 'file-saver';
+import 'positions';
 
 import "@asseco/common";
 import "@angular/animations";
@@ -37,7 +38,7 @@ import "@ng/grid";
 import "@ng/md-help/web";
 import "@ng/notifications";
 import "@ng/rest";
-import "@ng/select"
+import "@ng/select";
 import "@ng/translate-extensions";
 import "@ngx-translate/core";
 
