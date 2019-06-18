@@ -14,6 +14,7 @@
         "commonSample-page",
         "notificationsSample-page",
         "authorizationSample-page",
-        "home-page"
+        "home-page",
+        "showWithThis"
     ]
 }

@@ -6,6 +6,7 @@ import {BootstrapModule} from '@ng/bootstrap';
 import {GridModule} from '@ng/grid';
 import {CommonModule as NgCommonModule} from '@ng/common';
 import {NumeralModule} from '@ng/common/numeral';
+import {NumberInputModule} from '@ng/common/forms';
 import {NotificationsModule} from '@ng/notifications';
 import {InternalServerErrorModule, ServerValidationsModule} from '@ng/error-handling';
 import {AuthorizationModule} from '@ng/authentication';
@@ -26,6 +27,7 @@ import {TranslateModule} from '@ngx-translate/core';
         RouterModule,
         NgCommonModule,
         NumeralModule,
+        NumberInputModule,
         TranslateModule,
         NotificationsModule,
         GridModule,
