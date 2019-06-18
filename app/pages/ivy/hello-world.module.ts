@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
+import {ModuleRoutes} from '@ng/common/router';
 
 import {HelloWorld} from './hello-world';
-import {ModuleRoutes} from './moduleRoutes';
 import {routes, routesOptions} from './hello-world.routes';
 import {CommonSharedModule} from '../../boot/commonShared.module';
 

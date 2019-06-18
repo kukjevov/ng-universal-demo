@@ -4,12 +4,12 @@ import 'zone.js/dist/zone';
 import './hacks';
 import {platformBrowser} from '@angular/platform-browser';
 import {NgModuleRef, enableProdMode} from '@angular/core';
-import {Utils} from '@ng/common';
+import {runWhenModuleStable} from '@ng/common';
 import {RestTransferStateService} from '@ng/rest';
+import {hmrAccept, hmrFinishedNotification} from '@ng/common/hmr';
 import * as config from 'config/global';
 
 import {BrowserAppModule} from './boot/browser-app.module';
-import {hmrAccept, hmrFinishedNotification} from './hmr';
 
 if(isProduction)
 {
@@ -25,7 +25,7 @@ aceDevMode && hmrAccept(() => platform);
 
 var platform = platformBrowser();
 
-Utils.common.runWhenModuleStable(platform.bootstrapModule(BrowserAppModule), (moduleRef: NgModuleRef<{}>) => 
+runWhenModuleStable(platform.bootstrapModule(BrowserAppModule), (moduleRef: NgModuleRef<{}>) => 
 {
     moduleRef.injector.get(RestTransferStateService).clearAndDeactivate();
     

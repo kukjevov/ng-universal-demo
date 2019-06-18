@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ComponentRoute} from '@ng/common';
+import {ComponentRoute} from '@ng/common/router';
 import {Authorize, AuthGuard} from '@ng/authentication';
 import {flyInOutTrigger} from '@ng/animations';
 import {GlobalNotificationsService, LocalNotificationsService} from '@ng/notifications';

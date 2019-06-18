@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from "@angular/core";
-import {ComponentRoute} from "@ng/common";
+import {ComponentRoute} from "@ng/common/router";
 
 @Component(
 {

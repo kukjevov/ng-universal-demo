@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-import {ComponentRoute, StatusCodeService} from '@ng/common';
+import {ComponentRoute} from '@ng/common/router';
+import {StatusCodeService} from '@ng/common';
 import {flyInOutTrigger} from '@ng/animations';
 import {BaseAnimatedComponent} from "../../misc/baseAnimatedComponent";
 

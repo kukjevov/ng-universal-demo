@@ -84,6 +84,14 @@ if(!!argv.webpack)
     app.use(hmr(compiler));
 }
 
+//config override
+app.use('GET', /\/config$/, function(_req, res)
+{
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(require('./config/global.override')));
+});
+
 //mock rest api
 require('./server.mock')(app);
 

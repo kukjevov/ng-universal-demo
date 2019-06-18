@@ -46,7 +46,6 @@ function getEntries(ssr, dll)
                 "bootstrap/dist/css/bootstrap-theme.min.css",
                 "bootstrap-select/dist/css/bootstrap-select.min.css",
                 "eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
-                "jquery.fancytree/skin-lion/ui.fancytree.css",
                 "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",
                 "highlight.js/styles/googlecode.css"
             ],
@@ -140,9 +139,9 @@ module.exports = [function(options, args)
                 "numeral-languages": path.join(__dirname, "node_modules/numeral/locales.js"),
                 "handlebars": path.join(__dirname, "node_modules/handlebars/dist/handlebars.js"),
                 "typeahead": path.join(__dirname, "node_modules/typeahead.js/dist/typeahead.jquery.js"),
-                "jquery.fancytree": path.join(__dirname, "node_modules/jquery.fancytree/src"),
                 "moment": path.join(__dirname, "node_modules/moment/min/moment-with-locales.js"),
-                "config/global": path.join(__dirname, prod ? "config/global.json" : "config/global.development.json"),
+                "config/global": path.join(__dirname, "config/config.js"),
+                "config/default": path.join(__dirname, prod ? "config/global.json" : "config/global.development.json"),
                 "config/version": path.join(__dirname, "config/version.json"),
                 "app": path.join(__dirname, "app")
             }),
@@ -340,7 +339,6 @@ module.exports = [function(options, args)
         config.plugins.push(new CompressionPlugin({test: /\.js$|\.css$/}));
     }
 
-
     //this is used for debugging speed of compilation
     if(debug)
     {
@@ -371,7 +369,7 @@ module.exports = [function(options, args)
 	},
     module: 
     {
-		rules: [
+        rules: [
         {
 			test: /\.css$/,
 			use: ['style-loader', 'css-loader']

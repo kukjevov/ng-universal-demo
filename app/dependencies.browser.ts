@@ -6,4 +6,3 @@ import 'bootstrap-select';
 import 'eonasdan-bootstrap-datetimepicker';
 import 'bootstrap-switch';
 import 'typeahead';
-import 'jquery.fancytree/jquery.fancytree';

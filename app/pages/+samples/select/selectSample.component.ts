@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {isString} from '@asseco/common';
-import {ComponentRoute} from '@ng/common';
+import {ComponentRoute} from '@ng/common/router';
 import {AuthGuard, Authorize} from '@ng/authentication';
 import {flyInOutTrigger} from '@ng/animations';
 import {NgSelectOptions, GetOptionsCallback, NgSelectOption, BasicLiveSearchComponent, DynamicValueHandlerComponent, DynamicValueHandlerOptions, DynamicOptionsGatherer, NgSelect} from '@ng/select';

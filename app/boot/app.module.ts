@@ -4,13 +4,14 @@ import {ServiceWorkerModule} from '@angular/service-worker';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {ExternalTranslationLoader, ExternalTranslationLoaderOptions} from '@ng/translate-extensions';
 import {ProgressIndicatorModule, SERVER_BASE_URL} from '@ng/common';
+import {ModuleRoutes} from '@ng/common/router';
 import {InternalServerErrorModule} from '@ng/error-handling';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {PrebootModule} from 'preboot';
 
 import {AppComponent} from './app.component';
 import {NavigationComponent} from '../components/navigation/navigation.component';
-import {appComponents, appRoutesModule} from './app.component.routes';
+import {routes, routesOptions} from './app.component.routes';
 import {CommonSharedModule} from './commonShared.module';
 import {APP_TRANSFER_ID} from '../misc/constants';
 import {providers} from './app.config';
@@ -57,13 +58,13 @@ export function externalTranslationLoaderFactory(http: HttpClient, injector: Inj
         ServiceWorkerModule.register('/ngsw-worker.js', {enabled: false}),
         PrebootModule.withConfig({ appRoot: 'app' }),
         CommonSharedModule,
-        HelloWorldModule,
-        appRoutesModule
+        HelloWorldModule
     ],
     providers: providers,
-    declarations: [AppComponent, NavigationComponent, ...appComponents],
+    declarations: [AppComponent, NavigationComponent, ...routes],
     exports: [AppComponent]
 })
+@ModuleRoutes(routes, routesOptions)
 export class AppModule
 {
 }

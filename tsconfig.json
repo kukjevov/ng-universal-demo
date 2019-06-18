@@ -25,8 +25,6 @@
             "jasmine",
             "positions",
             "reflect-metadata",
-            "jquery.fancytree",
-            "jquery.fancytree.extended",
             "scrollmagic",
             "highlight.js"
         ],

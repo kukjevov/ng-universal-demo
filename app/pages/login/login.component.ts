@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {ComponentRoute} from '@ng/common';
+import {ComponentRoute} from '@ng/common/router';
 import {flyInOutTrigger} from '@ng/animations';
 import {AuthenticationService, Authorize, AuthGuard} from '@ng/authentication';
 import {empty} from 'rxjs';

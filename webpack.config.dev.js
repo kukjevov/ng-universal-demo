@@ -30,10 +30,9 @@ module.exports = function()
                 "numeral-languages": path.join(__dirname, "node_modules/numeral/locales.js"),
                 "handlebars": path.join(__dirname, "node_modules/handlebars/dist/handlebars.js"),
                 "typeahead": path.join(__dirname, "node_modules/typeahead.js/dist/typeahead.jquery.js"),
-                "jquery.fancytree": path.join(__dirname, "node_modules/jquery.fancytree/src"),
                 "moment": path.join(__dirname, "node_modules/moment/min/moment-with-locales.js")
             },
-            mainFields: ['browser', 'esm2015', 'module', 'main']
+            mainFields: ['browser', 'esm2015', 'jsnext:main', 'module', 'main']
         },
         module:
         {

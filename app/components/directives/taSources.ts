@@ -2,7 +2,7 @@ import {Directive} from '@angular/core';
 import {map} from 'rxjs/operators';
 
 import {DataService} from "../../services/api/data/data.service";
-import {TypeaheadDirective, TypeaheadTagsComponent} from "@ng/bootstrap";
+import {TypeaheadDirective, TypeaheadTagsComponent} from "@ng/bootstrap/typeahead";
 
 /**
  * Directive used for setting typeahead source

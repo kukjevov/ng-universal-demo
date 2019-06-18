@@ -1,6 +1,6 @@
 import {Type} from "@angular/core";
+import {ModuleRoutesOptions} from "@ng/common/router";
 
-import {ModuleRoutesOptions} from "./moduleRoutes";
 import {RoutedComponent} from "./routed/routed.component";
 import {StaticRoutedComponent} from "./routed/staticRouted.component";
 
@@ -11,7 +11,6 @@ export const routes: Type<any>[] =
 
 export const routesOptions: ModuleRoutesOptions =
 {
-    rootModule: true,
     staticRoutesBefore:
     [
         {

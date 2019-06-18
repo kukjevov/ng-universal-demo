@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {ComponentRedirectRoute, ComponentRoute} from '@ng/common';
+import {ComponentRedirectRoute, ComponentRoute} from '@ng/common/router';
 import {GridOptions, GridComponent, SimpleOrdering, DataResponse, AsyncDataLoaderOptions, BasicPagingOptions, AdvancedMetadataSelectorComponent, AdvancedMetadataSelectorOptions, QueryPagingInitializerComponent, TableContentRendererOptions, DATA_LOADER, DataLoader, PreviousNextPagingComponent, PreviousNextPagingOptions, ContentVirtualScrollPagingComponent, ContentVirtualScrollPagingOptions, LoadMorePagingComponent, LoadMorePagingOptions, PageVirtualScrollPagingComponent, PageVirtualScrollPagingOptions} from '@ng/grid';
 import {setPage, reinitializeOptions} from '@ng/grid/extensions';
 import {Authorize, AuthGuard} from '@ng/authentication';

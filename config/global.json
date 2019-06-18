@@ -6,8 +6,6 @@
         "Accept": "application/json"
     },
     "defaultLanguage": "en",
-    "defaultItemsPerPage": 10,
-    "defaultPage": 1,
     "theme": "dark",
     "availaleLanguages": 
     [

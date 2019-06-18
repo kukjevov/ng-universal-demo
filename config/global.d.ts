@@ -23,16 +23,6 @@ declare module "config/global"
         defaultLanguage: string;
         
         /**
-         * Default number of items per page when using paging
-         */
-        defaultItemsPerPage: number;
-        
-        /**
-         * Default number of page when used paging
-         */
-        defaultPage: number;
-
-        /**
          * Visual theme for UI themed pages
          */
         theme: string;

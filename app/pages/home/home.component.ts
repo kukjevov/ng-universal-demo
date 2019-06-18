@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {trigger, animate, style, query, transition, group} from '@angular/animations';
-import {ComponentRoute} from "@ng/common";
+import {ComponentRoute} from "@ng/common/router";
 import {flyInOutTrigger, slideInOutTriggerFactory} from '@ng/animations';
 import {Authorize, AuthGuard} from '@ng/authentication';
 import {map} from 'rxjs/operators';
@@ -57,14 +57,6 @@ export class HomeComponent extends BaseAnimatedComponent implements OnInit
      */
     public gridOptions: GridOptions;
 
-    public treeOptions: Fancytree.FancytreeOptions =
-    {
-        icon: (val, val2: Fancytree.EventData) =>
-        {
-            return !val2.node.isFolder() ? 'fa fa-file text-info' : 'fa fa-folder text-warning';
-        },
-        debugLevel: 0
-    };
 
     public trigger = "in";
 

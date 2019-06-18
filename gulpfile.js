@@ -2,7 +2,6 @@ const gulp = require('gulp'),
       sass = require('gulp-sass'),
       watch = require('gulp-watch'),
       through2 = require('through2'),
-      ngAotCompliant = require('gulp-aot-compliant'),
       rename = require('gulp-rename'),
       file = require('gulp-file'),
       read = require('read-file'),
@@ -24,18 +23,6 @@ function logCopied()
         callback();
     });
 }
-
-gulp.task("create-aot-app", function()
-{
-    return gulp.src("app/**/*")
-        .pipe(logCopied())
-        .pipe(ngAotCompliant({
-                                 mainFilename: 'main.server.ts',
-                                 serverModule: 'ServerAppModule',
-                                 serverModuleFilename: 'server-app.module'
-                             }))
-        .pipe(gulp.dest("app.aot"));
-});
 
 gulp.task("copy-config", function()
 {
@@ -119,16 +106,6 @@ gulp.task("build",
           function(cb)
 {
     console.log("Gulp build has finished");
-
-    cb();
-});
-
-gulp.task("build:aot",
-          ["build",
-           "create-aot-app"],
-          function(cb)
-{
-    console.log("Gulp build aot has finished");
 
     cb();
 });

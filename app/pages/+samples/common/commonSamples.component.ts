@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
-import {ComponentRoute, ProgressIndicatorService, Utils} from '@ng/common';
+import {ComponentRoute} from '@ng/common/router';
+import {hasError, alertHidden} from '@ng/common/forms';
+import {ProgressIndicatorService} from '@ng/common';
 import {Authorize, AuthGuard} from '@ng/authentication';
 import {flyInOutTrigger} from '@ng/animations';
 
@@ -21,12 +23,12 @@ export class CommonSamplesComponent extends BaseAnimatedComponent
     /**
      * Gets indication whether controls have error
      */
-    public hasError = Utils.forms.hasError;
+    public hasError = hasError;
     
     /**
      * Gets indication whether hide validations or not for controls
      */
-    public alertHidden = Utils.forms.alertHidden;
+    public alertHidden = alertHidden;
 
     //######################### constructors #########################
     constructor(private progressSvc: ProgressIndicatorService)
