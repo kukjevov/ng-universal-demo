@@ -1,27 +1,22 @@
-import {Component} from '@angular/core';
-import {ComponentRoute} from '@ng/common/router';
-import {Authorize, AuthGuard} from '@ng/authentication';
-import {flyInOutTrigger} from '@ng/animations';
-import {GlobalNotificationsService, LocalNotificationsService} from '@ng/notifications';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {LocalNotificationsService, GlobalNotificationsService} from '@ng/notifications';
 
-import {BaseAnimatedComponent} from "../../../misc/baseAnimatedComponent";
-
+/**
+ * Notifications sample component
+ */
 @Component(
 {
-    selector: 'notifications-sample',
-    templateUrl: 'notificationsSample.component.html',
-    providers: [LocalNotificationsService],
-    animations: [flyInOutTrigger]
+    selector: 'notifications-view',
+    templateUrl: 'notifications.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [LocalNotificationsService]
 })
-@ComponentRoute({path: 'notifications', canActivate: [AuthGuard]})
-@Authorize("notificationsSample-page")
-export class NotificationsSampleComponent extends BaseAnimatedComponent
+export class NotificationsPageComponent
 {
     //######################### constructor #########################
     constructor(private _notifications: GlobalNotificationsService,
                 private _localNotifications: LocalNotificationsService)
     {
-        super();
     }
 
     //######################### public methods #########################

@@ -238,7 +238,7 @@ module.exports = [function(options, args)
                 isProduction: prod,
                 isNgsw: ngsw,
                 aceDevMode: !prod,
-                ngDevMode: !prod,
+                // ngDevMode: !prod,
                 designerMetadata: true
             })
         ]

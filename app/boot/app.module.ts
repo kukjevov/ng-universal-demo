@@ -1,36 +1,13 @@
-import {NgModule, FactoryProvider, Injector} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {ServiceWorkerModule} from '@angular/service-worker';
-import {HttpClientModule, HttpClient} from '@angular/common/http';
-import {ExternalTranslationLoader, ExternalTranslationLoaderOptions} from '@ng/translate-extensions';
-import {ProgressIndicatorModule, SERVER_BASE_URL} from '@ng/common';
-import {ModuleRoutes} from '@ng/common/router';
-import {InternalServerErrorModule} from '@ng/error-handling';
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
-import {PrebootModule} from 'preboot';
+import {RouterModule} from '@angular/router';
 
 import {AppComponent} from './app.component';
-import {NavigationComponent} from '../components/navigation/navigation.component';
-import {routes, routesOptions} from './app.component.routes';
 import {CommonSharedModule} from './commonShared.module';
-import {APP_TRANSFER_ID} from '../misc/constants';
 import {providers} from './app.config';
-import {HelloWorldModule} from '../pages/ivy/hello-world.module';
-
-/**
- * Factory method that is used for creating external translation loader
- */
-export function externalTranslationLoaderFactory(http: HttpClient, injector: Injector)
-{
-    return new ExternalTranslationLoader(new ExternalTranslationLoaderOptions("config/i18n",
-                                                                              ["global", 
-                                                                               "navigation", 
-                                                                               "pages/home",
-                                                                               "pages/samplePages"],
-                                                                              ".json"),
-                                         http,
-                                         injector.get(SERVER_BASE_URL, null));
-}
+import {NotificationsPageComponent} from '../pages/notifications/notifications.component';
+import {StaticSelectPageComponent} from '../pages/staticSelect/staticSelect.component';
+import {SelectPageComponent} from '../pages/select/select.component';
 
 /**
  * Main module shared for both server and browser side
@@ -39,32 +16,28 @@ export function externalTranslationLoaderFactory(http: HttpClient, injector: Inj
 {
     imports:
     [
-        BrowserModule.withServerTransition(
-        {
-            appId: APP_TRANSFER_ID
-        }),
-        HttpClientModule,
-        TranslateModule.forRoot(
-        {
-            loader: <FactoryProvider>
+        BrowserModule,
+        RouterModule.forRoot(
+        [
             {
-                provide: TranslateLoader, 
-                useFactory: externalTranslationLoaderFactory,
-                deps: [HttpClient, Injector]
+                path: '',
+                component: NotificationsPageComponent
+            },
+            {
+                path: 'static',
+                component: StaticSelectPageComponent
+            },
+            {
+                path: 'select',
+                component: SelectPageComponent
             }
-        }),
-        InternalServerErrorModule,
-        ProgressIndicatorModule,
-        ServiceWorkerModule.register('/ngsw-worker.js', {enabled: false}),
-        PrebootModule.withConfig({ appRoot: 'app' }),
-        CommonSharedModule,
-        HelloWorldModule
+        ]),
+        CommonSharedModule
     ],
     providers: providers,
-    declarations: [AppComponent, NavigationComponent, ...routes],
+    declarations: [AppComponent, NotificationsPageComponent, StaticSelectPageComponent, SelectPageComponent],
     exports: [AppComponent]
 })
-@ModuleRoutes(routes, routesOptions)
 export class AppModule
 {
 }

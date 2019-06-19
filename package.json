@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "Angular universal sample application",
     "scripts": {
-        "build": "webpack --env.dll --env.aot",
+        "build": "webpack --env.aot",
         "build:aot": "npm run ngc -- -p tsconfig.browser.json",
         "build:min": "webpack --env.aot --mode=production",
         "build:gulp": "gulp build",
@@ -11,7 +11,7 @@
         "build:ngsw": "copyfiles -u 3 node_modules/@angular/service-worker/ngsw-worker.js wwwroot && ngsw-config wwwroot ngsw.json",
         "build:debug": "npm run build -- --env.debug",
         "build:min:debug": "npm run build:min -- --env.debug",
-        "prebuild": "npm run check:dev:build && npm run build:gulp",
+        "prebuild": "npm run build:gulp",
         "prebuild:aot": "npm run prebuild:min",
         "prebuild:min": "npm run clean && npm run build:gulp",
         "prebuild:debug": "npm run prebuild",
@@ -37,7 +37,6 @@
         "postinstall": "npm run ngcc && npm run build:prepare:dev && npm run build",
         "server": "node server.js",
         "server:doc": "concurrent \"npm run app-help:w\" \"npm run server -- --browsersync\"",
-        "prestart": "npm run check:dev:start",
         "start": "npm run build:gulp && concurrently \"npm run app-config:w\" \"npm run server -- --webpack\"",
         "test": "karma start karma.conf.js"
     },
