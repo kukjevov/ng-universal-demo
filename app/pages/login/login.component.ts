@@ -1,10 +1,12 @@
 import {Component} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
+import {FormGroup, FormBuilder} from '@angular/forms';
 import {ComponentRoute} from '@ng/common/router';
 import {flyInOutTrigger} from '@ng/animations';
 import {AuthenticationService, Authorize, AuthGuard} from '@ng/authentication';
 import {empty} from 'rxjs';
 import {catchError} from 'rxjs/operators';
+
 import {BaseAnimatedComponent} from "../../misc/baseAnimatedComponent";
 
 /**
@@ -23,14 +25,9 @@ export class LoginComponent extends BaseAnimatedComponent
     //######################### public properties #########################
 
     /**
-     * Username for logging in
+     * Form group for login information
      */
-    public username: string = "";
-    
-    /**
-     * Password for logging in
-     */
-    public password: string = "";
+    public form: FormGroup;
 
     /**
      * Indication that there is authentication error
@@ -40,9 +37,17 @@ export class LoginComponent extends BaseAnimatedComponent
     //######################### constructor #########################
     constructor(private _authService: AuthenticationService<any>,
                 private _router: Router,
-                private _activeRoute: ActivatedRoute)
+                private _activeRoute: ActivatedRoute,
+                formBuilder: FormBuilder)
     {
         super();
+
+        this.form = formBuilder.group(
+        {
+            userName: null,
+            password: null,
+            rememberMe: null
+        });
     }
     
     //######################### public methods #########################
@@ -53,12 +58,7 @@ export class LoginComponent extends BaseAnimatedComponent
     public login()
     {
         this._authService
-            .login(
-            {
-                userName: this.username,
-                password: this.password,
-                rememberMe: false
-            })
+            .login(this.form.value)
             .pipe(catchError(() =>
             {
                 this.authenticationError = true;

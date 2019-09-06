@@ -2,12 +2,11 @@ var webpack = require('webpack'),
     path = require('path'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin'),
-    HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin'),
+    HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin'),
     CopyWebpackPlugin = require('copy-webpack-plugin'),
     MiniCssExtractPlugin = require("mini-css-extract-plugin"),
     WebpackNotifierPlugin = require('webpack-notifier'),
     CompressionPlugin = require("compression-webpack-plugin"),
-    //DashboardPlugin = require('webpack-dashboard/plugin'),
     SpeedMeasurePlugin = require("speed-measure-webpack-plugin"),
     BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
     rxPaths = require('rxjs/_esm5/path-mapping'),
@@ -41,10 +40,9 @@ function getEntries(ssr, dll)
             ...dll ? {"import-dependencies": './webpack.config.dev.imports'} : {},
             externalStyle:
             [
-                "font-awesome/css/font-awesome.min.css",
+                "@fortawesome/fontawesome-free/css/all.min.css",
                 "bootstrap/dist/css/bootstrap.min.css",
                 "bootstrap/dist/css/bootstrap-theme.min.css",
-                "bootstrap-select/dist/css/bootstrap-select.min.css",
                 "eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
                 "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",
                 "highlight.js/styles/googlecode.css"
@@ -95,7 +93,7 @@ function getStyleLoaders(prod)
 var distPath = "wwwroot/dist";
 var entryPoints = [];
 
-module.exports = [function(options, args)
+module.exports = function(options, args)
 {
     var prod = args && args.mode == 'production';
     var hmr = !!options && !!options.hmr;
@@ -145,7 +143,7 @@ module.exports = [function(options, args)
                 "config/version": path.join(__dirname, "config/version.json"),
                 "app": path.join(__dirname, "app")
             }),
-            mainFields: ['browser', 'esm2015', 'module', 'main']
+            mainFields: ['browser', 'module', 'main']
         },
         module:
         {
@@ -187,6 +185,16 @@ module.exports = [function(options, args)
                         }
                     ]
                 },
+                {
+                    test: require.resolve("konami"),
+                    use:
+                    [
+                        {
+                            loader: 'expose-loader',
+                            options: 'Konami'
+                        }
+                    ]
+                },
                 //file processing
                 {
                     test: /\.ts$/,
@@ -194,10 +202,6 @@ module.exports = [function(options, args)
                 },
                 {
                     test: /\.html$/,
-                    loader: 'raw-loader'
-                },
-                {
-                    test: /\.typings$/,
                     loader: 'raw-loader'
                 },
                 {
@@ -239,7 +243,7 @@ module.exports = [function(options, args)
                 isNgsw: ngsw,
                 aceDevMode: !prod,
                 ngDevMode: !prod,
-                designerMetadata: true
+                ngI18nClosureMode: false
             })
         ]
     };
@@ -294,7 +298,6 @@ module.exports = [function(options, args)
     if(hmr)
     {
         config.plugins.push(new webpack.HotModuleReplacementPlugin());
-        //config.plugins.push(new DashboardPlugin());
 
         Object.keys(config.entry).forEach(entry =>
         {
@@ -316,9 +319,9 @@ module.exports = [function(options, args)
 
         if(!debug)
         {
-            config.plugins.push(new HtmlWebpackIncludeAssetsPlugin(
+            config.plugins.push(new HtmlWebpackTagsPlugin(
             {
-                assets: ['dependencies.js'],
+                tags: ['dependencies.js'],
                 append: false
             }));
         }
@@ -350,29 +353,4 @@ module.exports = [function(options, args)
     }
 
     return config;
-},
-{
-    mode: 'development',
-    entry: 
-    {
-		"editor.worker": 'monaco-editor/esm/vs/editor/editor.worker.js',
-		"json.worker": 'monaco-editor/esm/vs/language/json/json.worker',
-		"css.worker": 'monaco-editor/esm/vs/language/css/css.worker',
-		"html.worker": 'monaco-editor/esm/vs/language/html/html.worker',
-		"ts.worker": 'monaco-editor/esm/vs/language/typescript/ts.worker'
-	},
-    output: 
-    {
-		globalObject: 'self',
-		path: path.join(__dirname, distPath),
-        filename: '[name].js'
-	},
-    module: 
-    {
-        rules: [
-        {
-			test: /\.css$/,
-			use: ['style-loader', 'css-loader']
-		}]
-	},
-}]
+}

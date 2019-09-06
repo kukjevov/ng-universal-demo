@@ -2,8 +2,17 @@
 @import "scss/fonts.scss";
 @import "scss/misc.scss";
 @import "scss/bootstrap-override.scss";
+@import "scss/theme/app-theme.scss";
+@import "scss/theme/app-dark-theme.scss";
+@import "scss/theme/app-light-theme.scss";
+@import "scss/components.scss";
 
 // ---------------------- COMMON ----------------------
+*, *:focus
+{
+    outline: none;
+}
+
 html
 {
     height: 100%;
@@ -11,19 +20,27 @@ html
 
 body
 {
+    overflow: hidden;
     margin: 0;
     padding: 0 !important;
-    font-family: "Open Sans";
-    font-size: 13px;
-    min-width: 1024px;
-    min-height: 100%;
+    height: 100%;
 }
 
 app
 {
     display: flex;
-    min-height: 100vh;
+    height: 100vh;
     flex-direction: column;
+
+    router-outlet+*
+    {
+        @extend .thin-scrollbar;
+
+        overflow: auto;
+        flex: 1;
+        min-height: 0;
+        min-width: 0;
+    }
 }
 
 .no-ie, .no-grid
@@ -137,84 +154,15 @@ app
     100%{background-position: 50% 100%}
 }
 
-// ---------------------- CONTAINER ----------------------
-.container.main
-{
-    padding: 0;
-    flex: 1;
-}
-
-@media screen and (min-width: 1140px)
-{
-    .container.main
-    {
-        width: 98%;
-    }
-}
-
-@media screen and (min-width: 1440px)
-{
-    .container.main
-    {
-        width: 90%;
-    }
-}
-
 // ---------------------- LOGIN VIEW ----------------------
 login-view.app-page
 {
-    width: 33%;
-    height: calc(100vh - 72px);
-    margin-left: auto;
-    margin-right: auto;
-    background-color: transparent;
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-top: 0;
-
-    &.ng-animating
-    {
-        width: 33%;
-        margin-left: 33%;
-    }
 
     &>div
     {
         flex: 1 0 auto;
     }
 }
-
-// ---------------------- HELP VIEW ----------------------
-help-view, .help-view
-{
-    background-color: #FFF;
-    display: block;
-    padding: 10px;
-    font-size: 1.4em;
-
-    @media print
-    {
-        h2
-        {
-            page-break-before: always;
-        }
-    }
-
-    div
-    {
-        &>img
-        {
-            width: 100%;
-
-            &+*
-            {
-                display: block;
-                text-align: center;
-                font-weight: bold;
-            }
-        }
-    }
-}
-
-@import "scss/layoutDesigner/site.scss";

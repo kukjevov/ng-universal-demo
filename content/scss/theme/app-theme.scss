@@ -1,0 +1,260 @@
+@import 'theme-vars.scss';
+
+//---------------------- PAGE STYLING ----------------------
+.app-page
+{
+    font-family: "Montserrat";
+    display: block;
+    flex: 1;
+
+    //############## MISC ##############
+    .line-height-default
+    {
+        line-height: 1em;
+    }
+    
+    .border-round
+    {
+        border-radius: $borderRadius;
+    }
+
+    .top-border-round
+    {
+        border-top-left-radius: $borderRadius;
+        border-top-right-radius: $borderRadius;
+    }
+
+    .bottom-border-round
+    {
+        border-bottom-left-radius: $borderRadius;
+        border-bottom-right-radius: $borderRadius;
+    }
+
+    .left-border-round
+    {
+        border-top-left-radius: $borderRadius;
+        border-bottom-left-radius: $borderRadius;
+    }
+
+    .right-border-round
+    {
+        border-top-right-radius: $borderRadius;
+        border-bottom-right-radius: $borderRadius;
+    }
+
+    .top-left-border-round
+    {
+        border-top-left-radius: $borderRadius;
+    }
+
+    .bottom-left-border-round
+    {
+        border-bottom-left-radius: $borderRadius;
+    }
+
+    .top-right-border-round
+    {
+        border-top-right-radius: $borderRadius;
+    }
+
+    .bottom-right-border-round
+    {
+        border-bottom-right-radius: $borderRadius;
+    }
+
+    .extra-small-text
+    {
+        font-size: $fontSizeXs;
+    }
+    
+    .normal-text
+    {
+        font-size: $fontSizeSm;
+    }
+
+    .medium-text
+    {
+        font-size: $fontSizeMd;
+    }
+
+    .large-text
+    {
+        font-size: $fontSizeLg;
+    }
+
+    .extra-large-text
+    {
+        font-size: $fontSizeXl;
+    }
+
+    .extra-extra-large-text
+    {
+        font-size: $fontSizeXxl;
+    }
+
+    .padding-top-small
+    {
+        padding-top: $pageSmWidth;
+    }
+
+    .padding-top-big
+    {
+        padding-top: $pageMdWidth;
+    }
+
+    .padding-left-small
+    {
+        padding-left: $pageSmWidth;
+    }
+
+    .padding-left-big
+    {
+        padding-left: $pageMdWidth;
+    }
+
+    .padding-right-small
+    {
+        padding-right: $pageSmWidth;
+    }
+
+    .padding-right-big
+    {
+        padding-right: $pageMdWidth;
+    }
+
+    .padding-bottom-small
+    {
+        padding-bottom: $pageSmWidth;
+    }
+
+    .padding-bottom-big
+    {
+        padding-bottom: $pageMdWidth;
+    }
+
+    .padding-horizontal-small
+    {
+        padding-left: $pageSmWidth;
+        padding-right: $pageSmWidth;
+    }
+
+    .padding-vertical-small
+    {
+        padding-top: $pageSmWidth;
+        padding-bottom: $pageSmWidth;
+    }
+
+    .padding-small
+    {
+        padding: $pageSmWidth;
+    }
+
+    .margin-top-small
+    {
+        margin-top: $pageSmWidth;
+    }
+
+    .margin-top-big
+    {
+        margin-top: $pageMdWidth;
+    }
+
+    .margin-bottom-small
+    {
+        margin-bottom: $pageSmWidth;
+    }
+
+    .margin-bottom-big
+    {
+        margin-bottom: $pageMdWidth;
+    }
+
+    .margin-bottom-large
+    {
+        margin-bottom: $pageLgWidth;
+    }
+
+    .margin-left-small
+    {
+        margin-left: $pageSmWidth;
+    }
+
+    .margin-left-big
+    {
+        margin-left: $pageMdWidth;
+    }
+
+    .margin-right-small
+    {
+        margin-right: $pageSmWidth;
+    }
+
+    .margin-right-big
+    {
+        margin-right: $pageMdWidth;
+    }
+
+    .margin-horizontal-small
+    {
+        margin-left: $pageSmWidth;
+        margin-right: $pageSmWidth;
+    }
+    
+    .margin-horizontal-large
+    {
+        margin-left: $pageMdWidth;
+        margin-right: $pageMdWidth;
+    }
+
+    .margin-small
+    {
+        margin: $pageSmWidth;
+    }
+
+    .margin-none
+    {
+        margin: 0;
+    }
+
+    .spread-text
+    {
+        letter-spacing: 1px;
+    }
+
+    //############## TITLE ##############
+    .title
+    {
+        margin-top: $pageNegMdWidth;
+        padding: $pageMdWidth $pageMdWidth $pageSmWidth;
+        font-size: $fontSizeXxl;
+
+        &.not-header
+        {
+            padding: $pageSmWidth 0;
+        }
+    }
+
+    .title-small
+    {
+        font-size: $fontSizeMd;
+    }
+
+    //############## BLOCK ##############
+    .highlight-block
+    {
+        border-radius: $borderRadius;
+        padding: $pageSmWidth;
+    }
+
+    //############## BUTTONS ##############
+    .btn
+    {
+        border-radius: 0;
+    }
+
+    .btn-icon
+    {
+        padding: 0;
+        border: none;
+    }
+}

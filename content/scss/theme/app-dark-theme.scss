@@ -1,0 +1,275 @@
+@import 'theme-vars.scss';
+@import 'dark-theme-vars.scss';
+
+//---------------------- PAGE STYLING ----------------------
+.app-page.dark
+{
+    background-color: $primaryForegroundColor;
+    color: $blackText;
+
+    //############## MISC ##############
+    .light-text
+    {
+        color: $lightText;
+    }
+
+    .blue-text
+    {
+        color: $blueText;
+    }
+
+    .semi-dark-background
+    {
+        background-color: $semiDarkBackgroundColor;
+    }
+
+    .primary-background
+    {
+        background-color: $primaryBackgroundColor;
+        color: $primaryForegroundColor;
+    }
+
+    .primary-background-inv
+    {
+        background-color: $primaryForegroundColor;
+        color: $primaryBackgroundColor;
+    }
+
+    //############## TITLE BAR ##############
+
+    .title-bar
+    {
+        background-color: $titleBarBackgroundColor;
+        color: $whiteText;
+
+        .icon-base
+        {
+            background-color: $titleBarIconBackgroundColor;
+        }
+
+        .title-bar-button-base:hover
+        {
+            background-color: lighten($titleBarBackgroundColor, 6%);
+        }
+
+        .title-bar-button-base:active
+        {
+            background-color: lighten($titleBarBackgroundColor, 12%);
+        }
+
+        .title-bar-close:hover
+        {
+            background-color: $titleBarCloseBackgroundColor;
+        }
+
+        .title-bar-close:active
+        {
+            background-color: lighten($titleBarCloseBackgroundColor, 12%);
+        }
+    }
+
+    //############## TITLE ##############
+    .title
+    {
+        background-color: $darkBackgroundColor;
+        color: $semiLightText;
+    }
+
+    //############## BLOCKS ##############
+
+    .light-block
+    {
+        background-color: $ligntBackgroundColor;
+        color: $blackText;
+
+        .btn-icon
+        {
+            color: $iconText;
+        }
+    }
+
+    .highlight-block
+    {
+        background-color: $whiteBackgroundColor;
+        color: $blackText;
+
+        .btn-icon
+        {
+            color: $iconText;
+        }
+    }
+
+    //############## BUTTONS ##############
+
+    .btn-primary
+    {
+        letter-spacing: 1px;
+        background-color: $buttonLightColor;
+        background-image: none;
+        border-color: $buttonLightColor;
+        text-shadow: 0 0;
+        box-shadow: 0 0;
+
+        &:active:not(.disabled)
+        {
+            transform: translateY(2px);
+            background-color: $buttonLightColor;
+            border-color: $buttonLightColor;
+            box-shadow: 0 0;
+        }
+
+        &:hover,
+        &:focus
+        {
+            background-color: $buttonDarkerColor;
+            border-color: $buttonDarkerColor;
+        }
+
+        &>span[class^="fa"],
+        &>span[class^="glyphicon"]
+        {
+            color: $buttonDarkColor;
+        }
+    }
+
+    .btn-info
+    {
+        letter-spacing: 1px;
+        background-image: none;
+        border-color: $buttonInfoLightColor;
+        text-shadow: 0 0;
+        box-shadow: 0 0;
+
+        &:active:not(.disabled)
+        {
+            transform: translateY(2px);
+            background-color: $buttonInfoLightColor;
+            border-color: $buttonInfoLightColor;
+            box-shadow: 0 0;
+        }
+
+        &:hover,
+        &:focus
+        {
+            background-color: $buttonInfoDarkerColor;
+            border-color: $buttonInfoDarkerColor;
+        }
+
+        &>span[class^="fa"],
+        &>span[class^="glyphicon"]
+        {
+            color: $buttonInfoDarkColor;
+        }
+    }
+
+    .btn-danger
+    {
+        background-color: $buttonInvalidLightColor;
+        letter-spacing: 1px;
+        background-image: none;
+        border-color: $buttonInvalidLightColor;
+        text-shadow: 0 0;
+        box-shadow: 0 0;
+
+        &:active:not(.disabled)
+        {
+            transform: translateY(2px);
+            background-color: $buttonInvalidLightColor;
+            border-color: $buttonInvalidLightColor;
+            box-shadow: 0 0;
+        }
+
+        &:hover,
+        &:focus
+        {
+            background-color: $buttonInvalidDarkerColor;
+            border-color: $buttonInvalidDarkerColor;
+        }
+
+        &>span[class^="fa"],
+        &>span[class^="glyphicon"]
+        {
+            color: $buttonInvalidDarkColor;
+        }
+    }
+
+    .btn-icon
+    {
+        background-color: transparent;
+        color: $iconText;
+
+        &:hover
+        {
+            color: darken($iconText, 10%);
+        }
+
+        &:active
+        {
+            color: darken($iconText, 20%);
+            box-shadow: inset 0 0 0 transparent;
+            outline: none;
+        }
+
+        &.btn-action
+        {
+            color: $buttonInfoDarkColor;
+
+            &:hover
+            {
+                color: $buttonInfoLightColor;
+            }
+    
+            &:active
+            {
+                color: $buttonInfoDarkerColor;
+                box-shadow: inset 0 0 0 transparent;
+            }
+        }
+    }
+
+    //############## DIALOG ##############
+    modal-dialog
+    {
+        color: $blackText;
+        
+        .modal-header
+        {
+            background-color: $darkBackgroundColor;
+            color: $semiLightText;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+
+            &>button.close
+            {
+                color: $semiLightText;
+                text-shadow: initial;
+                opacity: 0.8;
+            }
+        }
+
+        .modal-body,
+        .modal-footer
+        {
+            background-color: $ligntBackgroundColor;
+
+            .btn-icon
+            {
+                &:not(:active)
+                {
+                    color: $blackText;
+                }
+                
+                &:hover:not(:active)
+                {
+                    color: $buttonDarkerColor;
+                }
+            }
+        }
+
+        .modal-footer
+        {
+            border-bottom-left-radius: $borderRadius;
+            border-bottom-right-radius: $borderRadius;
+        }
+    }
+}

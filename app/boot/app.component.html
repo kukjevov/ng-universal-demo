@@ -1,9 +1,14 @@
-<progress-indicator></progress-indicator>
-<internal-server-error></internal-server-error>
-<global-notifications></global-notifications>
+<div class="container main relative">
+    <progress-indicator></progress-indicator>
+    <internal-server-error></internal-server-error>
+    <global-notifications></global-notifications>
+    <hotkeys-cheatsheet></hotkeys-cheatsheet>
 
-<nav class="navbar navbar-default"></nav>
+    <div class="content relative">
+        <nav class="navbar navbar-default"></nav>
 
-<div class="container main">
-    <router-outlet></router-outlet>
+        <div class="main-content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
 </div>

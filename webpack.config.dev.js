@@ -32,7 +32,7 @@ module.exports = function()
                 "typeahead": path.join(__dirname, "node_modules/typeahead.js/dist/typeahead.jquery.js"),
                 "moment": path.join(__dirname, "node_modules/moment/min/moment-with-locales.js")
             },
-            mainFields: ['browser', 'esm2015', 'jsnext:main', 'module', 'main']
+            mainFields: ['browser', 'module', 'main']
         },
         module:
         {
@@ -63,6 +63,16 @@ module.exports = function()
                     ]
                 },
                 {
+                    test: require.resolve("konami"),
+                    use:
+                    [
+                        {
+                            loader: 'expose-loader',
+                            options: 'Konami'
+                        }
+                    ]
+                },
+                {
                     test: /\.html$/,
                     use: 
                     {
@@ -77,7 +87,12 @@ module.exports = function()
             {
                 path: path.join(__dirname, distPath + '/[name]-manifest.json'),
                 name: '[name]_[hash]'
-            })
+            }),
+            new webpack.DefinePlugin(
+            {
+                aceDevMode: true
+            }),
+            new webpack.HotModuleReplacementPlugin()
         ]
     };
 

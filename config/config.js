@@ -5,7 +5,7 @@ let isPresent = require('@asseco/common').isPresent,
 
 let config = extend({}, globalConfig); 
 
-jq.ajax("config",
+jq.ajax("local/config",
 {
     async: false,
     dataType: 'json',
@@ -24,6 +24,11 @@ jq.ajax("config",
         if(isPresent(data.theme))
         {
             config.theme = data.theme;
+        }
+
+        if(isPresent(data.language))
+        {
+            config.language = data.language;
         }
     }
 });

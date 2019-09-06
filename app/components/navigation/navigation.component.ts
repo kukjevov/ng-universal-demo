@@ -1,17 +1,13 @@
-import {Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Inject, PLATFORM_ID} from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {Router} from "@angular/router";
-import {isPlatformBrowser} from "@angular/common";
-import {SwUpdate} from "@angular/service-worker";
-import {CookieService, APP_STABLE} from '@ng/common';
 import {AuthenticationService} from "@ng/authentication";
 import {TranslateService} from '@ngx-translate/core';
-
-import {LANG_COOKIE} from '../../misc/constants';
-import {ConfigReleaseService} from "../../services/api/configRelease/configRelease.service";
-import {ConfigReleaseData} from "../../services/api/configRelease/configRelease.interface";
-import {Subscription, interval} from 'rxjs';
+import {Subscription} from 'rxjs';
 import * as global from 'config/global';
 import * as version from 'config/version';
+
+import {ConfigReleaseService} from "../../services/api/configRelease/configRelease.service";
+import {ConfigReleaseData} from "../../services/api/configRelease/configRelease.interface";
 
 /**
  * Navigation component containing navigation menu
@@ -37,10 +33,10 @@ export class NavigationComponent implements OnInit, OnDestroy
      */
     private _navigationSubscription: Subscription = null;
 
-    /**
-     * Indication whether is code running in browser
-     */
-    private _isBrowser: boolean = isPlatformBrowser(this._platformId);
+    // /**
+    //  * Indication whether is code running in browser
+    //  */
+    // private _isBrowser: boolean = isPlatformBrowser(this._platformId);
 
     /**
      * Subscription for update check
@@ -52,7 +48,7 @@ export class NavigationComponent implements OnInit, OnDestroy
     /**
      * List of available languages
      */
-    public availableLanguages = global.availaleLanguages;
+    public availableLanguages = global.languages;
 
     /**
      * Indication that update is available
@@ -84,11 +80,9 @@ export class NavigationComponent implements OnInit, OnDestroy
                 private _authService: AuthenticationService<any>,
                 private _router: Router,
                 private translate: TranslateService,
-                private _cookies: CookieService,
                 private _changeDetector: ChangeDetectorRef,
-                private _update: SwUpdate,
-                @Inject(APP_STABLE) private _appStablePromise: Promise<void>,
-                @Inject(PLATFORM_ID) private _platformId: Object)
+                // @Inject(APP_STABLE) private _appStablePromise: Promise<void>,
+                )
     {
         this._navigationSubscription = this._router
             .events
@@ -102,23 +96,23 @@ export class NavigationComponent implements OnInit, OnDestroy
      */
     public ngOnInit()
     {
-        if(this._isBrowser && this._update.isEnabled)
-        {
-            this._update.activated.subscribe(() => window.location.reload());
-            this._update.available.subscribe(() =>
-            { 
-                this.updateAvailable = true;
-                this._changeDetector.detectChanges();
-            });
+        // if(this._isBrowser && this._update.isEnabled)
+        // {
+        //     this._update.activated.subscribe(() => window.location.reload());
+        //     this._update.available.subscribe(() =>
+        //     { 
+        //         this.updateAvailable = true;
+        //         this._changeDetector.detectChanges();
+        //     });
 
-            this._appStablePromise.then(() =>
-            {
-                this._update.checkForUpdate();
+        //     this._appStablePromise.then(() =>
+        //     {
+        //         this._update.checkForUpdate();
 
-                this._updateCheckSubscription = interval(3600000)
-                    .subscribe(() => this._update.checkForUpdate());
-            });
-        }
+        //         this._updateCheckSubscription = interval(3600000)
+        //             .subscribe(() => this._update.checkForUpdate());
+        //     });
+        // }
 
         this.translate.onLangChange.subscribe(itm =>
         {
@@ -192,10 +186,10 @@ export class NavigationComponent implements OnInit, OnDestroy
      */
     public activateUpdate()
     {
-        if(this._isBrowser)
-        {
-            this._update.activateUpdate();
-        }
+        // if(this._isBrowser)
+        // {
+        //     this._update.activateUpdate();
+        // }
     }
 
     /**
@@ -206,7 +200,6 @@ export class NavigationComponent implements OnInit, OnDestroy
     {
         this.translate.use(lang);
         //this.appService.setLanguage(lang).subscribe();
-        this._cookies.setCookie(LANG_COOKIE, lang, 365);
     }
 
     /**

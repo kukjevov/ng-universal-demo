@@ -1,17 +1,32 @@
-import {isFunction, isBlank, initializeAceDevMode} from '@asseco/common';
+import {isFunction, isBlank, initializeAceDevMode, globalDefine} from '@asseco/common';
 import {Observable} from 'rxjs';
 import * as moment from 'moment';
 import * as config from 'config/global';
 
 initializeAceDevMode();
 
-(function(global: any) 
+globalDefine(global =>
 {
-    if(!global.HTMLDocument)
+    if(isBlank(global['isElectron']))
     {
-        global.HTMLDocument = function(){};
+        global['isElectron'] = false;
     }
-})(typeof window != 'undefined' && window || typeof self != 'undefined' && self || typeof global != 'undefined' && global);
+
+    if(isBlank(global['isPopup']))
+    {
+        global['isPopup'] = false;
+    }
+
+    if(isBlank(global['envName']))
+    {
+        global['envName'] = 'WEB';
+    }
+
+    if(isBlank(global['rendererLogger']))
+    {
+        global['rendererLogger'] = {log:() => {}};
+    }
+});
 
 //HACK - prevents application crash if no error handler provided
 var observableSubscribe = Observable.prototype.subscribe;

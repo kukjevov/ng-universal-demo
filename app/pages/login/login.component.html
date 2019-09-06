@@ -6,15 +6,15 @@
             <strong>Authentication failed!</strong> Please check your credentials and try again.
         </div>
         
-        <form class="form" role="form" (ngSubmit)="login()">
+        <form class="form" role="form" [formGroup]="form">
             <div class="form-group">
                 <label for="username">Login</label>
-                <input type="text" class="form-control" id="username" placeholder="Your login" [(ngModel)]="username" name="username">
+                <input type="text" class="form-control" id="username" placeholder="Your login" formControlName="username">
             </div>
             
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Your password" [(ngModel)]="password" name="password">
+                <input type="password" class="form-control" id="password" placeholder="Your password" formControlName="password">
             </div>
                         
             <button type="submit" class="btn btn-primary">Authenticate</button>

@@ -18,19 +18,24 @@ declare module "config/global"
         defaultApiHeaders: { [key: string]: string };
         
         /**
-         * Default application language
-         */
-        defaultLanguage: string;
-        
-        /**
-         * Visual theme for UI themed pages
+         * Default visual theme of application
          */
         theme: string;
-        
+
         /**
-         * Available languages in application
+         * Array of available themes
          */
-        availaleLanguages: [{lang: string; title: string;}];
+        themes: string[];
+
+        /**
+         * Default selected language
+         */
+        language: string;
+
+        /**
+         * Available languages for application
+         */
+        languages: {lang: string, name: string}[];
     };
 
     export = _tmp;

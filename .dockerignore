@@ -1,15 +1,7 @@
-.include/index.html.hbs
-.utils/
-.vscode/
-node_modules/
-app/
-app.aot/
-config/
-content/
-build/
-testResults/
+*
 
-*.log
-*.bak
-*.orig
-*~
+!config/global.override.js
+!mocks
+!wwwroot
+!server.js
+!server.mock.js

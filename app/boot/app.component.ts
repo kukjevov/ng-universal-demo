@@ -1,13 +1,11 @@
 import {Component, OnDestroy} from '@angular/core';
 import {Router, NavigationStart, NavigationEnd, NavigationError, NavigationCancel} from '@angular/router';
-import {GlobalizationService, ProgressIndicatorService, CookieService} from '@ng/common';
+import {GlobalizationService, ProgressIndicatorService} from '@ng/common';
 import {AuthenticationService} from '@ng/authentication';
 import {TranslateService} from "@ngx-translate/core";
 import {Subscription} from 'rxjs';
-import * as global from 'config/global';
+import * as config from 'config/global';
 import * as moment from 'moment';
-
-import {LANG_COOKIE} from '../misc/constants';
 
 /**
  * Application entry component
@@ -15,7 +13,8 @@ import {LANG_COOKIE} from '../misc/constants';
 @Component(
 {
     selector: 'app',
-    templateUrl: "app.component.html"
+    templateUrl: "app.component.html",
+    styleUrls: ['app.component.scss']
 })
 export class AppComponent implements OnDestroy
 {
@@ -31,9 +30,15 @@ export class AppComponent implements OnDestroy
                 translate: TranslateService,
                 globalization: GlobalizationService,
                 router: Router,
-                progressIndicatorService: ProgressIndicatorService,
-                cookieService: CookieService) 
+                progressIndicatorService: ProgressIndicatorService) 
     {
+        document.body.classList.add("app-page", config.theme);
+
+        new Konami(() =>
+        {
+            console.log('koname enabled');
+        });
+
         this._routeChangeSubscription = router.events.subscribe((next) =>
         {
             if(next instanceof NavigationStart)
@@ -44,19 +49,11 @@ export class AppComponent implements OnDestroy
             {
                 progressIndicatorService.hideProgress();
             }
-        })
-
-        var currentLang: string = global.defaultLanguage;
-        var storedCookie = cookieService.getCookie(LANG_COOKIE);
-
-        if(storedCookie)
-        {
-            currentLang = storedCookie;
-        }
+        });
         
         moment.locale(globalization.locale);
-        translate.setDefaultLang(currentLang);
-        translate.use(currentLang);
+        translate.setDefaultLang('en');
+        translate.use(config.language);
 
         authetication
             .getUserIdentity()

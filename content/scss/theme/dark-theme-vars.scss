@@ -1,0 +1,36 @@
+// ---------------------- DARK THEME ----------------------
+$darkBackgroundColor: #1E1E1E;
+$semiDarkBackgroundColor: #3A3A3A;
+$ligntBackgroundColor: #E5E5E5;
+$lighterBackgroundColor: #F4F7FB;
+$whiteBackgroundColor: #FFFFFF;
+$titleBarBackgroundColor: #019BD5;
+$titleBarCloseBackgroundColor: #E81123;
+$titleBarIconBackgroundColor: #FFFFFF;
+$blueBackgroundColor: rgb(0, 116, 158);
+$primaryBackgroundColor: #019BD5;
+$primaryForegroundColor: #1E1E1E;
+
+$blackText: #ADADAD;
+$semiDarkText: #737373;
+$semiLightText: #e0e0e0;
+$lightText: #BABABA;
+$redText: #EC0E0E;
+$blueText: #019BD5;
+$whiteText: #FFFFFF;
+$positiveText: #009500;
+$warningText: #FF4A00;
+$iconText: #019BD5;
+
+$buttonLightColor: #6ABA4F;
+$buttonDarkColor: darken($buttonLightColor, 20%);
+$buttonDarkerColor: darken($buttonLightColor, 12%);
+$buttonDarkestColor: darken($buttonLightColor, 28%);
+
+$buttonInfoLightColor: #5bc0de;
+$buttonInfoDarkColor: darken($buttonInfoLightColor, 20%);
+$buttonInfoDarkerColor: darken($buttonInfoLightColor, 12%);
+
+$buttonInvalidLightColor: #EC0E0E;
+$buttonInvalidDarkColor: darken($buttonInvalidLightColor, 20%);
+$buttonInvalidDarkerColor: darken($buttonInvalidLightColor, 12%);

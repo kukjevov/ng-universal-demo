@@ -15,23 +15,21 @@
 <div>
     <h3>Number input and validations helpers</h3>
 
-    <form novalidate #sampleForm="ngForm">
-        <div class="form-group" [class.has-error]="hasError(sampleForm, ['sampleNumber'])">
-            <label class="control-label">Číslo, max hodnota 20, min 5, vyžadovaná položka a musí byť číslo</label>
-            <input type="text"
-                   class="form-control"
-                   [(ngModel)]="sampleNumber"
-                   name="sampleNumber"
-                   number
-                   maxValue="20"
-                   minValue="5"
-                   required>
+    <!-- <div class="form-group" [class.has-error]="hasError(sampleForm, ['sampleNumber'])">
+        <label class="control-label">Číslo, max hodnota 20, min 5, vyžadovaná položka a musí byť číslo</label>
+        <input type="text"
+                class="form-control"
+                [(ngModel)]="sampleNumber"
+                name="sampleNumber"
+                number
+                maxValue="20"
+                minValue="5"
+                required> -->
 
-            <div>
-                <!-- <div class="alert alert-danger" *ngIf="!alertHidden(sampleForm, 'sampleNumber', ['required', 'number', 'minValue', 'maxValue'])">
-                    Validačná chyba: {{sampleForm?.controls?.sampleNumber?.errors | json}}
-                </div> -->
-            </div>
+        <div>
+            <!-- <div class="alert alert-danger" *ngIf="!alertHidden(sampleForm, 'sampleNumber', ['required', 'number', 'minValue', 'maxValue'])">
+                Validačná chyba: {{sampleForm?.controls?.sampleNumber?.errors | json}}
+            </div> -->
         </div>
-    </form>
+    <!-- </div> -->
 </div>

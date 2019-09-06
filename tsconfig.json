@@ -19,14 +19,10 @@
         ],
         "types": 
         [
-            "moment",
             "node",
             "bootstrap",
-            "jasmine",
-            "positions",
-            "reflect-metadata",
-            "scrollmagic",
-            "highlight.js"
+            "highlight.js",
+            "konami.js"
         ],
         "typeRoots": 
         [

@@ -9,6 +9,38 @@
     line-height: 30px;
 }
 
+/************************** TOOLTIP **************************/
+
+.tooltip-inner 
+{
+    max-width: 290px;
+}
+
+/************************** AUTOCOMPLETE **************************/
+.ui-autocomplete
+{
+    max-height: 198px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+
+.ui-autocomplete.ui-front.ui-menu.ui-widget.ui-widget-content
+{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+
+    .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus
+    {
+        background-image: linear-gradient(to bottom, #337ab7 0px, #265a88 100%);
+        background-repeat: repeat-x;
+        border-color: #245580;
+
+        a, a:hover, a:link, a:visited
+        {
+            color: #EEE;
+        }
+    }
+}
 
 /************************** TYPEAHEAD **************************/
 .form-control[typeaheadtags]
@@ -63,6 +95,15 @@
     }
 }
 
+.big-typeahed
+{
+    .tt-menu.tt-open
+    {
+        max-height: 480px;
+        width: 100%;
+    }
+}
+
 /************************** HEADERS **************************/
 
 h1
@@ -83,6 +124,15 @@ hr
 
 .table-condensed
 {
+    thead>tr>th
+    {
+        &.padding-none-horizontal
+        {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+
     tbody
     {
         &>tr>td
@@ -126,45 +176,6 @@ label
     margin-bottom: 2px;
 }
 
-.bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn)
-{
-    width: 100%;
-
-    .btn-select
-    {
-        background-color: #ffffff;
-        background-image: none;
-        border: 1px solid #cccccc;
-        border-radius: 4px;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-        color: $defaultFontColor;
-        display: block;
-        font-size: 12px;
-        height: 28px;
-        padding: 4px 6px;
-        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-        width: 100%;
-
-        &:hover
-        {
-            background-image: linear-gradient(to bottom, #f7f7f7 0px, #f1f1f1 50%, #f7f7f7 100%);
-        }
-        
-        &.select-required
-        {
-            background-color: #fefdc8;
-        }
-
-        &.btn-select-tight
-        {
-            font-size: 1em;
-            padding: 0 4px;
-            height: 22px;
-            max-width: 100px;
-        }
-    }
-}
-
 .tight
 {
     .form-group
@@ -190,6 +201,16 @@ label
         }
     }
 
+    .file-upload.input-group
+    {
+        &>input[type="text"]
+        {
+            font-size: 11px;
+            height: 24px;
+            padding: 3px;
+        }
+    }
+
     .input-group-addon
     {
         font-size: 10px;
@@ -200,15 +221,5 @@ label
     {
         font-size: 11px;
         padding: 2px 5px;
-    }
-
-    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn)
-    {
-        .btn-select
-        {
-            font-size: 11px;
-            height: 24px;
-            padding: 3px;
-        }
     }
 }

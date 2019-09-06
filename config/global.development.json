@@ -5,17 +5,22 @@
     {
         "Accept": "application/json"
     },
-    "defaultLanguage": "en",
-    "theme": "dark",
-    "availaleLanguages": 
+    "theme": "light",
+    "themes":
+    [
+        "light",
+        "dark"
+    ],
+    "language": "en",
+    "languages":
     [
         {
             "lang": "en",
-            "title": "English"
+            "name": "English"
         },
         {
             "lang": "sk",
-            "title": "Slovenčina"
+            "name": "Slovenčina"
         }
     ]
 }

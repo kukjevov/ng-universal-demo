@@ -1,15 +1,17 @@
 import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider} from '@angular/core';
 import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, AUTH_INTERCEPTOR_CONFIG, AUTHENTICATION_SERVICE_OPTIONS, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER} from '@ng/authentication';
-import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService} from "@ng/common";
-import {ERROR_RESPONSE_MAP_PROVIDER, REPORTING_EXCEPTION_HANDLER_PROVIDER, HttpErrorInterceptorOptions, HTTP_ERROR_INTERCEPTOR_PROVIDER, BadRequestDetail, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER} from '@ng/error-handling';
+import {LocalPermanentStorageService} from '@ng/common/store';
+import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE} from "@ng/common";
+import {NgxTranslateStringLocalizationService} from "@ng/translate-extensions";
+import {ERROR_RESPONSE_MAP_PROVIDER, REPORTING_EXCEPTION_HANDLER_PROVIDER, HttpErrorInterceptorOptions, HTTP_ERROR_INTERCEPTOR_PROVIDER, BadRequestDetail, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER} from '@ng/error-handling';
 import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions} from '@ng/grid';
-// import * as scrollmagic from 'scrollmagic';
+import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@ng/select';
 import * as config from 'config/global';
-// import 'ScrollMagic/scrollmagic/uncompressed/plugins/debug.addIndicators';
 
 import {AuthConfig} from '../services/api/account/authConfig';
 import {AccountService} from '../services/api/account/account.service';
 import {GlobalizationService as GlobalizationServiceImpl} from '../services/globalization/globalization.service';
+import {NOTHING_SELECTED} from '../misc/constants';
 
 /**
  * Creates APP initialization factory, that first try to authorize user before doing anything else
@@ -79,21 +81,6 @@ export function httpErrorInterceptorMappingFunction(err: any) : BadRequestDetail
     return result;
 }
 
-// /**
-//  * Factory method for creating scrollmagic controller
-//  */
-// export function scrollMagicControllerFactory()
-// {
-//     return new scrollmagic.Controller(
-//     {
-//         globalSceneOptions:
-//         {
-//             triggerHook: "onLeave"
-//         }
-//         // addIndicators: true
-//     });
-// }
-
 /**
  * Factory method for creating HttpGatewayTimeoutInterceptorOptions
  */
@@ -107,7 +94,7 @@ export function httpGatewayTimeoutInterceptorOptionsFactory()
  */
 export function noConnectionInterceptorOptionsFactory()
 {
-    return new NoConnectionInterceptorOptions("Server je mimo prevádzky. Budete presmerovaní na domovskú stránku Asseco Central Europe.");
+    return new NoConnectionInterceptorOptions("Server je mimo prevádzky.");
 }
 
 /**
@@ -117,6 +104,7 @@ export var providers =
 [
     //######################### HTTP INTERCEPTORS #########################
     HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER,
+    SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER,
     HTTP_ERROR_INTERCEPTOR_PROVIDER,
     NO_CONNECTION_INTERCEPTOR_PROVIDER,
     SUPPRESS_AUTH_INTERCEPTOR_PROVIDER,
@@ -189,5 +177,32 @@ export var providers =
         {
             text: "Neboli nájdené dáta odpovedajúce zadaným parametrom"
         }
-    }
+    },
+
+    //############################ SELECT GLOBAL OPTIONS ############################
+    <ValueProvider>
+    {
+        provide: NORMAL_STATE_OPTIONS,
+        useValue: <NormalStateOptions<any>>
+        {
+            texts:
+            {
+                nothingSelected: NOTHING_SELECTED
+            }
+        }
+    },
+
+    //######################### STRING LOCALIZATION #########################
+    <ClassProvider>
+    {
+        provide: STRING_LOCALIZATION,
+        useClass: NgxTranslateStringLocalizationService
+    },
+
+    //######################### PERMANENT STORAGE #########################
+    <ClassProvider>
+    {
+        provide: PERMANENT_STORAGE,
+        useClass: LocalPermanentStorageService
+    },
 ];
