@@ -1,12 +1,10 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {ComponentRedirectRoute, ComponentRoute} from '@ng/common/router';
 import {GridOptions, GridComponent, SimpleOrdering, DataResponse, AsyncDataLoaderOptions, BasicPagingOptions, AdvancedMetadataSelectorComponent, AdvancedMetadataSelectorOptions, QueryPagingInitializerComponent, TableContentRendererOptions, DATA_LOADER, DataLoader, PreviousNextPagingComponent, PreviousNextPagingOptions, ContentVirtualScrollPagingComponent, ContentVirtualScrollPagingOptions, LoadMorePagingComponent, LoadMorePagingOptions, PageVirtualScrollPagingComponent, PageVirtualScrollPagingOptions} from '@ng/grid';
 import {setPage, reinitializeOptions} from '@ng/grid/extensions';
 import {Authorize, AuthGuard} from '@ng/authentication';
-import {flyInOutTrigger} from '@ng/animations';
 
 import {GridDataService} from "../../../services/api/gridData/gridData.service";
-import {BaseAnimatedComponent} from "../../../misc/baseAnimatedComponent";
 
 /**
  * Grid samples component
@@ -19,12 +17,12 @@ import {BaseAnimatedComponent} from "../../../misc/baseAnimatedComponent";
     [
         GridDataService,
     ],
-    animations: [flyInOutTrigger]
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRedirectRoute('')
 @ComponentRoute({path: 'grid', canActivate: [AuthGuard]})
 @Authorize("gridSample-page")
-export class GridSampleComponent extends BaseAnimatedComponent
+export class GridSampleComponent
 {
     //######################### public properties #########################
 
@@ -87,8 +85,6 @@ export class GridSampleComponent extends BaseAnimatedComponent
     //######################### constructor #########################
     constructor(private _dataSvc: GridDataService)
     {
-        super();
-
         this.gridOptions =
         {
             plugins:

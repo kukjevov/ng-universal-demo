@@ -1,13 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {FormGroup, FormBuilder} from '@angular/forms';
 import {ComponentRoute} from '@ng/common/router';
-import {flyInOutTrigger} from '@ng/animations';
 import {AuthenticationService, Authorize, AuthGuard} from '@ng/authentication';
 import {empty} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-
-import {BaseAnimatedComponent} from "../../misc/baseAnimatedComponent";
 
 /**
  * Page containing login form
@@ -16,11 +13,11 @@ import {BaseAnimatedComponent} from "../../misc/baseAnimatedComponent";
 {
     selector: 'login-view',
     templateUrl: 'login.component.html',
-    animations: [flyInOutTrigger]
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'login', canActivate: [AuthGuard]})
 @Authorize("login-page")
-export class LoginComponent extends BaseAnimatedComponent
+export class LoginComponent
 {
     //######################### public properties #########################
 
@@ -40,8 +37,6 @@ export class LoginComponent extends BaseAnimatedComponent
                 private _activeRoute: ActivatedRoute,
                 formBuilder: FormBuilder)
     {
-        super();
-
         this.form = formBuilder.group(
         {
             userName: null,

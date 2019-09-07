@@ -1,12 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {trigger, animate, style, query, transition, group} from '@angular/animations';
 import {ComponentRoute} from "@ng/common/router";
-import {flyInOutTrigger, slideInOutTriggerFactory} from '@ng/animations';
+import {slideInOutTriggerFactory} from '@ng/animations';
 import {Authorize, AuthGuard} from '@ng/authentication';
 import {map} from 'rxjs/operators';
 
 import {DataService} from "../../services/api/data/data.service";
-import {BaseAnimatedComponent} from "../../misc/baseAnimatedComponent";
 import {GridOptions, TableContentRendererOptions, AsyncDataLoaderOptions, SimpleOrdering, BasicPagingOptions, QueryPagingInitializerComponent, DataResponse} from '@ng/grid';
 import {GridDataService} from '../../services/api/gridData/gridData.service';
 
@@ -18,10 +17,10 @@ import {GridDataService} from '../../services/api/gridData/gridData.service';
     selector: 'home-view',
     templateUrl: 'home.component.html',
     providers: [DataService, GridDataService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     animations:
     [
         slideInOutTriggerFactory({inParams: {heightDuration: '150ms', opacityDuration: '350ms'}, outParams: {heightDuration: '150ms 150ms', opacityDuration: '250ms'}}),
-        flyInOutTrigger,
         trigger("test",
         [
             transition("* => *",
@@ -45,7 +44,7 @@ import {GridDataService} from '../../services/api/gridData/gridData.service';
 })
 @ComponentRoute({path: '', canActivate: [AuthGuard], data: {animation: 'home-view'}})
 @Authorize("home-page")
-export class HomeComponent extends BaseAnimatedComponent implements OnInit
+export class HomeComponent implements OnInit
 {
     //######################### public properties #########################
     public subs: string;
@@ -64,8 +63,6 @@ export class HomeComponent extends BaseAnimatedComponent implements OnInit
     constructor(private dataSvc: DataService,
                 private _grdDataSvc: GridDataService)
     {
-        super();
-
         this.gridOptions =
         {
             plugins:

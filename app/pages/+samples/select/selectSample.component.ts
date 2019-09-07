@@ -3,12 +3,10 @@ import {FormControl} from '@angular/forms';
 import {isString} from '@asseco/common';
 import {ComponentRoute} from '@ng/common/router';
 import {AuthGuard, Authorize} from '@ng/authentication';
-import {flyInOutTrigger} from '@ng/animations';
 import {NgSelectOptions, GetOptionsCallback, NgSelectOption, BasicLiveSearchComponent, DynamicValueHandlerComponent, DynamicValueHandlerOptions, DynamicOptionsGatherer, NgSelect} from '@ng/select';
 import {getValue} from '@ng/select/extensions';
 
 import {KodPopisValue} from '../../../misc/types';
-import {BaseAnimatedComponent} from "../../../misc/baseAnimatedComponent";
 import {DataService} from '../../../services/api/data/data.service';
 import {CustomReadonlyStateComponent} from '../grid/customReadonlyState.component';
 
@@ -20,12 +18,11 @@ import {CustomReadonlyStateComponent} from '../grid/customReadonlyState.componen
     selector: "select-sample",
     templateUrl: "selectSample.component.html",
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [DataService],
-    animations: [flyInOutTrigger]
+    providers: [DataService]
 })
 @ComponentRoute({path: 'select', canActivate: [AuthGuard]})
 @Authorize("selectSample-page")
-export class SelectSampleComponent extends BaseAnimatedComponent implements AfterViewInit
+export class SelectSampleComponent implements AfterViewInit
 {
     //######################### public properties - template bindings #########################
 
@@ -111,8 +108,6 @@ export class SelectSampleComponent extends BaseAnimatedComponent implements Afte
     constructor(private _dataSvc: DataService,
                 private _changeDetector: ChangeDetectorRef)
     {
-        super();
-
         this.select = new FormControl(null);
         this.selectLazy = new FormControl(null);
         this.selectReadonly = new FormControl(null);

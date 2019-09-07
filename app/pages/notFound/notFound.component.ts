@@ -1,8 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {ComponentRoute} from '@ng/common/router';
 import {StatusCodeService} from '@ng/common';
-import {flyInOutTrigger} from '@ng/animations';
-import {BaseAnimatedComponent} from "../../misc/baseAnimatedComponent";
 
 /**
  * Page displayed when url was not found
@@ -11,16 +9,14 @@ import {BaseAnimatedComponent} from "../../misc/baseAnimatedComponent";
 {
     selector: 'not-found-view',
     templateUrl: 'notFound.component.html',
-    animations: [flyInOutTrigger]
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: '**'})
-export class NotFoundComponent extends BaseAnimatedComponent
+export class NotFoundComponent
 {
     //######################### constructor #########################
     constructor(statusCodeService: StatusCodeService)
     {
-        super();
-
         statusCodeService.setStatusCode(404);
     }
 }

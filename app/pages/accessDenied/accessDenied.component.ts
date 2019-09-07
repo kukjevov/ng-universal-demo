@@ -1,8 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {ComponentRoute} from '@ng/common/router';
 import {StatusCodeService} from '@ng/common';
-import {flyInOutTrigger} from '@ng/animations';
-import {BaseAnimatedComponent} from "../../misc/baseAnimatedComponent";
 
 /**
  * Component used for displaying access denied page
@@ -11,16 +9,14 @@ import {BaseAnimatedComponent} from "../../misc/baseAnimatedComponent";
 {
     selector: 'access-denied-view',
     templateUrl: "accessDenied.component.html",
-    animations: [flyInOutTrigger]
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path:'accessDenied'})
-export class AccessDeniedComponent extends BaseAnimatedComponent
+export class AccessDeniedComponent
 {
     //######################### constructor #########################
     constructor(statusCodeService: StatusCodeService)
     {
-        super();
-
         statusCodeService.setStatusCode(403);
     }
 }

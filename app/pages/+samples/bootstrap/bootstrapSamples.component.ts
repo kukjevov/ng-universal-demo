@@ -1,10 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {ComponentRoute} from '@ng/common/router';
 import {Authorize, AuthGuard} from '@ng/authentication';
-import {flyInOutTrigger} from '@ng/animations';
 import * as moment from 'moment';
-
-import {BaseAnimatedComponent} from "../../../misc/baseAnimatedComponent";
 
 /**
  * Bootstrap samples component
@@ -13,11 +10,11 @@ import {BaseAnimatedComponent} from "../../../misc/baseAnimatedComponent";
 {
     selector: "bootstrap-samples",
     templateUrl: "bootstrapSamples.component.html",
-    animations: [flyInOutTrigger]
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'bootstrap', canActivate: [AuthGuard]})
 @Authorize("bootstrapSample-page")
-export class BootstrapSamplesComponent extends BaseAnimatedComponent
+export class BootstrapSamplesComponent
 {
     //######################### public properties #########################
     public date: moment.Moment = null;

@@ -4,11 +4,11 @@
     <global-notifications></global-notifications>
     <hotkeys-cheatsheet></hotkeys-cheatsheet>
 
-    <div class="content relative">
+    <div class="content relative" [@routeAnimations]="routeComponentState">
         <nav class="navbar navbar-default"></nav>
 
         <div class="main-content">
-            <router-outlet></router-outlet>
+            <router-outlet #outlet="outlet"></router-outlet>
         </div>
     </div>
 </div>

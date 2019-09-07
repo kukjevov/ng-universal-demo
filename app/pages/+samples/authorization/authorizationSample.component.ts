@@ -1,18 +1,15 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {ComponentRoute} from '@ng/common/router';
 import {Authorize, AuthGuard} from '@ng/authentication';
-import {flyInOutTrigger} from '@ng/animations';
-
-import {BaseAnimatedComponent} from "../../../misc/baseAnimatedComponent";
 
 @Component(
 {
     selector: "authorization-sample",
     templateUrl: 'authorizationSample.component.html',
-    animations: [flyInOutTrigger]
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'authorization', canActivate: [AuthGuard]})
 @Authorize("authorizationSample-page")
-export class AuthorizationSampleComponent extends BaseAnimatedComponent
+export class AuthorizationSampleComponent
 {
 }
