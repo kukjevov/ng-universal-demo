@@ -1,4 +1,4 @@
-import {trigger, transition, style, group, animate, query, animateChild} from "@angular/animations";
+import {trigger, transition, query, animate, style} from "@angular/animations";
 
 /**
  * Animations run when changing route
@@ -12,47 +12,51 @@ export const routeAnimationTrigger = trigger('routeAnimations',
     [
         query('.main-content',
         [
-            query(':leave, :enter', 
+            query(":enter",
             [
-                style(
+                animate('7500ms ease-in-out', style(
                 {
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: 'calc(100% - 14px)',
-                    paddingLeft: '80px'
-                })
-            ]),
-            query(':enter', 
-            [
-                style(
-                {
-                    opacity: 0.3,
-                    top: '100%'
-                })
-            ]),
-            query(':leave', animateChild()),
-            group(
-            [
-                query(':leave', 
-                [
-                    animate('800ms ease-in-out', style(
-                    {
-                        opacity: 0.3,
-                        top: '-100%'
-                    }))
-                ]),
-                query(':enter', 
-                [
-                    animate('800ms ease-in-out', style(
-                    {
-                        opacity: 1,
-                        top: 0
-                    }))
-                ])
-            ]),
-            query(':enter', animateChild())
+                    opacity: 0.1
+                }))
+            ])
+            // query(':leave, :enter', 
+            // [
+            //     // style(
+            //     // {
+            //     //     position: 'absolute',
+            //     //     top: 0,
+            //     //     left: 0,
+            //     //     width: '100%',
+            //     //     height: 'calc(100% - 14px)',
+            //     //     paddingLeft: '80px'
+            //     // })
+            // ], {optional: true}),
+            // query(':enter', 
+            // [
+            //     style(
+            //     {
+            //         opacity: 0.1
+            //     })
+            // ], {optional: true}),
+            // // query(':leave', animateChild(), {optional: true}),
+            // group(
+            // [
+            //     query(':leave', 
+            //     [
+            //         animate('3800ms ease-in-out', style(
+            //         {
+            //             opacity: 0.1
+            //         }))
+            //     ], {optional: true}),
+            //     query(':enter', 
+            //     [
+            //         animate('3800ms ease-in-out', style(
+            //         {
+            //             opacity: 1
+            //         }))
+            //     ], {optional: true})
+            // ])
+            // query(':enter', animateChild(), {optional: true})
         ])
     ])
 ]);

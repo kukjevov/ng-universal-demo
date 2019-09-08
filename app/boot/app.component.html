@@ -4,7 +4,7 @@
     <global-notifications></global-notifications>
     <hotkeys-cheatsheet></hotkeys-cheatsheet>
 
-    <div class="content relative" [@routeAnimations]="routeComponentState">
+    <div class="content relative" [@routeAnimations]="prepareRoute(outlet)">
         <nav class="navbar navbar-default"></nav>
 
         <div class="main-content">

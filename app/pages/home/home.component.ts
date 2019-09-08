@@ -42,7 +42,7 @@ import {GridDataService} from '../../services/api/gridData/gridData.service';
         ])
     ]
 })
-@ComponentRoute({path: '', canActivate: [AuthGuard], data: {animation: 'home-view'}})
+@ComponentRoute({path: '', canActivate: [AuthGuard]})
 @Authorize("home-page")
 export class HomeComponent implements OnInit
 {
