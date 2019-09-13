@@ -1,3 +1,11 @@
+<a routerLink="/">Home</a>
+<a routerLink="/samples/grid">Grid</a>
+<a routerLink="/samples/select">Select</a>
+<a routerLink="/samples/bootstrap">Bootstrap</a>
+<a routerLink="/samples/common">Common</a>
+<a routerLink="/samples/notifications">Notifications</a>
+<a routerLink="/samples/authorization">Authorization</a>
+
 <div class="container main relative">
     <progress-indicator></progress-indicator>
     <internal-server-error></internal-server-error>
@@ -5,8 +13,6 @@
     <hotkeys-cheatsheet></hotkeys-cheatsheet>
 
     <div class="content relative" [@routeAnimations]="prepareRoute(outlet)">
-        <nav class="navbar navbar-default"></nav>
-
         <div class="main-content">
             <router-outlet #outlet="outlet"></router-outlet>
         </div>

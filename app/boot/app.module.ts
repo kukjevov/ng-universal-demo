@@ -13,7 +13,6 @@ import {routes, routesOptions} from './app.component.routes';
 import {CommonSharedModule} from './commonShared.module';
 import {APP_TRANSFER_ID} from '../misc/constants';
 import {providers} from './app.config';
-import {HelloWorldModule} from '../pages/ivy/hello-world.module';
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
 
 
@@ -43,8 +42,7 @@ import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader'
                 provide: TranslateLoader, 
                 useClass: WebpackTranslateLoaderService
             }
-        }),
-        HelloWorldModule
+        })
     ],
     providers: providers,
     declarations: [AppComponent, NavigationComponent, ...routes],

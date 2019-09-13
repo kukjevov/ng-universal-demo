@@ -1,62 +1,45 @@
-import {trigger, transition, query, animate, style} from "@angular/animations";
+import {trigger, transition, query, animate, style, animateChild, group} from "@angular/animations";
 
 /**
  * Animations run when changing route
  */
 export const routeAnimationTrigger = trigger('routeAnimations',
 [
-    transition('none => *, void => *',
+    transition('void <=> *, none <=> *',
     [
     ]),
-    transition('* => *',
+    transition('* => *', 
     [
         query('.main-content',
         [
-            query(":enter",
+            style({ position: 'relative' }),
+            query(':enter, :leave', 
             [
-                animate('7500ms ease-in-out', style(
+                style(
                 {
-                    opacity: 0.1
-                }))
-            ])
-            // query(':leave, :enter', 
-            // [
-            //     // style(
-            //     // {
-            //     //     position: 'absolute',
-            //     //     top: 0,
-            //     //     left: 0,
-            //     //     width: '100%',
-            //     //     height: 'calc(100% - 14px)',
-            //     //     paddingLeft: '80px'
-            //     // })
-            // ], {optional: true}),
-            // query(':enter', 
-            // [
-            //     style(
-            //     {
-            //         opacity: 0.1
-            //     })
-            // ], {optional: true}),
-            // // query(':leave', animateChild(), {optional: true}),
-            // group(
-            // [
-            //     query(':leave', 
-            //     [
-            //         animate('3800ms ease-in-out', style(
-            //         {
-            //             opacity: 0.1
-            //         }))
-            //     ], {optional: true}),
-            //     query(':enter', 
-            //     [
-            //         animate('3800ms ease-in-out', style(
-            //         {
-            //             opacity: 1
-            //         }))
-            //     ], {optional: true})
-            // ])
-            // query(':enter', animateChild(), {optional: true})
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%'
+                })
+            ]),
+            query(':enter', 
+            [
+                style({ left: '-100%'})
+            ]),
+            query(':leave', animateChild()),
+            group(
+            [
+                query(':leave', 
+                [
+                    animate('300ms ease-out', style({ left: '100%'}))
+                ]),
+                query(':enter', 
+                [
+                    animate('300ms ease-out', style({ left: '0%'}))
+                ])
+            ]),
+            query(':enter', animateChild())
         ])
     ])
 ]);
