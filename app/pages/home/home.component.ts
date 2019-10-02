@@ -8,6 +8,7 @@ import {map} from 'rxjs/operators';
 import {DataService} from "../../services/api/data/data.service";
 import {GridOptions, TableContentRendererOptions, AsyncDataLoaderOptions, SimpleOrdering, BasicPagingOptions, QueryPagingInitializerComponent, DataResponse} from '@ng/grid';
 import {GridDataService} from '../../services/api/gridData/gridData.service';
+import {DialogMetadataSelectorComponent} from './dialogMetadataSelector/dialogMetadataSelector.component';
 
 /**
  * Home component
@@ -67,6 +68,10 @@ export class HomeComponent implements OnInit
         {
             plugins:
             {
+                metadataSelector:
+                {
+                    type: DialogMetadataSelectorComponent
+                },
                 contentRenderer:
                 {
                     options: <TableContentRendererOptions>

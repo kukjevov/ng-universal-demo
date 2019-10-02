@@ -40,6 +40,7 @@ function getEntries(ssr, dll)
             ...dll ? {"import-dependencies": './webpack.config.dev.imports'} : {},
             externalStyle:
             [
+                "@angular/material/prebuilt-themes/indigo-pink.css",
                 "@fortawesome/fontawesome-free/css/all.min.css",
                 "bootstrap/dist/css/bootstrap.min.css",
                 "bootstrap/dist/css/bootstrap-theme.min.css",
