@@ -2,11 +2,11 @@ import {Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Inject, Ch
 import {MatDialog} from "@angular/material/dialog";
 import {CookieService, STRING_LOCALIZATION, StringLocalization} from "@ng/common";
 import {GridColumn, GridPluginGeneric, MetadataGatherer, BasicTableMetadata, GridPluginInstances, GRID_PLUGIN_INSTANCES, METADATA_SELECTOR_OPTIONS} from "@ng/grid";
-import {extend} from "@asseco/common";
+import {extend, isPresent, Dictionary, isJsObject} from "@asseco/common";
 import {Subscription} from "rxjs";
 
 import {DialogMetadataSelectorOptions, DialogMetadataSelector, DialogMetadataSelectorTexts, DialogMetadataSelectorComponent as DialogMetadataSelectorComponentInterface, DialogMetadataSelectorComponentData} from "./dialogMetadataSelector.interface";
-import {VerticalDragNDropSelectionComponent} from "./components";
+import {VerticalDragNDropSelectionComponent, CssClassesVerticalDragNDropSelection, VerticalDragNDropSelectionTexts} from "./components";
 
 /**
  * Cookie state
@@ -25,10 +25,23 @@ const defaultOptions: DialogMetadataSelectorOptions<any> =
 {
     cssClasses:
     {
+        componentClass: 'dialog-metadata-selector',
+        btnClass: 'btn btn-primary',
+        btnIconClass: 'fa fa-list margin-right-extra-small',
+        dialogComponentClasses: <CssClassesVerticalDragNDropSelection>
+        {
+            containerClass: 'metadata-columns',
+            itemClass: 'metadata-column',
+            titleClass: 'metadata-columns-title'
+        }
     },
     texts:
     {
-        btnShowSelection: 'Column selection'
+        btnShowSelection: 'Column selection',
+        dialogComponentTexts: <VerticalDragNDropSelectionTexts>
+        {
+            selectionTitle: 'Columns'
+        }
     },
     showButtonVisible: true,
     dialogComponent: forwardRef(() => VerticalDragNDropSelectionComponent)
@@ -41,46 +54,60 @@ const defaultOptions: DialogMetadataSelectorOptions<any> =
 {
     selector: 'ng-dialog-metadata-selector',
     templateUrl: 'dialogMetadataSelector.component.html',
+    styleUrls: ['dialogMetadataSelector.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogMetadataSelectorComponent implements DialogMetadataSelector<BasicTableMetadata<GridColumn>>, GridPluginGeneric<DialogMetadataSelectorOptions<BasicTableMetadata<GridColumn>>>, OnDestroy
 {
-    //######################### private fields #########################
+    //######################### protected fields #########################
 
     /**
      * Options for grid plugin
      */
-    private _options: DialogMetadataSelectorOptions<BasicTableMetadata<GridColumn>>;
+    protected _options: DialogMetadataSelectorOptions<BasicTableMetadata<GridColumn>>;
+
+    /**
+     * Last applied css class
+     */
+    protected _cssClass: string;
 
     /**
      * Subscription for changes in texts
      */
-    private _textsChangedSubscription: Subscription;
+    protected _textsChangedSubscription: Subscription;
 
     /**
      * Subscription for metadata changes
      */
-    private _metadataChangedSubscription: Subscription;
+    protected _metadataChangedSubscription: Subscription;
 
     /**
      * Indication whether gahterer has been initialized
      */
-    private _gathererInitialized: boolean = false;
+    protected _gathererInitialized: boolean = false;
 
     /**
      * Instance of metadata gatherer, which is used for getting initial metadata
      */
-    private _metadataGatherer: MetadataGatherer<BasicTableMetadata<GridColumn>>;
+    protected _metadataGatherer: MetadataGatherer<BasicTableMetadata<GridColumn>>;
 
     /**
      * All metadata that are available
      */
-    private _allMetadata: BasicTableMetadata<GridColumn>;
+    protected _allMetadata: BasicTableMetadata<GridColumn>;
     
     /**
      * Component that is used for handling metadata selection itself
      */
-    private _dialogComponent?: Type<DialogMetadataSelectorComponentInterface<BasicTableMetadata<GridColumn>>>;
+    protected _dialogComponent?: Type<DialogMetadataSelectorComponentInterface<BasicTableMetadata<GridColumn>>>;
+
+    /**
+     * Metadata for selection, contains all metadata in correct order
+     */
+    protected _metadataForSelection: BasicTableMetadata<GridColumn> =
+    {
+        columns: []
+    };
 
     //######################### public properties - implementation of DialogMetadataSelector #########################
 
@@ -138,9 +165,9 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
     constructor(@Inject(GRID_PLUGIN_INSTANCES) @Optional() public gridPlugins: GridPluginInstances,
 
                 public pluginElement: ElementRef,
-                private _changeDetector: ChangeDetectorRef,
-                private _cookies: CookieService,
-                private _dialog: MatDialog,
+                protected _changeDetector: ChangeDetectorRef,
+                protected _cookies: CookieService,
+                protected _dialog: MatDialog,
                 @Inject(STRING_LOCALIZATION) protected _stringLocalization: StringLocalization,
                 @Inject(METADATA_SELECTOR_OPTIONS) @Optional() options?: DialogMetadataSelectorOptions<BasicTableMetadata<GridColumn>>)
     {
@@ -179,15 +206,17 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
             data:
             <DialogMetadataSelectorComponentData<BasicTableMetadata<GridColumn>>>
             {
-                getMetadata: () => this._allMetadata,
+                metadata: this._metadataForSelection,
                 setMetadata: metadata =>
                 {
-                    this._allMetadata.columns = [...metadata.columns];
+                    this._metadataForSelection.columns = [...metadata.columns];
                     this._setMetadata();
                     this._saveToCookie();
 
                     this.metadataChange.next();
-                }
+                },
+                cssClasses: this.options.cssClasses.dialogComponentClasses,
+                texts: this.texts.dialogComponentTexts
             }
         });
     }
@@ -197,6 +226,16 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
      */
     public initialize()
     {
+        let element: HTMLElement = this.pluginElement.nativeElement;
+
+        if(isPresent(this._cssClass))
+        {
+            element.classList.remove(this._cssClass);
+        }
+
+        element.classList.add(this.options.cssClasses.componentClass);
+        this._cssClass = this.options.cssClasses.componentClass;
+
         this._dialogComponent = resolveForwardRef(this.options.dialogComponent);
 
         if(!this._gathererInitialized)
@@ -238,25 +277,45 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
         this._changeDetector.detectChanges();
     }
 
-    //######################### private methods #########################
+    //######################### protected methods #########################
 
     /**
      * Initialize texts
      */
-    private _initTexts()
+    protected _initTexts()
     {
-        Object.keys(this.options.texts).forEach(key =>
-        {
-            this.texts[key] = this._stringLocalization.get(this.options.texts[key]);
-        });
+        this.texts = this._initTextsObject(this.options.texts);
 
         this._changeDetector.detectChanges();
     }
 
     /**
+     * Initialize texts object
+     * @param texts Texts to be initialized
+     */
+    protected _initTextsObject(texts: Dictionary)
+    {
+        let resultTexts = {};
+
+        Object.keys(texts).forEach(key =>
+        {
+            if(isJsObject(texts[key]))
+            {
+                resultTexts[key] = this._initTextsObject(texts[key]);
+            }
+            else
+            {
+                resultTexts[key] = this._stringLocalization.get(texts[key]);
+            }
+        });
+
+        return resultTexts;
+    }
+
+    /**
      * Initialize metadata
      */
-    private _initMetadata()
+    protected _initMetadata()
     {
         let cookieState: CookieState = this._loadFromCookie();
 
@@ -274,21 +333,23 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
                     throw new Error('Missing id for column to be stored in cookie!');
                 }
 
-                meta.visible = !!cookieState[meta.id];
+                meta.visible = cookieState[meta.id] && cookieState[meta.id].visible;
             });
 
-            Object.keys(cookieState).forEach(id =>
+            this._metadataForSelection = 
             {
-                let meta = this._allMetadata.columns.find(itm => itm.id == id);
+                columns: Object.keys(cookieState).map(id => this._allMetadata.columns.find(itm => itm.id == id)).filter(itm => !!itm)
+            };
 
-                if(meta)
-                {
-                    this.metadata.columns.push(meta);
-                }
-            });
+            this._setMetadata();
         }
         else
         {
+            this._metadataForSelection =
+            {
+                columns: [...this._allMetadata.columns]
+            }
+
             this._setMetadata();
         }
     }
@@ -296,7 +357,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
     /**
      * Saves current state to cookie
      */
-    private _saveToCookie()
+    protected _saveToCookie()
     {
         if(!this.options.cookieName)
         {
@@ -305,7 +366,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
 
         let state: CookieState = {};
 
-        this.metadata.columns.forEach(meta =>
+        this._metadataForSelection.columns.forEach(meta =>
         {
             if(!meta.id)
             {
@@ -314,7 +375,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
 
             state[meta.id] =
             {
-                visible: true
+                visible: meta.visible
             };
         });
 
@@ -324,7 +385,7 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
     /**
      * Gets stored cookie state
      */
-    private _loadFromCookie(): CookieState
+    protected _loadFromCookie(): CookieState
     {
         if(!this.options.cookieName)
         {
@@ -337,11 +398,11 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
     /**
      * Sets visible metadata from all metadata
      */
-    private _setMetadata()
+    protected _setMetadata()
     {
         this.metadata =
         {
-            columns: this._allMetadata.columns.filter(itm => itm.visible)
+            columns: this._metadataForSelection.columns.filter(itm => itm.visible)
         };
     }
 }

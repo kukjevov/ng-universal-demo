@@ -1,5 +1,6 @@
 <div *ngIf="options?.showButtonVisible">
-    <button (click)="show()">
+    <button (click)="show()" [ngClass]="options?.cssClasses?.btnClass">
+        <span [ngClass]="options?.cssClasses?.btnIconClass"></span>
         <span>{{texts?.btnShowSelection}}</span>
     </button>
 </div>

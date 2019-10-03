@@ -1,5 +1,7 @@
-<div class="metadata-columns" cdkDropList (cdkDropListDropped)="drop($event)">
-    <div *ngFor="let column of metadata?.columns" cdkDrag class="metadata-column">
+<div [ngClass]="cssClasses?.titleClass">{{texts?.selectionTitle}}</div>
+
+<div [ngClass]="cssClasses?.containerClass" cdkDropList (cdkDropListDropped)="drop($event)">
+    <div *ngFor="let column of metadata?.columns" cdkDrag [ngClass]="cssClasses?.itemClass">
         <label>
             <input type="checkbox" [checked]="column?.visible" (change)="toggleVisibility(column, $event.target)">
             <span>{{column?.title}}</span>

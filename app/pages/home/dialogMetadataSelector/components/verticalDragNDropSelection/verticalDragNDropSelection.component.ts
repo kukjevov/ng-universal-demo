@@ -4,6 +4,7 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {BasicTableMetadata, GridColumn} from "@ng/grid";
 
 import {DialogMetadataSelectorComponent, DialogMetadataSelectorComponentData} from "../../dialogMetadataSelector.interface";
+import {VerticalDragNDropSelectionTexts, CssClassesVerticalDragNDropSelection} from './verticalDragNDropSelection.interface';
 
 /**
  * Component that is used for handling metadata seletion using vertical drag n drop
@@ -25,11 +26,25 @@ export class VerticalDragNDropSelectionComponent implements DialogMetadataSelect
      */
     public metadata: BasicTableMetadata<GridColumn>;
 
+    /**
+     * Texts that are used withing vertical drag n drop
+     * @internal
+     */
+    public texts: VerticalDragNDropSelectionTexts;
+
+    /**
+     * Css classes that are used withing  vertical drag n drop
+     * @internal
+     */
+    public cssClasses: CssClassesVerticalDragNDropSelection;
+
     //######################### constructor #########################
     constructor(public dialog: MatDialogRef<VerticalDragNDropSelectionComponent, DialogMetadataSelectorComponentData<BasicTableMetadata<GridColumn>>>,
                 @Inject(MAT_DIALOG_DATA) public data: DialogMetadataSelectorComponentData<BasicTableMetadata<GridColumn>>)
     {
-        this.metadata = this.data.getMetadata();
+        this.metadata = this.data.metadata;
+        this.texts = this.data.texts;
+        this.cssClasses = this.data.cssClasses;
     }
 
     //######################### public methods - template bindings #########################

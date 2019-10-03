@@ -9,6 +9,7 @@ import {DataService} from "../../services/api/data/data.service";
 import {GridOptions, TableContentRendererOptions, AsyncDataLoaderOptions, SimpleOrdering, BasicPagingOptions, QueryPagingInitializerComponent, DataResponse} from '@ng/grid';
 import {GridDataService} from '../../services/api/gridData/gridData.service';
 import {DialogMetadataSelectorComponent} from './dialogMetadataSelector/dialogMetadataSelector.component';
+import {DialogMetadataSelectorOptions} from './dialogMetadataSelector/dialogMetadataSelector.interface';
 
 /**
  * Home component
@@ -70,7 +71,11 @@ export class HomeComponent implements OnInit
             {
                 metadataSelector:
                 {
-                    type: DialogMetadataSelectorComponent
+                    type: DialogMetadataSelectorComponent,
+                    options: <DialogMetadataSelectorOptions<any>>
+                    {
+                        cookieName: 'cookie'
+                    }
                 },
                 contentRenderer:
                 {

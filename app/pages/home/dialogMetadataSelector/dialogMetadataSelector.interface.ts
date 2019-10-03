@@ -6,6 +6,10 @@ import {MetadataSelector, MetadataSelectorOptions, VisualPluginOptions} from "@n
  */
 export interface CssClassesDialogMetadataSelector
 {
+    componentClass?: string;
+    btnClass?: string;
+    btnIconClass?: string;
+    dialogComponentClasses?: Object;
 }
 
 /**
@@ -14,6 +18,7 @@ export interface CssClassesDialogMetadataSelector
 export interface DialogMetadataSelectorTexts
 {
     btnShowSelection?: string;
+    dialogComponentTexts?: Object;
 }
 
 /**
@@ -57,7 +62,17 @@ export interface DialogMetadataSelectorComponentData<TMetadata>
     /**
      * Method that is used for setting metadata into component
      */
-    getMetadata:() => TMetadata;
+    metadata: TMetadata;
+
+    /**
+     * Css classes passed to dialog component
+     */
+    cssClasses: Object;
+
+    /**
+     * Texts passed to dialog component
+     */
+    texts: Object;
 
     /**
      * Method that is used for sending metadata out of component to metadata selector
