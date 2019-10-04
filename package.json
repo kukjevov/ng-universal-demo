@@ -61,7 +61,7 @@
         "@ng/bootstrap": "6.1.1",
         "@ng/common": "6.4.2",
         "@ng/error-handling": "6.0.0",
-        "@ng/grid": "6.0.0",
+        "@ng/grid": "6.1.0",
         "@ng/md-help": "6.0.0",
         "@ng/notifications": "6.0.0",
         "@ng/rest": "6.0.2",

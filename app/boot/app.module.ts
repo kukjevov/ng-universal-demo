@@ -2,7 +2,6 @@ import {NgModule, ClassProvider} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 import {MatDialogModule} from '@angular/material/dialog';
-import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ProgressIndicatorModule} from '@ng/common';
 import {ModuleRoutes} from '@ng/common/router';
 import {InternalServerErrorModule} from '@ng/error-handling';
@@ -16,8 +15,6 @@ import {CommonSharedModule} from './commonShared.module';
 import {APP_TRANSFER_ID} from '../misc/constants';
 import {providers} from './app.config';
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
-import {DialogMetadataSelectorComponent} from '../pages/home/dialogMetadataSelector/dialogMetadataSelector.component';
-import {VerticalDragNDropSelectionComponent} from '../pages/home/dialogMetadataSelector/components';
 
 
 /**
@@ -35,7 +32,6 @@ import {VerticalDragNDropSelectionComponent} from '../pages/home/dialogMetadataS
         InternalServerErrorModule,
         ProgressIndicatorModule,
         CommonSharedModule,
-        DragDropModule,
         HotkeyModule.forRoot(
         {
             cheatSheetCloseEsc: true
@@ -51,7 +47,7 @@ import {VerticalDragNDropSelectionComponent} from '../pages/home/dialogMetadataS
         })
     ],
     providers: providers,
-    declarations: [AppComponent, NavigationComponent, DialogMetadataSelectorComponent, VerticalDragNDropSelectionComponent, ...routes],
+    declarations: [AppComponent, NavigationComponent, ...routes],
     exports: [AppComponent]
 })
 @ModuleRoutes(routes, routesOptions)

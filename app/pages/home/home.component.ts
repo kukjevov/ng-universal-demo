@@ -3,13 +3,12 @@ import {trigger, animate, style, query, transition, group} from '@angular/animat
 import {ComponentRoute} from "@ng/common/router";
 import {slideInOutTriggerFactory} from '@ng/animations';
 import {Authorize, AuthGuard} from '@ng/authentication';
+import {GridOptions, TableContentRendererOptions, AsyncDataLoaderOptions, SimpleOrdering, BasicPagingOptions, QueryPagingInitializerComponent, DataResponse} from '@ng/grid';
+import {DialogMetadataSelectorComponent, DialogMetadataSelectorOptions} from '@ng/grid/material';
 import {map} from 'rxjs/operators';
 
 import {DataService} from "../../services/api/data/data.service";
-import {GridOptions, TableContentRendererOptions, AsyncDataLoaderOptions, SimpleOrdering, BasicPagingOptions, QueryPagingInitializerComponent, DataResponse} from '@ng/grid';
 import {GridDataService} from '../../services/api/gridData/gridData.service';
-import {DialogMetadataSelectorComponent} from './dialogMetadataSelector/dialogMetadataSelector.component';
-import {DialogMetadataSelectorOptions} from './dialogMetadataSelector/dialogMetadataSelector.interface';
 
 /**
  * Home component
