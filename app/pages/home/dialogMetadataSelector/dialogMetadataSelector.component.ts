@@ -338,7 +338,10 @@ export class DialogMetadataSelectorComponent implements DialogMetadataSelector<B
 
             this._metadataForSelection = 
             {
-                columns: Object.keys(cookieState).map(id => this._allMetadata.columns.find(itm => itm.id == id)).filter(itm => !!itm)
+                columns: Object.keys(cookieState)
+                    .map(id => this._allMetadata.columns.find(itm => itm.id == id))
+                    .filter(itm => !!itm)
+                    .concat(this._allMetadata.columns.filter(meta => !cookieState[meta.id]))
             };
 
             this._setMetadata();
