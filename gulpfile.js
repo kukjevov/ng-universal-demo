@@ -1,8 +1,7 @@
 const gulp = require('gulp'),
       sass = require('gulp-sass'),
       watch = require('gulp-watch'),
-      through2 = require('through2'),
-      gitVersion = require('gulp-git-version');
+      through2 = require('through2');
 
 function logCopied()
 {
@@ -45,31 +44,30 @@ gulp.task("compile-scss", function()
         .pipe(gulp.dest('wwwroot/content'));
 });
 
-gulp.task("prepare-version", function(cb)
-{
-    gitVersion(
-    {
-        path: "config",
-        filename: "version.json",
-        currentVersionRegex: '"version": "(.*?)"',
-        template:
-`{
-    "version": "{{version}}"
-}`,
-        extractorOptions:
-        {
-            buildNumber: -1,
-            tagPrefix: "v",
-            ignoreBranchPrefix: "[a-z]+/|(?:[a-z]+-)+\\d+/",
-            pre: true,
-            suffix: "beta"
-        }
-    }, cb);
-});
+// gulp.task("prepare-version", function(cb)
+// {
+//     gitVersion(
+//     {
+//         path: "config",
+//         filename: "version.json",
+//         currentVersionRegex: '"version": "(.*?)"',
+//         template:
+// `{
+//     "version": "{{version}}"
+// }`,
+//         extractorOptions:
+//         {
+//             buildNumber: -1,
+//             tagPrefix: "v",
+//             ignoreBranchPrefix: "[a-z]+/|(?:[a-z]+-)+\\d+/",
+//             pre: true,
+//             suffix: "beta"
+//         }
+//     }, cb);
+// });
 
 gulp.task("build",
-          ["copy-config",
-           "prepare-version"],
+          ["copy-config"],
           function(cb)
 {
     console.log("Gulp build has finished");

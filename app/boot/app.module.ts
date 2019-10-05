@@ -2,19 +2,16 @@ import {NgModule, ClassProvider} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 import {MatDialogModule} from '@angular/material/dialog';
-import {ProgressIndicatorModule} from '@ng/common';
-import {ModuleRoutes} from '@ng/common/router';
-import {InternalServerErrorModule} from '@ng/error-handling';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {HotkeyModule} from 'angular2-hotkeys';
 
 import {AppComponent} from './app.component';
-import {NavigationComponent} from '../components/navigation/navigation.component';
-import {routes, routesOptions} from './app.component.routes';
 import {CommonSharedModule} from './commonShared.module';
-import {APP_TRANSFER_ID} from '../misc/constants';
 import {providers} from './app.config';
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
+import {HomeComponent} from '../pages/home/home.component';
+import {GardenComponent} from '../pages/garden/garden.component';
+import {RouterModule} from '@angular/router';
 
 
 /**
@@ -26,11 +23,9 @@ import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader'
     [
         BrowserModule.withServerTransition(
         {
-            appId: APP_TRANSFER_ID
+            appId: 'APP_TRANSFER_ID'
         }),
         HttpClientModule,
-        InternalServerErrorModule,
-        ProgressIndicatorModule,
         CommonSharedModule,
         HotkeyModule.forRoot(
         {
@@ -44,13 +39,23 @@ import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader'
                 provide: TranslateLoader, 
                 useClass: WebpackTranslateLoaderService
             }
-        })
+        }),
+        RouterModule.forRoot(
+        [
+            {
+                path: '',
+                component: HomeComponent
+            },
+            {
+                path: 'garden',
+                component: GardenComponent
+            }
+        ])
     ],
     providers: providers,
-    declarations: [AppComponent, NavigationComponent, ...routes],
+    declarations: [AppComponent, HomeComponent, GardenComponent],
     exports: [AppComponent]
 })
-@ModuleRoutes(routes, routesOptions)
 export class AppModule
 {
 }

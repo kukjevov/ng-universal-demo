@@ -6,12 +6,9 @@ var connect = require('connect'),
     argv = require('yargs').argv,
     path = require('path'),
     fs = require('fs'),
-    https = require('https'),
-    connectExtensions = require('ace-nodejs-connect-extensions');
+    https = require('https');
 
 var app = connect();
-
-connectExtensions.extendConnectUse(app);
 
 const wwwroot = path.join(__dirname, "wwwroot");
 const proxyUrlFile = path.join(__dirname, 'proxyUrl.js');
@@ -72,7 +69,7 @@ if(!!argv.webpack)
 }
 
 //mock rest api
-require('./server.mock')(app);
+// require('./server.mock')(app);
 
 //proxy special requests to other location
 app.use(proxy(['/api', '/swagger'], {target: proxyUrl, ws: true}));
