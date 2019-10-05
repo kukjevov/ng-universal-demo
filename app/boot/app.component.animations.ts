@@ -7,6 +7,7 @@ export const routeAnimationTrigger = trigger('routeAnimations',
 [
     transition('void <=> *, none <=> *',
     [
+        query(':enter', animateChild(), {optional: true})
     ]),
     transition('* => *', 
     [
