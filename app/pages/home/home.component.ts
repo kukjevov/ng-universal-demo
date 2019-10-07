@@ -1,5 +1,5 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
-import {trigger, animate, style, query, transition, group} from '@angular/animations';
+import {Component, OnInit, ChangeDetectionStrategy, HostBinding} from '@angular/core';
+import {trigger, animate, style, query, transition, group, animateChild} from '@angular/animations';
 import {ComponentRoute} from "@ng/common/router";
 import {slideInOutTriggerFactory} from '@ng/animations';
 import {Authorize, AuthGuard} from '@ng/authentication';
@@ -28,17 +28,24 @@ import {GridDataService} from '../../services/api/gridData/gridData.service';
             [
                 group(
                 [
-                    query("*:enter",
+                    query(":enter",
                     [
                         style({opacity: 0, position: 'absolute', transform: 'translateX(30%)'}),
                         animate(400, style({opacity: 1, transform: 'translateX(0)'}))
                     ], {optional: true}),
-                    query("*:leave",
+                    query(":leave",
                     [
                         style({opacity: 1, position: 'absolute', transform: 'translateX(0)'}),
                         animate(400, style({opacity: 0, transform: 'translateX(-30%)'}))
                     ], {optional: true})
                 ]),
+            ])
+        ]),
+        trigger('componentContent',
+        [
+            transition(':enter, :leave',
+            [
+                query('@*', animateChild())
             ])
         ])
     ]
@@ -51,6 +58,9 @@ export class HomeComponent implements OnInit
     public subs: string;
     public show: boolean = false;
     public counter = 0;
+
+    @HostBinding('@componentContent')
+    public animation: boolean = true;
 
     /**
      * Grid options that are used for grid initialization
