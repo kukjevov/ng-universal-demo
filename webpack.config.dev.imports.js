@@ -16,7 +16,6 @@ import 'positions';
 import 'store';
 import 'konami';
 
-import "@asseco/common";
 import "@angular/animations";
 import "@angular/core";
 import "@angular/core/testing";
