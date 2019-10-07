@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, HostBinding} from '@angular/core';
-import {trigger, transition, style, animate, query, animateChild} from '@angular/animations';
+import {trigger, transition, style, animate, query, animateChild, group} from '@angular/animations';
 
 /**
  * Home component
@@ -11,6 +11,25 @@ import {trigger, transition, style, animate, query, animateChild} from '@angular
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations:
     [
+        trigger("test",
+        [
+            transition("* => *",
+            [
+                group(
+                [
+                    query(":enter",
+                    [
+                        style({opacity: 0, position: 'absolute', transform: 'translateX(30%)'}),
+                        animate(400, style({opacity: 1, transform: 'translateX(0)'}))
+                    ], {optional: true}),
+                    query(":leave",
+                    [
+                        style({opacity: 1, position: 'absolute', transform: 'translateX(0)'}),
+                        animate(400, style({opacity: 0, transform: 'translateX(-30%)'}))
+                    ], {optional: true})
+                ]),
+            ])
+        ]),
         trigger('slowFade',
         [
             transition('void => *',
@@ -45,4 +64,10 @@ export class HomeComponent
 {
     @HostBinding('@componentContent')
     public animation: boolean = true;
+
+    public trigger = "in";
+
+    public show: boolean = false;
+
+    public counter = 0;
 }

@@ -3,3 +3,18 @@ Home
 <div @slowFade>
     super div s animaciou
 </div>
+
+<div [@test]="trigger">
+    <span>{{counter}}</span>
+    <div *ngIf="trigger == 'in'">
+        <span>XXXXXXXXXXXXXX</span>
+    </div>
+
+    <div *ngIf="trigger == 'out'">
+        <div>YYYYYYYYYYYYYY</div>
+    </div>
+
+    <div *ngIf="show">
+        <div>ZZZZZZZZZZZZ</div>
+    </div>
+</div>
