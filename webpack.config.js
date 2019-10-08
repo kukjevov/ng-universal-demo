@@ -11,6 +11,7 @@ var webpack = require('webpack'),
     BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
     rxPaths = require('rxjs/_esm5/path-mapping'),
     extend = require('extend'),
+    ts = require('typescript'),
     AngularCompilerPlugin =  require('@ngtools/webpack').AngularCompilerPlugin;
 
 //array of paths for server and browser tsconfigs
@@ -22,10 +23,12 @@ const tsconfigs =
 
 /**
  * Gets entries for webpack
- * @param {boolean} ssr Indicates that it should be entries for server side rendering
- * @param {boolean} dll Indicates that it should be entries for server side rendering
+ * @param {boolean} ssr Indication that it should be entries for server side rendering
+ * @param {boolean} dll Indication that it should be dll import added to entries
+ * @param {boolean} css Indication that it should be css added to entries
+ * @param {boolean} diff Indication that it should be js added to entries
  */
-function getEntries(ssr, dll)
+function getEntries(ssr, dll, css, diff)
 {
     if(ssr)
     {
@@ -38,7 +41,7 @@ function getEntries(ssr, dll)
         var entries =
         {
             ...dll ? {"import-dependencies": './webpack.config.dev.imports'} : {},
-            externalStyle:
+            ...css ? {externalStyle:
             [
                 "@angular/material/prebuilt-themes/indigo-pink.css",
                 "@fortawesome/fontawesome-free/css/all.min.css",
@@ -48,8 +51,8 @@ function getEntries(ssr, dll)
                 "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",
                 "highlight.js/styles/googlecode.css"
             ],
-            style: [path.join(__dirname, "content/site.scss")],
-            client: [path.join(__dirname, "app/main.browser.ts")]
+            style: [path.join(__dirname, "content/site.scss")]} : {},
+            ...diff ? {} : {client: [path.join(__dirname, "app/main.browser.ts")]}
         };
 
         entryPoints = Object.keys(entries);
@@ -62,14 +65,19 @@ function getEntries(ssr, dll)
  * Generates a AotPlugin for @ngtools/webpack
  *
  * @param {string} platform Should either be client or server
+ * @param {boolean} es5 Indication whether compile application in es5 or es2015
  * @returns
  */
-function getAotPlugin(platform)
+function getAotPlugin(platform, es5)
 {
     return new AngularCompilerPlugin(
     {
         tsConfigPath: tsconfigs[platform],
-        sourceMap: true
+        sourceMap: true,
+        compilerOptions:
+        {
+            target: es5 ? ts.ScriptTarget.ES5 : ts.ScriptTarget.ES2015
+        }
     });
 }
 
@@ -102,6 +110,10 @@ module.exports = function(options, args)
     var ssr = !!options && !!options.ssr;
     var dll = !!options && !!options.dll;
     var debug = !!options && !!options.debug;
+    var es5 = !!options && !!options.es5;
+    var css = !!options && !!options.css;
+    var html = !!options && !!options.html;
+    var diff = !!options && !!options.diff;
     var ngsw = process.env.NGSW == "true";
 
     if(!!options && options.ngsw != undefined)
@@ -113,18 +125,18 @@ module.exports = function(options, args)
 
     options = options || {};
 
-    console.log(`Running build with following configuration Production: ${prod} Hot Module Replacement: ${hmr} Ahead Of Time Compilation: ${aot} Server Side Rendering: ${ssr} Debugging compilation: ${debug}`);
+    console.log(`Running build with following configuration Production: ${prod} Hot Module Replacement: ${hmr} Ahead Of Time Compilation: ${aot} Server Side Rendering: ${ssr} Debugging compilation: ${debug} ES5: ${es5}`);
 
     var config =
     {
-        entry: getEntries(ssr, dll),
+        entry: getEntries(ssr, dll, css, diff),
         output:
         {
             globalObject: 'self',
             path: path.join(__dirname, distPath),
-            filename: '[name].js',
+            filename: `[name].${diff ? 'file' : es5 ? 'es5' : 'es2015'}.js`,
             publicPath: prod ? 'dist/' : '/dist/',
-            chunkFilename: `[name].${ssr ? 'server' : 'client'}.chunk.js`
+            chunkFilename: `[name].${ssr ? 'server' : 'client'}.${es5 ? 'es5' : 'es2015'}.chunk.js`
         },
         mode: 'development',
         devtool: hmr ? 'none' : 'source-map',
@@ -144,7 +156,7 @@ module.exports = function(options, args)
                 "config/version": path.join(__dirname, "config/version.json"),
                 "app": path.join(__dirname, "app")
             }),
-            mainFields: ['browser', 'module', 'main']
+            mainFields: es5 ? ['browser', 'module', 'main'] : ['esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main']
         },
         module:
         {
@@ -256,44 +268,69 @@ module.exports = function(options, args)
     //client specific settings
     else
     {
-        config.plugins.push(new HtmlWebpackPlugin(
+        if(html)
         {
-            filename: "../index.html",
-            template: path.join(__dirname, "index.html"),
-            inject: 'head',
-            chunksSortMode: function orderEntryLast(left, right)
+            config.plugins.push(new HtmlWebpackPlugin(
             {
-                let leftIndex = entryPoints.indexOf(left.names[0]);
-                let rightIndex = entryPoints.indexOf(right.names[0]);
+                filename: "../index.html",
+                template: path.join(__dirname, "index.html"),
+                inject: 'head',
+                chunksSortMode: function orderEntryLast(left, right)
+                {
+                    let leftIndex = entryPoints.indexOf(left.names[0]);
+                    let rightIndex = entryPoints.indexOf(right.names[0]);
 
-                if (leftIndex > rightIndex)
-                {
-                    return 1;
+                    if (leftIndex > rightIndex)
+                    {
+                        return 1;
+                    }
+                    else if (leftIndex < rightIndex)
+                    {
+                        return -1;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
                 }
-                else if (leftIndex < rightIndex)
+            }));
+
+            if(!debug)
+            {
+                let scriptOptions =
                 {
-                    return -1;
-                }
-                else
+                    defaultAttribute: 'defer'
+                };
+
+                if(diff)
                 {
-                    return 0;
+                    scriptOptions =
+                    {
+                        custom: 
+                        [
+                            {
+                                test: /es2015\.js$/,
+                                attribute: 'type',
+                                value: 'module'
+                            },
+                            {
+                                test: /es5\.js$/,
+                                attribute: 'nomodule',
+                                value: true
+                            }
+                        ]
+                    };
                 }
+
+                config.plugins.push(new ScriptExtHtmlWebpackPlugin(scriptOptions));
             }
-        }));
-
-        if(!debug)
-        {
-            config.plugins.push(new ScriptExtHtmlWebpackPlugin(
-                                {
-                                    defaultAttribute: 'defer'
-                                }));
         }
     }
 
     //aot specific settings
     if(aot)
     {
-        config.plugins.push(getAotPlugin(ssr ? 'server' : 'client'));
+        config.plugins.push(getAotPlugin(ssr ? 'server' : 'client', es5));
     }
 
     if(hmr)
@@ -318,7 +355,7 @@ module.exports = function(options, args)
             manifest: require(path.join(__dirname, distPath + '/dependencies-manifest.json'))
         }));
 
-        if(!debug)
+        if(!debug && html)
         {
             config.plugins.push(new HtmlWebpackTagsPlugin(
             {
@@ -328,11 +365,43 @@ module.exports = function(options, args)
         }
     }
 
+    //generate html with differential loading, old and modern scripts
+    if(html && diff)
+    {
+        config.plugins.push(new HtmlWebpackTagsPlugin(
+        {
+            tags:
+            [
+                {
+                    path: distPath,
+                    glob: '*es2015.js',
+                    globFlatten: true,
+                    globPath: distPath
+                }
+            ],
+            append: true
+        }));
+
+        config.plugins.push(new HtmlWebpackTagsPlugin(
+        {
+            tags:
+            [
+                {
+                    path: distPath,
+                    glob: '*es5.js',
+                    globFlatten: true,
+                    globPath: distPath
+                }
+            ],
+            append: true
+        }));
+    }
+
     //production specific settings - prod is used only for client part
     if(prod)
     {
-        config.output.filename = "[name].[hash].js";
-        config.output.chunkFilename = `[name].${ssr ? 'server' : 'client'}.chunk.[chunkhash].js`;
+        config.output.filename = `[name].[hash].${es5 ? 'es5' : 'es2015'}.js`;
+        config.output.chunkFilename = `[name].${ssr ? 'server' : 'client'}.${es5 ? 'es5' : 'es2015'}.chunk.[chunkhash].js`;
 
         config.plugins.push(new MiniCssExtractPlugin(
         {

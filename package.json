@@ -3,9 +3,9 @@
     "version": "1.0.0",
     "description": "Angular sample application",
     "scripts": {
-        "build": "webpack --env.dll --env.aot",
+        "build": "webpack --env.aot --env.dll --env.css --env.html --env.es5",
         "build:aot": "npm run ngc -- -p tsconfig.browser.json",
-        "build:min": "webpack --env.aot --mode=production",
+        "build:min": "webpack --env.aot --env.css --env.html --env.es5 --mode=production",
         "build:gulp": "gulp build",
         "build:ngsw": "copyfiles -u 3 node_modules/@angular/service-worker/ngsw-worker.js wwwroot && ngsw-config wwwroot ngsw.json",
         "build:debug": "npm run build -- --env.debug",

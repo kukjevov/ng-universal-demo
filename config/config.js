@@ -1,5 +1,4 @@
-let isPresent = require('@asseco/common').isPresent,
-    extend = require('@asseco/common').extend,
+let {extend, isPresent} = require('@asseco/common'),
     globalConfig = require('config/default'),
     jq = require('jquery');
 
