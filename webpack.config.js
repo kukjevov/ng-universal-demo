@@ -125,7 +125,7 @@ module.exports = function(options, args)
 
     options = options || {};
 
-    console.log(`Running build with following configuration Production: ${prod} Hot Module Replacement: ${hmr} Ahead Of Time Compilation: ${aot} Server Side Rendering: ${ssr} Debugging compilation: ${debug} ES5: ${es5}`);
+    console.log(`Running build with following configuration Production: ${prod} HMR: ${hmr} AOT Compilation: ${aot} SSR: ${ssr} DLL: ${dll} Debug: ${debug} ES5: ${es5} CSS: ${css} HTML: ${html} Differential build: ${diff}`);
 
     var config =
     {
@@ -400,7 +400,7 @@ module.exports = function(options, args)
     //production specific settings - prod is used only for client part
     if(prod)
     {
-        config.output.filename = `[name].[hash].${es5 ? 'es5' : 'es2015'}.js`;
+        config.output.filename = `[name].[hash].${diff ? 'file' : es5 ? 'es5' : 'es2015'}.js`;
         config.output.chunkFilename = `[name].${ssr ? 'server' : 'client'}.${es5 ? 'es5' : 'es2015'}.chunk.[chunkhash].js`;
 
         config.plugins.push(new MiniCssExtractPlugin(

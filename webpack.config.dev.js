@@ -1,8 +1,9 @@
 var webpack = require('webpack'),
     path = require('path');
 
-module.exports = function()
+module.exports = function(options)
 {
+    var es5 = !!options && !!options.es5;
     var distPath = "wwwroot/dist";
 
     var config =
@@ -32,7 +33,7 @@ module.exports = function()
                 "typeahead": path.join(__dirname, "node_modules/typeahead.js/dist/typeahead.jquery.js"),
                 "moment": path.join(__dirname, "node_modules/moment/min/moment-with-locales.js")
             },
-            mainFields: ['browser', 'module', 'main']
+            mainFields: es5 ? ['browser', 'module', 'main'] : ['esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main']
         },
         module:
         {
