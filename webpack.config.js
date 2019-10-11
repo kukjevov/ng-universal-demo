@@ -218,7 +218,7 @@ module.exports = function(options, args)
                     loader: 'raw-loader'
                 },
                 {
-                    test: /\.component\.scss$/,
+                    test: /\.component\.(scss|css)$/,
                     use: ['raw-loader', 'sass-loader'],
                     include:
                     [
@@ -227,7 +227,11 @@ module.exports = function(options, args)
                 },
                 {
                     test: /\.css$/,
-                    use: getExternalStyleLoaders(prod)
+                    use: getExternalStyleLoaders(prod),
+                    exclude:
+                    [
+                        path.join(__dirname, "app")
+                    ]
                 },
                 {
                     test: /\.scss$/,
