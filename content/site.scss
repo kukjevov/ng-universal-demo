@@ -166,3 +166,22 @@ login-view.app-page
         flex: 1 0 auto;
     }
 }
+
+garden-view
+{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.example-viewport 
+{
+    flex: 1;
+    min-height: 0;
+    height: 200px;
+}
+  
+.example-item 
+{
+    height: 30px;
+}

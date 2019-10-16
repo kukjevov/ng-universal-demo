@@ -3,3 +3,26 @@
 <div *ngIf="condition" @slowFade>
     Záhradka krásna animovaná
 </div>
+
+<button class="btn btn-primary" (click)="add()">add</button>
+
+<cdk-virtual-scroll-viewport itemSize="30" class="example-viewport" (scrolledIndexChange)="log()">
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th style="position: sticky; top: 0;" [style.transform]="'translateY(-' + fromStart + 'px)'">hlavicka</th>
+                <th style="position: sticky; top: 0;" [style.transform]="'translateY(-' + fromStart + 'px)'">hlavicka 2</th>
+                <th style="position: sticky; top: 0;" [style.transform]="'translateY(-' + fromStart + 'px)'">hlavicka 3</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <tr *cdkVirtualFor="let str of data" class="example-item">
+                <td>{{str}}</td>
+                <td>{{str}} {{str}} {{str}}</td>
+                <td>{{str}} {{str}}</td>
+            </tr>
+        </tbody>
+    </table>
+</cdk-virtual-scroll-viewport>
+  
