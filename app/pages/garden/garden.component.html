@@ -10,9 +10,9 @@
     <table class="table table-condensed">
         <thead>
             <tr>
-                <th style="position: sticky; top: 0;" [style.transform]="'translateY(-' + fromStart + 'px)'">hlavicka</th>
-                <th style="position: sticky; top: 0;" [style.transform]="'translateY(-' + fromStart + 'px)'">hlavicka 2</th>
-                <th style="position: sticky; top: 0;" [style.transform]="'translateY(-' + fromStart + 'px)'">hlavicka 3</th>
+                <th style="position: sticky;" [style.top.px]="fromStart">hlavicka</th>
+                <th style="position: sticky;" [style.top.px]="fromStart">hlavicka 2</th>
+                <th style="position: sticky;" [style.top.px]="fromStart">hlavicka 3</th>
             </tr>
         </thead>
         
@@ -22,7 +22,7 @@
                 <td>{{str}} {{str}} {{str}}</td>
                 <td>{{str}} {{str}}</td>
             </tr>
-        </tbody>
+        </tbody >
     </table>
 </cdk-virtual-scroll-viewport>
   

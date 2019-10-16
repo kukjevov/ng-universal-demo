@@ -54,7 +54,15 @@ export class GardenComponent
 
     public condition: boolean = true;
 
-    public fromStart: number = 0;
+    public get fromStart(): number
+    {
+        if(!this.scroll)
+        {
+            return 0;
+        }
+
+        return -this.scroll.getOffsetToRenderedContentStart();
+    };
 
     //######################### public methods - implementation of AfterViewInit #########################
     
@@ -76,8 +84,6 @@ export class GardenComponent
 
     public log()
     {
-        this.fromStart = this.scroll.getOffsetToRenderedContentStart();
-
         console.log('log scroll index change');
         // console.log('data length', this.scroll.getDataLength());
         // console.log('data range', this.scroll.getRenderedRange());
