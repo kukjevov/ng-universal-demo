@@ -218,7 +218,7 @@ module.exports = function(options, args)
                     loader: 'raw-loader'
                 },
                 {
-                    test: /\.component\.(scss|css)$/,
+                    test: /\.component\.scss$/,
                     use: ['raw-loader', 'sass-loader'],
                     include:
                     [
@@ -226,11 +226,20 @@ module.exports = function(options, args)
                     ]
                 },
                 {
+                    test: /\.component\.css$/,
+                    use: 'raw-loader',
+                    include:
+                    [
+                        path.join(__dirname, "packages")
+                    ]
+                },
+                {
                     test: /\.css$/,
                     use: getExternalStyleLoaders(prod),
                     exclude:
                     [
-                        path.join(__dirname, "app")
+                        path.join(__dirname, "app"),
+                        path.join(__dirname, "packages")
                     ]
                 },
                 {
@@ -238,7 +247,8 @@ module.exports = function(options, args)
                     use: getStyleLoaders(prod),
                     exclude:
                     [
-                        path.join(__dirname, "app")
+                        path.join(__dirname, "app"),
+                        path.join(__dirname, "packages")
                     ]
                 },
                 {

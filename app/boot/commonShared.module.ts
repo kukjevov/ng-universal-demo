@@ -7,6 +7,7 @@ import {BootstrapCoreModule} from '@ng/bootstrap/core';
 import {DatetimepickerModule} from '@ng/bootstrap/datetimepicker';
 import {TypeaheadModule, TypeaheadTagsModule} from '@ng/bootstrap/typeahead';
 import {GridModule} from '@ng/grid';
+import {VirtualScrollTableContentRendererModule} from '@ng/grid/material';
 import {NgSelectModule, NgSelectDynamicModule} from '@ng/select';
 import {CommonModule as NgCommonModule} from '@ng/common';
 import {NumeralModule} from '@ng/common/numeral';
@@ -38,6 +39,7 @@ import {TranslateModule} from '@ngx-translate/core';
         TypeaheadTagsModule,
         NotificationsModule,
         GridModule,
+        VirtualScrollTableContentRendererModule,
         AuthorizationModule,
         NgSelectModule,
         NgSelectDynamicModule,

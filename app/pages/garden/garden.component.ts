@@ -1,7 +1,9 @@
-import {Component, ChangeDetectionStrategy, HostBinding, ViewChild} from '@angular/core';
+import {Component, ChangeDetectionStrategy, HostBinding, ChangeDetectorRef, ViewChild} from '@angular/core';
 import {trigger, transition, style, animate, query, animateChild} from '@angular/animations';
-import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 import {ComponentRoute} from '@ng/common/router';
+import {GridOptions, AsyncDataLoaderOptions, SimpleOrdering, BasicPagingOptions, DataResponse, GridComponent, DATA_LOADER, DataLoader} from '@ng/grid';
+import {GridDataService} from '../../services/api/gridData/gridData.service';
+import {VirtualScrollTableContentRendererComponent, CdkVirtualScrollPagingComponent} from '@ng/grid/material';
 
 /**
  * Home component
@@ -10,6 +12,7 @@ import {ComponentRoute} from '@ng/common/router';
 {
     selector: 'garden-view',
     templateUrl: 'garden.component.html',
+    providers: [GridDataService],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations:
     [
@@ -46,23 +49,83 @@ import {ComponentRoute} from '@ng/common/router';
 @ComponentRoute({path: 'garden'})
 export class GardenComponent
 {
+    //######################### public properties #########################
+
+    /**
+     * Grid options that are used for grid initialization
+     */
+    public gridOptions: GridOptions;
+
+    /**
+     * Grid component instance
+     */
+    @ViewChild('gridSample', {static: false})
+    public _sampleGrid: GridComponent;
+
     @HostBinding('@componentContent')
     public animation: boolean = true;
 
-    @ViewChild(CdkVirtualScrollViewport)
-    public scroll: CdkVirtualScrollViewport; 
+    // @ViewChild(CdkVirtualScrollViewport)
+    // public scroll: CdkVirtualScrollViewport; 
 
     public condition: boolean = true;
 
-    public get fromStart(): number
-    {
-        if(!this.scroll)
-        {
-            return 0;
-        }
+    // public get fromStart(): number
+    // {
+    //     // if(!this.scroll)
+    //     // {
+    //     //     return 0;
+    //     // }
 
-        return -this.scroll.getOffsetToRenderedContentStart();
-    };
+    //     // return -this.scroll.getOffsetToRenderedContentStart();
+    // };
+
+    constructor(private _changeDetector: ChangeDetectorRef,
+                private _dataSvc: GridDataService)
+    {
+        this.gridOptions =
+        {
+            plugins:
+            {
+                contentRenderer:
+                {
+                    type: VirtualScrollTableContentRendererComponent
+                },
+                dataLoader:
+                {
+                    options: <AsyncDataLoaderOptions<any, SimpleOrdering>>
+                    {
+                        dataCallback: (page: number, itemsPerPage: number, ordering: SimpleOrdering) =>
+                        {
+                            let dataLoader = this._sampleGrid.getPlugin(DATA_LOADER) as DataLoader<DataResponse<any>>;
+                            return this._getDataLoadMore(page, itemsPerPage, ordering, dataLoader);
+                        }
+                    }
+                },
+                paging:
+                {
+                    type: CdkVirtualScrollPagingComponent,
+                    options: <BasicPagingOptions>
+                    {
+                        initialItemsPerPage: 30
+                    }
+                }
+                // metadataSelector:
+                // {
+                //     type: AdvancedMetadataSelectorComponent,
+                //     options: <AdvancedMetadataSelectorOptions>
+                //     {
+                //         cookieName: 'sample-grid',
+                //         texts:
+                //         {
+                //             btnOpenSelection: 'VÝBER STĹPCOV',
+                //             titleAvailableColumns: 'Dostupné stĺpce'
+                //         }
+                //     }
+                // }
+            }
+        };
+    }
 
     //######################### public methods - implementation of AfterViewInit #########################
     
@@ -71,15 +134,18 @@ export class GardenComponent
      */
     public ngAfterViewInit()
     {
+        this._changeDetector.detectChanges();
+        this._changeDetector.detectChanges();
+
         // console.log('data length', this.scroll.getDataLength());
         // console.log('data range', this.scroll.getRenderedRange());
         // console.log('measure content', this.scroll.measureRenderedContentSize());
-        this.scroll.renderedRangeStream.subscribe(range =>
-        {
-            console.log('changes', this.fromStart);
+        // this.scroll.renderedRangeStream.subscribe(range =>
+        // {
+        //     console.log('changes', this.fromStart);
 
-            console.log('range change XXXXX', range)
-        });
+        //     console.log('range change XXXXX', range)
+        // });
     }
 
     public log()
@@ -88,9 +154,34 @@ export class GardenComponent
         // console.log('data length', this.scroll.getDataLength());
         // console.log('data range', this.scroll.getRenderedRange());
         // console.log('viewport size', this.scroll.getViewportSize());
-        console.log('offset from start', this.scroll.getOffsetToRenderedContentStart());
+        // console.log('offset from start', this.scroll.getOffsetToRenderedContentStart());
         // console.log('measure start', this.scroll.measureScrollOffset());
         // console.log('measure content', this.scroll.measureRenderedContentSize());
+    }
+
+    //######################### private methods #########################
+
+    /**
+     * Callback used for obtaining data
+     * @param  {number} page Index of requested page
+     * @param  {number} itemsPerPage Number of items per page
+     * @param  {TOrdering} ordering Order by column name
+     */
+    private async _getDataLoadMore(page: number, itemsPerPage: number, ordering: SimpleOrdering, dataLoader: DataLoader<DataResponse<any>>): Promise<DataResponse<any>>
+    {
+        let result = await this._dataSvc
+            .getGridData(
+            {
+                page: (page - 1),
+                size: itemsPerPage
+            }).toPromise();
+
+        let data = [...dataLoader.result.data, ...result.content];
+
+        return {
+            data: data,
+            totalCount: result.last ? data.length : (data.length + 1)
+        };
     }
 
     public add()

@@ -6,7 +6,22 @@
 
 <button class="btn btn-primary" (click)="add()">add</button>
 
-<cdk-virtual-scroll-viewport itemSize="30" class="example-viewport" (scrolledIndexChange)="log()">
+<ng-grid class="flex-1" #gridSample [gridOptions]="gridOptions">
+    <basic-table-metadata>
+        <basic-table-column id="id" name="id" title="ID"></basic-table-column>
+        <basic-table-column id="index" name="index" title="Index"></basic-table-column>
+        <basic-table-column id="isActive" name="isActive" title="Active"></basic-table-column>
+        <basic-table-column id="balance" name="balance" title="Balance"></basic-table-column>
+        <basic-table-column id="age" name="age" title="Age"></basic-table-column>
+        <basic-table-column id="name" name="name" title="First name"></basic-table-column>
+        <basic-table-column id="surname" name="surname" title="Surname"></basic-table-column>
+        <basic-table-column id="email" name="email" title="E-Mail"></basic-table-column>
+        <basic-table-column id="address" name="address" title="Address"></basic-table-column>
+        <basic-table-column id="phone" name="phone" title="Phone"></basic-table-column>
+    </basic-table-metadata>
+</ng-grid>
+
+<!-- <cdk-virtual-scroll-viewport itemSize="30" class="example-viewport" (scrolledIndexChange)="log()">
     <table class="table table-condensed">
         <thead>
             <tr>
@@ -25,4 +40,4 @@
         </tbody >
     </table>
 </cdk-virtual-scroll-viewport>
-  
+   -->

@@ -36,6 +36,11 @@
             }
         ]
     },
+    "files":
+    [
+        "config/global.d.ts",
+        "app/main.browser.ts"
+    ],
     "exclude": 
     [
         "node_modules"
