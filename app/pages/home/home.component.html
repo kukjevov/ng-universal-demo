@@ -4,6 +4,14 @@ Home
     super div s animaciou
 </div>
 
+<button (click)="increment()">click</button>
+
+<test>
+    <ng-template>
+        <test-content [data]="data1"></test-content>
+    </ng-template>
+</test>
+
 <div [@test]="trigger">
     <span>{{counter}}</span>
     <div *ngIf="trigger == 'in'">

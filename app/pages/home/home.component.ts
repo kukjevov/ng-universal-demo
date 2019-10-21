@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, HostBinding} from '@angular/core';
+import {Component, ChangeDetectionStrategy, HostBinding, ChangeDetectorRef} from '@angular/core';
 import {trigger, transition, style, animate, query, animateChild, group} from '@angular/animations';
 
 /**
@@ -70,4 +70,22 @@ export class HomeComponent
     public show: boolean = false;
 
     public counter = 0;
+
+    public data1: string = "bla bla bla";
+
+    constructor(private _changeDetector: ChangeDetectorRef)
+    {
+      setTimeout(() =>
+        {
+            this.data1 = 'ble blo';
+            this._changeDetector.detectChanges();
+            console.log('value is different');
+        }, 5000);
+
+    }
+
+    public increment()
+    {
+        this.data1 = `blaaaa ${++this.counter}`;
+    }
 }

@@ -1,4 +1,5 @@
 import {NgModule, ClassProvider} from '@angular/core';
+import {RouterModule} from '@angular/router';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -11,7 +12,7 @@ import {providers} from './app.config';
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
 import {HomeComponent} from '../pages/home/home.component';
 import {GardenComponent} from '../pages/garden/garden.component';
-import {RouterModule} from '@angular/router';
+import {TestWrapper, TestContent} from './test';
 
 
 /**
@@ -53,7 +54,7 @@ import {RouterModule} from '@angular/router';
         ])
     ],
     providers: providers,
-    declarations: [AppComponent, HomeComponent, GardenComponent],
+    declarations: [AppComponent, HomeComponent, TestWrapper, TestContent, GardenComponent],
     exports: [AppComponent]
 })
 export class AppModule
