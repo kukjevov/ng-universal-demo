@@ -1,5 +1,6 @@
 import {Component, ChangeDetectionStrategy, HostBinding} from '@angular/core';
 import {trigger, transition, style, animate, query, animateChild} from '@angular/animations';
+import {Base} from './base';
 
 /**
  * Home component
@@ -41,8 +42,11 @@ import {trigger, transition, style, animate, query, animateChild} from '@angular
         ])
     ]
 })
-export class GardenComponent
+export class GardenComponent extends Base
 {
+    // @ViewChild(TestWrapper)
+    // public child: TestWrapper;
+
     @HostBinding('@componentContent')
     public animation: boolean = true;
 
