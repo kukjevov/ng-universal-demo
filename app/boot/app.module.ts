@@ -15,6 +15,7 @@ import {CommonSharedModule} from './commonShared.module';
 import {APP_TRANSFER_ID} from '../misc/constants';
 import {providers} from './app.config';
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
+import {TestContent, TestWrapper} from '../components/test';
 
 
 /**
@@ -47,7 +48,7 @@ import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader'
         })
     ],
     providers: providers,
-    declarations: [AppComponent, NavigationComponent, ...routes],
+    declarations: [AppComponent, NavigationComponent, TestWrapper, TestContent, ...routes],
     exports: [AppComponent]
 })
 @ModuleRoutes(routes, routesOptions)

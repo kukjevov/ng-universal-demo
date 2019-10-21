@@ -56,6 +56,8 @@ export class GardenComponent
      */
     public gridOptions: GridOptions;
 
+    public data1: string = "bla bla";
+
     /**
      * Grid component instance
      */
@@ -83,6 +85,12 @@ export class GardenComponent
     constructor(private _changeDetector: ChangeDetectorRef,
                 private _dataSvc: GridDataService)
     {
+        setTimeout(() =>
+        {
+            this.data1 = 'ble blo';
+            this._changeDetector.detectChanges();
+        }, 5000);
+
         this.gridOptions =
         {
             plugins:
