@@ -25,6 +25,7 @@ module.exports = function(options)
         devtool: 'source-map',
         resolve:
         {
+            symlinks: false,
             extensions: ['.ts', '.js'],
             alias:
             {
@@ -79,6 +80,14 @@ module.exports = function(options)
                     {
                         loader: 'html-loader'
                     }
+                },
+                {
+                    test: /\.scss$/,
+                    use: ['style-loader', 'css-loader', 'sass-loader'],
+                    exclude:
+                    [
+                        path.join(__dirname, "app")
+                    ]
                 }
             ]
         },

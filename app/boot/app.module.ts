@@ -2,7 +2,6 @@ import {NgModule, ClassProvider} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 import {MatDialogModule} from '@angular/material/dialog';
-import {ProgressIndicatorModule} from '@ng/common';
 import {ModuleRoutes} from '@ng/common/router';
 import {InternalServerErrorModule} from '@ng/error-handling';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
@@ -31,7 +30,6 @@ import {TestContent, TestWrapper} from '../components/test';
         }),
         HttpClientModule,
         InternalServerErrorModule,
-        ProgressIndicatorModule,
         CommonSharedModule,
         HotkeyModule.forRoot(
         {

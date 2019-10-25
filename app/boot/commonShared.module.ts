@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {ScrollingModule} from '@angular/cdk/scrolling';
+import {ProgressIndicatorModule} from '@ng/common';
 import {BootstrapCoreModule} from '@ng/bootstrap/core';
 import {DatetimepickerModule} from '@ng/bootstrap/datetimepicker';
 import {TypeaheadModule, TypeaheadTagsModule} from '@ng/bootstrap/typeahead';
@@ -30,6 +31,7 @@ import {TranslateModule} from '@ngx-translate/core';
         RouterModule,
         ScrollingModule,
         NgCommonModule,
+        ProgressIndicatorModule,
         NumeralModule,
         NumberInputModule,
         TranslateModule,

@@ -89,19 +89,21 @@ app
 
     & > div
     {
-        animation-duration: 350ms;
-        animation-iteration-count: infinite;
-        animation-name: rotate-loading;
-        animation-timing-function: linear;
-        border-left: 4px solid #eee;
-        border-radius: 25px;
-        border-top: 4px solid #eee;
-        height: 40px;
+        border: 4px solid #eee;
+        border-bottom: none;
+        border-top-left-radius: 48px;
+        border-top-right-radius: 48px;
+        height: 24px;
         margin-left: auto;
         margin-right: auto;
         position: relative;
         top: 50%;
-        width: 40px;
+        width: 48px;
+        animation-name: rotate-loading;
+        animation-duration: 450ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        transform-origin: calc(50%) calc(50% + 12px);
     }
 }
 

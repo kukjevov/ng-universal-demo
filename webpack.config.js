@@ -143,6 +143,7 @@ module.exports = function(options, args)
         target: ssr ? 'node' : 'web',
         resolve:
         {
+            symlinks: false,
             extensions: ['.ts', '.js'],
             alias: extend(rxPaths(),
             {
@@ -247,8 +248,7 @@ module.exports = function(options, args)
                     use: getStyleLoaders(prod),
                     exclude:
                     [
-                        path.join(__dirname, "app"),
-                        path.join(__dirname, "packages")
+                        path.join(__dirname, "app")
                     ]
                 },
                 {
