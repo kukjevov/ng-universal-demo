@@ -1,6 +1,6 @@
 import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
-import {Router, NavigationStart, NavigationEnd, NavigationError, NavigationCancel, RouterOutlet} from '@angular/router';
-import {GlobalizationService, ProgressIndicatorService} from '@ng/common';
+import {RouterOutlet} from '@angular/router';
+import {GlobalizationService} from '@ng/common';
 import {AuthenticationService} from '@ng/authentication';
 import {TranslateService} from "@ngx-translate/core";
 import {Subscription} from 'rxjs';
@@ -51,9 +51,7 @@ export class AppComponent implements AfterViewInit, OnDestroy
     //######################### constructor #########################
     constructor(authetication: AuthenticationService<any>,
                 translate: TranslateService,
-                globalization: GlobalizationService,
-                router: Router,
-                progressIndicatorService: ProgressIndicatorService) 
+                globalization: GlobalizationService) 
     {
         document.body.classList.add("app-page", config.theme);
 
@@ -62,18 +60,6 @@ export class AppComponent implements AfterViewInit, OnDestroy
             console.log('koname enabled');
         });
 
-        this._routeChangeSubscription = router.events.subscribe((next) =>
-        {
-            if(next instanceof NavigationStart)
-            {
-                progressIndicatorService.showProgress();
-            }
-            else if(next instanceof NavigationEnd || next instanceof NavigationError || next instanceof NavigationCancel)
-            {
-                progressIndicatorService.hideProgress();
-            }
-        });
-        
         moment.locale(globalization.locale);
         translate.setDefaultLang('en');
         translate.use(config.language);
