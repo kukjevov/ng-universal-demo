@@ -112,7 +112,7 @@
         "@types/highlight.js": "9.12.3",
         "@types/konami.js": "1.4.28",
         "@types/typeahead": "0.11.32",
-        "@ng/types": "1.1.17",
+        "@ng/types": "1.1.18",
         "@angular/compiler-cli": "9.0.0-next.14",
         "@angular/language-service": "9.0.0-next.14",
         "@ngtools/webpack": "9.0.0-next.14",

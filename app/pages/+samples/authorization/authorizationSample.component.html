@@ -2,6 +2,10 @@
 
 <div *authorize="'showWithThis'">
     <h4>You can see this - have permission</h4>
+
+    <button class="btn btn-primary" (click)="showDialog()">
+        <span>dialog</span>
+    </button>
 </div>
 
 <div *authorize="'dontShowWithThis'">
