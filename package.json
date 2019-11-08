@@ -65,7 +65,7 @@
         "@ng/common": "6.6.3",
         "@ng/error-handling": "6.0.0",
         "@ng/grid": "next",
-        "@ng/md-help": "6.0.0",
+        "@ng/md-help": "6.0.1",
         "@ng/notifications": "6.0.0",
         "@ng/rest": "6.0.2",
         "@ng/select": "6.2.0",

@@ -38,8 +38,12 @@
     },
     "files":
     [
-        "config/global.d.ts",
-        "app/main.browser.ts"
+        "config/global.d.ts"
+    ],
+    "include":
+    [
+        "app/**/*.ts",
+        "packages/**/*.ts"
     ],
     "exclude": 
     [
