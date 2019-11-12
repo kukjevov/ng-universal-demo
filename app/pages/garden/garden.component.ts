@@ -74,12 +74,12 @@ export class GardenComponent
 
     // public get fromStart(): number
     // {
-    //     // if(!this.scroll)
-    //     // {
-    //     //     return 0;
-    //     // }
+    //     if(!this.scroll)
+    //     {
+    //         return 0;
+    //     }
 
-    //     // return -this.scroll.getOffsetToRenderedContentStart();
+    //     return -this.scroll.getOffsetToRenderedContentStart();
     // };
 
     constructor(private _changeDetector: ChangeDetectorRef,
