@@ -12,7 +12,17 @@
 
 <button class="btn btn-primary" (click)="add()">add</button>
 
-<ng-grid class="flex-1" #gridSample [gridOptions]="gridOptions">
+<div class="margin-small">
+    <ng-select editStyle>
+        <ng-option value="first" text="First value text"></ng-option>
+        <ng-option value="second" text="Second value text"></ng-option>
+        <ng-option value="third" text="Third value text"></ng-option>
+        <ng-option value="fourth" text="Fourth value text"></ng-option>
+        <ng-option value="fifth" text="Fifth value text"></ng-option>
+    </ng-select>
+</div>
+
+<!-- <ng-grid class="flex-1" #gridSample [gridOptions]="gridOptions">
     <basic-table-metadata>
         <basic-table-column id="id" name="id" title="ID"></basic-table-column>
         <basic-table-column id="index" name="index" title="Index"></basic-table-column>
@@ -25,7 +35,7 @@
         <basic-table-column id="address" name="address" title="Address"></basic-table-column>
         <basic-table-column id="phone" name="phone" title="Phone"></basic-table-column>
     </basic-table-metadata>
-</ng-grid>
+</ng-grid> -->
 
 <!-- <cdk-virtual-scroll-viewport itemSize="30" class="example-viewport" (scrolledIndexChange)="log()">
     <table class="table table-condensed">

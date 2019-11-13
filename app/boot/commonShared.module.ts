@@ -9,7 +9,7 @@ import {DatetimepickerModule} from '@ng/bootstrap/datetimepicker';
 import {TypeaheadModule, TypeaheadTagsModule} from '@ng/bootstrap/typeahead';
 import {GridModule} from '@ng/grid';
 import {VirtualScrollTableContentRendererModule} from '@ng/grid/material';
-import {NgSelectModule, NgSelectDynamicModule} from '@ng/select';
+import {NgSelectModule, NgSelectDynamicModule, NgSelectEditModule} from '@ng/select';
 import {CommonModule as NgCommonModule} from '@ng/common';
 import {NumeralModule} from '@ng/common/numeral';
 import {NumberInputModule} from '@ng/common/forms';
@@ -45,6 +45,7 @@ import {TranslateModule} from '@ngx-translate/core';
         AuthorizationModule,
         NgSelectModule,
         NgSelectDynamicModule,
+        NgSelectEditModule,
         InternalServerErrorModule
     ]
 })
