@@ -2,8 +2,8 @@ import {NgModule, ClassProvider} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 import {MatDialogModule} from '@angular/material/dialog';
-import {ModuleRoutes} from '@ng/common/router';
-import {InternalServerErrorModule} from '@ng/error-handling';
+import {ModuleRoutes} from '@anglr/common/router';
+import {InternalServerErrorModule} from '@anglr/error-handling';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {HotkeyModule} from 'angular2-hotkeys';
 

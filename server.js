@@ -7,7 +7,7 @@ var connect = require('connect'),
     path = require('path'),
     fs = require('fs'),
     https = require('https'),
-    connectExtensions = require('ace-nodejs-connect-extensions');
+    connectExtensions = require('nodejs-connect-extensions');
 
 var app = connect();
 

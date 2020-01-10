@@ -1,8 +1,8 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {FormGroup, FormBuilder} from '@angular/forms';
-import {ComponentRoute} from '@ng/common/router';
-import {AuthenticationService, Authorize, AuthGuard} from '@ng/authentication';
+import {ComponentRoute} from '@anglr/common/router';
+import {AuthenticationService, Authorize, AuthGuard} from '@anglr/authentication';
 import {empty} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 

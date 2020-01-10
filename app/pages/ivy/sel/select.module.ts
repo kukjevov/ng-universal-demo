@@ -1,5 +1,5 @@
 import {NgModule, ValueProvider} from '@angular/core';
-import {NgSelectModule} from '@ng/select';
+import {NgSelectModule} from '@anglr/select';
 
 import {SelectComponent} from './select.component';
 import {ProvideClass} from '../provider';

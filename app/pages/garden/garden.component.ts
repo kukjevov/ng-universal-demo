@@ -1,9 +1,9 @@
 import {Component, ChangeDetectionStrategy, HostBinding, ChangeDetectorRef, ViewChild} from '@angular/core';
 import {trigger, transition, style, animate, query, animateChild} from '@angular/animations';
-import {ComponentRoute} from '@ng/common/router';
-import {GridOptions, AsyncDataLoaderOptions, SimpleOrdering, BasicPagingOptions, DataResponse, GridComponent, DATA_LOADER, DataLoader} from '@ng/grid';
+import {ComponentRoute} from '@anglr/common/router';
+import {GridOptions, AsyncDataLoaderOptions, SimpleOrdering, BasicPagingOptions, DataResponse, GridComponent, DATA_LOADER, DataLoader} from '@anglr/grid';
 import {GridDataService} from '../../services/api/gridData/gridData.service';
-import {VirtualScrollTableContentRendererComponent, CdkVirtualScrollPagingComponent} from '@ng/grid/material';
+import {VirtualScrollTableContentRendererComponent, CdkVirtualScrollPagingComponent} from '@anglr/grid/material';
 
 /**
  * Home component

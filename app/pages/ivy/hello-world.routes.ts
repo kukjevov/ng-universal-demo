@@ -1,5 +1,5 @@
 import {Type} from "@angular/core";
-import {ModuleRoutesOptions} from "@ng/common/router";
+import {ModuleRoutesOptions} from "@anglr/common/router";
 
 import {RoutedComponent} from "./routed/routed.component";
 import {StaticRoutedComponent} from "./routed/staticRouted.component";

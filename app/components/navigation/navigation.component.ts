@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {Router} from "@angular/router";
-import {AuthenticationService} from "@ng/authentication";
+import {AuthenticationService} from "@anglr/authentication";
 import {TranslateService} from '@ngx-translate/core';
 import {Subscription} from 'rxjs';
 import * as global from 'config/global';

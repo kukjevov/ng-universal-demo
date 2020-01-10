@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {ModuleRoutes} from '@ng/common/router';
+import {ModuleRoutes} from '@anglr/common/router';
 
 import {HelloWorld} from './hello-world';
 import {routes, routesOptions} from './hello-world.routes';

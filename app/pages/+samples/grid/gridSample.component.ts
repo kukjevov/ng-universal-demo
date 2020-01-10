@@ -1,8 +1,8 @@
 import {Component, ViewChild, ChangeDetectionStrategy} from '@angular/core';
-import {ComponentRedirectRoute, ComponentRoute} from '@ng/common/router';
-import {GridOptions, GridComponent, SimpleOrdering, DataResponse, AsyncDataLoaderOptions, BasicPagingOptions, AdvancedMetadataSelectorComponent, AdvancedMetadataSelectorOptions, QueryPagingInitializerComponent, TableContentRendererOptions, DATA_LOADER, DataLoader, PreviousNextPagingComponent, PreviousNextPagingOptions, ContentVirtualScrollPagingComponent, ContentVirtualScrollPagingOptions, LoadMorePagingComponent, LoadMorePagingOptions, PageVirtualScrollPagingComponent, PageVirtualScrollPagingOptions} from '@ng/grid';
-import {setPage, reinitializeOptions} from '@ng/grid/extensions';
-import {Authorize, AuthGuard} from '@ng/authentication';
+import {ComponentRedirectRoute, ComponentRoute} from '@anglr/common/router';
+import {GridOptions, GridComponent, SimpleOrdering, DataResponse, AsyncDataLoaderOptions, BasicPagingOptions, AdvancedMetadataSelectorComponent, AdvancedMetadataSelectorOptions, QueryPagingInitializerComponent, TableContentRendererOptions, DATA_LOADER, DataLoader, PreviousNextPagingComponent, PreviousNextPagingOptions, ContentVirtualScrollPagingComponent, ContentVirtualScrollPagingOptions, LoadMorePagingComponent, LoadMorePagingOptions, PageVirtualScrollPagingComponent, PageVirtualScrollPagingOptions} from '@anglr/grid';
+import {setPage, reinitializeOptions} from '@anglr/grid/extensions';
+import {Authorize, AuthGuard} from '@anglr/authentication';
 
 import {GridDataService} from "../../../services/api/gridData/gridData.service";
 

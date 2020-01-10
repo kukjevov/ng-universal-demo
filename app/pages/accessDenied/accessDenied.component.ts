@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {ComponentRoute} from '@ng/common/router';
-import {StatusCodeService} from '@ng/common';
+import {ComponentRoute} from '@anglr/common/router';
+import {StatusCodeService} from '@anglr/common';
 
 /**
  * Component used for displaying access denied page

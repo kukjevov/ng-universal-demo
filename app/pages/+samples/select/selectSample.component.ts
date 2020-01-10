@@ -1,10 +1,10 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {isString} from '@asseco/common';
-import {ComponentRoute} from '@ng/common/router';
-import {AuthGuard, Authorize} from '@ng/authentication';
-import {NgSelectOptions, GetOptionsCallback, NgSelectOption, BasicLiveSearchComponent, DynamicValueHandlerComponent, DynamicValueHandlerOptions, DynamicOptionsGatherer, NgSelect} from '@ng/select';
-import {getValue} from '@ng/select/extensions';
+import {isString} from '@jscrpt/common';
+import {ComponentRoute} from '@anglr/common/router';
+import {AuthGuard, Authorize} from '@anglr/authentication';
+import {NgSelectOptions, GetOptionsCallback, NgSelectOption, BasicLiveSearchComponent, DynamicValueHandlerComponent, DynamicValueHandlerOptions, DynamicOptionsGatherer, NgSelect} from '@anglr/select';
+import {getValue} from '@anglr/select/extensions';
 
 import {KodPopisValue} from '../../../misc/types';
 import {DataService} from '../../../services/api/data/data.service';

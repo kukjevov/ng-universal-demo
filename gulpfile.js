@@ -2,7 +2,7 @@ const gulp = require('gulp'),
       sass = require('gulp-sass'),
       watch = require('gulp-watch'),
       through2 = require('through2'),
-      gitVersion = require('gulp-git-version');
+      gitVersion = require('@kukjevov/gulp-git-version');
 
 function logCopied()
 {

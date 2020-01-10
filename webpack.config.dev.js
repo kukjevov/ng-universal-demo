@@ -100,7 +100,7 @@ module.exports = function(options)
             }),
             new webpack.DefinePlugin(
             {
-                aceDevMode: true
+                jsDevMode: true
             }),
             new webpack.HotModuleReplacementPlugin()
         ]

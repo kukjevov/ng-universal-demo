@@ -1,7 +1,7 @@
 import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {GlobalizationService} from '@ng/common';
-import {AuthenticationService} from '@ng/authentication';
+import {GlobalizationService} from '@anglr/common';
+import {AuthenticationService} from '@anglr/authentication';
 import {TranslateService} from "@ngx-translate/core";
 import {Subscription} from 'rxjs';
 import * as config from 'config/global';

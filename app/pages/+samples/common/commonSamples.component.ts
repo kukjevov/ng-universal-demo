@@ -1,8 +1,8 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {ComponentRoute} from '@ng/common/router';
-import {hasError, alertHidden} from '@ng/common/forms';
-import {ProgressIndicatorService} from '@ng/common';
-import {Authorize, AuthGuard} from '@ng/authentication';
+import {ComponentRoute} from '@anglr/common/router';
+import {hasError, alertHidden} from '@anglr/common/forms';
+import {ProgressIndicatorService} from '@anglr/common';
+import {Authorize, AuthGuard} from '@anglr/authentication';
 
 @Component(
 {

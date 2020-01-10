@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {ModuleRoutes} from '@ng/common/router';
+import {ModuleRoutes} from '@anglr/common/router';
 import {MatDialogModule} from '@angular/material/dialog';
 
 import {sampleComponents} from './samples.component.routes';

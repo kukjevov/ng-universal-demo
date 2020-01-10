@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {RESTClient, GET, BaseUrl, DefaultHeaders, Query} from '@ng/rest';
+import {RESTClient, GET, BaseUrl, DefaultHeaders, Query} from '@anglr/rest';
 import * as global from 'config/global';
 
 import {Data} from "./data.interface";

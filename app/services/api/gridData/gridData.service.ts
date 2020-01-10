@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {RESTClient, GET, ResponseType, Produces, BaseUrl, DefaultHeaders, QueryObject} from '@ng/rest';
+import {RESTClient, GET, ResponseType, Produces, BaseUrl, DefaultHeaders, QueryObject} from '@anglr/rest';
 
 import {GridItem} from "./gridData.interface";
 import {PagedData, Pageable} from "../../../misc/types";

@@ -1,5 +1,5 @@
 import {Type} from '@angular/core';
-import {ModuleRoutesOptions} from '@ng/common/router';
+import {ModuleRoutesOptions} from '@anglr/common/router';
 
 import {HomeComponent} from '../pages/home/home.component';
 import {AccessDeniedComponent} from "../pages/accessDenied/accessDenied.component";

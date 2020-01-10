@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from "@angular/core";
 
-import {BasicNormalStateComponent, ReadonlyStateOptions, NgSelectPluginGeneric, ReadonlyState} from "@ng/select";
+import {BasicNormalStateComponent, ReadonlyStateOptions, NgSelectPluginGeneric, ReadonlyState} from "@anglr/select";
 
 /**
  * Custom readonly state component

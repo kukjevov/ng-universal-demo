@@ -1,5 +1,5 @@
 import {Directive} from '@angular/core';
-import {TypeaheadDirective, TypeaheadTagsComponent} from "@ng/bootstrap/typeahead";
+import {TypeaheadDirective, TypeaheadTagsComponent} from "@anglr/bootstrap/typeahead";
 import {map} from 'rxjs/operators';
 
 import {DataService} from "../../services/api/data/data.service";

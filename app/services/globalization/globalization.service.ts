@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {GlobalizationService as GlobalizationServiceInterface} from '@ng/common';
+import {GlobalizationService as GlobalizationServiceInterface} from '@anglr/common';
 
 import {Observable, empty} from 'rxjs';
 

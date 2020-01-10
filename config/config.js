@@ -1,4 +1,4 @@
-let {extend, isPresent} = require('@asseco/common'),
+let {extend, isPresent} = require('@jscrpt/common'),
     globalConfig = require('config/default'),
     jq = require('jquery');
 

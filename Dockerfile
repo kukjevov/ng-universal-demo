@@ -10,7 +10,7 @@ RUN npm set registry http://nexus/repository/ACE_Npm_Group/ && \
     npm install connect-history-api-fallback && \
     npm install http-proxy-middleware && \
     npm install yargs && \
-    npm install ace-nodejs-connect-extensions
+    npm install nodejs-connect-extensions
 
 EXPOSE 8888
 EXPOSE 8880

@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {ComponentRoute} from '@ng/common/router';
-import {Authorize, AuthGuard} from '@ng/authentication';
+import {ComponentRoute} from '@anglr/common/router';
+import {Authorize, AuthGuard} from '@anglr/authentication';
 
 import {SampleDialogComponent} from '../dialog/sampleDialog.component';
 

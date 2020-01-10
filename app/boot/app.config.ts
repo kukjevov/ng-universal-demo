@@ -1,11 +1,11 @@
 import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider} from '@angular/core';
-import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, AUTH_INTERCEPTOR_CONFIG, AUTHENTICATION_SERVICE_OPTIONS, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER} from '@ng/authentication';
-import {LocalPermanentStorageService} from '@ng/common/store';
-import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE} from "@ng/common";
-import {NgxTranslateStringLocalizationService} from "@ng/translate-extensions";
-import {ERROR_RESPONSE_MAP_PROVIDER, REPORTING_EXCEPTION_HANDLER_PROVIDER, HttpErrorInterceptorOptions, HTTP_ERROR_INTERCEPTOR_PROVIDER, BadRequestDetail, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER} from '@ng/error-handling';
-import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions} from '@ng/grid';
-import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@ng/select';
+import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, AUTH_INTERCEPTOR_CONFIG, AUTHENTICATION_SERVICE_OPTIONS, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER} from '@anglr/authentication';
+import {LocalPermanentStorageService} from '@anglr/common/store';
+import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE} from "@anglr/common";
+import {NgxTranslateStringLocalizationService} from "@anglr/translate-extensions";
+import {ERROR_RESPONSE_MAP_PROVIDER, REPORTING_EXCEPTION_HANDLER_PROVIDER, HttpErrorInterceptorOptions, HTTP_ERROR_INTERCEPTOR_PROVIDER, BadRequestDetail, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER} from '@anglr/error-handling';
+import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions} from '@anglr/grid';
+import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import * as config from 'config/global';
 
 import {AuthConfig} from '../services/api/account/authConfig';

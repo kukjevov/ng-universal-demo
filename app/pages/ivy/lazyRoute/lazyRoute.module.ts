@@ -1,5 +1,5 @@
 import {NgModule, ValueProvider} from '@angular/core';
-import {ModuleRoutes} from '@ng/common/router';
+import {ModuleRoutes} from '@anglr/common/router';
 
 import {components} from './lazyRoute.routes';
 import {ProvideClass} from '../provider';

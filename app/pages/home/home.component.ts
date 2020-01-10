@@ -1,10 +1,10 @@
 import {Component, OnInit, ChangeDetectionStrategy, HostBinding} from '@angular/core';
 import {trigger, animate, style, query, transition, group, animateChild} from '@angular/animations';
-import {ComponentRoute} from "@ng/common/router";
-import {slideInOutTriggerFactory} from '@ng/animations';
-import {Authorize, AuthGuard} from '@ng/authentication';
-import {GridOptions, TableContentRendererOptions, AsyncDataLoaderOptions, SimpleOrdering, BasicPagingOptions, QueryPagingInitializerComponent, DataResponse} from '@ng/grid';
-import {DialogMetadataSelectorComponent, DialogMetadataSelectorOptions} from '@ng/grid/material';
+import {ComponentRoute} from "@anglr/common/router";
+import {slideInOutTriggerFactory} from '@anglr/animations';
+import {Authorize, AuthGuard} from '@anglr/authentication';
+import {GridOptions, TableContentRendererOptions, AsyncDataLoaderOptions, SimpleOrdering, BasicPagingOptions, QueryPagingInitializerComponent, DataResponse} from '@anglr/grid';
+import {DialogMetadataSelectorComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
 import {map} from 'rxjs/operators';
 
 import {DataService} from "../../services/api/data/data.service";

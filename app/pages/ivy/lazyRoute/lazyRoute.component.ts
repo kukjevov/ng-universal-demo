@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from "@angular/core";
-import {ComponentRoute} from "@ng/common/router";
-import {GridOptions, TableContentRendererOptions, AsyncDataLoaderOptions, SimpleOrdering, BasicPagingOptions, QueryPagingInitializerComponent, DataResponse} from "@ng/grid";
+import {ComponentRoute} from "@anglr/common/router";
+import {GridOptions, TableContentRendererOptions, AsyncDataLoaderOptions, SimpleOrdering, BasicPagingOptions, QueryPagingInitializerComponent, DataResponse} from "@anglr/grid";
 
 import {ProvideClass} from "../provider";
 import {GridDataService} from "../../../services/api/gridData/gridData.service";
