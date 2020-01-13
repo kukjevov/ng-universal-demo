@@ -13,7 +13,7 @@
     <global-notifications></global-notifications>
     <hotkeys-cheatsheet></hotkeys-cheatsheet>
 
-    <div class="content relative" [@routeAnimations]="prepareRoute(outlet)">
+    <div class="content relative" [@routeAnimations]="routeComponentState">
         <div class="main-content">
             <router-outlet #outlet="outlet"></router-outlet>
         </div>

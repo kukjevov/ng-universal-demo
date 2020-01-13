@@ -93,16 +93,6 @@ export class AppComponent implements AfterViewInit, OnDestroy
         });
     }
 
-    public prepareRoute(outlet: RouterOutlet) 
-    {
-        if(!outlet.isActivated)
-        {
-            return 'none';
-        }
-
-        return (<any>outlet.activatedRoute.component).name;
-    }
-
     //######################### public methods - implementation of OnDestroy #########################
     
     /**
