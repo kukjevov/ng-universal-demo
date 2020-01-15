@@ -1,0 +1,231 @@
+$primaryBackgroundColor: #293742;
+$secondaryBackgroundColor: #f4f8fb;
+$selectionBackgroundColor: #137cbd;
+$baseColor: #d0dbe2;
+$secondaryColor: #ffffff;
+
+$primaryBorderColor: #48555e;
+
+@import "fonts.scss";
+
+.layout-designer
+{
+    font-family: 'Roboto';
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+    grid-template-rows: 50px 1fr;
+    min-height: calc(100vh - 72px);
+
+    .icon-wrapper
+    {
+        width: 20px;
+        text-align: center;
+        display: inline-block;
+    }
+
+    .selection
+    {
+        color: $selectionBackgroundColor;
+    }
+
+    .designer-component-header
+    {
+        display: flex;
+        background-color: $primaryBackgroundColor;
+        color: $baseColor;
+        padding: 5px;
+        text-transform: uppercase;
+
+        .title
+        {
+            flex: 1;
+        }
+
+        .icons
+        {
+            color: #FF354B;
+        }
+    }
+
+    header
+    {
+        grid-column: 1 / 4;
+        background-color: $primaryBackgroundColor;
+        border-bottom: 1px solid $primaryBorderColor;
+        color: #fff;
+        padding: 1em;
+    }
+
+    aside
+    {
+        background-color: $primaryBackgroundColor;
+        color: $baseColor;
+
+        h4
+        {
+            text-transform: uppercase;
+            font-size: 1.1em;
+            margin: 5px 0;
+        }
+
+        &.left
+        {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            padding: 0;
+    
+            .tree
+            {
+                .cdk-tree
+                {
+                    .cdk-tree-node
+                    {
+                        line-height: 2em;
+                        cursor: pointer;
+                        display: block;
+    
+                        &.selected
+                        {
+                            background-color: $selectionBackgroundColor;
+                            color: $secondaryColor;
+                        }
+    
+                        .text
+                        {
+                            padding-left: 5px;
+                        }
+                    }
+                }
+            }
+    
+            .palette
+            {
+                margin: 0 12px;
+                padding-top: 10px;
+                border-top: 1px solid $primaryBorderColor;
+
+                .component-palette-item
+                {
+                    cursor: -webkit-grab;
+                    padding: 5px 0;
+                }
+
+                .component-palette-item:hover
+                {
+                    background-color: $selectionBackgroundColor;
+                }
+            }
+        }
+        &.right
+        {
+            padding: 1em;
+            max-height: 100%;
+        }
+    }
+
+    main
+    {
+        background: $secondaryBackgroundColor;
+        padding: 1em;
+    }
+}
+
+.drop-vertical-before 
+{
+    -webkit-box-shadow: 0 -10px 6px -6px #777;
+    -moz-box-shadow: 0 -10px 6px -6px #777;
+    box-shadow: 0 -10px 6px -6px #777;
+}
+
+.drop-vertical-after
+{
+    -webkit-box-shadow: 0 10px 6px -6px #777;
+    -moz-box-shadow: 0 10px 6px -6px #777;
+    box-shadow: 0 10px 6px -6px #777;
+}
+
+.drop-horizontal-before 
+{
+    -webkit-box-shadow: -10px 0 6px -6px #777;
+    -moz-box-shadow: -10px 0 6px -6px #777;
+    box-shadow: -10px 0 6px -6px #777;
+}
+
+.drop-horizontal-after
+{
+    -webkit-box-shadow: 10px 0 6px -6px #777;
+    -moz-box-shadow: 10px 0 6px -6px #777;
+    box-shadow: 10px 0 6px -6px #777;
+}
+
+.drop-area
+{
+    margin: 10px;
+
+    transition: opacity 0.5s;
+    opacity: 0.5;
+
+    color: $primaryBackgroundColor;
+    border: 3px dashed $primaryBackgroundColor;
+
+    .title-wrapper
+    {
+        text-transform: uppercase;
+        font-weight: bold;
+        padding: 5px;
+        font-size: 1.5em;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .title
+        {
+            padding-left: 10px;
+        }
+    }
+
+    &.drop
+    {
+        opacity: 1.0;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+    }
+}
+
+.drop-all
+{
+    height: 100%;
+    transition: opacity 0.5s;
+
+    opacity: 0.5;
+
+    color: $primaryBackgroundColor;
+    border: 3px dashed $primaryBackgroundColor;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    h2.title
+    {
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 3em;
+    }
+
+    .subtitle
+    {
+        font-size: 2em;
+    }
+
+    &.drop
+    {
+        opacity: 1.0;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+    }
+}

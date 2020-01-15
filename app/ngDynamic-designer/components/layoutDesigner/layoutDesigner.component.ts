@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ViewChildren, QueryList, Input, OnChanges, ChangeDetectorRef, SimpleChanges} from "@angular/core";
-import {nameof} from "@asseco/common";
+import {nameof} from "@jscrpt/common";
 
 import {PackageLoader} from "../../packageLoader";
 import {DesignerComponentRendererDirective} from "../../directives";

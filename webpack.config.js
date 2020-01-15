@@ -102,7 +102,7 @@ function getStyleLoaders(prod)
 var distPath = "wwwroot/dist";
 var entryPoints = [];
 
-module.exports = function(options, args)
+module.exports = [function(options, args)
 {
     var prod = args && args.mode == 'production';
     var hmr = !!options && !!options.hmr;
@@ -221,6 +221,10 @@ module.exports = function(options, args)
                     loader: 'raw-loader'
                 },
                 {
+                    test: /\.typings$/,
+                    loader: 'raw-loader'
+                },
+                {
                     test: /\.component\.scss$/,
                     use: ['raw-loader', 'sass-loader'],
                     include:
@@ -272,6 +276,7 @@ module.exports = function(options, args)
                 isNgsw: ngsw,
                 jsDevMode: !prod,
                 ngDevMode: !prod,
+                designerMetadata: true,
                 ngI18nClosureMode: false
             })
         ]
@@ -439,4 +444,29 @@ module.exports = function(options, args)
     }
 
     return config;
-}
+},
+{
+    mode: 'development',
+    entry: 
+    {
+		"editor.worker": 'monaco-editor/esm/vs/editor/editor.worker.js',
+		"json.worker": 'monaco-editor/esm/vs/language/json/json.worker',
+		"css.worker": 'monaco-editor/esm/vs/language/css/css.worker',
+		"html.worker": 'monaco-editor/esm/vs/language/html/html.worker',
+		"ts.worker": 'monaco-editor/esm/vs/language/typescript/ts.worker'
+	},
+    output: 
+    {
+		globalObject: 'self',
+		path: path.join(__dirname, distPath),
+        filename: '[name].js'
+	},
+    module: 
+    {
+        rules: [
+        {
+			test: /\.css$/,
+			use: ['style-loader', 'css-loader']
+		}]
+	},
+}]

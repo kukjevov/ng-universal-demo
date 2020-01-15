@@ -1,5 +1,5 @@
 import {Injector} from '@angular/core';
-import {isPresent} from '@asseco/common';
+import {isPresent} from '@jscrpt/common';
 import {Selection, BaseType, drag, event, select} from 'd3';
 import {Subject, Observable} from 'rxjs';
 

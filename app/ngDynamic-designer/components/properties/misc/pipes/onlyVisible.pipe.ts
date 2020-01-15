@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {isBlank} from '@asseco/common';
+import {isBlank} from '@jscrpt/common';
 import {PropertiesPropertyMetadata} from '../../../../interfaces';
 
 /**

@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef} from "@angular/core";
-import {isBlank, isPresent} from "@asseco/common";
+import {isBlank, isPresent} from "@jscrpt/common";
 
 import {DynamicComponentGeneric, DynamicOutput} from "../../../../ngDynamic-core";
 import {ButtonComponentOptions} from "./button.interface";

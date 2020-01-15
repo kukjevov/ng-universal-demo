@@ -1,5 +1,5 @@
 import {Injector} from '@angular/core';
-import {isBlank} from '@asseco/common';
+import {isBlank} from '@jscrpt/common';
 import {Selection, BaseType} from 'd3';
 
 import {SvgNodeDynamicNode, DesignerPageComponent, CodeService, CodeMetadata, ɵRelationsMetadata, SvgPeerDropArea, SvgRelationDynamicNode, DesignerLayoutPlaceholderComponent, INVALIDATE_PROPERTIES} from "../../ngDynamic-designer";

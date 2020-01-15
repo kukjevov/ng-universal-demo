@@ -30,6 +30,10 @@ export const routesOptions: ModuleRoutesOptions =
         {
             path: 'samples',
             loadChildren: () => import('../pages/+samples/samples.module').then(({SamplesModule}) => SamplesModule)
+        },
+        {
+            path: 'designer',
+            loadChildren: () => import('../ngDynamic-designer/modules/ngDynamicDesigner.module').then(({NgDynamicDesignerModule}) => NgDynamicDesignerModule)
         }
     ]
 };

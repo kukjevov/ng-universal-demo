@@ -1,6 +1,6 @@
 import {Directive, ExistingProvider, forwardRef, OnDestroy, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ViewContainerRef, ComponentRef, NgModuleRef, ComponentFactory, ComponentFactoryResolver} from "@angular/core";
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from "@angular/forms";
-import {nameof} from "@asseco/common";
+import {nameof} from "@jscrpt/common";
 import {Subscription} from "rxjs";
 
 import {DynamicModule, ComponentLoader, DynamicComponent} from "../../../../../ngDynamic-core";

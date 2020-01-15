@@ -1,6 +1,6 @@
 import {Injectable, Type, Inject} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
-import {generateId, Dictionary} from '@asseco/common';
+import {generateId, Dictionary} from '@jscrpt/common';
 
 /**
  * Class used for loading external scripts

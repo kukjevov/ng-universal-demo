@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef} from "@angular/core";
 import {FormBuilder, FormControl} from "@angular/forms";
-import {StringDictionary} from "@asseco/common";
+import {StringDictionary} from "@jscrpt/common";
 import {Subscription, Observable} from "rxjs";
 
 import {DynamicComponentGeneric, DynamicOutput} from "../../../../ngDynamic-core";

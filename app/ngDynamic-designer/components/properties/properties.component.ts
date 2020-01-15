@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef} from "@angular/core";
 import {FormControl, FormGroup, Validators, FormArray} from "@angular/forms";
-import {isFunction} from "@asseco/common";
+import {isFunction} from "@jscrpt/common";
 import {Subscription} from "rxjs";
 
 import {PropertiesService} from "../../services";

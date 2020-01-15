@@ -178,7 +178,7 @@ export var providers =
             text: "Neboli nájdené dáta odpovedajúce zadaným parametrom"
         }
     },
-
+    
     //############################ SELECT GLOBAL OPTIONS ############################
     <ValueProvider>
     {
@@ -204,5 +204,5 @@ export var providers =
     {
         provide: PERMANENT_STORAGE,
         useClass: LocalPermanentStorageService
-    },
+    }
 ];

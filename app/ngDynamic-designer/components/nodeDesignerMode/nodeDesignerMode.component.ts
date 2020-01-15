@@ -157,7 +157,7 @@ export class NodeDesignerModeComponent implements OnDestroy, AfterViewInit
      * Handles drop event for adding new node into designer
      * @param event Event with drag n drop data
      */
-    public drop(event: DragEvent)
+    public drop(event: any)//DragEvent
     {
         event.preventDefault();
 

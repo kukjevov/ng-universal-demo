@@ -1,6 +1,6 @@
 import {Injector} from "@angular/core";
 import {HttpClient, HttpRequest, HttpParams, HttpResponse} from "@angular/common/http";
-import {getEnumValues, generateId} from "@asseco/common";
+import {getEnumValues, generateId} from "@jscrpt/common";
 import {Observable, empty} from "rxjs";
 import {map} from "rxjs/operators";
 

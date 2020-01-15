@@ -7,6 +7,7 @@ var connect = require('connect'),
     path = require('path'),
     fs = require('fs'),
     https = require('https'),
+    bodyParser = require('body-parser'),
     connectExtensions = require('nodejs-connect-extensions');
 
 var app = connect();
@@ -56,7 +57,7 @@ console.log(`Using proxy url '${proxyUrl}'`);
 if(!!argv.webpack)
 {
     var webpack = require('webpack'),
-        webpackConfig = require('./webpack.config.js')({hmr: true, dll: true, aot: true, css: true}),
+        webpackConfig = require('./webpack.config.js')[0]({hmr: true, dll: true, aot: true, css: true}),
         webpackDev = require('webpack-dev-middleware'),
         hmr = require("webpack-hot-middleware");
 
@@ -74,11 +75,17 @@ if(!!argv.webpack)
 //mock rest api
 require('./server.mock')(app);
 
+//REST api for server dynamic
+require('./server.dynamic.api')(app);
+
 //proxy special requests to other location
 app.use(proxy(['/api', '/swagger'], {target: proxyUrl, ws: true}));
 
 //custom rest api
 require('./server.rest')(app);
+
+//parse html request json body
+app.use(bodyParser.json({limit: '50mb'}));
 
 //enable html5 routing
 app.use(history());

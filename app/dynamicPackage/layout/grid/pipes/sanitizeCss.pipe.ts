@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
-import {isBlank} from '@asseco/common';
+import {isBlank} from '@jscrpt/common';
 
 /**
  * Pipe to sanitize css style property

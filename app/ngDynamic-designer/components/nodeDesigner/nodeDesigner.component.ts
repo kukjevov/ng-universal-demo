@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, OnInit, Injector, OnDestroy} from "@angular/core";
-import {generateId} from "@asseco/common";
+import {generateId} from "@jscrpt/common";
 import {select, Selection, event, zoom, zoomTransform} from 'd3';
 import {Subscription, Subject, Observable} from "rxjs";
 

@@ -1,5 +1,5 @@
 import {ClassProvider} from "@angular/core";
-import {noop} from "@asseco/common";
+import {noop} from "@jscrpt/common";
 
 import {DynamicModuleLoader, DynamicModuleDescription, DYNAMIC_MODULE_LOADERS} from "./dynamicModuleLoader.interface";
 import {DynamicModule} from "../componentLoader";

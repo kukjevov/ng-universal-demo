@@ -7,24 +7,9 @@ initializeJsDevMode();
 
 globalDefine(global =>
 {
-    if(isBlank(global['isElectron']))
+    if(!global.HTMLDocument)
     {
-        global['isElectron'] = false;
-    }
-
-    if(isBlank(global['isPopup']))
-    {
-        global['isPopup'] = false;
-    }
-
-    if(isBlank(global['envName']))
-    {
-        global['envName'] = 'WEB';
-    }
-
-    if(isBlank(global['rendererLogger']))
-    {
-        global['rendererLogger'] = {log:() => {}};
+        global.HTMLDocument = function(){};
     }
 });
 

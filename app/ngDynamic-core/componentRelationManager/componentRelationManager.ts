@@ -1,5 +1,5 @@
 import {Injector} from "@angular/core";
-import {isBlank} from "@asseco/common";
+import {isBlank} from "@jscrpt/common";
 
 import {DynamicComponentRelationMetadata, DynamicNode, NodeDefinitionConstructor, NodeDefinition} from "../interfaces";
 import {ComponentManager} from "../componentManager";

@@ -1,4 +1,4 @@
-import {getValue, isPresent, setValue} from "@asseco/common";
+import {getValue, isPresent, setValue} from "@jscrpt/common";
 
 import {PropertiesPropertyMetadata, PropertyType} from "../interfaces";
 

@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, ViewChildren, QueryList, HostBinding, HostListener, Injectable} from "@angular/core";
-import {generateId} from "@asseco/common";
+import {generateId} from "@jscrpt/common";
 
 import {DesignerLayoutComponentRendererData, DesignerLayoutPlaceholderComponentGeneric, DesignerLayoutPlaceholderComponent, LayoutMetadata, ɵDynamicComponentMetadataGeneric} from "../../interfaces";
 import {DynamicComponentMetadataGeneric, DynamicComponentMetadata} from "../../../ngDynamic-core";

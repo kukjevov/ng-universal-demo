@@ -1,5 +1,5 @@
 import {Injector, Type} from "@angular/core";
-import {getEnumValues} from "@asseco/common";
+import {getEnumValues} from "@jscrpt/common";
 
 import {ScriptLoader, DynamicOutput, NodeDefinitionGeneric} from "../../ngDynamic-core";
 import {DynamicNodeDesignerMetadata, PropertyType} from "../../ngDynamic-designer";

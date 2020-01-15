@@ -98,7 +98,8 @@
         "sourcemapped-stacktrace": "1.1.11",
         "positions": "1.6.2",
         "store": "2.0.12",
-        "konami": "1.6.2"
+        "konami": "1.6.2",
+        "monaco-editor": "0.15.6"
     },
     "devDependencies": {
         "@types/node": "11.13.20",

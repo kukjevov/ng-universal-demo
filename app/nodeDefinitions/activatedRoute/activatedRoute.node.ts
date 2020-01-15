@@ -1,6 +1,6 @@
 import {Injector} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
-import {StringDictionary} from "@asseco/common";
+import {StringDictionary} from "@jscrpt/common";
 import {Subscription} from "rxjs";
 
 import {DynamicOutput, NodeDefinition} from "../../ngDynamic-core";

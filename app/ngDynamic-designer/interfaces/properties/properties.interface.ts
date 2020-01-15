@@ -1,5 +1,5 @@
 import {ValidatorFn} from "@angular/forms";
-import {ValueNamePair} from "@asseco/common";
+import {ValueNamePair} from "@jscrpt/common";
 
 import {DesignerServiceMetadata} from "../metadata.interface";
 import {DynamicModule} from "../../../ngDynamic-core";

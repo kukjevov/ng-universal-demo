@@ -1,5 +1,5 @@
 import {Injectable, ComponentFactory, Injector, NgModuleRef, ɵNgModuleFactory as NgModuleFactory, Optional, Inject, ComponentFactoryResolver} from "@angular/core";
-import {isString} from "@asseco/common";
+import {isString} from "@jscrpt/common";
 
 import {DynamicComponentMetadata, DynamicComponent} from "../interfaces";
 import {DynamicModule} from "./componentLoader.interface";

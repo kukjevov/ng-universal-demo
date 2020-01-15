@@ -1,5 +1,5 @@
 import {ComponentRef, Directive, Input, NgModuleRef, OnChanges, OnDestroy, SimpleChanges, ViewContainerRef, Injector} from '@angular/core';
-import {nameof} from '@asseco/common';
+import {nameof} from '@jscrpt/common';
 
 import {ComponentLoader} from '../../componentLoader';
 import {DynamicComponent, DynamicComponentMetadata} from '../../interfaces';

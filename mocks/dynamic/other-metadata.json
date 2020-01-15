@@ -1,0 +1,12 @@
+{
+    "layout":
+    {
+        "id": "simple",
+        "options": "other simple",
+        "componentPackage": "more",
+        "componentName": "simple"
+    },
+    "relations":
+    [
+    ]
+}

@@ -1,5 +1,5 @@
 import {Directive, HostListener, ElementRef, EventEmitter, Output, Input} from "@angular/core";
-import {isPresent} from "@asseco/common";
+import {isPresent} from "@jscrpt/common";
 
 import {DropEvent, DropArea} from "../../interfaces";
 
