@@ -5,7 +5,7 @@
     {
         "Accept": "application/json"
     },
-    "theme": "light",
+    "theme": "dark",
     "themes":
     [
         "light",

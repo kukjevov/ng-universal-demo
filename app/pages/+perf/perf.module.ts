@@ -9,7 +9,9 @@ import {TabulkaRiadokComponent} from "./hodnotenie/tabulkaRiadok/tabulkaRiadok.c
 import {ChartComponent} from "./hodnotenie/charts/chart.component";
 import {OverviewLineComponent} from "./hodnotenie/overviewLine/overviewLine.component";
 import {HodnotenieStateChanging, HodnotenieDataResolver} from "./hodnotenie/hodnotenieData.resolver";
-import {HodnotenieService} from "../../services/api/hodnotenie";
+import {HodnotenieService, MetadataService} from "../../services/api/hodnotenie";
+import {EnumService} from "../../services/api/enum/enum.service";
+import {SipkaTagComponent, MosiaFormatPipe, EnumNameZsDirective} from "./misc";
 
 @NgModule(
 {
@@ -24,13 +26,18 @@ import {HodnotenieService} from "../../services/api/hodnotenie";
         TabulkaRiadokComponent,
         ChartComponent,
         OverviewLineComponent,
+        SipkaTagComponent,
+        MosiaFormatPipe,
+        EnumNameZsDirective,
         ...components
     ],
     providers:
     [
         HodnotenieStateChanging,
         HodnotenieService,
-        HodnotenieDataResolver
+        HodnotenieDataResolver,
+        EnumService,
+        MetadataService
     ]
 })
 @ModuleRoutes(components)

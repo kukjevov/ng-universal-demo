@@ -1,0 +1,98 @@
+{
+    "NEM_AMB":
+    {
+        "popis": "Nemocničná ambulancia",
+        "kratkyPopis": "nem.amb.",
+        "vazbaNa": ["VAST", "SAST"]
+    },
+    "SAM_AMB":
+    {
+        "popis": "Samostatná ambulancia",
+        "kratkyPopis": "sam.amb.",
+        "vazbaNa": ["VAST", "SAST"]
+    },
+    "ONKO_CEN":
+    {
+        "popis": "Onkocentrum",
+        "kratkyPopis": "onkoc.",
+        "vazbaNa": ["VAST", "SAST"]
+    },
+    "ENDO_CEN":
+    {
+        "popis": "Endokrinologické centrum",
+        "kratkyPopis": "endo.c.",
+        "vazbaNa": ["VAST", "SAST"]
+    },
+    "KARD_CEN":
+    {
+        "popis": "Kardiocentrum",
+        "kratkyPopis": "kardioc.",
+        "vazbaNa": ["VAST", "SAST"]
+    },
+    "DFN_AMB":
+    {
+        "popis": "Ambulancia v DFN",
+        "kratkyPopis": "DFN",
+        "vazbaNa": ["VAST", "SAST"]
+    },
+    "DKC":
+    {
+        "popis": "Detské kardiocentrum",
+        "kratkyPopis": "DKC",
+        "vazbaNa": ["VAST", "SAST"]
+    },
+    "VSETKY":
+    {
+        "popis": "Všetky ambulancie",
+        "kratkyPopis": "všetky",
+        "vazbaNa": ["VAST", "SAST", "DRG"]
+    },
+    "VS1":
+    {
+        "popis": "Všeobecné nemocnice 1",
+        "kratkyPopis": "Vš.nem. 1",
+        "vazbaNa": ["DRG"]
+    },
+    "VS2":
+    {
+        "popis": "Všeobecné nemocnice 2",
+        "kratkyPopis": "Vš.nem. 2",
+        "vazbaNa": ["DRG"]
+    },
+    "VS3":
+    {
+        "popis": "Všeobecné nemocnice 3",
+        "kratkyPopis": "Vš.nem. 3",
+        "vazbaNa": ["DRG"]
+    },
+    "VS4":
+    {
+        "popis": "Všeobecné nemocnice 4",
+        "kratkyPopis": "Vš.nem. 4",
+        "vazbaNa": ["DRG"]
+    },
+    "SPEC":
+    {
+        "popis": "Špecializované zdrav. zariadenia",
+        "kratkyPopis": "Špec.nem.",
+        "vazbaNa": ["DRG"]
+    },
+    "ONKO":
+    {
+        "popis": "Onkologické ústavy",
+        "kratkyPopis": "Onkoústavy",
+        "vazbaNa": ["DRG"]
+    },
+    "USCH":
+    {
+        "popis": "Ústavy srdcovo cievnych chorôb",
+        "kratkyPopis": "Kardioústavy",
+        "vazbaNa": ["DRG"]
+    },
+    "XXX":
+    {
+        "popis": "Iné nemocnice",
+        "kratkyPopis": "Iné",
+        "vazbaNa": ["DRG"]
+    }
+}

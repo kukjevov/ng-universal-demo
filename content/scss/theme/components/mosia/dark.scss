@@ -1,0 +1,649 @@
+@import "../../../variables.scss";
+@import "../../theme-vars.scss";
+@import "../../dark-theme-vars.scss";
+
+$rowWidthMd: 1fr auto 24px;
+
+$rowWidthSm: 1fr auto 24px;
+$rowWidthXs: 1fr auto 18px;
+
+hodnotenie-view, hodnotenie-pzs-view, hodnotenie-pzs-tlac-view
+{
+    .hlavne-ukazovatele
+    {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+
+        hlavny-ukazovatel
+        {
+            width: 140px;
+            display: grid;
+
+            grid-template-columns: 55% 45%;
+            grid-template-rows: auto;
+            grid-template-areas: "nazov nazov"
+                                 "value icon"
+                                 "diff icon"
+                                 "chart chart";
+
+            .hu-nazov
+            {
+                grid-area: nazov;
+                min-width: 0;
+            }
+
+            .hu-value
+            {
+                grid-area: value;
+            }
+
+            .hu-icon
+            {
+                grid-area: icon;
+                align-self: center;
+                background-size: 42px;
+                width: 42px;
+                height: 42px;
+                background-repeat: no-repeat;
+                background-position: center;
+
+                &.liek
+                {
+                    background-image: url('./images/capsules.png');
+                }
+
+                &.eura
+                {
+                    background-image: url('./images/dbEuro.png');
+                }
+
+                &.lab
+                {
+                    background-image: url('./images/flask.png');
+                }
+
+                &.refferal
+                {
+                    background-image: url('./images/persons.png');
+                }
+                &.surgery
+                {
+                    background-image: url('./images/surgery.png');
+                }
+                &.hourglass
+                {
+                    background-image: url('./images/alos.png');
+                }
+                &.complexity
+                {
+                    background-image: url('./images/cmi.png');
+                }
+            }
+
+            .hu-diff
+            {
+                grid-area: diff;
+            }
+
+            .hu-chart
+            {
+                grid-area: chart;
+
+                &>hlavny-ukazovatel-chart
+                {
+                    display: block;
+                    margin-top: 6px;
+
+                    &>div
+                    {
+                        height: 18px;
+                        border-radius: 4px;
+                        background-color: #DDDDDD;
+
+                        &>div
+                        {
+                            height: 18px;
+                        }
+                    }
+                }
+            }
+
+            .hu-value,
+            .hu-icon,
+            .hu-diff,
+            {
+                justify-self: center;
+            }
+
+            .hranica
+            {
+                top: 0;
+                border-left: 1px #555555 dashed;
+
+                &.stredna
+                {
+                    top: -6px;
+                    height: calc(100% + 12px);
+                }
+            }
+
+            .stredna-tooltip
+            {
+                top: 0;
+                width: 6px;
+            }
+        }
+    }
+
+    .hodn-flex
+    {
+        display: flex;
+        flex-direction: row;
+
+        .hodn-flex-left
+        {
+            padding-left: $pageLgWidth;
+            padding-right: $pageSmWidth;
+            flex: 2;
+            max-width: 40%;
+
+            &.no-padding
+            {
+                padding: 0;
+            }
+        }
+
+        .hodn-flex-right
+        {
+            padding-right: $pageLgWidth;
+            padding-left: $pageSmWidth;
+            flex: 3;
+            max-width: 60%;
+
+            &.no-padding
+            {
+                padding: 0;
+            }
+        }
+
+        .hodn-name
+        {
+            max-width: calc(100% - 22px);
+        }
+    }
+
+    .poznamka-datum
+    {
+        width: 80px;
+    }
+
+    .poznamka-x
+    {
+        width: 24px;
+    }
+
+    .poznamka-text
+    {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .left-selects
+    {
+        display: flex;
+        flex-direction: row;
+
+        .empty-space
+        {
+            flex: 1;
+        }
+
+        .referencia-select
+        {
+            width: 200px;
+        }
+
+        .odbobie-select
+        {
+            width: 200px;
+        }
+    }
+
+    .odbobie-select
+    {
+        .bootstrap-select.form-control
+        {
+            width: 96px;
+        }
+    }
+
+    .overview
+    {
+        padding: 0;
+
+        .overview-title
+        {
+            font-size: $fontSizeMd;
+            padding: $pageSmWidth;
+        }
+
+        .overview-content
+        {
+            padding: $pageSmWidth;
+
+            .summary-title
+            {
+                border-bottom: 1px solid #333;
+            }
+
+            .layout
+            {
+                display: grid;
+
+                grid-template-columns: auto 1fr 48px 75px 56px 32px 50px;
+                grid-template-rows: auto;
+                grid-template-areas: "collapse popis hodnota urc urcDiff urcVaha detail";
+
+                &.spolu
+                {
+                    border-top: 1px solid #333;
+                }
+
+                &:not(.spolu):nth-of-type(2n+0)
+                {
+                    .ourc, .ourcdiff, .ourcvaha, .odetail, .ohodnota
+                    {
+                        background-color: #EAEAEA;
+                    }
+                }
+
+                .ocollapse
+                {
+                    grid-area: collapse;
+                    padding: 1px 0;
+                    margin-right: $pageXsWidth;
+                }
+
+                .opopis
+                {
+                    grid-area: popis;
+                    min-width: 0;
+                    padding: 1px 0;
+
+                    &.indent
+                    {
+                        padding-left: 32px;
+                    }
+                }
+
+                .ohodnota
+                {
+                    grid-area: hodnota;
+                    padding: 1px 0;
+                }
+
+                .ourc
+                {
+                    grid-area: urc;
+                    padding: 1px 0;
+                }
+
+                .ourcdiff
+                {
+                    grid-area: urcDiff;
+                    padding: 1px 0;
+                }
+
+                .ourcvaha
+                {
+                    grid-area: urcVaha;
+                    padding: 1px 0;
+                }
+
+                .odetail
+                {
+                    grid-area: detail;
+                    padding: 1px 0;
+                }
+            }
+        }
+    }
+
+    .header.title
+    {
+        font-size: $fontSizeXl;
+    }
+
+    okno-view.highlight-block
+    {
+        .layout
+        {
+            display: grid;
+
+            grid-template-columns: 10px 1fr 96px 96px 30px 16px;
+            grid-template-rows: auto;
+            grid-column-gap: 8px;
+            grid-template-areas: "toggle-detail okno-title suma rozdiel vaha ."
+                                 "toggle-chart detail-content detail-content detail-content detail-content detail-content"
+                                 ". chart-content chart-content chart-content chart-content .";
+        }
+
+        .toggle-detail
+        {
+            grid-area: toggle-detail;
+            align-self: center;
+        }
+
+        .okno-title
+        {
+            grid-area: okno-title;
+            font-size: $fontSizeXl;
+            min-width: 0;
+        }
+
+        .suma
+        {
+            grid-area: suma;
+            font-size: $fontSizeXl;
+            align-self: end;
+        }
+
+        .rozdiel
+        {
+            grid-area: rozdiel;
+            font-size: $fontSizeXl;
+            align-self: end;
+        }
+
+        .vaha
+        {
+            grid-area: vaha;
+            font-size: $fontSizeLg;
+            align-self: end;
+            justify-self: end;
+        }
+
+        .toggle-chart
+        {
+            grid-area: toggle-chart;
+            align-self: start;
+            margin-top: $pageSmWidth;
+        }
+
+        .detail-content
+        {
+            margin-top: $pageSmWidth;
+            grid-area: detail-content;
+            min-width: 0;
+        }
+
+        .chart-content
+        {
+            grid-area: chart-content;
+        }
+    }
+
+    tabulka-view
+    {
+        .row-layout
+        {
+            display: grid;
+            grid-template-columns: $rowWidthMd;
+            grid-template-rows: auto;
+            grid-template-areas: "description content prod-detail";
+
+            &.tab-header
+            {
+                border-bottom: 1px solid #333;
+                font-weight: bold;
+                align-items: end;
+
+                .area-description
+                {
+                    padding: 0;
+                }
+
+                .area-content
+                {
+                    align-items: flex-end;
+                }
+
+                .part-stat-riadky,
+                .part-stat-mnozstvo,
+                .part-stat-body,
+                .part-stat-naklady,
+                .part-pacienti,
+                .part-udalosti,
+                .part-naklady,
+                .part-err-vyskyt,
+                .part-err-naklady,
+                .part-ind-vyskyt,
+                .part-ind-naklady,
+                .part-drg-all,
+                .part-drg-nakl
+                {
+                    &>*:not(.header-group)
+                    {
+                        text-align: right;
+                    }
+                }
+            }
+
+            .chart-link
+            {
+                cursor: pointer;
+                font-weight: bold;
+                font-style: italic;
+                color: #062265;
+            }
+        }
+
+        .area-description
+        {
+            grid-area: description;
+            min-width: 0;
+            padding: 1px 0;
+
+            &.subitem
+            {
+                margin-left: 28px;
+                margin-right: 20px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            &:not(.subitem)
+            {
+                display: flex;
+                flex-direction: row;
+
+                &>div:nth-child(1)
+                {
+                    width: 14px;
+                    align-self: center;
+                }
+
+                &>div:nth-child(2)
+                {
+                    flex: 1;
+                    min-width: 0;
+                }
+
+                &>div:nth-child(3)
+                {
+                    width: 16px;
+                    align-self: center;
+                }
+            }
+        }
+
+        .area-content
+        {
+            grid-area: content;
+
+            &>*
+            {
+                display: inline-block;
+            }
+        }
+
+        .area-prod-detail
+        {
+            grid-area: prod-detail;
+        }
+
+        .ref-padding
+        {
+            padding-left: 14px;
+        }
+
+        .part-zakUrc
+        {
+            width: 56px;
+        }
+
+        .part-pacienti, .part-udalosti, .part-naklady,
+        .part-drg-all, .part-drg-nakl
+        {
+            display: grid;
+            grid-template-columns: 56px 42px 16px 42px 35px;
+            grid-template-rows: auto;
+
+            .header-group
+            {
+                grid-area: 1/1/1/6;
+            }
+        }
+
+        .part-err-vyskyt, .part-err-naklady
+        {
+            display: grid;
+            grid-template-columns: 70px 56px 42px 16px 42px 60px;
+            grid-template-rows: auto;
+
+            .header-group
+            {
+                grid-area: 1/1/1/7;
+            }
+        }
+
+        .part-ind-vyskyt, .part-ind-naklady
+        {
+            display: grid;
+            grid-template-columns: 56px 42px 16px 42px 60px;
+            grid-template-rows: auto;
+
+            .header-group
+            {
+                grid-area: 1/1/1/7;
+            }
+        }
+
+        .part-err-naklady
+        {
+            grid-template-columns: 70px 70px 42px 16px 42px 60px;
+        }
+
+        .part-ind-naklady
+        {
+            grid-template-columns: 70px 42px 16px 42px 60px;
+        }
+
+        .part-naklady, .part-drg-nakl
+        {
+            grid-template-columns: 70px 54px 16px 52px 30px;
+        }
+
+        .part-stat-riadky, .part-stat-mnozstvo, .part-stat-body, .part-stat-naklady
+        {
+            display: grid;
+            grid-template-columns: 70px 48px 48px;
+            grid-template-rows: auto;
+
+            .header-group
+            {
+                grid-area: 1/1/1/4;
+            }
+        }
+
+        .part-stat-body, .part-stat-naklady
+        {
+            grid-template-columns: 78px 48px 48px;
+        }
+
+
+        // @media screen and (max-width: 1700px)
+        // {
+        //     .row-layout
+        //     {
+        //         grid-template-columns: $rowWidthSm;
+        //         font-size: 0.9em;
+        //     }
+        // }
+
+        // @media screen and (max-width: 1440px)
+        // {
+        //     .row-layout
+        //     {
+        //         grid-template-columns: $rowWidthXs;
+        //         font-size: 0.8em;
+        //     }
+        // }
+
+        tabulka-riadok-view
+        {
+            &.spolu
+            {
+                border-top: 1px solid #333;
+                font-weight: bold;
+            }
+
+            .part-zakUrc
+            {
+                padding: 1px 4px;
+                text-align: right;
+                min-width: 0;
+            }
+
+            .part-stat-riadky, .part-stat-mnozstvo, .part-stat-body, .part-stat-naklady,
+            .part-pacienti, .part-udalosti, .part-naklady,
+            .part-err-vyskyt, .part-err-naklady,
+            .part-ind-vyskyt, .part-ind-naklady,
+            .part-drg-all, .part-drg-nakl
+            {
+                >*
+                {
+                    padding: 1px 4px;
+                    text-align: right;
+                    min-width: 0;
+                }
+
+                .vaha-col
+                {
+                    text-align: left;
+                    padding-left: 4px;
+                }
+
+                .sipka-col
+                {
+                    text-align: center;
+                }
+            }
+        }
+
+        tabulka-riadok-view:nth-of-type(2n+0)
+        {
+            &>.row-layout>*:not(.area-description)
+            {
+                background-color: #EAEAEA;
+            }
+
+            &.spolu>.row-layout>*:not(.area-description)
+            {
+                background-color: transparent;
+            }
+        }
+    }
+}

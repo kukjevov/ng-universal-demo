@@ -1,0 +1,64 @@
+$grouperColor: #e64141;
+$bordersColor: #999;
+
+.chart-component
+{
+    .legend-text
+    {
+        font-size: 0.85em;
+    }
+
+    .line-thick
+    {
+        fill: none;
+        stroke-width: 2px;
+        stroke-dasharray: 10,5;
+    }
+
+    .dot-thin
+    {
+        stroke-width: 0;
+        stroke: transparent;
+    }
+
+    .line
+    {
+        fill: none;
+        stroke-width: 1.5px;
+
+        &.line-grouper
+        {
+            stroke: $grouperColor;
+        }
+
+        &.thick
+        {
+            stroke-width: 3px;
+        }
+
+        &.line-border
+        {
+            stroke: $bordersColor;
+        }
+    }
+
+    .text
+    {
+        &.actual
+        {
+            fill: $grouperColor;
+        }
+
+        &.borders
+        {
+            fill: $bordersColor;
+        }
+    }
+
+    .dot
+    {
+        fill: white;
+        stroke: $grouperColor;
+        stroke-width: 1.5px;
+    }
+}

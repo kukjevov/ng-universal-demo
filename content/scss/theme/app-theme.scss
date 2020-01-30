@@ -1,9 +1,9 @@
-@import 'theme-vars.scss';
+@import "./theme-vars.scss";
 
 //---------------------- PAGE STYLING ----------------------
 .app-page
 {
-    font-family: "Montserrat";
+    font-family: "SegoeUI";
     display: block;
     flex: 1;
 
@@ -16,6 +16,11 @@
     .border-round
     {
         border-radius: $borderRadius;
+    }
+
+    .border-round-50
+    {
+        border-radius: 50%;
     }
 
     .top-border-round
@@ -92,6 +97,11 @@
         font-size: $fontSizeXxl;
     }
 
+    .padding-top-extra-small
+    {
+        padding-top: $pageXsWidth;
+    }
+
     .padding-top-small
     {
         padding-top: $pageSmWidth;
@@ -99,7 +109,12 @@
 
     .padding-top-big
     {
-        padding-top: $pageMdWidth;
+        padding-top: $pageLgWidth;
+    }
+
+    .padding-left-extra-small
+    {
+        padding-left: $pageXsWidth;
     }
 
     .padding-left-small
@@ -109,7 +124,12 @@
 
     .padding-left-big
     {
-        padding-left: $pageMdWidth;
+        padding-left: $pageLgWidth;
+    }
+
+    .padding-right-extra-small
+    {
+        padding-right: $pageXsWidth;
     }
 
     .padding-right-small
@@ -119,7 +139,12 @@
 
     .padding-right-big
     {
-        padding-right: $pageMdWidth;
+        padding-right: $pageLgWidth;
+    }
+
+    .padding-bottom-extra-small
+    {
+        padding-bottom: $pageXsWidth;
     }
 
     .padding-bottom-small
@@ -129,7 +154,13 @@
 
     .padding-bottom-big
     {
-        padding-bottom: $pageMdWidth;
+        padding-bottom: $pageLgWidth;
+    }
+
+    .padding-horizontal-extra-small
+    {
+        padding-left: $pageXsWidth;
+        padding-right: $pageXsWidth;
     }
 
     .padding-horizontal-small
@@ -138,15 +169,36 @@
         padding-right: $pageSmWidth;
     }
 
+    .padding-vertical-extra-small
+    {
+        padding-top: $pageXsWidth;
+        padding-bottom: $pageXsWidth;
+    }
+
     .padding-vertical-small
     {
         padding-top: $pageSmWidth;
         padding-bottom: $pageSmWidth;
     }
 
+    .padding-extra-small
+    {
+        padding: $pageXsWidth;
+    }
+
     .padding-small
     {
         padding: $pageSmWidth;
+    }
+
+    .margin-top-none
+    {
+        margin-top: 0;
+    }
+
+    .margin-top-extra-small
+    {
+        margin-top: $pageXsWidth;
     }
 
     .margin-top-small
@@ -156,7 +208,12 @@
 
     .margin-top-big
     {
-        margin-top: $pageMdWidth;
+        margin-top: $pageLgWidth;
+    }
+
+    .margin-bottom-extra-small
+    {
+        margin-bottom: $pageXsWidth;
     }
 
     .margin-bottom-small
@@ -166,12 +223,17 @@
 
     .margin-bottom-big
     {
-        margin-bottom: $pageMdWidth;
+        margin-bottom: $pageLgWidth;
     }
 
     .margin-bottom-large
     {
-        margin-bottom: $pageLgWidth;
+        margin-bottom: $pageXlWidth;
+    }
+
+    .margin-left-extra-small
+    {
+        margin-left: $pageXsWidth;
     }
 
     .margin-left-small
@@ -181,7 +243,12 @@
 
     .margin-left-big
     {
-        margin-left: $pageMdWidth;
+        margin-left: $pageLgWidth;
+    }
+
+    .margin-right-extra-small
+    {
+        margin-right: $pageXsWidth;
     }
 
     .margin-right-small
@@ -191,7 +258,13 @@
 
     .margin-right-big
     {
-        margin-right: $pageMdWidth;
+        margin-right: $pageLgWidth;
+    }
+
+    .margin-horizontal-extra-small
+    {
+        margin-left: $pageXsWidth;
+        margin-right: $pageXsWidth;
     }
 
     .margin-horizontal-small
@@ -202,8 +275,14 @@
     
     .margin-horizontal-large
     {
-        margin-left: $pageMdWidth;
-        margin-right: $pageMdWidth;
+        margin-left: $pageLgWidth;
+        margin-right: $pageLgWidth;
+    }
+
+    .margin-vertical-small
+    {
+        margin-top: $pageSmWidth;
+        margin-bottom: $pageSmWidth;
     }
 
     .margin-small
@@ -221,11 +300,16 @@
         letter-spacing: 1px;
     }
 
+    //############## NAVIGATION ##############
+    .navbar
+    {
+        margin-bottom: $pageSmWidth;
+    }
+
     //############## TITLE ##############
     .title
     {
-        margin-top: $pageNegMdWidth;
-        padding: $pageMdWidth $pageMdWidth $pageSmWidth;
+        padding: $pageLgWidth $pageLgWidth $pageSmWidth;
         font-size: $fontSizeXxl;
 
         &.not-header
@@ -239,7 +323,39 @@
         font-size: $fontSizeMd;
     }
 
+    .collapsible-title
+    {
+        font-size: $fontSizeLg;
+        padding: 2px 4px;
+        border-radius: 4px;
+    }
+
+    //############## TAGS ##############
+
+    .tag
+    {
+        padding: 0px 4px;
+        border-radius: 4px;
+        margin-bottom: 1px;
+    }
+
+    //############## TABLE ##############
+    .table
+    {
+        tbody, thead, tfoot
+        {
+            & > tr >
+            {
+                td, th
+                {
+                    border-top: none;
+                }
+            }
+        }
+    }
+
     //############## BLOCK ##############
+    .border-block,
     .highlight-block
     {
         border-radius: $borderRadius;
@@ -247,14 +363,46 @@
     }
 
     //############## BUTTONS ##############
-    .btn
-    {
-        border-radius: 0;
-    }
-
     .btn-icon
     {
         padding: 0;
         border: none;
+    }
+    
+    .btn-tab
+    {
+        border-radius: 0;
+        border-width: 0;
+    }
+    
+    //############## FORM VALIDATIONS ##############
+
+    div.form-group.has-error
+    {
+        position: relative;
+    }
+
+    .validation-error-div
+    {
+        position: relative;
+    }
+
+    .validation-error-div::after
+    {
+        content: attr(data-error-message);
+        transition: all 300ms;
+        position: absolute;
+        width: 100%;
+        border-radius: $borderRadius;
+        padding: 0px 4px 3px;
+        font-size: $fontSizeSm;
+        z-index: 10;
+        opacity: 0;
+        left: 0;
+    }
+
+    [class*="-error"]:hover + div.validation-error-div::after
+    {
+        opacity: 1;
     }
 }

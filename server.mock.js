@@ -94,6 +94,12 @@ module.exports = function(app)
     //LOAD DATA RESOURCE
     require('./mocks/data/data')(app);
 
+    //LOAD MOSIA RESOURCE
+    require('./mocks/mosia/mosia')(app);
+
+    //LOAD ENUM RESOURCE
+    require('./mocks/enum/enum')(app);
+
     // //LOAD DYNAMIC RESOURCE
     // require('./mocks/dynamic')(app);
 };

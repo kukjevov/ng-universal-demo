@@ -1,0 +1,7 @@
+<span *ngIf="!!value"
+      class="fa"
+      [class.fa-long-arrow-up]="value == 1 || value == 2"
+      [class.fa-long-arrow-down]="value == -1 || value == -2"
+      [class.red-text]="value == 1 || value == 2"
+      [class.green-text]="value == -1 || value == -2"></span>
+<span *ngIf="value === 0">-</span>

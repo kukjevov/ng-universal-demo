@@ -4,13 +4,20 @@
 //---------------------- PAGE STYLING ----------------------
 .app-page.dark
 {
-    background-color: $primaryForegroundColor;
-    color: $blackText;
-
     //############## MISC ##############
-    .light-text
+    .green-text
     {
-        color: $lightText;
+        color: $greenText;
+    }
+
+    .black-text
+    {
+        color: $blackText;
+    }
+
+    .red-text
+    {
+        color: $redText;
     }
 
     .blue-text
@@ -18,55 +25,51 @@
         color: $blueText;
     }
 
-    .semi-dark-background
+    .orange-text
     {
-        background-color: $semiDarkBackgroundColor;
+        color: $orangeText;
     }
 
-    .primary-background
+    .brown-text
     {
-        background-color: $primaryBackgroundColor;
-        color: $primaryForegroundColor;
+        color: $brownText;
     }
 
-    .primary-background-inv
+    .light-text-color
     {
-        background-color: $primaryForegroundColor;
-        color: $primaryBackgroundColor;
+        color: $semiDarkText;
     }
 
-    //############## TITLE BAR ##############
-
-    .title-bar
+    .light-green-background
     {
-        background-color: $titleBarBackgroundColor;
-        color: $whiteText;
-
-        .icon-base
-        {
-            background-color: $titleBarIconBackgroundColor;
-        }
-
-        .title-bar-button-base:hover
-        {
-            background-color: lighten($titleBarBackgroundColor, 6%);
-        }
-
-        .title-bar-button-base:active
-        {
-            background-color: lighten($titleBarBackgroundColor, 12%);
-        }
-
-        .title-bar-close:hover
-        {
-            background-color: $titleBarCloseBackgroundColor;
-        }
-
-        .title-bar-close:active
-        {
-            background-color: lighten($titleBarCloseBackgroundColor, 12%);
-        }
+        background-color: $greenTag;
     }
+
+    .light-red-background
+    {
+        background-color: $redTag;
+    }
+    
+    .light-blue-background
+    {
+        background-color: $blueTag;
+    }
+
+    .light-orange-background
+    {
+        background-color: $orangeTag;
+    }
+
+    .very-light-orange-background
+    {
+        background-color: $lightOrangeTag;
+    }
+    
+    .very-light-blue-background
+    {
+        background-color: $lightBlueTag;
+    }
+    
 
     //############## TITLE ##############
     .title
@@ -77,14 +80,29 @@
 
     //############## BLOCKS ##############
 
+    .primary-block
+    {
+        background-color: $semiDarkBackgroundColor;
+        color: $lightText;
+    }
+
     .light-block
     {
         background-color: $ligntBackgroundColor;
         color: $blackText;
 
+        &.full-height
+        {
+            min-height: calc(100% - 54px);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+        }
+
         .btn-icon
         {
-            color: $iconText;
+            color: $semiDarkText;
         }
     }
 
@@ -95,27 +113,147 @@
 
         .btn-icon
         {
-            color: $iconText;
+            color: $semiDarkText;
+        }
+
+        .collapsible-title
+        {
+            background-color: $ligntBackgroundColor;
+        }
+    }
+
+    .border-block
+    {
+        border: 1px solid $blackText;
+    }
+
+    //############## FORMS ##############
+    
+    input.required.tt-input,
+    input.required
+    {
+        background-color: $requiredInputBackgroundColor !important;
+        background-color: $requiredInputBackgroundColor;
+    }
+    
+    ng-select.required
+    {
+        button
+        {
+            background-color: $requiredInputBackgroundColor;
+        }
+    }
+
+    //############## FORM VALIDATIONS ##############
+
+    .has-error
+    {
+        [class*="-error"],
+        [class*="-error"].tt-input
+        {
+            background-color: $invalidInputBackgroundColor !important;
+            color: $invalidErrorColor;
+            animation-name: shake-on-error;
+            animation-direction: normal;
+            animation-duration: 250ms;
+            animation-timing-function: ease-in;
+        }
+
+        ng-select[class*="-error"]
+        {
+            button
+            {
+                background-color: $invalidInputBackgroundColor;
+                color: $invalidErrorColor;
+                border-color: $invalidErrorColor;
+            }
+        }
+    }
+
+    .validation-error-div::after
+    {
+        background-color: #FD8A8A;
+        border: 1px solid $invalidErrorColor;
+        color: darken($invalidErrorColor, 12%);
+    }
+
+    @keyframes shake-on-error
+    {
+        0%
+        {
+            transform: translateX(2px);
+        }
+        10%
+        {
+            transform: translateX(-2px);
+        }
+        20%
+        {
+            transform: translateX(2px);
+        }
+        30%
+        {
+            transform: translateX(-2px);
+        }
+        40%
+        {
+            transform: translateX(2px);
+        }
+        50%
+        {
+            transform: translateX(-2px);
+        }
+        60%
+        {
+            transform: translateX(2px);
+        }
+        70%
+        {
+            transform: translateX(-2px);
+        }
+        80%
+        {
+            transform: translateX(2px);
+        }
+        90%
+        {
+            transform: translateX(-2px);
+        }
+        100%
+        {
+            transform: translateX(0);
         }
     }
 
     //############## BUTTONS ##############
 
-    .btn-primary
+    .btn-primary,
+    .btn-info,
+    .btn-danger,
+    .btn-default,
+    .btn-warning
     {
         letter-spacing: 1px;
-        background-color: $buttonLightColor;
         background-image: none;
-        border-color: $buttonLightColor;
         text-shadow: 0 0;
         box-shadow: 0 0;
+        text-transform: uppercase;
 
         &:active:not(.disabled)
         {
-            transform: translateY(2px);
+            box-shadow: 0 0;
+        }
+    }
+
+    .btn-primary
+    {
+        background-color: $buttonLightColor;
+        border-color: $buttonLightColor;
+
+        &:active:not(.disabled)
+        {
             background-color: $buttonLightColor;
             border-color: $buttonLightColor;
-            box-shadow: 0 0;
         }
 
         &:hover,
@@ -125,27 +263,46 @@
             border-color: $buttonDarkerColor;
         }
 
-        &>span[class^="fa"],
-        &>span[class^="glyphicon"]
+        & span[class^="fa"],
+        & span[class^="glyphicon"]
         {
             color: $buttonDarkColor;
         }
     }
 
-    .btn-info
+    .btn-warning
     {
-        letter-spacing: 1px;
-        background-image: none;
-        border-color: $buttonInfoLightColor;
-        text-shadow: 0 0;
-        box-shadow: 0 0;
+        background-color: $buttonWarningLightColor;
+        border-color: $buttonWarningLightColor;
 
         &:active:not(.disabled)
         {
-            transform: translateY(2px);
+            background-color: $buttonWarningLightColor;
+            border-color: $buttonWarningLightColor;
+        }
+
+        &:hover,
+        &:focus
+        {
+            background-color: $buttonWarningDarkColor;
+            border-color: $buttonWarningDarkColor;
+        }
+
+        & span[class^="fa"],
+        & span[class^="glyphicon"]
+        {
+            color: $buttonWarningDarkerColor;
+        }
+    }
+
+    .btn-info
+    {
+        border-color: $buttonInfoLightColor;
+
+        &:active:not(.disabled)
+        {
             background-color: $buttonInfoLightColor;
             border-color: $buttonInfoLightColor;
-            box-shadow: 0 0;
         }
 
         &:hover,
@@ -155,8 +312,8 @@
             border-color: $buttonInfoDarkerColor;
         }
 
-        &>span[class^="fa"],
-        &>span[class^="glyphicon"]
+        & span[class^="fa"],
+        & span[class^="glyphicon"]
         {
             color: $buttonInfoDarkColor;
         }
@@ -165,18 +322,12 @@
     .btn-danger
     {
         background-color: $buttonInvalidLightColor;
-        letter-spacing: 1px;
-        background-image: none;
         border-color: $buttonInvalidLightColor;
-        text-shadow: 0 0;
-        box-shadow: 0 0;
 
         &:active:not(.disabled)
         {
-            transform: translateY(2px);
             background-color: $buttonInvalidLightColor;
             border-color: $buttonInvalidLightColor;
-            box-shadow: 0 0;
         }
 
         &:hover,
@@ -186,28 +337,72 @@
             border-color: $buttonInvalidDarkerColor;
         }
 
-        &>span[class^="fa"],
-        &>span[class^="glyphicon"]
+        & span[class^="fa"],
+        & span[class^="glyphicon"]
         {
             color: $buttonInvalidDarkColor;
+        }
+    }
+
+    .btn-default
+    {
+        background-color: $buttonDefaultLightColor;
+        border-color: $buttonDefaultLightColor;
+        color: $lightText;
+
+        &:active:not(.disabled)
+        {
+            background-color: $buttonDefaultLightColor;
+            border-color: $buttonDefaultLightColor;
+        }
+
+        &:hover,
+        &:focus
+        {
+            background-color: $buttonDefaultDarkerColor;
+            border-color: $buttonDefaultDarkerColor;
+        }
+
+        & span[class^="fa"],
+        & span[class^="glyphicon"]
+        {
+            color: $buttonDefaultDarkColor;
+        }
+    }
+
+    .btn-subbutton
+    {
+        background-color: transparent;
+        border: none;
+        color: $blackText;
+
+        &:hover,
+        &:focus
+        {
+            background-color: $ligntBackgroundColor;
+        }
+
+        & span[class^="fa"],
+        & span[class^="glyphicon"]
+        {
+            color: $semiDarkText;
         }
     }
 
     .btn-icon
     {
         background-color: transparent;
-        color: $iconText;
+        color: $semiLightText;
 
         &:hover
         {
-            color: darken($iconText, 10%);
+            color: $buttonDarkerColor;
         }
 
         &:active
         {
-            color: darken($iconText, 20%);
+            color: $buttonDarkColor;
             box-shadow: inset 0 0 0 transparent;
-            outline: none;
         }
 
         &.btn-action
@@ -225,6 +420,40 @@
                 box-shadow: inset 0 0 0 transparent;
             }
         }
+    }
+
+    .btn-tab
+    {
+        background-image: linear-gradient(to bottom, $buttonLightColor, lighten($buttonLightColor, 14%));
+        border-color: transparent;
+        color: $semiLightText;
+        font-weight: bold;
+        box-shadow: 0px 0 7px -4px #444 inset;
+
+        &:hover
+        {
+            background-image: linear-gradient(to bottom, $buttonLightColor, lighten($buttonLightColor, 6%));
+            color: $semiDarkText;
+        }
+
+        &.active
+        {
+            background-image: linear-gradient(to bottom, lighten($buttonLightColor, 10%), $ligntBackgroundColor);
+            border-color: transparent;
+            color: $buttonLightColor;
+
+            &:hover
+            {
+                background-image: linear-gradient(to bottom, $buttonLightColor, $ligntBackgroundColor);
+                color: $semiDarkText;
+            }
+        }
+    }
+
+    .btn-select,
+    .ng-select-popup
+    {
+        color: $blackText;
     }
 
     //############## DIALOG ##############
@@ -272,4 +501,35 @@
             border-bottom-right-radius: $borderRadius;
         }
     }
+
+    //############## PANELS ##############
+    .panel
+    {
+        &.panel-dark
+        {
+            background-color: $darkBackgroundColor;
+            color: $semiLightText;
+        }
+    }
+
+    .bg-yellow {
+        background-color: #5FA747;
+    }
+
+    .table>tbody>tr:nth-of-type(even).bg-yellow {
+        background-color: #fffded;
+    }
+
+    .table>tbody>tr:nth-of-type(odd).bg-yellow {
+        background-color: #fffbe2;
+    }
+
+    .table-hover>tbody>tr.bg-yellow:hover {
+        background-color: #fcf8bd;
+    }
+}
+
+.mat-dialog-container
+{
+    padding: 0 !important;
 }
