@@ -99,7 +99,9 @@
         "positions": "1.6.2",
         "store": "2.0.12",
         "konami": "1.6.2",
-        "monaco-editor": "0.15.6"
+        "monaco-editor": "0.15.6",
+        "@stomp/stompjs": "5.4.2",
+        "sockjs-client": "1.3.0"
     },
     "devDependencies": {
         "@types/node": "13.1.7",

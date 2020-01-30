@@ -1,0 +1,269 @@
+<div class="row-layout">
+    <!-- DESCRIPTION -->
+    <div class="area-description" [class.subitem]="!!subitem">
+        <div class="text-ellipsis" [title]="metadata?.popis || (data['produktKod'] + ' - ' + data['produktPopis'])" *ngIf="!!subitem">
+            {{metadata?.popis || (data['produktKod'] + ' - ' + data['produktPopis'])}}
+        </div>
+
+        <ng-template [ngIf]="!subitem">
+            <div>
+                <a *ngIf="metadata?.children?.length > 0"
+                   class="btn btn-icon pointer-cursor block"
+                   (click)="metadata.collapsed = !metadata?.collapsed"
+                   title="Zobraziť/skryť detailné info"
+                   style="font-size: 0.8em;">
+                    <span class="fa" [ngClass]="{'fa-plus': metadata?.collapsed, 'fa-minus': !metadata?.collapsed}"></span>
+                </a>
+            </div>
+
+            <div class="text-ellipsis" [title]="metadata?.popis || (data['produktKod'] + ' - ' + data['produktPopis'])">
+                {{metadata?.popis || (data['produktKod'] + ' - ' + data['produktPopis'])}}
+            </div>
+
+            <div>
+                <a *ngIf="!!metadata?.odkaz"
+                   class="btn btn-icon pointer-cursor block"
+                   (click)="goToTable()"
+                   title="Zobraz viac info"
+                   style="font-size: 1.1em;">
+                    <span class="fa fa-angle-double-down"></span>
+                </a>
+            </div>
+        </ng-template>
+    </div>
+
+    <!-- DYNAMIC COLUMNS -->
+    <div class="area-content flex-row">
+        <ng-template ngFor [ngForOf]="metadata?.tabulkaCasti" let-part>
+            <!-- ZAK URC PART -->
+            <div *ngIf="part == 'zaklurc'"
+                 class="part-zakUrc">{{data['zakladnyPocetPoistencov'] | numeral: '0,0'}}</div>
+
+            <!-- PACIENTI PART -->
+            <div *ngIf="part == 'pacienti'"
+                 class="part-pacienti">
+                <div [title]="'Priemer v referencii:' + (data['pacientiRef'] | numeral: '0,0')">{{data['pacienti'] | numeral: '0,0'}}</div>
+                <div [class.chart-link]="metadata?.containsAttr('pacientiUrc')"
+                     (click)="loadChart('pacientiUrc')">{{data['pacientiUrc'] | numeral: '0%'}}</div>
+                <div class="sipka-col" [title]="(data['pacientiUrcHist'] | numeral: '0%') + ' ' + (data['pacientiUrcHistDiff'] | numeral: '+0%')"><sipka-tag [value]="data['pacientiUrcHistDiffSipka']"></sipka-tag></div>
+                <div [title]="'Rozdiel oproti referencii: ' + (data['pacientiUrcRefDiff'] | numeral: '+0%')">{{data['pacientiUrcRef'] | numeral: '0%'}}</div>
+                <div class="vaha-col"><vaha-tag [value]="data['pacientiUrcRefDiffVaha']"></vaha-tag></div>
+            </div>
+
+            <!-- UDALOSTI PART -->
+            <div *ngIf="part == 'udalosti'"
+                 class="part-udalosti">
+                <div>{{data['udalosti'] | numeral: '0,0'}}</div>
+                <div [class.chart-link]="metadata?.containsAttr('udalostiUrc')"
+                     (click)="loadChart('udalostiUrc')">{{data['udalostiUrc'] | numeral: '0,0.00'}}</div>
+                <div class="sipka-col" [title]="(data['udalostiUrcHist'] | numeral: '0,0.00') + ' ' + (data['udalostiUrcHistDiff'] | numeral: '+0,0.00')"><sipka-tag [value]="data['udalostiUrcHistDiffSipka']"></sipka-tag></div>
+                <div [title]="'Rozdiel oproti referencii: ' + (data['udalostiUrcRefDiff'] | numeral: '+0,0.00')">{{data['udalostiUrcRef'] | numeral: '0,0.00'}}</div>
+                <div class="vaha-col"><vaha-tag [value]="data['udalostiUrcRefDiffVaha']"></vaha-tag></div>
+            </div>
+
+            <!-- RIADKY PART -->
+            <div *ngIf="part == 'riadky'"
+                 class="part-udalosti">
+                <div>{{data['riadky'] | numeral: '0,0'}}</div>
+                <div [class.chart-link]="metadata?.containsAttr('riadkyUrc')"
+                     (click)="loadChart('riadkyUrc')">{{data['riadkyUrc'] | numeral: '0,0.00'}}</div>
+                <div class="sipka-col" [title]="(data['riadkyUrcHist'] | numeral: '0,0.00') + ' ' + (data['riadkyUrcHistDiff'] | numeral: '+0,0.00')"><sipka-tag [value]="data['riadkyUrcHistDiffSipka']"></sipka-tag></div>
+                <div [title]="'Rozdiel oproti referencii: ' + (data['riadkyUrcRefDiff'] | numeral: '+0,0.00')">{{data['riadkyUrcRef'] | numeral: '0,0.00'}}</div>
+                <div class="vaha-col"><vaha-tag [value]="data['riadkyUrcRefDiffVaha']"></vaha-tag></div>
+            </div>
+
+            <!-- NAKLADY PART -->
+            <div *ngIf="part == 'naklady'"
+                 class="part-naklady">
+                <div>{{data['naklady'] | numeral: '0,0'}}</div>
+                <div [class.chart-link]="metadata?.containsAttr('nakladyUrc')"
+                     (click)="loadChart('nakladyUrc')">{{data['nakladyUrc'] | numeral: '0,0.0'}}</div>
+                <div class="sipka-col" [title]="(data['nakladyUrcHist'] | numeral: '0,0.0') + ' € ' + (data['nakladyUrcHistDiff'] | numeral: '+0,0.0') + ' €'"><sipka-tag [value]="data['nakladyUrcHistDiffSipka']"></sipka-tag></div>
+                <div [title]="'Rozdiel oproti referencii: ' + (data['nakladyUrcRefDiff'] | numeral: '+0,0.0') + ' €'">{{data['nakladyUrcRef'] | numeral: '0,0.0'}}</div>
+                <div class="vaha-col"><vaha-tag [value]="data['nakladyUrcRefDiffVaha']"></vaha-tag></div>
+            </div>
+
+            <!-- STATISTIKY RIADKY PART -->
+            <div *ngIf="part == 'statRiadky'"
+                 class="part-stat-riadky">
+                <div>{{data['statRiadky'] | numeral: '0,0'}}</div>
+                <div>{{data['statRiadkyPod'] | numeral: '0%'}}</div>
+                <div>{{data['statRiadkyPodRef'] | numeral: '0%'}}</div>
+            </div>
+
+            <!-- STATISTIKY MNOZSTVO PART -->
+            <div *ngIf="part == 'statMnozstvo'"
+                 class="part-stat-mnozstvo">
+                <div>{{data['statMnozstvo'] | numeral: '0,0'}}</div>
+                <div>{{data['statMnozstvoPod'] | numeral: '0%'}}</div>
+                <div>{{data['statMnozstvoPodRef'] | numeral: '0%'}}</div>
+            </div>
+
+            <!-- STATISTIKY BODY PART -->
+            <div *ngIf="part == 'statBody'"
+                 class="part-stat-body">
+                <div>{{data['statBody'] | numeral: '0,0'}}</div>
+                <div>{{data['statBodyPod'] | numeral: '0%'}}</div>
+                <div>{{data['statBodyPodRef'] | numeral: '0%'}}</div>
+            </div>
+
+            <!-- STATISTIKY NAKLADY PART -->
+            <div *ngIf="part == 'statNaklady'"
+                 class="part-stat-naklady">
+                <div>{{data['statNaklady'] | numeral: '0,0'}}</div>
+                <div>{{data['statNakladyPod'] | numeral: '0%'}}</div>
+                <div>{{data['statNakladyPodRef'] | numeral: '0%'}}</div>
+            </div>
+
+            <!-- STATISTIKY PRIPADY PART -->
+            <div *ngIf="part == 'statPripady'"
+                 class="part-stat-mnozstvo">
+                <div>{{data['statPripady'] | numeral: '0,0'}}</div>
+                <div>{{data['statPripadyPod'] | numeral: '0%'}}</div>
+                <div>{{data['statPripadyPodRef'] | numeral: '0%'}}</div>
+            </div>
+
+            <!-- STATISTIKY CASEMIX PART -->
+            <div *ngIf="part == 'statCasemix'"
+                 class="part-stat-body">
+                <div>{{data['statCasemix'] | numeral: '0,0'}}</div>
+                <div>{{data['statCasemixPod'] | numeral: '0%'}}</div>
+                <div>{{data['statCasemixPodRef'] | numeral: '0%'}}</div>
+            </div>
+
+            <!-- STATISTIKY NAKLADY DRG PART -->
+            <div *ngIf="part == 'statNakladyDrg'"
+                 class="part-stat-naklady">
+                <div>{{data['statNakladyDrg'] | numeral: '0,0'}}</div>
+                <div>{{data['statNakladyDrgPod'] | numeral: '0%'}}</div>
+                <div>{{data['statNakladyDrgPodRef'] | numeral: '0%'}}</div>
+            </div>
+
+            <!-- ERR VYSKYT PART -->
+            <div *ngIf="part == 'errVyskyt'"
+                 class="part-err-vyskyt">
+                <div [title]="'Priem. počet výskytov v ref.:' + (data['errVyskytAllRef'] | numeral: '0,0')">{{data['errVyskytAll'] | numeral: '0,0'}}</div>
+                <div [title]="'Priem. počet výskytov chýb v ref.:' + (data['errVyskytErrRef'] | numeral: '0,0')">{{data['errVyskytErr'] | numeral: '0,0'}}</div>
+                <div [class.chart-link]="metadata?.containsAttr('errVyskytPerc')"
+                     (click)="loadChart('errVyskytPerc')">{{data['errVyskytPerc'] | numeral: '0%'}}</div>
+                <div class="sipka-col" [title]="'Percento chýb v predch. polroku: ' + (data['errVyskytPercHist'] | numeral: '0%') + ' ' + (data['errVyskytPercHistDiffSipka'] | numeral: '+0%')"><sipka-tag [value]="data['errVyskytHistPercDiffSipka']"></sipka-tag></div>
+                <div [title]="'Rozdiel oproti referencii:' + (data['errVyskytPercRefDiff'] | numeral: '+0%')">{{data['errVyskytPercRef'] | numeral: '0%'}}</div>
+                <div class="vaha-col"><vaha-tag [value]="data['errVyskytPercRefDiffVaha']"></vaha-tag></div>
+            </div>
+
+            <!-- ERR RIADKY PART -->
+            <div *ngIf="part == 'errRiadky'"
+                 class="part-err-vyskyt">
+                <div [title]="'Priem. počet výskytov v ref.:' + (data['errRiadkyAllRef'] | numeral: '0,0')">{{data['errRiadkyAll'] | numeral: '0,0'}}</div>
+                <div [title]="'Priem. počet výskytov chýb v ref.:' + (data['errRiadkyErrRef'] | numeral: '0,0')">{{data['errRiadkyErr'] | numeral: '0,0'}}</div>
+                <div [class.chart-link]="metadata?.containsAttr('errRiadkyPerc')"
+                     (click)="loadChart('errRiadkyPerc')">{{data['errRiadkyPerc'] | numeral: '0%'}}</div>
+                <div class="sipka-col" [title]="'Percento chýb v predch. polroku: ' + (data['errRiadkyPercHist'] | numeral: '0%') + ' ' + (data['errRiadkyPercHistDiffSipka'] | numeral: '+0%')"><sipka-tag [value]="data['errRiadkyHistPercDiffSipka']"></sipka-tag></div>
+                <div [title]="'Rozdiel oproti referencii:' + (data['errRiadkyPercRefDiff'] | numeral: '+0%')">{{data['errRiadkyPercRef'] | numeral: '0%'}}</div>
+                <div class="vaha-col"><vaha-tag [value]="data['errRiadkyPercRefDiffVaha']"></vaha-tag></div>
+            </div>
+
+            <!-- ERR NAKLADY PART -->
+            <div *ngIf="part == 'errNaklady'"
+                 class="part-err-naklady">
+                <div [title]="'Priem. celkové náklady v ref.:' + (data['errNakladyAllRef'] | numeral: '0,0')">{{data['errNakladyAll'] | numeral: '0,0'}}</div>
+                <div [title]="'Priem. náklady na chyby v ref.:' + (data['errNakladyErrRef'] | numeral: '0,0')">{{data['errNakladyErr'] | numeral: '0,0'}}</div>
+                <div [class.chart-link]="metadata?.containsAttr('errNakladyPerc')"
+                     (click)="loadChart('errNakladyPerc')">{{data['errNakladyPerc'] | numeral: '0%'}}</div>
+                <div class="sipka-col" [title]="'Percento nákladov s chybou v predch. polroku: ' + (data['errNakladyPercHist'] | numeral: '0%') + ' ' + (data['errNakladyPercHistDiff'] | numeral: '+0%')"><sipka-tag [value]="data['errNakladyHistPercDiffSipka']"></sipka-tag></div>
+                <div [title]="'Rozdiel oproti referencii:' + (data['errNakladyPercRefDiff'] | numeral: '+0%')">{{data['errNakladyPercRef'] | numeral: '0%'}}</div>
+                <div class="vaha-col"><vaha-tag [value]="data['errNakladyPercRefDiffVaha']"></vaha-tag></div>
+            </div>
+
+            <!-- IND VYSKYT PART -->
+            <div *ngIf="part == 'indVyskyt' || part == 'err2Vyskyt'"
+                 class="part-ind-vyskyt">
+                <div [title]="'Priem. počet výskytov chýb v ref.:' + (data['errVyskytErrRef'] | numeral: '0,0')">{{data['errVyskytErr'] | numeral: '0,0'}}</div>
+                <div [class.chart-link]="metadata?.containsAttr('errVyskytPerc')"
+                     (click)="loadChart('errVyskytPerc')">{{data['errVyskytPerc'] | numeral: '0%'}}</div>
+                <div class="sipka-col" [title]="'Percento chýb v predch. polroku: ' + (data['errVyskytPercHist'] | numeral: '0%') + ' ' + (data['errVyskytPercHistDiffSipka'] | numeral: '+0%')"><sipka-tag [value]="data['errVyskytHistPercDiffSipka']"></sipka-tag></div>
+                <div [title]="'Rozdiel oproti referencii:' + (data['errVyskytPercRefDiff'] | numeral: '+0%')">{{data['errVyskytPercRef'] | numeral: '0%'}}</div>
+                <div class="vaha-col"><vaha-tag [value]="data['errVyskytPercRefDiffVaha']"></vaha-tag></div>
+            </div>
+
+            <!-- IND RIADKY PART -->
+            <div *ngIf="part == 'indRiadky' || part == 'err2Riadky'"
+                 class="part-ind-vyskyt">
+                <div [title]="'Priem. počet výskytov chýb v ref.:' + (data['errRiadkyErrRef'] | numeral: '0,0')">{{data['errRiadkyErr'] | numeral: '0,0'}}</div>
+                <div [class.chart-link]="metadata?.containsAttr('errRiadkyPerc')"
+                     (click)="loadChart('errRiadkyPerc')">{{data['errRiadkyPerc'] | numeral: '0%'}}</div>
+                <div class="sipka-col" [title]="'Percento chýb v predch. polroku: ' + (data['errRiadkyPercHist'] | numeral: '0%') + ' ' + (data['errRiadkyPercHistDiffSipka'] | numeral: '+0%')"><sipka-tag [value]="data['errRiadkyHistPercDiffSipka']"></sipka-tag></div>
+                <div [title]="'Rozdiel oproti referencii:' + (data['errRiadkyPercRefDiff'] | numeral: '+0%')">{{data['errRiadkyPercRef'] | numeral: '0%'}}</div>
+                <div class="vaha-col"><vaha-tag [value]="data['errRiadkyPercRefDiffVaha']"></vaha-tag></div>
+            </div>
+
+            <!-- IND NAKLADY PART -->
+            <div *ngIf="part == 'indNaklady' || part == 'err2Naklady'"
+                 class="part-ind-naklady">
+                <div [title]="'Priem. náklady na chyby v ref.:' + (data['errNakladyErrRef'] | numeral: '0,0')">{{data['errNakladyErr'] | numeral: '0,0'}}</div>
+                <div [class.chart-link]="metadata?.containsAttr('errNakladyPerc')"
+                     (click)="loadChart('errNakladyPerc')">{{data['errNakladyPerc'] | numeral: '0%'}}</div>
+                <div class="sipka-col" [title]="'Percento nákladov s chybou v predch. polroku: ' + (data['errNakladyPercHist'] | numeral: '0%') + ' ' + (data['errNakladyPercHistDiff'] | numeral: '+0%')"><sipka-tag [value]="data['errNakladyHistPercDiffSipka']"></sipka-tag></div>
+                <div [title]="'Rozdiel oproti referencii:' + (data['errNakladyPercRefDiff'] | numeral: '+0%')">{{data['errNakladyPercRef'] | numeral: '0%'}}</div>
+                <div class="vaha-col"><vaha-tag [value]="data['errNakladyPercRefDiffVaha']"></vaha-tag></div>
+            </div>
+
+
+            <!-- DRG PRIPADY PART -->
+            <div *ngIf="part == 'pripady'"
+                 class="part-drg-all">
+                <div [title]="'Priemer v referencii:' + (data[part + 'Ref'] | numeral: '0,0')">{{data[part] | numeral: '0,0'}}</div>
+                <div [class.chart-link]="metadata?.containsAttr(part + 'Prip')"
+                     (click)="loadChart(part + 'Prip')">{{data[part + 'Prip'] | numeral: '0%'}}</div>
+                <div class="sipka-col" [title]="(data[part + 'PripHist'] | numeral: '0%') + ' ' + (data[part + 'PripHistDiff'] | numeral: '+0%')"><sipka-tag [value]="data[part + 'PripHistDiffSipka']"></sipka-tag></div>
+                <div [title]="'Rozdiel oproti referencii: ' + (data[part + 'PripRefDiff'] | numeral: '+0%')">{{data[part + 'PripRef'] | numeral: '0%'}}</div>
+                <div class="vaha-col"><vaha-tag [value]="data[part + 'PripRefDiffVaha']"></vaha-tag></div>
+            </div>
+
+            <!-- DRG CASEMIX, DNI, UOD, PCCL, SUMVYKS, SUMVDGS PART -->
+            <div *ngIf="part == 'casemix' || part == 'dni' || part == 'uod' || part == 'pccl' || part == 'sumVDgs' || part == 'sumVyks'"
+                 class="part-drg-all">
+                <div>{{data[part] | numeral: '0,0'}}</div>
+                <div [class.chart-link]="metadata?.containsAttr(part + 'Prip')"
+                     (click)="loadChart(part + 'Prip')">{{data[part + 'Prip'] | numeral: '0,0.00'}}</div>
+                <div class="sipka-col" [title]="(data[part + 'PripHist'] | numeral: '0,0.00') + ' ' + (data[part + 'PripHistDiff'] | numeral: '+0,0.00')"><sipka-tag [value]="data[part + 'PripHistDiffSipka']"></sipka-tag></div>
+                <div [title]="'Rozdiel oproti referencii: ' + (data[part + 'PripRefDiff'] | numeral: '+0,0.00')">{{data[part + 'PripRef'] | numeral: '0,0.00'}}</div>
+                <div class="vaha-col"><vaha-tag [value]="data[part + 'PripRefDiffVaha']"></vaha-tag></div>
+            </div>
+
+            <!-- DRG NAKLADYDRG, NAKLADYNONDRG, NAKLADYDRGINDUK PART -->
+            <div *ngIf="part == 'nakladydrg' || part == 'nakladynondrg' || part == 'nakladydrginduk'"
+                 class="part-drg-nakl">
+                <div>{{data[part] | numeral: '0,0'}}</div>
+                <div [class.chart-link]="metadata?.containsAttr(part + 'Prip')"
+                     (click)="loadChart(part + 'Prip')">{{data[part + 'Prip'] | numeral: '0,0.0'}}</div>
+                <div class="sipka-col" [title]="(data[part + 'PripHist'] | numeral: '0,0.0') + ' € ' + (data[part + 'PripHistDiff'] | numeral: '+0,0.0') + ' €'"><sipka-tag [value]="data[part + 'PripHistDiffSipka']"></sipka-tag></div>
+                <div [title]="'Rozdiel oproti referencii: ' + (data[part + 'PripRefDiff'] | numeral: '+0,0.0') + ' €'">{{data[part + 'PripRef'] | numeral: '0,0.0'}}</div>
+                <div class="vaha-col"><vaha-tag [value]="data[part + 'PripRefDiffVaha']"></vaha-tag></div>
+            </div>
+        </ng-template>
+    </div>
+
+    <!-- PRODUCTS DETAIL -->
+    <div class="area-prod-detail">
+        <ng-template [ngIf]="!isStatistics && typZs != 'DRG'">
+            <a *authorize="'mosiaPrehladProduktov-page'"
+               (click)="showProdukty.emit(metadata?.nalepkamosia)"
+               class="btn btn-icon pointer-cursor block"
+               title="Zobraz prehľad produktov"
+               style="font-size: 1.2em;">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </ng-template>
+
+        <ng-template [ngIf]="!isStatistics && typZs == 'DRG' && !isMosiaPzs">
+            <a *authorize="'jubulaPrehladHospitalizacii-page'"
+               (click)="showHospitalizacie.emit(metadata?.nalepkamosia)"
+               class="btn btn-icon pointer-cursor block"
+               title="Zobraz prehľad hospitalizácii"
+               style="font-size: 1.2em;">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </ng-template>
+    </div>
+</div>

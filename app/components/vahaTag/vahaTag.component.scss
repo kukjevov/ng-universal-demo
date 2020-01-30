@@ -1,0 +1,10 @@
+:host
+{
+    &>div
+    {
+        padding: 0px 0.5em;
+        border-radius: 12px;
+        display: inline-block;
+        -webkit-print-color-adjust: exact;
+    }
+}

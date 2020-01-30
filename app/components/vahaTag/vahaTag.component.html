@@ -1,0 +1,5 @@
+<div *ngIf="hasValue" class="{{vahaCssClass}}" [ngSwitch]="value">
+    <span *ngSwitchCase="'NEHODNOTENE'">X</span>
+    <span *ngSwitchCase="-1" class="fa fa-long-arrow-down"></span>
+    <span *ngSwitchDefault>{{value}}</span>
+</div>

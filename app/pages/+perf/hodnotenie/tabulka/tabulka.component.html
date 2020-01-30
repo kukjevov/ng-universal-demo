@@ -1,0 +1,444 @@
+<div class="row-layout tab-header">
+    <!-- DESCRIPTION -->
+    <div class="area-description">
+        {{metadata?.popis}}
+    </div>
+
+    <!-- DYNAMIC COLUMNS -->
+    <div class="area-content flex-row">
+        <ng-template ngFor [ngForOf]="metadata?.tabulkaCasti" let-part>
+            <!-- ZAK URC PART -->
+            <div *ngIf="part == 'zaklurc'"
+                 class="part-zakUrc" 
+                 title="Počet všetkých poistencov (unikátnych rodných čísel), na ktorý sa vzťahuje prepočet">Zak. URČ</div>
+
+            <!-- PACIENTI PART -->
+            <div *ngIf="part == 'pacienti'"
+                 class="part-pacienti">
+               <div class="header-group" 
+                    title="Pacienti, ktorým bola v hodnotenom období poskytnutá príslušná ZS">Ošetrení pacienti</div>
+
+                <div title="Počet pacientov">Počet</div>
+                <div title="Počet ošetených pacientov na celkový počet unikátnych rodných čísel; pre VAS sa vyhodnocuje na počet unikatnych kapitovaných poistencov, pre ŠAS na počet unikátnych ošetrených poistencov">/URČ</div>
+                <div title="Trend - zmena oproti priemeru v poslednom polroku">T</div>
+                <div title="Rozdiel oproti referencii" class="ref-padding">Ref</div>
+                <div>&nbsp;</div>
+            </div>
+
+            <!-- UDALOSTI PART -->
+            <div *ngIf="part == 'udalosti'"
+                 class="part-udalosti">
+               <div class="header-group" 
+                    title="Návštevy, kontakty alebo ošetrenia pacienta (udalostí) v hodnotenom období, kedy mu bola poskytnutá príslušná ZS">Udalosti</div>
+
+                <div title="Počet udalostí">Počet</div>
+                <div title="Počet udalostí na celkový počet unikátnych rodných čísel; pre VAS sa vyhodnocuje na počet unikatnych kapitovaných poistencov, pre ŠAS na počet unikátnych ošetrených poistencov">/URČ</div>
+                <div title="Trend - zmena oproti priemeru v poslednom polroku">T</div>
+                <div title="Rozdiel oproti referencii">Ref</div>
+                <div>&nbsp;</div>
+            </div>
+
+            <!-- RIADKY PART -->
+            <div *ngIf="part == 'riadky'"
+                 class="part-udalosti">
+               <div class="header-group" 
+                    title="Vykázané riadky v hodnotenom období s poskytnutou ZS">Riadky ZS</div>
+
+                <div title="Počet riadkov">Počet</div>
+                <div title="Počet riadkov na celkový počet unikátnych rodných čísel; pre VAS sa vyhodnocuje na počet unikatnych kapitovaných poistencov, pre ŠAS na počet unikátnych ošetrených poistencov">/URČ</div>
+                <div title="Trend - zmena oproti priemeru v poslednom polroku">T</div>
+                <div title="Rozdiel oproti referencii">Ref</div>
+                <div>&nbsp;</div>
+            </div>
+
+            <!-- NAKLADY PART -->
+            <div *ngIf="part == 'naklady'"
+                 class="part-naklady">
+                <div class="header-group" 
+                     title="Uhradené náklady za príslušnú ZS v hodnotenom období">Náklady</div>
+
+                <div title="Celkové náklady">Suma</div>
+                <div title="Priemerná náklady na celkový počet unikátnych rodných čísel; pre VAS sa vyhodnocuje na počet unikatnych kapitovaných poistencov, pre ŠAS na počet unikátnych ošetrených poistencov">/URČ</div>
+                <div title="Trend - zmena oproti priemeru v poslednom polroku">T</div>
+                <div title="Rozdiel oproti referencii">Ref</div>
+                <div>&nbsp;</div>
+            </div>
+
+            <!-- STATISTIKY RIADKY PART -->
+            <div *ngIf="part == 'statRiadky'"
+                 class="part-stat-riadky">
+               <div class="header-group margin-left-big" 
+                    title="Riadky vykázanej ZS">Riadky ZS</div>
+
+                <div title="Počet riadkov vykázanej ZS">Počet</div>
+                <div title="Percento riadkov z celkoveho počtu riadkov vykázanej ZS">%</div>
+                <div title="Percento riadkov z celkoveho počtu riadkov vykázanej ZS v referencii">Ref</div>
+            </div>
+
+            <!-- STATISTIKY MNOZSTVO PART -->
+            <div *ngIf="part == 'statMnozstvo'"
+                 class="part-stat-mnozstvo">
+               <div class="header-group margin-left-big" 
+                    title="Množstvo">Množstvo</div>
+
+                <div title="Počet kusov/balení produktu">Počet</div>
+                <div title="Percento kusov/balení z celkoveho počtu akceptovaných kusov/balení">%</div>
+                <div title="Percento kusov/balení z celkoveho počtu akceptovaných kusov/balení v referencii">Ref</div>
+            </div>
+
+            <!-- STATISTIKY BODY PART -->
+            <div *ngIf="part == 'statBody'"
+                 class="part-stat-body">
+               <div class="header-group margin-left-big" 
+                    title="Body">Body</div>
+
+                <div title="Počet bodov">Počet</div>
+                <div title="Percento bodov z celkoveho počtu akceptovaných bodov">%</div>
+                <div title="Percento bodov z celkoveho počtu akceptovaných bodov v referencii">Ref</div>
+            </div>
+
+            <!-- STATISTIKY NAKLADY PART -->
+            <div *ngIf="part == 'statNaklady'"
+                 class="part-stat-naklady">
+                <div class="header-group margin-left-big" 
+                     title="Náklady (schválená cena)">Náklady</div>
+
+                <div title="Schválená cena">Suma</div>
+                <div title="Percento nákladov z celkovej sumy schválených nákladov">%</div>
+                <div title="Percento nákladov z celkovej sumy schválených nákladov v referencii">Ref</div>
+            </div>
+
+            <!-- STATISTIKY PRIPADY PART -->
+            <div *ngIf="part == 'statPripady'"
+                 class="part-stat-mnozstvo">
+               <div class="header-group margin-left-big" 
+                    title="Hospitalizačné prípady">Prípady</div>
+
+                <div title="Počet prípadov">Počet</div>
+                <div title="Percento prípadov z celkoveho počtu akceptovaných prípadov">%</div>
+                <div title="Percento prípadov z celkoveho počtu akceptovaných prípadov v referencii">Ref</div>
+            </div>
+
+            <!-- STATISTIKY CASEMIX PART -->
+            <div *ngIf="part == 'statCasemix'"
+                 class="part-stat-body">
+               <div class="header-group margin-left-big" 
+                    title="Body">Casemix</div>
+
+                <div title="Hodnota casemix">CMI</div>
+                <div title="Percento bodov z celkoveho počtu akceptovaných bodov">%</div>
+                <div title="Percento bodov z celkoveho počtu akceptovaných bodov v referencii">Ref</div>
+            </div>
+
+            <!-- STATISTIKY NAKLADY DRG PART -->
+            <div *ngIf="part == 'statNakladyDrg'"
+                 class="part-stat-naklady">
+                <div class="header-group margin-left-big" 
+                     title="Náklady za DRG prípady (schválená cena)">DRG náklady</div>
+
+                <div title="Schválená cena za DRG prípady">Suma</div>
+                <div title="Percento nákladov z celkovej sumy schválených DRG nákladov">%</div>
+                <div title="Percento nákladov z celkovej sumy schválených DRG nákladov v referencii">Ref</div>
+            </div>
+
+            <!-- ERR VYSKYT PART -->
+            <div *ngIf="part == 'errVyskyt'"
+                 class="part-err-vyskyt">
+               <div class="header-group" 
+                    title="Výskyt">Výskyt</div>
+
+                <div title="Všetky prípady, z ktorých sa počítajú chyby">Spolu</div>
+                <div title="Počet prípadov s chybou">Chyby</div>
+                <div title="Percento výskytu chýb">%</div>
+                <div title="Trend zmeny">T</div>
+                <div title="Percento výskytu chýb v referencii">Ref</div>
+                <div></div>
+            </div>
+
+            <!-- ERR RIADKY PART -->
+            <div *ngIf="part == 'errRiadky'"
+                 class="part-err-vyskyt">
+               <div class="header-group" 
+                    title="Výskyt">Riadky ZS</div>
+
+                <div title="Všetky riadky ZS, z ktorých sa počítajú chyby">Spolu</div>
+                <div title="Počet riadkov ZS s chybou">Chyby</div>
+                <div title="Percento riadkov ZS s chybou">%</div>
+                <div title="Trend zmeny">T</div>
+                <div title="Percento riadkov ZS s chybou v referencii">Ref</div>
+                <div></div>
+            </div>
+
+            <!-- ERR NAKLADY PART -->
+            <div *ngIf="part == 'errNaklady'"
+                 class="part-err-naklady">
+               <div class="header-group" 
+                    title="Náklady">Náklady</div>
+
+                <div title="Celkové náklady na prípady, z ktorých sa počítajú chyby">Spolu</div>
+                <div title="Náklady na prípady s chybou">Chyby</div>
+                <div title="Percento nákladov na chyby">%</div>
+                <div title="Trend zmeny">T</div>
+                <div title="Percento nákladov na chyby v referencii">Ref</div>
+                <div></div>
+            </div>
+
+            <!-- ERR2 VYSKYT PART -->
+            <div *ngIf="part == 'err2Vyskyt'"
+                class="part-ind-vyskyt">
+                <div class="header-group" 
+                     title="Výskyt">Výskyt</div>
+
+                <div title="Počet prípadov s chybou">Chyby</div>
+                <div title="Percento výskytu chýb">%</div>
+                <div title="Trend zmeny">T</div>
+                <div title="Percento výskytu chýb v referencii">Ref</div>
+                <div></div>
+           </div>
+
+           <!-- ERR2 RIADKY PART -->
+           <div *ngIf="part == 'err2Riadky'"
+                class="part-ind-vyskyt">
+                <div class="header-group" 
+                     title="Výskyt">Riadky ZS</div>
+
+                <div title="Počet riadkov ZS s chybou">Chyby</div>
+                <div title="Percento riadkov ZS s chybou">%</div>
+               <div title="Trend zmeny">T</div>
+                <div title="Percento riadkov ZS s chybou v referencii">Ref</div>
+                <div></div>
+           </div>
+
+           <!-- ERR2 NAKLADY PART -->
+           <div *ngIf="part == 'err2Naklady'"
+                class="part-ind-naklady">
+                <div class="header-group" 
+                     title="Náklady">Náklady</div>
+
+                <div title="Náklady na prípady s chybou">Chyby</div>
+                <div title="Percento nákladov na chyby">%</div>
+                <div title="Trend zmeny">T</div>
+                <div title="Percento nákladov na chyby v referencii">Ref</div>
+                <div></div>
+           </div>
+
+            <!-- IND VYSKYT PART -->
+            <div *ngIf="part == 'indVyskyt'"
+                 class="part-ind-vyskyt">
+               <div class="header-group" 
+                    title="Výskyt">Výskyt</div>
+
+                <div title="Počet prípadov so sledovanou hodnotou">Výskyt</div>
+                <div title="Percento výskytu sledovanej hodnoty">%</div>
+                <div title="Trend zmeny">T</div>
+                <div title="Percento výskytu sledovanej hodnoty v referencii">Ref</div>
+                <div></div>
+            </div>
+
+            <!-- IND RIADKY PART -->
+            <div *ngIf="part == 'indRiadky'"
+                 class="part-ind-vyskyt">
+               <div class="header-group" 
+                    title="Výskyt">Riadky ZS</div>
+
+                <div title="Počet riadkov ZS so sledovanou hodnotou">Výskyt</div>
+                <div title="Percento riadkov ZS so sledovanou hodnotou">%</div>
+                <div title="Trend zmeny">T</div>
+                <div title="Percento riadkov ZS so sledovanou hodnotou v referencii">Ref</div>
+                <div></div>
+            </div>
+
+            <!-- IND NAKLADY PART -->
+            <div *ngIf="part == 'indNaklady'"
+                 class="part-ind-naklady">
+               <div class="header-group" 
+                    title="Náklady">Náklady</div>
+
+                <div title="Náklady na prípady so sledovanou hodnotou">Výskyt</div>
+                <div title="Percento nákladov na sledovanú hodnotu">%</div>
+                <div title="Trend zmeny">T</div>
+                <div title="Percento nákladov na sledovanú hodnotu v referencii">Ref</div>
+                <div></div>
+            </div>
+
+            <!-- DRG PRIPADY PART -->
+            <div *ngIf="part == 'pripady'"
+                 class="part-drg-all">
+               <div class="header-group" 
+                    title="Počet DRG prípadov">Prípady</div>
+
+               <div title="Počet DRG prípadov">Počet</div>
+               <div title="Percento zo všetkých DRG prípadov">%</div>
+               <div title="Trend - zmena oproti priemeru v poslednom polroku">T</div>
+               <div title="Percento zo všetkých prípadov v referencii" class="ref-padding">Ref</div>
+               <div>&nbsp;</div>
+            </div>
+
+            <!-- DRG CASEMIX PART -->
+            <div *ngIf="part == 'casemix'"
+                 class="part-drg-all">
+               <div class="header-group" 
+                    title="Casemix">Casemix</div>
+
+               <div title="Casemix: súčet efektívnej relatívnej váhy DRG prípadov">Hodnota</div>
+               <div title="Casemix index: podiel súčtu ERV a počtu DRG prípadov">CMI</div>
+               <div title="Trend - zmena oproti priemeru v poslednom polroku">T</div>
+               <div title="Casemix index v referencii" class="ref-padding">Ref</div>
+               <div>&nbsp;</div>
+            </div>
+
+            <!-- DRG NAKLADYDRG PART -->
+            <div *ngIf="part == 'nakladydrg'"
+                 class="part-drg-nakl">
+               <div class="header-group" 
+                    title="DRG náklady: náklady hradené ako DRG za pripad">DRG náklady</div>
+
+               <div title="Celkové DRG náklady na DRG prípady">Suma</div>
+               <div title="Priemerné DRG náklady na DRG prípad">/príp</div>
+               <div title="Trend - zmena oproti priemeru v poslednom polroku">T</div>
+               <div title="Priemerné DRG náklady na DRG prípad v referencii" class="ref-padding">Ref</div>
+               <div>&nbsp;</div>
+            </div>
+
+            <!-- DRG DNI PART -->
+            <div *ngIf="part == 'dni'"
+                 class="part-drg-all">
+               <div class="header-group" 
+                    title="Ošetrovacia doba">Oš. doba</div>
+
+               <div title="Celkový počet ošetrovacích dní">Dni</div>
+               <div title="Priemerná ošetrovacia doba">/príp</div>
+               <div title="Trend - zmena oproti priemeru v poslednom polroku">T</div>
+               <div title="Priemerná ošetrovacia doba v referencii" class="ref-padding">Ref</div>
+               <div>&nbsp;</div>
+            </div>
+
+            <!-- DRG UOD PART -->
+            <div *ngIf="part == 'uod'"
+                 class="part-drg-all">
+               <div class="header-group" 
+                    title="Úprava ošetrovacej doby: odchýlka od strednej ošetrovacej doby">Úprava OD</div>
+
+               <div title="Celkový počet dní pod alebo nad hranicou strednej ošetrovacej doby">Dni</div>
+               <div title="Priemerná odchýlka od strednej ošetrovacej doby">/príp</div>
+               <div title="Trend - zmena oproti priemeru v poslednom polroku">T</div>
+               <div title="Priemerná odchýlka od strednej ošetrovacej doby v referencii" class="ref-padding">Ref</div>
+               <div>&nbsp;</div>
+            </div>
+
+            <!-- DRG PCCL PART -->
+            <div *ngIf="part == 'pccl'"
+                 class="part-drg-all">
+               <div class="header-group" 
+                    title="PCCL: stupeň klinickej závažnosti prípadu podľa DRG">PCCL</div>
+
+               <div title="Celková hodnota PCCL na DRG prípady">Hodnota</div>
+               <div title="Priemeré PCCL na DRG prípady">/príp</div>
+               <div title="Trend - zmena oproti priemeru v poslednom polroku">T</div>
+               <div title="Priemeré PCCL na DRG prípady v referencii" class="ref-padding">Ref</div>
+               <div>&nbsp;</div>
+            </div>
+
+            <!-- DRG SUMVYKS PART -->
+            <div *ngIf="part == 'sumVyks'"
+                 class="part-drg-all">
+               <div class="header-group" 
+                    title="Počet DRG výkonov na hospitalizačný prípad">DRG výkony</div>
+
+               <div title="Celkový počet DRG výkonov">Počet</div>
+               <div title="Priemerný počet DRG výkonov na hospitalizačný prípad">/príp</div>
+               <div title="Trend - zmena oproti priemeru v poslednom polroku">T</div>
+               <div title="Priemerný počet DRG výkonov na hospitalizačný prípad v referencii" class="ref-padding">Ref</div>
+               <div>&nbsp;</div>
+            </div>
+
+            <!-- DRG SUMVDGS PART -->
+            <div *ngIf="part == 'sumVDgs'"
+                 class="part-drg-all">
+               <div class="header-group" 
+                    title="Počet vedľajších diagnóz na hospitalizačný prípad">Vedľ. diagnózy</div>
+
+               <div title="Celkový počet vedľajších diagnóz na DRG prípady">Hodnota</div>
+               <div title="Priemerný počet vedľajších diagnóz na hospitalizačný prípad">/príp</div>
+               <div title="Trend - zmena oproti priemeru v poslednom polroku">T</div>
+               <div title="Priemerný počet vedľajších diagnóz na hospitalizačný prípad v referencii" class="ref-padding">Ref</div>
+               <div>&nbsp;</div>
+            </div>
+
+            <!-- DRG NAKLADYNONDRG PART -->
+            <div *ngIf="part == 'nakladynondrg'"
+                 class="part-drg-nakl">
+               <div class="header-group" 
+                    title="Náklady na prípad hradené inak ako DRG za prípad, napr. za PP alebo UH">NonDRG náklady</div>
+
+               <div title="Celkové nonDRG náklady na DRG prípady">Suma</div>
+               <div title="Priemerné nonDRG náklady na DRG prípad">/príp</div>
+               <div title="Trend - zmena oproti priemeru v poslednom polroku">T</div>
+               <div title="Priemerné nonDRG náklady na DRG prípad v referencii" class="ref-padding">Ref</div>
+               <div>&nbsp;</div>
+            </div>
+
+            <!-- DRG NAKLADYDRGINDUK PART -->
+            <div *ngIf="part == 'nakladydrginduk'"
+                 class="part-drg-nakl">
+               <div class="header-group" 
+                    title="Indukované náklady na prípady, napr. za ŠAS a SVLZ">Indukované náklady</div>
+
+               <div title="Celkové indukované náklady na DRG prípady">Suma</div>
+               <div title="Priemerné indukované náklady na DRG prípad">/príp</div>
+               <div title="Trend - zmena oproti priemeru v poslednom polroku">T</div>
+               <div title="Priemerné indukované náklady na DRG prípad v referencii" class="ref-padding">Ref</div>
+               <div>&nbsp;</div>
+            </div>
+        </ng-template>
+    </div>
+
+    <!-- PRODUCTS DETAIL -->
+    <div class="area-prod-detail"></div>
+</div>
+
+<ng-template ngFor [ngForOf]="metadata?.children" let-uroven1>
+    <ng-template [ngIf]="!!data && !!data[uroven1?.nalepkamosia] && data[uroven1?.nalepkamosia].length">
+        <tabulka-riadok-view *ngFor="let nested of data[uroven1?.nalepkamosia]"
+                             class="block"
+                             [data]="nested"
+                             [class.spolu]="uroven1?.nazov == 'SPOLU'"
+                             [metadata]="uroven1"
+                             [typZs]="typZs"
+                             [isMosiaPzs]="isMosiaPzs"
+                             (chartIdSelected)="loadChart($event)"
+                             (showProdukty)="showProdukty.emit($event)"
+                             (showHospitalizacie)="showHospitalizacie.emit($event)"
+                             (openWindow)="openWindow.emit($event)"
+                             [isStatistics]="true"></tabulka-riadok-view>
+    </ng-template>
+                                    
+
+    <ng-template [ngIf]="!!data && !!data[uroven1?.nalepkamosia] && !data[uroven1?.nalepkamosia].length">
+        <tabulka-riadok-view class="block"
+                             [data]="data[uroven1?.nalepkamosia]"
+                             [class.spolu]="uroven1?.nazov == 'SPOLU'"
+                             [metadata]="uroven1"
+                             [typZs]="typZs"
+                             [isMosiaPzs]="isMosiaPzs"
+                             (chartIdSelected)="loadChart($event)"
+                             (showProdukty)="showProdukty.emit($event)"
+                             (showHospitalizacie)="showHospitalizacie.emit($event)"
+                             (openWindow)="openWindow.emit($event)"></tabulka-riadok-view>
+
+        <ng-template [ngIf]="!uroven1?.collapsed">
+            <ng-template ngFor [ngForOf]="uroven1?.children" let-uroven2>
+                <tabulka-riadok-view *ngIf="!!data && !!data[uroven2?.nalepkamosia]"
+                                     @slideInOut
+                                     class="block"
+                                     [metadata]="uroven2"
+                                     [typZs]="typZs"
+                                     [isMosiaPzs]="isMosiaPzs"
+                                     [subitem]="true"
+                                     (showProdukty)="showProdukty.emit($event)"
+                                     (showHospitalizacie)="showHospitalizacie.emit($event)"
+                                     [data]="data[uroven2?.nalepkamosia]"></tabulka-riadok-view>
+            </ng-template>
+        </ng-template>
+    </ng-template>
+</ng-template>

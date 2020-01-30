@@ -1,0 +1,18 @@
+<div class="ocollapse" *ngIf="collapsible">
+    <a class="btn btn-icon pointer-cursor block" title="Zobraziť/skryť lekárov" (click)="collapsed = !collapsed; collapsedChange.emit(collapsed)">
+        <span class="fa" [ngClass]="{'fa-plus': collapsed, 'fa-minus': !collapsed}"></span>
+    </a>
+</div>
+<div class="opopis text-ellipsis" [class.indent]="indent" [class.bold]="data?.aktualny || data?.sumarny">
+    <ng-template [ngIf]="!spolu && !href">{{dataI1?.popis || data?.nazov}}</ng-template>
+    <ng-template [ngIf]="!spolu && href"><a [routerLink]="['../../hodnotenie', href]">{{data?.refSk}} {{data?.nazov}}</a></ng-template>
+    <ng-template [ngIf]="spolu">Celkovo</ng-template>
+</div>
+<div class="ohodnota text-right" [class.bold]="data?.aktualny || data?.sumarny" [title]="data?.indikator1?.urcRef | format: dataI1?.format">{{data?.indikator1?.urc | format: dataI1?.format}}</div>
+<div class="ourc text-right" [class.bold]="data?.aktualny || data?.sumarny">{{data?.indikator2?.urc | format: dataI2?.format}}</div>
+<div class="ourcdiff text-right" [class.bold]="data?.aktualny || data?.sumarny" [title]="'Rozdiel oproti referencii: ' + (data?.indikator2?.urcRefDiff | format: dataI2?.format : {plus: true})">{{data?.indikator2?.urcRef | format: dataI2?.format}}</div>
+<div class="ourcvaha text-center"><vaha-tag [value]="data?.indikator2?.urcRefDiffVaha" [allowZero]="true"></vaha-tag></div>
+<div class="odetail text-right">
+    <a class="pointer-cursor" (click)="idSelect.emit(data?.uuid)" *ngIf="!!data?.uuid && !data?.aktualny">Detail</a>
+    <ng-template [ngIf]="data?.aktualny">&nbsp;</ng-template>
+</div>

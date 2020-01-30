@@ -1,0 +1,212 @@
+<!-- HEADER -->
+<div class="title not-header hodn-flex header top-border-round">
+    <div class="hodn-flex-left">
+        <div class="text-ellipsis inline-block va-top hodn-name">{{data?.lekar?.meno}} {{data?.lekar?.priezvisko}}<ng-template [ngIf]="!!data?.poskytovatel && !!data?.lekar">, </ng-template>{{data?.poskytovatel?.nazov}}</div>
+
+        <ng-template [ngIf]="isSpecificPracovisko">
+            <a *authorize="'mosiaDetailPoskytovatela-page'" class="btn btn-icon extra-large-text va-top" title="Detail PZS" [routerLink]="['../../hodnoteniePzs', idPzs + '-' + obdobie]">
+                <span class="fa fa-file-text-o"></span>
+            </a>
+        </ng-template>
+    </div>
+
+    <div class="hodn-flex-right">
+        <span class="block text-ellipsis flex-1">{{data?.refSk?.kod}} {{data?.refSk?.popis}}, {{data?.typPzs}}</span>
+    </div>
+</div>
+
+<div class="hodn-flex bottom-border-round primary-block flex-1">
+    <!-- LEFT SIDE -->
+    <div class="hodn-flex-left flex-column">
+        <!-- SELECTS -->
+        <div class="left-selects margin-top-small">
+            <div class="empty-space">
+            </div>
+
+            <div class="referencia-select">
+            </div>
+
+            <div class="odbobie-select clearfix">
+                <div class="pull-right">
+                    <label>Odbobie</label>
+
+                    <ng-select class="form-control selectpicker"
+                               [formControl]="obdobieControl">
+                        <option *ngFor="let obdobie of obdobia" value="{{obdobie}}">{{obdobie}}</option>
+                    </ng-select>
+                </div>
+            </div>
+        </div>
+
+        <div class="thin-scrollbar overflow-auto flex-1">
+            <!-- SUMMARY -->
+            <div class="highlight-block overview margin-top-small">
+                <div class="overview-title light-block top-border-round spread-text">SUMÁRNE HODNOTENIE</div>
+
+                <div class="flex-row margin-sm-top" style="padding: 0 8px;">
+                    <div class="flex-1 text-center">
+                        <span class="inline-block margin-right-small" [title]="summaryTexts[metadata?.lavaStrana[data?.typZS]['SUMAR-HLAVNY-I1']?.meta?.blok]?.prvyTooltip">{{summaryTexts[metadata?.lavaStrana[data?.typZS]['SUMAR-HLAVNY-I1']?.meta?.blok]?.prvy}}</span>
+                        <span class="inline-block bold">{{data?.atributy[metadata?.lavaStrana[data?.typZS]['SUMAR-HLAVNY-I1']?.meta?.nalepkaMosia][metadata?.lavaStrana[data?.typZS]['SUMAR-HLAVNY-I1']?.meta?.indikator] | format: metadata?.lavaStrana[data?.typZS]['SUMAR-HLAVNY-I1']?.meta?.format}}</span>
+                    </div>
+
+                    <div class="flex-1 text-center">
+                        <span class="inline-block margin-right-small" [title]="summaryTexts[metadata?.lavaStrana[data?.typZS]['SUMAR-HLAVNY-I1']?.meta?.blok]?.druhyTooltip">{{summaryTexts[metadata?.lavaStrana[data?.typZS]['SUMAR-HLAVNY-I1']?.meta?.blok]?.druhy}}</span>
+                        <span class="inline-block bold">{{data?.atributy[metadata?.lavaStrana[data?.typZS]['SUMAR-HLAVNY-I1']?.meta?.nalepkaMosia][metadata?.lavaStrana[data?.typZS]['SUMAR-HLAVNY-I1']?.meta?.indikator + 'Ref'] | format: metadata?.lavaStrana[data?.typZS]['SUMAR-HLAVNY-I1']?.meta?.format}}</span>
+                    </div>
+
+                    <div class="flex-1 text-center">
+                        <span class="inline-block margin-right-small" [title]="metadata?.lavaStrana[data?.typZS]['SUMAR-HLAVNY-I2']?.meta?.tooltip">{{metadata?.lavaStrana[data?.typZS]['SUMAR-HLAVNY-I2']?.meta?.popis}}</span>
+                        <span class="inline-block bold">{{data?.atributy[metadata?.lavaStrana[data?.typZS]['SUMAR-HLAVNY-I2']?.meta?.nalepkaMosia][metadata?.lavaStrana[data?.typZS]['SUMAR-HLAVNY-I2']?.meta?.indikator] | format: metadata?.lavaStrana[data?.typZS]['SUMAR-HLAVNY-I2']?.meta?.format}}</span>
+                    </div>
+                </div>
+
+                <div class="overview-content bottom-border-round">
+                    <div class="layout summary-title">
+                        <ng-template [ngIf]="data?.typZS != 'DRG'" [ngIfElse]="drgSummaryHeader">
+                            <div class="ohodnota spread-text text-right">URČ</div>
+                            <div class="ourc spread-text text-right">/URČ</div>
+                        </ng-template>
+
+                        <ng-template #drgSummaryHeader>
+                            <div class="ohodnota spread-text text-right">Príp</div>
+                            <div class="ourc spread-text text-right">/Príp</div>
+                        </ng-template>
+
+                        <div class="ourcdiff spread-text text-right">REF</div>
+                    </div>
+
+                    <ng-template ngFor [ngForOf]="summaryData" let-summary let-index="index">
+                        <overview-line *ngIf="!!summary?.indikator1 || !!summary?.indikator2"
+                                       class="layout"
+                                       [data]="summary"
+                                       [dataI1]="summary?.i1"
+                                       [dataI2]="summary?.i2">
+                        </overview-line>
+                    </ng-template>
+                </div>
+            </div>
+
+            <!-- LEKARI -->
+            <div class="highlight-block overview margin-top-small" *ngIf="!!data?.poskytovatelia?.length">
+                <div class="overview-title light-block top-border-round spread-text">ÚDAJE O LEKÁROVI</div>
+
+                <div class="overview-content bottom-border-round">
+                    <div class="layout summary-title">
+                        <div class="ohodnota spread-text text-right">URČ</div>
+                        <div class="ourc spread-text text-right">/URČ</div>
+                        <div class="ourcdiff spread-text text-right">REF</div>
+                    </div>
+
+                    <overview-line *ngFor="let lekar of data?.poskytovatelia"
+                                   class="layout"
+                                   [data]="lekar"
+                                   [dataI1]="metadata?.lavaStrana[data?.typZS]['LEK-I1']?.meta"
+                                   [dataI2]="metadata?.lavaStrana[data?.typZS]['LEK-I2']?.meta"
+                                   [indent]="lekar?.indent"
+                                   (idSelect)="changeId($event)">
+                    </overview-line>
+                </div>
+            </div>
+
+            <!-- PRACOVISKA -->
+            <div class="highlight-block overview margin-top-small" *ngIf="!!data?.lekari?.length">
+                <div class="overview-title light-block top-border-round spread-text">ÚDAJE O PRACOVISKU</div>
+
+                <div class="overview-content bottom-border-round">
+                    <div class="layout summary-title">
+                        <div class="ohodnota spread-text text-right">URČ</div>
+                        <div class="ourc spread-text text-right">/URČ</div>
+                        <div class="ourcdiff spread-text text-right">REF</div>
+                    </div>
+
+                    <overview-line *ngFor="let pracovisko of data?.lekari"
+                                   class="layout"
+                                   [data]="pracovisko"
+                                   [dataI1]="metadata?.lavaStrana[data?.typZS]['LEK-I1']?.meta"
+                                   [dataI2]="metadata?.lavaStrana[data?.typZS]['LEK-I2']?.meta"
+                                   [indent]="pracovisko?.indent"
+                                   (idSelect)="changeId($event)">
+                    </overview-line>
+                </div>
+            </div>
+        </div>
+
+        <!-- POZNAMKY -->
+        <div style="height: 200px;" class="overflow-auto thin-scrollbar">
+            <div class="pull-right" [formGroup]="spravyFilter">
+                <label class="margin-sm-right">
+                    <input type="checkbox" formControlName="aktualne"> <span>Len aktuálne obdobie</span>
+                </label>
+
+                <button class="btn btn-info btn-sm margin-bottom-small" style="margin-top: -4px;" (click)="addNoteDialogVisible = !addNoteDialogVisible">
+                    <span class="fa fa-plus"></span>
+                    <span>POZNÁMKA</span>
+                </button>
+            </div>
+
+            <h4 class="title-small spread-text">POZNÁMKY</h4>
+
+            <div *ngFor="let sprava of spravy; let first=first" class="hodn-flex margin-xs-bottom" [class.margin-top-big]="first" @slideInOut>
+                <div class="poznamka-datum">
+                    <span><span [title]="sprava?.vytvoril">RL</span> - <span [title]="'čas vytvorenia ' + sprava?.cas?.format('L LT')">{{!!sprava?.obdobie ? sprava?.obdobie : 'VŠETKY'}}</span></span>
+                </div>
+
+                <div class="poznamka-x">
+                    <a title="Odstrániť"
+                       class="pointer-cursor btn btn-icon block"
+                       (click)="removeNote(sprava)">
+                        <span class="glyphicon glyphicon-remove" style="vertical-align: middle;"></span>
+                    </a>
+                </div>
+
+                <div class="poznamka-text text-ellipsis">
+                    <span [title]="sprava?.popis">{{sprava?.popis}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="margin-bottom-small"></div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="hodn-flex-right light-block bottom-right-border-round padding-top-small thin-scrollbar overflow-auto">
+        <okno-view *ngFor="let okno of oknaVisible; let index=index"
+                   class="margin-bottom-small block highlight-block"
+                   [metadata]="okno"
+                   [id]="id"
+                   [obdobie]="obdobie"
+                   [data]="data?.atributy"
+                   [typZs]="data?.typZS"
+                   [openWindowId]="openWindowId"
+                   (oknoStateChange)="updateHodnotenieState($event)"
+                   (showProdukty)="showProdukty($event)"
+                   (showHospitalizacie)="showHospitalizacie($event)"
+                   (openWindow)="openWindowId = $event"></okno-view>
+    </div>
+</div>
+
+<!-- ADD NOTE DIALOG -->
+<modal-dialog dialogId="addNoteDialog" [(visible)]="addNoteDialogVisible" dialogTitle="Pridávanie poznámky">
+    <div class="dialog-body" [formGroup]="newSprava">
+        <div class="form-group">
+            <label class="control-label">Text poznámky</label>
+            <textarea class="form-control" style="resize: vertical;" formControlName="text"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label"><input type="checkbox" formControlName="aktualne"> Poznámka vzťahujúca sa len k aktuálnemu obdobiu</label>
+        </div>
+    </div>
+
+    <div class="dialog-footer">
+        <button type="button" class="btn btn-info" data-dismiss="modal" (click)="clearValue()">
+            <span class="glyphicon glyphicon-ban-circle"></span>
+            <span>ZRUŠIŤ</span>
+        </button>
+
+        <button type="button" class="btn btn-primary" (click)="addNote()">
+            <span class="glyphicon glyphicon-floppy-disk"></span>
+            <span>ULOŽIŤ</span>
+        </button>
+    </div>
+</modal-dialog>

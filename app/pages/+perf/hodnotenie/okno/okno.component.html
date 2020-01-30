@@ -1,0 +1,57 @@
+<div class="layout" [id]="metadata?.id">
+    <!-- BASIC -->
+    <div class="toggle-detail">
+        <a class="btn btn-icon pointer-cursor block" (click)="detailVisible = !detailVisible; oknoStateChange.emit({detail: detailVisible, chart: chartVisible, nazov: metadata?.nazov})" title="Zobraziť/skryť detailné info">
+            <span class="fa" [ngClass]="{'fa-plus': !detailVisible, 'fa-minus': detailVisible}"></span>
+        </a>
+    </div>
+
+    <div class="okno-title">
+        {{metadata?.popis}}
+    </div>
+
+    <div class="suma">
+        <ng-template [ngIf]="data[metadata?.nalepkamosia][metadata?.oknoAtribut] === 0 || !!data[metadata?.nalepkamosia][metadata?.oknoAtribut]">
+            {{(data[metadata?.nalepkamosia][metadata?.oknoAtribut] | format: metadata?.oknoAtributFormat)}}
+        </ng-template>
+    </div>
+
+    <div class="rozdiel">
+        <ng-template [ngIf]="data[metadata?.nalepkamosia][metadata?.oknoAtribut + 'RefDiff'] === 0 || !!data[metadata?.nalepkamosia][metadata?.oknoAtribut + 'RefDiff']">
+            {{(data[metadata?.nalepkamosia][metadata?.oknoAtribut + 'RefDiff'] | format: metadata?.oknoAtributFormat : {plus: true})}}
+        </ng-template>
+    </div>
+
+    <div class="vaha">
+        <vaha-tag [value]="data[metadata?.nalepkamosia][metadata?.oknoAtribut + 'RefDiffVaha']" [allowZero]="true"></vaha-tag>
+    </div>
+
+    <!-- DETAIL -->
+    <ng-template [ngIf]="detailVisible">
+        <div class="toggle-chart" @slideInOut>
+            <a *ngIf="!isStatistics" class="btn btn-icon pointer-cursor block" (click)="chartVisible = !chartVisible; oknoStateChange.emit({detail: detailVisible, chart: chartVisible, nazov: metadata?.nazov})" title="Zobraziť/skryť detailné info">
+                <span class="fa" [ngClass]="{'fa-plus': !chartVisible, 'fa-minus': chartVisible}"></span>
+            </a>
+        </div>
+
+        <div class="detail-content" @slideInOut>
+            <ng-template ngFor [ngForOf]="metadata?.children" let-tabulka>
+                <tabulka-view *ngIf="tabulka?.hasChildren"
+                              class="block margin-bottom-small"
+                              [data]="data"
+                              [metadata]="tabulka"
+                              [typZs]="typZs"
+                              (chartIdSelected)="loadChart($event)"
+                              (showProdukty)="showProdukty.emit($event)"
+                              (showHospitalizacie)="showHospitalizacie.emit($event)"
+                              (openWindow)="openWindow.emit($event)"></tabulka-view>
+            </ng-template>
+        </div>
+    </ng-template>
+
+    <!-- CHART -->
+    <div class="chart-content" @slideInOut *ngIf="chartVisible && detailVisible">
+        <div class="bold">{{chartTitle}}</div>
+        <div class="chart-component" [mosiaChart]="chartRequest" (titleChanged)="chartTitle = $event"></div>
+    </div>
+</div>

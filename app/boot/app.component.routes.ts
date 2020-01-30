@@ -32,6 +32,10 @@ export const routesOptions: ModuleRoutesOptions =
             loadChildren: () => import('../pages/+samples/samples.module').then(({SamplesModule}) => SamplesModule)
         },
         {
+            path: 'perfSample',
+            loadChildren: () => import('../pages/+perf/perf.module').then(({PerfModule}) => PerfModule)
+        },
+        {
             path: 'designer',
             loadChildren: () => import('../ngDynamic-designer/modules/ngDynamicDesigner.module').then(({NgDynamicDesignerModule}) => NgDynamicDesignerModule)
         }

@@ -18,6 +18,8 @@ import {InternalServerErrorModule} from '@anglr/error-handling';
 import {AuthorizationModule} from '@anglr/authentication';
 import {TranslateModule} from '@ngx-translate/core';
 
+import {VahaTagComponent} from '../components/vahaTag/vahaTag.component';
+
 /**
  * Common module for all other modules
  */
@@ -46,7 +48,12 @@ import {TranslateModule} from '@ngx-translate/core';
         NgSelectModule,
         NgSelectDynamicModule,
         NgSelectEditModule,
-        InternalServerErrorModule
+        InternalServerErrorModule,
+        VahaTagComponent
+    ],
+    declarations:
+    [
+        VahaTagComponent
     ]
 })
 export class CommonSharedModule
