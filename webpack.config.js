@@ -12,6 +12,7 @@ var webpack = require('webpack'),
     rxPaths = require('rxjs/_esm5/path-mapping'),
     extend = require('extend'),
     ts = require('typescript'),
+    TerserPlugin = require('terser-webpack-plugin'),
     AngularCompilerPlugin =  require('@ngtools/webpack').AngularCompilerPlugin;
 
 //array of paths for server and browser tsconfigs
@@ -279,7 +280,21 @@ module.exports = [function(options, args)
                 designerMetadata: true,
                 ngI18nClosureMode: false
             })
-        ]
+        ],
+        optimization: 
+        {
+            minimize: true,
+            minimizer: 
+            [
+                new TerserPlugin(
+                {
+                    terserOptions: 
+                    {
+                        mangle: false
+                    }
+                })
+            ]
+        }
     };
 
     //server specific settings
