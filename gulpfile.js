@@ -68,8 +68,7 @@ gulp.task("prepare-version", function(cb)
 });
 
 gulp.task("build",
-          ["copy-config",
-           "prepare-version"],
+          ["copy-config"],
           function(cb)
 {
     console.log("Gulp build has finished");
