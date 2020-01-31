@@ -25,6 +25,10 @@ import {VahaTagComponent} from '../components/vahaTag/vahaTag.component';
  */
 @NgModule(
 {
+    imports:
+    [
+        CommonModule
+    ],
     exports:
     [
         CommonModule,
