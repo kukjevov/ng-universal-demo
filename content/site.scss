@@ -36,7 +36,7 @@ app
     {
         @extend .thin-scrollbar;
 
-        overflow: auto;
+        overflow: scroll;
         flex: 1;
         min-height: 0;
         min-width: 0;

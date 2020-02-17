@@ -6,6 +6,11 @@
     cursor: pointer;
 }
 
+.not-allowed-cursor
+{
+    cursor: not-allowed;
+}
+
 .block
 {
     display: block;
@@ -16,10 +21,22 @@
     display: inline-block;
 }
 
+.flex
+{
+    display: flex;
+}
+
 .flex-row
 {
     display: flex;
     flex-direction: row;
+}
+
+.flex-row-end
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
 }
 
 .flex-row-reverse
@@ -32,6 +49,13 @@
 {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.flex-row-reverse-wrap
+{
+    display: flex;
+    flex-direction: row-reverse;
     flex-wrap: wrap;
 }
 
@@ -99,14 +123,30 @@
     min-height: 0;
 }
 
+.grid-whole-row
+{
+    grid-column: 1 / -1;
+    min-width: 0;
+}
+
 .align-self-center
 {
     align-self: center;
 }
 
+.align-content-start
+{
+    align-content: flex-start;
+}
+
 .justify-self-center
 {
     justify-self: center;
+}
+
+.justify-content-end
+{
+    justify-content: end;
 }
 
 .relative
@@ -383,6 +423,11 @@
     min-height: 0;
 }
 
+.max-height-full
+{
+    max-height: 100%;
+}
+
 .half-width
 {
     width: 50%;
@@ -478,9 +523,19 @@
     overflow: hidden;
 }
 
+.overflow-auto
+{
+    overflow: auto;
+}
+
 .overflow-vertical-auto
 {
     overflow-y: auto;
+}
+
+.overflow-vertical-scroll
+{
+    overflow-y: scroll;
 }
 
 .table-container

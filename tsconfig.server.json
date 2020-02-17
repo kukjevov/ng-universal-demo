@@ -1,0 +1,18 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions":
+    {
+        "outDir": ""
+    },
+    "exclude":
+    [
+        "node_modules",
+        "karma-test-shim.ts"
+    ],
+    "angularCompilerOptions":
+    {
+        "enableIvy": true,
+        "fullTemplateTypeCheck": false,
+        "strictTemplates": false
+    }
+}

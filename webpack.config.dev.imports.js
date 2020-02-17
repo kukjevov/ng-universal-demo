@@ -32,7 +32,6 @@ import "@angular/router";
 import "@angular/router/testing";
 import "@anglr/animations";
 import "@anglr/authentication";
-import "@anglr/bootstrap";
 import "@anglr/bootstrap/core";
 import "@anglr/bootstrap/datetimepicker";
 import "@anglr/bootstrap/typeahead";

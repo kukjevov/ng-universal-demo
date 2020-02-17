@@ -152,14 +152,15 @@ module.exports = [function(options, args)
                 "handlebars": path.join(__dirname, "node_modules/handlebars/dist/handlebars.js"),
                 "typeahead": path.join(__dirname, "node_modules/typeahead.js/dist/typeahead.jquery.js"),
                 "moment": path.join(__dirname, "node_modules/moment/min/moment-with-locales.js"),
-                "config/global": path.join(__dirname, "config/config.js"),
-                "config/default": path.join(__dirname, prod ? "config/global.json" : "config/global.development.json"),
+                // "config/global": path.join(__dirname, "config/config.js"),
+                // "config/default": path.join(__dirname, prod ? "config/global.json" : "config/global.development.json"),
+                "config/global": path.join(__dirname, prod ? "config/global.json" : "config/global.development.json"),
                 "config/version": path.join(__dirname, "config/version.json"),
                 "angular_material/src/cdk": path.join(__dirname, "node_modules/@angular/cdk/esm2015"),
                 "app": path.join(__dirname, "app"),
                 "@ngDynamic": path.join(__dirname, "app/dynamicPackage")
             }),
-            mainFields: es5 ? ['browser', 'module', 'main'] : ['esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main']
+            mainFields: es5 ? ['browser', 'module', 'main'] : (ssr ? ['esm2015', 'es2015', 'jsnext:main', 'module', 'main'] : ['esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main'])
         },
         module:
         {
