@@ -1,0 +1,32 @@
+@import "../../../content/scss/theme/theme-vars.scss";
+
+:host
+{
+    display: flex;
+    flex-direction: row;
+}
+
+.settings-menu
+{
+    width: 120px;
+    font-size: 1.1em;
+    margin-right: 48px;
+
+    span[class^="fa"],
+    span[class^="fas"],
+    span[class^="glyphicon"]
+    {
+        margin-right: $sizeSm;
+    }
+}
+
+.settings-items
+{
+    width: 300px;
+    display: grid;
+    grid-template-columns: auto 160px;
+    grid-template-rows: auto;
+    column-gap: $sizeSm;
+    row-gap: $sizeXs;
+    align-items: center;
+}

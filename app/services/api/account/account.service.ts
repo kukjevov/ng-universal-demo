@@ -13,19 +13,19 @@ import * as global from 'config/global';
  * Service used to access user account information
  */
 @Injectable()
-@BaseUrl(global.apiBaseUrl)
-@DefaultHeaders(global.defaultApiHeaders)
+@BaseUrl(global.configuration.apiBaseUrl)
+@DefaultHeaders(global.configuration.defaultApiHeaders)
 export class AccountService extends RESTClient implements AuthenticationServiceOptions<any>
 {
     //######################### constructor #########################
-    public constructor(http: HttpClient,
-                       private _injector: Injector,
-                       private _location: Location,
-                       @Optional() transferState?: RestTransferStateService,
-                       @Optional() @Inject(SERVER_BASE_URL) baseUrl?: string,
-                       @Optional() @Inject(SERVER_COOKIE_HEADER) serverCookieHeader?: string,
-                       @Optional() @Inject(SERVER_AUTH_HEADER) serverAuthHeader?: string,
-                       @Optional() ignoredInterceptorsService?: IgnoredInterceptorsService)
+    constructor(http: HttpClient,
+                private _injector: Injector,
+                private _location: Location,
+                @Optional() transferState?: RestTransferStateService,
+                @Optional() @Inject(SERVER_BASE_URL) baseUrl?: string,
+                @Optional() @Inject(SERVER_COOKIE_HEADER) serverCookieHeader?: string,
+                @Optional() @Inject(SERVER_AUTH_HEADER) serverAuthHeader?: string,
+                @Optional() ignoredInterceptorsService?: IgnoredInterceptorsService)
     {
         super(http, transferState, baseUrl, serverCookieHeader, serverAuthHeader, ignoredInterceptorsService, _injector);
     }
@@ -42,11 +42,11 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
         return Observable.create((observer: Observer<any>) =>
         {
             let req: HttpRequestIgnoredInterceptorId<any> = new HttpRequest<any>('POST',
-                                                                                 `${global.apiBaseUrl}authentication`,
+                                                                                 `${global.configuration.apiBaseUrl}authentication`,
                                                                                  new HttpParams()
-                                                                                    .append("j_username", accessToken.userName)
-                                                                                    .append("j_password", accessToken.password)
-                                                                                    .append("remember-me", accessToken.rememberMe.toString()));
+                                                                                     .append("j_username", accessToken.userName)
+                                                                                     .append("j_password", accessToken.password)
+                                                                                     .append("remember-me", accessToken.rememberMe?.toString()));
 
             req.requestId = 'authenticate-call';
 
@@ -117,7 +117,7 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
 
     /**
      * Method transforms response of get method
-     * @param  {Observable<IFinancialRecordResponse>} response Response to be transformed
+     * @param response Response to be transformed
      * @returns Observable Transformed response
      */
     //@ts-ignore
@@ -133,13 +133,35 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
                     {
                         isAuthenticated: false,
                         userName: "",
-                        permissions: ["login-page"],
+                        permissions: [],
                         firstName: "",
                         surname: ""
                     });
                     
                     observer.complete();
                 });
+            }
+
+            switch(error.status)
+            {
+                case 503:
+                {
+                    alert("Vzdialená služba je nedostupná. Skúste opätovne neskôr.");
+
+                    break;
+                }
+                case 504:
+                {
+                    alert("Vypršal èas na spracovanie požiadavky cez http proxy. Skúste opätovne neskôr.");
+
+                    break;
+                }
+                case 0:
+                {
+                    alert("Server je mimo prevádzky. Skúste opätovne neskôr.");
+
+                    break;
+                }
             }
 
             return throwError(error);
@@ -153,8 +175,8 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
                 return {
                     isAuthenticated: true,
                     userName: tmp.login,
-                    firstName: '',      // FIXME tmp.firstName,
-                    surname: tmp.login, // FIXME tmp.lastName,
+                    firstName: '',
+                    surname: tmp.login,
                     permissions: tmp.privileges
                 };
             }

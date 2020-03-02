@@ -12,7 +12,7 @@ import {AppModule} from './app.module';
  */
 export function reportingExceptionHandlerOptionsFactory()
 {
-    return new ReportingExceptionHandlerOptions(config.debug, true, false, false, false, false);
+    return new ReportingExceptionHandlerOptions(config.configuration.debug, true, false, false, false, false);
 }
 
 /**

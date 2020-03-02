@@ -8,8 +8,8 @@ import * as global from 'config/global';
  * Service used to access configuration of application
  */
 @Injectable()
-@BaseUrl(global.apiBaseUrl)
-@DefaultHeaders(global.defaultApiHeaders)
+@BaseUrl(global.configuration.apiBaseUrl)
+@DefaultHeaders(global.configuration.defaultApiHeaders)
 export class ConfigReleaseService extends RESTClient
 {
     //######################### public methods #########################

@@ -1,9 +1,7 @@
 .idea/
 node_modules/
 wwwroot/
-app.aot/
-build/
-testResults/
+packages/
 package-lock.json
 **/config/version.json
 proxyUrl.js

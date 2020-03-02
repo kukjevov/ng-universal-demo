@@ -11,5 +11,5 @@ export interface ConfigReleaseData
     /**
      * Name of running server application
      */
-    title?: string;
+    name?: string;
 }

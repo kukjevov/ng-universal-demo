@@ -1,0 +1,87 @@
+<div class="flex-column settings-menu">
+    <a class="btn-line"
+       [class.active]="activeSection == UserSettingsSections.General"
+       (click)="activeSection = UserSettingsSections.General">
+        <span class="fas fa-cog"></span>
+        <span>{{'general' | translate}}</span>
+    </a>
+
+    <a class="btn-line"
+       [class.active]="activeSection == UserSettingsSections.Logging"
+       (click)="activeSection = UserSettingsSections.Logging"
+       *authorize="'logging-settings'">
+        <span class="fas fa-pen"></span>
+        <span>{{'logging' | translate}}</span>
+    </a>
+
+    <a class="btn-line"
+       [class.active]="activeSection == UserSettingsSections.Debugging"
+       (click)="activeSection = UserSettingsSections.Debugging"
+       *authorize="'debug-settings'">
+        <span class="fas fa-bug"></span>
+        <span>{{'debug' | translate}}</span>
+    </a>
+</div>
+
+<div>
+    <!-- GENERAL SETTIGNS -->
+    <div class="settings-items" [formGroup]="generalSettingsForm" *ngIf="activeSection == UserSettingsSections.General">
+        <!-- THEME -->
+        <div class="text-capitalize">{{'theme' | translate}}</div>
+
+        <div>
+            <ng-select formControlName="theme">
+                <ng-option *ngFor="let theme of themes" [text]="theme | translate" [value]="theme"></ng-option>
+            </ng-select>
+        </div>
+
+        <!-- LANGUAGE -->
+        <div class="text-capitalize">{{'language' | translate}}</div>
+
+        <div>
+            <ng-select formControlName="language">
+                <ng-option *ngFor="let lang of languages" [text]="lang?.name" [value]="lang?.lang"></ng-option>
+            </ng-select>
+        </div>
+    </div>
+
+    <!-- LOGGING SETTIGNS -->
+    <div class="settings-items" [formGroup]="loggingSettingsForm" *ngIf="activeSection == UserSettingsSections.Logging">
+        <!-- CONSOLE LOG LEVEL -->
+        <div class="text-capitalize">{{'console log' | translate}}</div>
+
+        <div>
+            <ng-select formControlName="consoleLogLevel">
+                <ng-option *ngFor="let level of logLevels" [text]="level?.name" [value]="level?.value"></ng-option>
+            </ng-select>
+        </div>
+
+        <!-- FILE LOG LEVEL -->
+        <ng-template [authorize]="'authorized-electron'">
+            <div class="text-capitalize">{{'file log' | translate}}</div>
+
+            <div>
+                <ng-select formControlName="fileLogLevel">
+                    <ng-option *ngFor="let level of logLevels" [text]="level?.name" [value]="level?.value"></ng-option>
+                </ng-select>
+            </div>
+        </ng-template>
+    </div>
+
+    <!-- DEBUGGING SETTIGNS -->
+    <div class="settings-items" [formGroup]="debuggingSettingsForm" *ngIf="activeSection == UserSettingsSections.Debugging">
+        <!-- CONSOLE -->
+        <div class="text-capitalize">{{'console' | translate}}</div>
+
+        <div>
+            <mat-slide-toggle formControlName="consoleEnabled"></mat-slide-toggle>
+        </div>
+
+        <!-- DEBUG DATA -->
+        <div class="text-capitalize">{{'debug data' | translate}}</div>
+
+        <div>
+            <mat-slide-toggle formControlName="debugData"></mat-slide-toggle>
+        </div>
+    </div>
+</div>

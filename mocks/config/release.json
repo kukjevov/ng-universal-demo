@@ -1,9 +1,5 @@
 {
-    "defaultDatasource": "CASS",
-    "build": "16.04.2018 22:38",
+    "build": "now mock",
     "release": "1.0.0-MOCK",
-    "name": "chiroptera-jubula",
-    "logo": "jubula",
-    "title": "JUBULA",
-    "defaultDatabase": "chiroptera"
+    "name": "angular"
 }

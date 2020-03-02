@@ -2,14 +2,14 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
-import {ScrollingModule} from '@angular/cdk/scrolling';
-import {ProgressIndicatorModule} from '@anglr/common';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {ClipboardModule} from '@angular/cdk/clipboard';
+import {ProgressIndicatorModule, DebugDataModule} from '@anglr/common';
 import {BootstrapCoreModule} from '@anglr/bootstrap/core';
 import {DatetimepickerModule} from '@anglr/bootstrap/datetimepicker';
 import {TypeaheadModule, TypeaheadTagsModule} from '@anglr/bootstrap/typeahead';
 import {GridModule} from '@anglr/grid';
-import {VirtualScrollTableContentRendererModule} from '@anglr/grid/material';
-import {NgSelectModule, NgSelectDynamicModule, NgSelectEditModule} from '@anglr/select';
+import {NgSelectModule} from '@anglr/select';
 import {CommonModule as NgCommonModule} from '@anglr/common';
 import {NumeralModule} from '@anglr/common/numeral';
 import {NumberInputModule} from '@anglr/common/forms';
@@ -27,11 +27,12 @@ import {TranslateModule} from '@ngx-translate/core';
     [
         CommonModule,
         ReactiveFormsModule,
-        ReactiveFormsModule,
         RouterModule,
-        ScrollingModule,
+        MatSlideToggleModule,
+        ClipboardModule,
         NgCommonModule,
         ProgressIndicatorModule,
+        DebugDataModule,
         NumeralModule,
         NumberInputModule,
         TranslateModule,
@@ -41,11 +42,8 @@ import {TranslateModule} from '@ngx-translate/core';
         TypeaheadTagsModule,
         NotificationsModule,
         GridModule,
-        VirtualScrollTableContentRendererModule,
         AuthorizationModule,
         NgSelectModule,
-        NgSelectDynamicModule,
-        NgSelectEditModule,
         InternalServerErrorModule
     ]
 })

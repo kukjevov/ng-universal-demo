@@ -4,272 +4,94 @@
 //---------------------- PAGE STYLING ----------------------
 .app-page.dark
 {
-    background-color: $primaryForegroundColor;
-    color: $blackText;
+    background-color: $primaryBackgroundColor;
+    color: $primaryForegroundColor;
 
-    //############## MISC ##############
-    .light-text
+    //############## SCROLLBAR ##############
+
+    .thin-scrollbar
     {
-        color: $lightText;
+        scrollbar-color: $primaryScrollbarColor $primaryScrollbarBackground;
     }
 
-    .blue-text
+    .thin-scrollbar::-webkit-scrollbar-thumb
     {
-        color: $blueText;
+        background-color: $primaryScrollbarColor;
     }
 
-    .semi-dark-background
+    .thin-scrollbar::-webkit-scrollbar
     {
-        background-color: $semiDarkBackgroundColor;
-    }
-
-    .primary-background
-    {
-        background-color: $primaryBackgroundColor;
-        color: $primaryForegroundColor;
-    }
-
-    .primary-background-inv
-    {
-        background-color: $primaryForegroundColor;
-        color: $primaryBackgroundColor;
-    }
-
-    //############## TITLE BAR ##############
-
-    .title-bar
-    {
-        background-color: $titleBarBackgroundColor;
-        color: $whiteText;
-
-        .icon-base
-        {
-            background-color: $titleBarIconBackgroundColor;
-        }
-
-        .title-bar-button-base:hover
-        {
-            background-color: lighten($titleBarBackgroundColor, 6%);
-        }
-
-        .title-bar-button-base:active
-        {
-            background-color: lighten($titleBarBackgroundColor, 12%);
-        }
-
-        .title-bar-close:hover
-        {
-            background-color: $titleBarCloseBackgroundColor;
-        }
-
-        .title-bar-close:active
-        {
-            background-color: lighten($titleBarCloseBackgroundColor, 12%);
-        }
-    }
-
-    //############## TITLE ##############
-    .title
-    {
-        background-color: $darkBackgroundColor;
-        color: $semiLightText;
+        background-color: $primaryScrollbarBackground;
     }
 
     //############## BLOCKS ##############
 
-    .light-block
+    .popup-block
     {
-        background-color: $ligntBackgroundColor;
-        color: $blackText;
-
-        .btn-icon
-        {
-            color: $iconText;
-        }
-    }
-
-    .highlight-block
-    {
-        background-color: $whiteBackgroundColor;
-        color: $blackText;
-
-        .btn-icon
-        {
-            color: $iconText;
-        }
+        box-shadow: 0 0 3px $popupBorder;
+        background-color: $popupBackground;
     }
 
     //############## BUTTONS ##############
 
-    .btn-primary
+    .btn-line
     {
-        letter-spacing: 1px;
-        background-color: $buttonLightColor;
-        background-image: none;
-        border-color: $buttonLightColor;
-        text-shadow: 0 0;
-        box-shadow: 0 0;
-
-        &:active:not(.disabled)
-        {
-            transform: translateY(2px);
-            background-color: $buttonLightColor;
-            border-color: $buttonLightColor;
-            box-shadow: 0 0;
-        }
-
-        &:hover,
-        &:focus
-        {
-            background-color: $buttonDarkerColor;
-            border-color: $buttonDarkerColor;
-        }
-
-        &>span[class^="fa"],
-        &>span[class^="glyphicon"]
-        {
-            color: $buttonDarkColor;
-        }
-    }
-
-    .btn-info
-    {
-        letter-spacing: 1px;
-        background-image: none;
-        border-color: $buttonInfoLightColor;
-        text-shadow: 0 0;
-        box-shadow: 0 0;
-
-        &:active:not(.disabled)
-        {
-            transform: translateY(2px);
-            background-color: $buttonInfoLightColor;
-            border-color: $buttonInfoLightColor;
-            box-shadow: 0 0;
-        }
-
-        &:hover,
-        &:focus
-        {
-            background-color: $buttonInfoDarkerColor;
-            border-color: $buttonInfoDarkerColor;
-        }
-
-        &>span[class^="fa"],
-        &>span[class^="glyphicon"]
-        {
-            color: $buttonInfoDarkColor;
-        }
-    }
-
-    .btn-danger
-    {
-        background-color: $buttonInvalidLightColor;
-        letter-spacing: 1px;
-        background-image: none;
-        border-color: $buttonInvalidLightColor;
-        text-shadow: 0 0;
-        box-shadow: 0 0;
-
-        &:active:not(.disabled)
-        {
-            transform: translateY(2px);
-            background-color: $buttonInvalidLightColor;
-            border-color: $buttonInvalidLightColor;
-            box-shadow: 0 0;
-        }
-
-        &:hover,
-        &:focus
-        {
-            background-color: $buttonInvalidDarkerColor;
-            border-color: $buttonInvalidDarkerColor;
-        }
-
-        &>span[class^="fa"],
-        &>span[class^="glyphicon"]
-        {
-            color: $buttonInvalidDarkColor;
-        }
-    }
-
-    .btn-icon
-    {
-        background-color: transparent;
-        color: $iconText;
+        background-color: $btnLineBackground;
+        color: $btnLineForeground;
 
         &:hover
         {
-            color: darken($iconText, 10%);
+            background-color: lighten($btnLineBackground, 9%);
         }
 
-        &:active
+        &:active, &.active
         {
-            color: darken($iconText, 20%);
-            box-shadow: inset 0 0 0 transparent;
-            outline: none;
+            background-color: lighten($btnLineBackground, 15%);
         }
 
-        &.btn-action
+        &>span[class^="fa"],
+        &>span[class^="fas"],
+        &>span[class^="glyphicon"]
         {
-            color: $buttonInfoDarkColor;
-
-            &:hover
-            {
-                color: $buttonInfoLightColor;
-            }
-    
-            &:active
-            {
-                color: $buttonInfoDarkerColor;
-                box-shadow: inset 0 0 0 transparent;
-            }
+            color: darken($btnLineForeground, 12%);
+            margin-right: $sizeXs;
         }
     }
 
-    //############## DIALOG ##############
-    modal-dialog
+    @include generate-button($buttons);
+
+    
+    //############## NG SELECT ##############
+
+    ng-select
     {
-        color: $blackText;
-        
-        .modal-header
+        button.btn-select
         {
-            background-color: $darkBackgroundColor;
-            color: $semiLightText;
-            border-top-left-radius: 4px;
-            border-top-right-radius: 4px;
+            background-color: $primarySelectBackgroundColor;
 
-            &>button.close
+            &.btn:hover, &.btn:focus
             {
-                color: $semiLightText;
-                text-shadow: initial;
-                opacity: 0.8;
+                color: $primarySelectForegroundColor;
             }
         }
 
-        .modal-body,
-        .modal-footer
+        .popup-div
         {
-            background-color: $ligntBackgroundColor;
+            background-color: $primarySelectPopupBackgroundColor;
+            color: $primarySelectPopupForegroundColor;
 
-            .btn-icon
+            .option-item:hover, .option-item.selected, .option-item.active
             {
-                &:not(:active)
-                {
-                    color: $blackText;
-                }
-                
-                &:hover:not(:active)
-                {
-                    color: $buttonDarkerColor;
-                }
+                background-color: lighten($primarySelectBackgroundColor, 10%);
+                background-image: linear-gradient(to bottom, lighten($primarySelectBackgroundColor, 10%) 0,lighten($primarySelectBackgroundColor, 15%) 100%);
+                color: $primarySelectForegroundColor;
             }
         }
 
-        .modal-footer
+        input.form-control
         {
-            border-bottom-left-radius: $borderRadius;
-            border-bottom-right-radius: $borderRadius;
+            background-color: $primarySelectInputBackgroundColor;
+            color: $primarySelectInputForegroundColor;
         }
     }
 }

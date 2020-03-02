@@ -1,0 +1,17 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions":
+    {
+        "outDir": ""
+    },
+    "exclude":
+    [
+        "node_modules",
+        "karma-test-shim.ts"
+    ],
+    "angularCompilerOptions":
+    {
+        "fullTemplateTypeCheck": true,
+        "strictTemplates": true
+    }
+}

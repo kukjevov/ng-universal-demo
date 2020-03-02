@@ -2,12 +2,11 @@ var connect = require('connect'),
     gzipStatic = require('connect-gzip-static'),
     serveStatic = require('serve-static'),
     history = require('connect-history-api-fallback'),
-    proxy = require('http-proxy-middleware'),
+    {createProxyMiddleware} = require('http-proxy-middleware'),
     argv = require('yargs').argv,
     path = require('path'),
     fs = require('fs'),
     https = require('https'),
-    bodyParser = require('body-parser'),
     connectExtensions = require('nodejs-connect-extensions');
 
 var app = connect();
@@ -15,9 +14,7 @@ var app = connect();
 connectExtensions.extendConnectUse(app);
 
 const wwwroot = path.join(__dirname, "wwwroot");
-const serverPath = path.join(wwwroot, 'dist/server.es2015.js');
 const proxyUrlFile = path.join(__dirname, 'proxyUrl.js');
-var serverRenderFunc;
 var proxyUrl = "http://127.0.0.1:8080";
 
 var key = fs.readFileSync('server.key');
@@ -28,19 +25,6 @@ var options =
     key: key,
     cert: cert
 };
-
-/**
- * Gets function used for server side rendering
- */
-function getServerRenderFunc()
-{
-    if(!serverRenderFunc || !!argv.webpack)
-    {
-        serverRenderFunc = require(serverPath).serverRender;
-    }
-
-    return serverRenderFunc;
-}
 
 function isRequireAvailable(path)
 {
@@ -90,50 +74,14 @@ if(!!argv.webpack)
 //mock rest api
 require('./server.mock')(app);
 
-//REST api for server dynamic
-require('./server.dynamic.api')(app);
-
 //proxy special requests to other location
-app.use(proxy(['/api', '/swagger'], {target: proxyUrl, ws: true}));
+app.use(createProxyMiddleware(['/api', '/swagger'], {target: proxyUrl, ws: true}));
 
 //custom rest api
 require('./server.rest')(app);
 
-//parse html request json body
-app.use(bodyParser.json({limit: '50mb'}));
-
 //enable html5 routing
 app.use(history());
-
-//angular server side rendering
-app.use(function (req, res, next)
-{
-    if(req.url == '/index.html')
-    {
-        if(!isRequireAvailable(serverPath))
-        {
-            next();
-
-            return;
-        }
-
-        getServerRenderFunc()(path.join(wwwroot, 'index.html'), req.originalUrl, {baseUrl: "http://localhost:8888/", requestCookies: req.headers['cookie']}, function(err, succ)
-        {
-            res.setHeader('Content-Type', 'text/html');
-
-            if(succ && succ.statusCode)
-            {
-                res.statusCode = succ.statusCode;
-            }
-
-            res.end((err && err.toString()) || succ.html);
-        });
-
-        return;
-    }
-
-    next();
-});
 
 //return static files
 app.use(gzipStatic(wwwroot, 

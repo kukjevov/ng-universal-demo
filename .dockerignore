@@ -5,3 +5,4 @@
 !wwwroot
 !server.js
 !server.mock.js
+!server.rest.js

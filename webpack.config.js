@@ -9,17 +9,9 @@ var webpack = require('webpack'),
     CompressionPlugin = require("compression-webpack-plugin"),
     SpeedMeasurePlugin = require("speed-measure-webpack-plugin"),
     BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
-    rxPaths = require('rxjs/_esm5/path-mapping'),
     extend = require('extend'),
     ts = require('typescript'),
     AngularCompilerPlugin =  require('@ngtools/webpack').AngularCompilerPlugin;
-
-//array of paths for server and browser tsconfigs
-const tsconfigs =
-{
-    client: path.join(__dirname, 'tsconfig.browser.json'),
-    server: path.join(__dirname, 'tsconfig.server.json')
-};
 
 /**
  * Gets entries for webpack
@@ -45,11 +37,9 @@ function getEntries(ssr, dll, css, diff)
             [
                 "@angular/material/prebuilt-themes/indigo-pink.css",
                 "@fortawesome/fontawesome-free/css/all.min.css",
-                "bootstrap/dist/css/bootstrap.min.css",
-                "bootstrap/dist/css/bootstrap-theme.min.css",
                 "eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
-                "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",
-                "highlight.js/styles/googlecode.css"
+                "highlight.js/styles/googlecode.css",
+                "@anglr/common/src/style.scss"
             ],
             style: [path.join(__dirname, "content/site.scss")]} : {},
             ...diff ? {} : {client: [path.join(__dirname, "app/main.browser.ts")]}
@@ -64,15 +54,13 @@ function getEntries(ssr, dll, css, diff)
 /**
  * Generates a AotPlugin for @ngtools/webpack
  *
- * @param {string} platform Should either be client or server
  * @param {boolean} es5 Indication whether compile application in es5 or es2015
- * @returns
  */
-function getAotPlugin(platform, es5)
+function getAotPlugin(es5)
 {
     return new AngularCompilerPlugin(
     {
-        tsConfigPath: tsconfigs[platform],
+        tsConfigPath: path.join(__dirname, 'tsconfig.build.json'),
         sourceMap: true,
         compilerOptions:
         {
@@ -104,7 +92,7 @@ var entryPoints = [];
 
 module.exports = [function(options, args)
 {
-    var prod = args && args.mode == 'production';
+    var prod = args && args.mode == 'production' || false;
     var hmr = !!options && !!options.hmr;
     var aot = !!options && !!options.aot;
     var ssr = !!options && !!options.ssr;
@@ -145,7 +133,7 @@ module.exports = [function(options, args)
         {
             symlinks: false,
             extensions: ['.ts', '.js'],
-            alias: extend(rxPaths(),
+            alias: extend(es5 ? require('rxjs/_esm5/path-mapping')() : require('rxjs/_esm2015/path-mapping')(),
             {
                 "modernizr": path.join(__dirname, "content/external/scripts/modernizr-custom.js"),
                 "numeral-languages": path.join(__dirname, "node_modules/numeral/locales.js"),
@@ -156,10 +144,9 @@ module.exports = [function(options, args)
                 "config/default": path.join(__dirname, prod ? "config/global.json" : "config/global.development.json"),
                 "config/version": path.join(__dirname, "config/version.json"),
                 "angular_material/src/cdk": path.join(__dirname, "node_modules/@angular/cdk/esm2015"),
-                "app": path.join(__dirname, "app"),
-                "@ngDynamic": path.join(__dirname, "app/dynamicPackage")
+                "app": path.join(__dirname, "app")
             }),
-            mainFields: es5 ? ['browser', 'module', 'main'] : (ssr ? ['esm2015', 'es2015', 'jsnext:main', 'module', 'main'] : ['esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main'])
+            mainFields: es5 ? ['browser', 'module', 'main'] : ssr ? ['esm2015', 'es2015', 'jsnext:main', 'module', 'main'] : ['esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main']
         },
         module:
         {
@@ -276,7 +263,6 @@ module.exports = [function(options, args)
                 isNgsw: ngsw,
                 jsDevMode: !prod,
                 ngDevMode: !prod,
-                designerMetadata: true,
                 ngI18nClosureMode: false
             })
         ]
@@ -351,7 +337,7 @@ module.exports = [function(options, args)
     //aot specific settings
     if(aot)
     {
-        config.plugins.push(getAotPlugin(ssr ? 'server' : 'client', es5));
+        config.plugins.push(getAotPlugin(es5));
     }
 
     if(hmr)
@@ -444,29 +430,4 @@ module.exports = [function(options, args)
     }
 
     return config;
-},
-{
-    mode: 'development',
-    entry: 
-    {
-		"editor.worker": 'monaco-editor/esm/vs/editor/editor.worker.js',
-		"json.worker": 'monaco-editor/esm/vs/language/json/json.worker',
-		"css.worker": 'monaco-editor/esm/vs/language/css/css.worker',
-		"html.worker": 'monaco-editor/esm/vs/language/html/html.worker',
-		"ts.worker": 'monaco-editor/esm/vs/language/typescript/ts.worker'
-	},
-    output: 
-    {
-		globalObject: 'self',
-		path: path.join(__dirname, distPath),
-        filename: '[name].js'
-	},
-    module: 
-    {
-        rules: [
-        {
-			test: /\.css$/,
-			use: ['style-loader', 'css-loader']
-		}]
-	},
 }]

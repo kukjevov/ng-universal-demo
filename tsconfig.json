@@ -21,7 +21,6 @@
         [
             "node",
             "bootstrap",
-            "highlight.js",
             "konami.js"
         ],
         "typeRoots":
@@ -48,5 +47,10 @@
     "exclude":
     [
         "node_modules"
-    ]
+    ],
+    "angularCompilerOptions":
+    {
+        "fullTemplateTypeCheck": true,
+        "strictTemplates": true
+    }
 }

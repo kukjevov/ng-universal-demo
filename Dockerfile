@@ -1,4 +1,4 @@
-FROM node:10.7-alpine
+FROM node:11.15-alpine
 
 WORKDIR approot
 

@@ -1,17 +1,21 @@
 import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider} from '@angular/core';
 import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, AUTH_INTERCEPTOR_CONFIG, AUTHENTICATION_SERVICE_OPTIONS, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER} from '@anglr/authentication';
 import {LocalPermanentStorageService} from '@anglr/common/store';
-import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE} from "@anglr/common";
+import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService} from "@anglr/common";
+import {ConsoleSinkConfigService} from '@anglr/common/structured-log';
 import {NgxTranslateStringLocalizationService} from "@anglr/translate-extensions";
 import {ERROR_RESPONSE_MAP_PROVIDER, REPORTING_EXCEPTION_HANDLER_PROVIDER, HttpErrorInterceptorOptions, HTTP_ERROR_INTERCEPTOR_PROVIDER, BadRequestDetail, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER} from '@anglr/error-handling';
-import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions} from '@anglr/grid';
+import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions} from '@anglr/grid';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
+import {LogEventLevel} from 'structured-log';
 import * as config from 'config/global';
 
 import {AuthConfig} from '../services/api/account/authConfig';
 import {AccountService} from '../services/api/account/account.service';
 import {GlobalizationService as GlobalizationServiceImpl} from '../services/globalization/globalization.service';
 import {NOTHING_SELECTED} from '../misc/constants';
+import {SettingsService, LocalSettingsStorage} from '../services/settings';
+import {SETTINGS_STORAGE} from '../misc/tokens';
 
 /**
  * Creates APP initialization factory, that first try to authorize user before doing anything else
@@ -36,7 +40,7 @@ export function appInitializerFactory(authService: AuthenticationService<any>)
  */
 export function httpErrorInterceptorOptionsFactory()
 {
-    return new HttpErrorInterceptorOptions(config.debug);
+    return new HttpErrorInterceptorOptions(config.configuration.debug);
 }
 
 /**
@@ -178,6 +182,15 @@ export var providers =
             text: "Neboli nájdené dáta odpovedajúce zadaným parametrom"
         }
     },
+    <ValueProvider>
+    {
+        provide: PAGING_OPTIONS,
+        useValue: <BasicPagingOptions>
+        {
+            itemsPerPageValues: [15, 30, 60],
+            initialItemsPerPage: 15
+        }
+    },
     
     //############################ SELECT GLOBAL OPTIONS ############################
     <ValueProvider>
@@ -204,5 +217,36 @@ export var providers =
     {
         provide: PERMANENT_STORAGE,
         useClass: LocalPermanentStorageService
+    },
+
+    //######################### LOGGER #########################
+    <FactoryProvider>
+    {
+        provide: ConsoleSinkConfigService,
+        useFactory: (settingsSvc: SettingsService) =>
+        {
+            return new ConsoleSinkConfigService(null, LogEventLevel[settingsSvc?.settingsLogging?.consoleLogLevel]);
+        },
+        deps: [SettingsService]
+    },
+    <ClassProvider>
+    {
+        provide: SETTINGS_STORAGE,
+        useClass: LocalSettingsStorage
+    },
+
+    //######################### DEBUG DATA #########################
+    <FactoryProvider>
+    {
+        provide: DebugDataEnabledService,
+        useFactory: (settingsSvc: SettingsService) =>
+        {
+            let debugDataEnabled = new DebugDataEnabledService();
+
+            debugDataEnabled.setEnabled(settingsSvc.settingsDebugging?.debugData);
+
+            return debugDataEnabled;
+        },
+        deps: [SettingsService]
     }
 ];

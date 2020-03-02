@@ -1,21 +1,20 @@
-<a routerLink="/">Home</a>
-<a routerLink="/garden">Garden</a>
-<a routerLink="/samples/grid">Grid</a>
-<a routerLink="/samples/select">Select</a>
-<a routerLink="/samples/bootstrap">Bootstrap</a>
-<a routerLink="/samples/common">Common</a>
-<a routerLink="/samples/notifications">Notifications</a>
-<a routerLink="/samples/authorization">Authorization</a>
+<div *ngIf="authenticated" class="flex-row-end">
+    <div class="flex-1">GUI: {{guiVersion}} {{serverName}}: {{serverVersion}}</div>
+    <a routerLink="/" routerLinkActive="active" class="margin-right-extra-small">Home</a>
+    <a routerLink="/lazy" routerLinkActive="active" class="margin-right-extra-small">Lazy</a>
+    <a (click)="logout()">Logout</a>
+    <a (click)="openSettings()" class="fas fa-cog"></a>
+</div>
 
-<div class="container main relative">
-    <progress-indicator></progress-indicator>
-    <internal-server-error></internal-server-error>
-    <global-notifications></global-notifications>
-    <hotkeys-cheatsheet></hotkeys-cheatsheet>
+<progress-indicator></progress-indicator>
+<internal-server-error></internal-server-error>
+<global-notifications></global-notifications>
+<hotkeys-cheatsheet></hotkeys-cheatsheet>
 
-    <div class="content relative" [@routeAnimations]="routeComponentState">
-        <div class="main-content">
-            <router-outlet #outlet="outlet"></router-outlet>
-        </div>
+<div class="content relative" [@routeAnimations]="routeComponentState">
+    <div class="main-content">
+        <router-outlet #outlet="outlet"></router-outlet>
     </div>
 </div>
+
+<console *ngIf="consoleVisible" @consoleAnimation></console>

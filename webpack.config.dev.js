@@ -32,7 +32,8 @@ module.exports = function(options)
                 "numeral-languages": path.join(__dirname, "node_modules/numeral/locales.js"),
                 "handlebars": path.join(__dirname, "node_modules/handlebars/dist/handlebars.js"),
                 "typeahead": path.join(__dirname, "node_modules/typeahead.js/dist/typeahead.jquery.js"),
-                "moment": path.join(__dirname, "node_modules/moment/min/moment-with-locales.js")
+                "moment": path.join(__dirname, "node_modules/moment/min/moment-with-locales.js"),
+                "angular_material/src/cdk": path.join(__dirname, "node_modules/@angular/cdk/esm2015")
             },
             mainFields: es5 ? ['browser', 'module', 'main'] : ['esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main']
         },

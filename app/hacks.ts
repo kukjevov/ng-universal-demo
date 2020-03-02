@@ -22,7 +22,7 @@ Observable.prototype.subscribe = <any>function(next, error, complete)
     {
         error = (err) => 
         {
-            if(config.debug)
+            if(config.configuration.debug)
             {
                 console.log(err);
             }

@@ -1,8 +1,9 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {FormGroup, FormBuilder} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
-import {AuthenticationService, Authorize, AuthGuard} from '@anglr/authentication';
+import {AuthenticationService} from '@anglr/authentication';
+import {slideInOutTrigger} from '@anglr/animations';
 import {empty} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
@@ -13,10 +14,14 @@ import {catchError} from 'rxjs/operators';
 {
     selector: 'login-view',
     templateUrl: 'login.component.html',
+    host:
+    {
+        "[class.justify-content-center]": "true"
+    },
+    animations: [slideInOutTrigger],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@ComponentRoute({path: 'login', canActivate: [AuthGuard]})
-@Authorize("login-page")
+@ComponentRoute({path: 'login', data: {animation: 'login'}})
 export class LoginComponent
 {
     //######################### public properties #########################
@@ -35,6 +40,7 @@ export class LoginComponent
     constructor(private _authService: AuthenticationService<any>,
                 private _router: Router,
                 private _activeRoute: ActivatedRoute,
+                private _changeDetector: ChangeDetectorRef,
                 formBuilder: FormBuilder)
     {
         this.form = formBuilder.group(
@@ -52,17 +58,21 @@ export class LoginComponent
      */
     public login()
     {
+        //TODO - add resolver that checks logged user and redirects to requested page
         this._authService
             .login(this.form.value)
             .pipe(catchError(() =>
             {
                 this.authenticationError = true;
+                this._changeDetector.detectChanges();
                 
                 return empty();
             }))
             .subscribe(() =>
             {
                 this.authenticationError = false;
+                
+                this._changeDetector.detectChanges();
                 
                 if(this._activeRoute.snapshot.queryParams.returnUrl)
                 {

@@ -1,0 +1,119 @@
+@mixin generate-margin-padding($type, $sizes)
+{
+    @each $sizeType, $size in $sizes
+    {
+        .#{$type}-#{$sizeType}
+        {
+            #{$type}: $size;
+        }
+
+        .#{$type}-right-#{$sizeType}
+        {
+            #{$type}-right: $size;
+        }
+
+        .#{$type}-left-#{$sizeType}
+        {
+            #{$type}-left: $size;
+        }
+
+        .#{$type}-top-#{$sizeType}
+        {
+            #{$type}-top: $size;
+        }
+
+        .#{$type}-bottom-#{$sizeType}
+        {
+            #{$type}-bottom: $size;
+        }
+
+        .#{$type}-horizontal-#{$sizeType}
+        {
+            #{$type}-left: $size;
+            #{$type}-right: $size;
+        }
+
+        .#{$type}-vertical-#{$sizeType}
+        {
+            #{$type}-top: $size;
+            #{$type}-bottom: $size;
+        }
+    }
+}
+
+@mixin generate-button($colors)
+{
+    @each $name, $color in $colors
+    {
+        $background: map-get($color, "background");
+        $foreground: map-get($color, "foreground");
+
+        .btn-#{$name}
+        {
+            letter-spacing: 1px;
+            background-image: none;
+            text-shadow: 0 0;
+            box-shadow: 0 0;
+            text-transform: uppercase;
+
+            &:active:not(.disabled)
+            {
+                box-shadow: 0 0;
+            }
+        }
+
+        .btn-#{$name}
+        {
+            background-color: $background;
+            border-color: $background;
+            transition: all 350ms;
+
+            &:active:not(.disabled)
+            {
+                background-color: $background;
+                border-color: $background;
+                padding-left: 9px;
+                padding-right: 9px;
+                margin-left: 3px;
+                margin-right: 3px;
+            }
+
+            &:hover,
+            &:focus
+            {
+                background-color: darken($background, 6%);
+                border-color: darken($background, 6%);
+            }
+
+            &>span
+            {
+                color: map-get($color, "foreground");
+            }
+
+            &>span[class^="fa"],
+            &>span[class^="fas"],
+            &>span[class^="glyphicon"]
+            {
+                color: darken($background, 12%);
+                margin-right: $sizeXs;
+            }
+        }
+
+        .tight
+        {
+            .btn-#{$name}
+            {
+                font-size: 0.8em;
+                padding: 4px 8px;
+
+                &:active:not(.disabled)
+                {
+                    padding-left: 6px;
+                    padding-right: 6px;
+                    margin-left: 2px;
+                    margin-right: 2px;
+                }
+            }
+        }
+    }
+}

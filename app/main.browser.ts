@@ -28,4 +28,4 @@ var platform = platformBrowser();
 runWhenModuleStable(platform.bootstrapModule(BrowserAppModule), (moduleRef: NgModuleRef<{}>) => 
 {    
     jsDevMode && hmrFinishedNotification();
-}, config.debug);
+}, config.configuration.debug);

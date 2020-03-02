@@ -1,20 +1,13 @@
 {
     "login": "mock-user",
     "roles": [
-        "ROLE_AUTH_ACE",
         "ROLE_DEVEL"
     ],
     "privileges": [
-        "userGroup-menu",
-        "logoutAction-menu",
-        "samplesGroup-menu",
-        "gridSample-page",
-        "selectSample-page",
-        "bootstrapSample-page",
-        "commonSample-page",
-        "notificationsSample-page",
-        "authorizationSample-page",
         "home-page",
-        "showWithThis"
+        "samplePage-page",
+        "logging-settings",
+        "debug-settings",
+        "debugInfo"
     ]
 }

@@ -1,1 +1,0 @@
-export * from './blockDesigner.component';

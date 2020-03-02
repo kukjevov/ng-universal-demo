@@ -14,13 +14,6 @@ function logCopied()
     });
 }
 
-function copyConfig()
-{
-    return src("config/i18n/**/*.json")
-        .pipe(logCopied())
-        .pipe(dest("wwwroot/config/i18n"));
-}
-
 function compileScss()
 {
     return src('content/*.scss')
@@ -50,8 +43,7 @@ function prepareVersion(cb)
     }, cb);
 };
 
-const build = series(copyConfig,
-                     prepareVersion,
+const build = series(prepareVersion,
                      function buildComplete(cb)
                      {
                          console.log("Gulp build has finished");

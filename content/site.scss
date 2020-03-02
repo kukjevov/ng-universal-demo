@@ -1,7 +1,5 @@
-@import "scss/variables.scss";
 @import "scss/fonts.scss";
 @import "scss/misc.scss";
-@import "scss/bootstrap-override.scss";
 @import "scss/theme/app-theme.scss";
 @import "scss/theme/app-dark-theme.scss";
 @import "scss/theme/app-light-theme.scss";
@@ -11,6 +9,11 @@
 *, *:focus
 {
     outline: none;
+}
+
+* 
+{
+    box-sizing: border-box;
 }
 
 html
@@ -32,12 +35,13 @@ app
     height: 100vh;
     flex-direction: column;
 
-    router-outlet+*
+    router-outlet+*, router-outlet+*+*
     {
         @extend .thin-scrollbar;
 
-        overflow: scroll;
+        overflow-y: hidden;
         flex: 1;
+        display: flex;
         min-height: 0;
         min-width: 0;
     }
@@ -74,7 +78,7 @@ app
     }
 }
 
-// ---------------------- APP STARTING ----------------------
+// ---------------------- SPLASH SCREEN ----------------------
 
 .loading-indicator
 {
@@ -118,73 +122,3 @@ app
         transform: rotate(360deg);
     }
 }
-
-// ---------------------- NAVIGATION ----------------------
-.navbar-version 
-{
-    line-height: 11px;
-    font-size: 10px;
-    color: #969696
-}
-
-.navbar-update-available
-{
-    margin-top: 10px;
-    cursor: pointer;
-    display: inline-block;
-
-    &>span
-    {
-        background-image: linear-gradient(to top, #245580, #c1d2e0, #245580);
-        background-size: 400% 400%;
-        color:transparent;
-        -webkit-background-clip: text;
-        background-clip: text;
-        animation: TextGradientAnimate 1.5s ease infinite;
-        font-size: 28px;
-    }
-
-    &>span+span
-    {
-        font-size: 16px;
-    }
-}
-
-@keyframes TextGradientAnimate 
-{
-    0%{background-position: 50% 0%}
-    100%{background-position: 50% 100%}
-}
-
-// ---------------------- LOGIN VIEW ----------------------
-login-view.app-page
-{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    &>div
-    {
-        flex: 1 0 auto;
-    }
-}
-
-garden-view
-{
-    display: flex;
-    flex-direction: column;
-}
-
-
-.example-viewport 
-{
-    flex: 1;
-    min-height: 0;
-}
-  
-.example-item 
-{
-    height: 30px;
-}
-
-@import "scss/layoutDesigner/site.scss";

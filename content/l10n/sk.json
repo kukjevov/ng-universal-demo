@@ -1,2 +1,22 @@
 {
+    "Login": "Prihlasovacie meno",
+    "Password": "Heslo",
+    "Your login": "Vaše prihlasovacie meno",
+    "Your password": "Vaše heslo",
+    "Authentication failed! Please check your credentials and try again.": "Autentifikácia zlyhala! Prosím skontrolujte vaše prihlasovacie údaje a skúste znova.",
+    "Authenticate": "Autentifikovať sa",
+    "logout": "odhlásiť sa",
+    "settings": "nastavenia",
+    "general": "všeobecné",
+    "user settings": "Používateľské nastavenia",
+    "logging": "logovanie",
+    "debug": "ladenie",
+    "theme": "téma",
+    "language": "jazyk",
+    "console log": "logovanie do konzoly",
+    "file log": "logovanie do súboru",
+    "console": "konzola",
+    "debug data": "dáta pre ladenie",
+    "dark": "tmavá",
+    "light": "svetlá"
 }

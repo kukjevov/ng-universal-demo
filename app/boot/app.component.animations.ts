@@ -9,35 +9,138 @@ export const routeAnimationTrigger = trigger('routeAnimations',
     [
         query(':enter', animateChild(), {optional: true})
     ]),
-    transition('* => *', 
+    transition('* => login',
     [
         query('.main-content',
         [
-            style({ position: 'relative' }),
-            query(':enter, :leave', 
+            style(
+            {
+                position: 'relative',
+                perspective: '10000px'
+            }),
+            query(':enter, :leave',
             [
                 style(
                 {
                     position: 'absolute',
                     top: 0,
                     left: 0,
-                    width: '100%'
+                    width: '100%',
+                    height: '100%'
                 })
             ]),
-            query(':enter', 
+            query(':enter',
+            [
+                style(
+                {
+                    transform: 'rotateY(-90deg)',
+                    opacity: 0
+                })
+            ]),
+            query(':leave', animateChild()),
+            group(
+            [
+                query(':leave',
+                [
+                    animate('350ms ease-out', style(
+                    {
+                        transform: 'rotateY(90deg)',
+                        opacity: 0
+                    }))
+                ]),
+                query(':enter',
+                [
+                    animate('350ms 350ms ease-out', style(
+                    {
+                        transform: 'rotateY(0)',
+                        opacity: 1
+                    }))
+                ])
+            ]),
+            query(':enter', animateChild())
+        ])
+    ]),
+    transition('login => *',
+    [
+        query('.main-content',
+        [
+            style(
+            {
+                position: 'relative',
+                perspective: '10000px'
+            }),
+            query(':enter, :leave',
+            [
+                style(
+                {
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%'
+                })
+            ]),
+            query(':enter',
+            [
+                style(
+                {
+                    transform: 'rotateY(-90deg)',
+                    opacity: 0
+                })
+            ]),
+            query(':leave', animateChild()),
+            group(
+            [
+                query(':leave',
+                [
+                    animate('350ms ease-out', style(
+                    {
+                        transform: 'rotateY(90deg)',
+                        opacity: 0
+                    }))
+                ]),
+                query(':enter',
+                [
+                    animate('350ms 350ms ease-out', style(
+                    {
+                        transform: 'rotateY(0)',
+                        opacity: 1
+                    }))
+                ])
+            ]),
+            query(':enter', animateChild())
+        ])
+    ]),
+    transition('* => *',
+    [
+        query('.main-content',
+        [
+            style({ position: 'relative' }),
+            query(':enter, :leave',
+            [
+                style(
+                {
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%'
+                })
+            ]),
+            query(':enter',
             [
                 style({ left: '-100%'})
             ]),
             query(':leave', animateChild()),
             group(
             [
-                query(':leave', 
+                query(':leave',
                 [
-                    animate('300ms ease-out', style({ left: '100%'}))
+                    animate('350ms ease-out', style({ left: '100%'}))
                 ]),
-                query(':enter', 
+                query(':enter',
                 [
-                    animate('300ms ease-out', style({ left: '0%'}))
+                    animate('350ms ease-out', style({ left: '0%'}))
                 ])
             ]),
             query(':enter', animateChild())

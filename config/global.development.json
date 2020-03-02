@@ -1,26 +1,41 @@
 {
-    "debug": true,
-    "apiBaseUrl": "api/",
-    "defaultApiHeaders": 
+    "configuration":
     {
-        "Accept": "application/json"
-    },
-    "theme": "light",
-    "themes":
-    [
-        "light",
-        "dark"
-    ],
-    "language": "en",
-    "languages":
-    [
+        "debug": true,
+        "apiBaseUrl": "api/",
+        "defaultApiHeaders": 
         {
-            "lang": "en",
-            "name": "English"
+            "Accept": "application/json"
         },
-        {
-            "lang": "sk",
-            "name": "Slovenčina"
-        }
-    ]
+        "themes":
+        [
+            "light",
+            "dark"
+        ],
+        "languages":
+        [
+            {
+                "lang": "en",
+                "name": "English"
+            },
+            {
+                "lang": "sk",
+                "name": "Slovenčina"
+            }
+        ]
+    },
+    "general":
+    {
+        "theme": "dark",
+        "language": "en"
+    },
+    "debug":
+    {
+        "consoleEnabled": true,
+        "debugData": false
+    },
+    "logging":
+    {
+        "consoleLogLevel": "verbose"
+    }
 }

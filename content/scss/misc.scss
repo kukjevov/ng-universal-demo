@@ -1,5 +1,3 @@
-@import "variables.scss";
-
 // ---------------------- MISCELANEOUS ----------------------
 .pointer-cursor
 {
@@ -9,6 +7,21 @@
 .not-allowed-cursor
 {
     cursor: not-allowed;
+}
+
+.text-center
+{
+    text-align: center;
+}
+
+.text-right
+{
+    text-align: right;
+}
+
+.text-left
+{
+    text-align: left;
 }
 
 .block
@@ -149,6 +162,11 @@
     justify-content: end;
 }
 
+.justify-content-center
+{
+    justify-content: center;
+}
+
 .relative
 {
     position: relative;
@@ -189,208 +207,6 @@
     vertical-align: top;
 }
 
-.margin-xs-vertical
-{
-    margin-top: $xsWidth;
-    margin-bottom: $xsWidth;
-}
-
-.margin-xs-right
-{
-    margin-right: $xsWidth;
-}
-
-.margin-xs-bottom
-{
-    margin-bottom: $xsWidth;
-}
-
-.margin-xs-left
-{
-    margin-left: $xsWidth;
-}
-
-.margin-xs-horizontal
-{
-    margin-left: $xsWidth;
-    margin-right: $xsWidth;
-}
-
-.margin-sm-top
-{
-    margin-top: $smWidth;
-}
-
-.margin-sm-left
-{
-    margin-left: $smWidth;
-}
-
-.margin-sm-bottom
-{
-    margin-bottom: $smWidth;
-}
-
-.margin-sm-vertical
-{
-    margin-top: $smWidth;
-    margin-bottom: $smWidth;
-}
-
-.margin-sm-right
-{
-    margin-right: $smWidth;
-}
-
-.margin-sm-horizontal
-{
-    margin-right: $smWidth;
-    margin-left: $smWidth;
-}
-
-.margin-md-top
-{
-    margin-top: $mdWidth;
-}
-
-.margin-md-right
-{
-    margin-right: $mdWidth;
-}
-
-.margin-md-left
-{
-    margin-left: $mdWidth;
-}
-
-.margin-md-bottom
-{
-    margin-bottom: $mdWidth;
-}
-
-.margin-lg-top
-{
-    margin-top: $lgWidth;
-}
-
-.margin-lg-bottom
-{
-    margin-bottom: $lgWidth;
-}
-
-.margin-lg-left
-{
-    margin-left: $lgWidth;
-}
-
-.margin-xl-right
-{
-    margin-right: $xlWidth;
-}
-
-.margin-xl-left
-{
-    margin-left: $xlWidth;
-}
-
-.margin-xl-bottom
-{
-    margin-bottom: $xlWidth;
-}
-
-.margin-none-vertical
-{
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.margin-none-horizontal
-{
-    margin-left: 0;
-    margin-right: 0;
-}
-
-.margin-none-top
-{
-    margin-top: 0;
-}
-
-.margin-none-bottom
-{
-    margin-bottom: 0;
-}
-
-.padding-xs-left
-{
-    padding-left: $xsWidth;
-}
-
-.padding-xs-right
-{
-    padding-right: $xsWidth;
-}
-
-.padding-sm-left
-{
-    padding-left: $smWidth;
-}
-
-.padding-sm-right
-{
-    padding-right: $smWidth;
-}
-
-.padding-sm-top
-{
-    padding-top: $smWidth;
-}
-
-.padding-sm-bottom
-{
-    padding-bottom: $smWidth;
-}
-
-.padding-md-top
-{
-    padding-top: $mdWidth;
-}
-
-.padding-md-left
-{
-    padding-left: $mdWidth;
-}
-
-.padding-md-right
-{
-    padding-right: $mdWidth;
-}
-
-.padding-md-bottom
-{
-    padding-bottom: $mdWidth;
-}
-
-.padding-md-horizontal
-{
-    padding-left: $mdWidth;
-    padding-right: $mdWidth;
-}
-
-.padding-none-left
-{
-    padding-left: 0;
-}
-
-.padding-none-horizontal
-{
-    padding-left: 0;
-    padding-right: 0;
-}
-
-.space-after
-{
-    margin-bottom: 200px;
-}
 
 .content-wrap
 {
@@ -451,13 +267,6 @@
 .third-width
 {
     width: 33.33%;
-}
-
-.separator
-{
-    background-color: lighten($primaryColor, 38%);
-    box-shadow: 0 0 3px $primaryColor;
-    height: 1px;
 }
 
 .bold 

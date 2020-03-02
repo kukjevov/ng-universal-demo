@@ -10,24 +10,24 @@ jq.ajax("local/config",
     dataType: 'json',
     success: function(data)
     {
-        if(isPresent(data.debug))
+        if(isPresent(data.configuration) && isPresent(data.configuration.debug))
         {
-            config.debug = data.debug;
+            config.configuration.debug = data.configuration.debug;
         }
 
-        if(isPresent(data.apiBaseUrl))
+        if(isPresent(data.configuration) && isPresent(data.configuration.apiBaseUrl))
         {
-            config.apiBaseUrl = data.apiBaseUrl;
+            config.configuration.apiBaseUrl = data.configuration.apiBaseUrl;
         }
 
-        if(isPresent(data.theme))
+        if(isPresent(data.general) && isPresent(data.general.theme))
         {
-            config.theme = data.theme;
+            config.general.theme = data.general.theme;
         }
 
-        if(isPresent(data.language))
+        if(isPresent(data.general) && isPresent(data.general.language))
         {
-            config.language = data.language;
+            config.general.language = data.general.language;
         }
     }
 });

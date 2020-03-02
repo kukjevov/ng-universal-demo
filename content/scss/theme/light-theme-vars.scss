@@ -1,44 +1,58 @@
 // ---------------------- DARK THEME ----------------------
-$darkBackgroundColor: #FAFAFA;
-$semiDarkBackgroundColor: #3A3A3A;
-$ligntBackgroundColor: #E5E5E5;
-$lighterBackgroundColor: #F4F7FB;
-$whiteBackgroundColor: #F5F5F5;
-$titleBarBackgroundColor: #C0C0C0;
-$titleBarCloseBackgroundColor: #E81123;
-$titleBarIconBackgroundColor: #FFFFFF;
-$blueBackgroundColor: rgb(0, 116, 158);
-$primaryBackgroundColor: #019BD5;
-$primaryForegroundColor: #FFFFFF;
-$primaryBorderColor: #F3F3F3;
-$primaryDisabledBorderColor: #C5C5C5;
-$primaryDisabledBackgroundColor: #D2D2D2;
-$warningBackgroundColor: #F3F572;
+$primaryBackgroundColor: #eaeaea;
 
-$primaryTextColor: #FFFFFF;
-$successTextColor: #009500;
-$alertTextColor: #FF4A00;
-$blackText: #111111;
-$semiDarkText: #505050;
-$semiLightText: #e0e0e0;
-$lightText: #333333;
-$redText: #EC0E0E;
-$blueText: #019BD5;
-$whiteText: #FFFFFF;
-$positiveText: #009500;
-$warningText: #FF4A00;
-$iconText: #019BD5;
-$primaryDisabledText: #B5B5B5;
+$primaryForegroundColor: #1a1a1a;
 
-$buttonLightColor: #6ABA4F;
-$buttonDarkColor: darken($buttonLightColor, 20%);
-$buttonDarkerColor: darken($buttonLightColor, 12%);
-$buttonDarkestColor: darken($buttonLightColor, 28%);
+$primaryLinkColor: #63c0f5;
 
-$buttonInfoLightColor: #5bc0de;
-$buttonInfoDarkColor: darken($buttonInfoLightColor, 20%);
-$buttonInfoDarkerColor: darken($buttonInfoLightColor, 12%);
+$primaryPaginationForeground: #00a5a5;
+$primaryPaginationActiveForeground: darken($primaryBackgroundColor, 15%);
+$primaryPaginationActiveBackground: $primaryPaginationForeground;
 
-$buttonInvalidLightColor: #EC0E0E;
-$buttonInvalidDarkColor: darken($buttonInvalidLightColor, 20%);
-$buttonInvalidDarkerColor: darken($buttonInvalidLightColor, 12%);
+$primaryCodeBackground: #151515;
+$secondaryCodeBackground: $primaryCodeBackground;
+$primaryCodeForeground: #DCDCDC;
+$secondaryCodeForeground: #569CD6;
+$primaryCodeBorder: #333333;
+
+$primaryScrollbarColor: #cdcdcd;
+$primaryScrollbarBackground: $primaryBackgroundColor;
+
+$primarySelectBackgroundColor: darken($primaryBackgroundColor, 5%);
+$primarySelectForegroundColor: #FFFFFF;
+$primarySelectPopupBackgroundColor: $primarySelectBackgroundColor;
+$primarySelectPopupForegroundColor: $primaryForegroundColor;
+$primarySelectInputBackgroundColor: $primaryBackgroundColor;
+$primarySelectInputForegroundColor: $primaryForegroundColor;
+
+$titleBarBackground: lighten($primaryBackgroundColor, 5%);
+$titleBarCloseBackground: #E81123;
+$titleBarIconBackground: #FFFFFF;
+
+$navigationBackground: darken($primaryBackgroundColor, 8%);
+$navigationActiveBackground: #00a5a51a;
+$navigationShadowColor: $navigationBackground;
+$navigationMenuItemActiveMarkColor: #00a5a5;
+
+$popupBorder: #000000;
+$popupBackground: darken($primaryBackgroundColor, 5%);
+
+$dialogTitleBackground: darken($primaryBackgroundColor, 5%);
+$dialogTitleForeground: $primaryForegroundColor;
+$dialogContentBackground: darken($primaryBackgroundColor, 5%);
+$dialogContentForeground: $primaryForegroundColor;
+$dialogBorder: $popupBorder;
+
+$primarySelectBackgroundColor: darken($primaryBackgroundColor, 5%);
+$primarySelectForegroundColor: $primaryForegroundColor;
+$primarySelectPopupBackgroundColor: $primarySelectBackgroundColor;
+$primarySelectPopupForegroundColor: $primaryForegroundColor;
+$primarySelectInputBackgroundColor: $primaryBackgroundColor;
+$primarySelectInputForegroundColor: $primaryForegroundColor;
+
+$btnLineBackground: $popupBackground;
+$btnLineForeground: $primaryForegroundColor;
+
+$buttons: (
+    primary: (background: #00a5a5, foreground: #FAFAFA)
+);
