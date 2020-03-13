@@ -275,7 +275,7 @@ module.exports = [function(options, args)
                 isProduction: prod,
                 isNgsw: ngsw,
                 jsDevMode: !prod,
-                ngDevMode: !prod,
+                ...(prod) ? {ngDevMode: false} : {},
                 designerMetadata: true,
                 ngI18nClosureMode: false
             })

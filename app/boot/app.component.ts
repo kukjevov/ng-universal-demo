@@ -1,4 +1,5 @@
-import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy, Inject} from '@angular/core';
+import {DOCUMENT} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
 import {GlobalizationService} from '@anglr/common';
 import {AuthenticationService} from '@anglr/authentication';
@@ -51,7 +52,8 @@ export class AppComponent implements AfterViewInit, OnDestroy
     //######################### constructor #########################
     constructor(authetication: AuthenticationService<any>,
                 translate: TranslateService,
-                globalization: GlobalizationService) 
+                globalization: GlobalizationService,
+                @Inject(DOCUMENT) document: HTMLDocument) 
     {
         document.body.classList.add("app-page", config.theme);
 
