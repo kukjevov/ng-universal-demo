@@ -11,6 +11,11 @@ globalDefine(global =>
     {
         global.HTMLDocument = function(){};
     }
+
+    if(!global.Konami)
+    {
+        global.Konami = function(){};
+    }
 });
 
 //HACK - prevents application crash if no error handler provided
@@ -20,7 +25,7 @@ Observable.prototype.subscribe = <any>function(next, error, complete)
 {
     if(isBlank(error) || !isFunction(error))
     {
-        error = (err) => 
+        error = (err) =>
         {
             if(config.debug)
             {

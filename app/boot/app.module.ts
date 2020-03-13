@@ -32,11 +32,8 @@ import {NgDynamicCoreModule} from '../ngDynamic-core';
         HttpClientModule,
         InternalServerErrorModule,
         CommonSharedModule,
-        HotkeyModule.forRoot(
-        {
-            cheatSheetCloseEsc: true
-        }),
         MatDialogModule,
+        HotkeyModule,
         TranslateModule.forRoot(
         {
             loader: <ClassProvider>

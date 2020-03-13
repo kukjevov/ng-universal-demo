@@ -2,6 +2,7 @@ import {NgModule, FactoryProvider} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserTransferStateModule} from '@angular/platform-browser';
 import {ReportingExceptionHandlerOptions} from '@anglr/error-handling';
+import {HotkeyModule} from 'angular2-hotkeys';
 import * as config from 'config/global';
 
 import {AppComponent} from './app.component';
@@ -25,7 +26,11 @@ export function reportingExceptionHandlerOptionsFactory()
     [
         AppModule,
         BrowserAnimationsModule,
-        BrowserTransferStateModule
+        BrowserTransferStateModule,
+        HotkeyModule.forRoot(
+        {
+            cheatSheetCloseEsc: true
+        }),
     ],
     providers:
     [
