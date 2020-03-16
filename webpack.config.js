@@ -8,6 +8,7 @@ var webpack = require('webpack'),
     WebpackNotifierPlugin = require('webpack-notifier'),
     CompressionPlugin = require("compression-webpack-plugin"),
     SpeedMeasurePlugin = require("speed-measure-webpack-plugin"),
+    BitBarWebpackProgressPlugin = require("bitbar-webpack-progress-plugin"),
     BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
     extend = require('extend'),
     ts = require('typescript'),
@@ -257,6 +258,7 @@ module.exports = [function(options, args)
             new CopyWebpackPlugin(
             [
             ]),
+            new BitBarWebpackProgressPlugin(),
             new webpack.DefinePlugin(
             {
                 isProduction: prod,
