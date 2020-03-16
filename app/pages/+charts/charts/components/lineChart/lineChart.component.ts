@@ -12,4 +12,13 @@ import {Component, ChangeDetectionStrategy} from "@angular/core";
 })
 export class LineChartComponent
 {
+    //######################### protected methods #########################
+    
+    /**
+     * Method called for data processing and creating rest of chart from it
+     */
+    protected _processData()
+    {
+
+    }
 }
