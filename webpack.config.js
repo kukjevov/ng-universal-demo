@@ -144,7 +144,7 @@ module.exports = [function(options, args)
                 "config/global": ssr ? path.join(__dirname, "config/global.json") : path.join(__dirname, "config/config.js"),
                 "config/default": path.join(__dirname, prod ? "config/global.json" : "config/global.development.json"),
                 "config/version": path.join(__dirname, "config/version.json"),
-                "angular_material/src/cdk": path.join(__dirname, "node_modules/@angular/cdk/esm2015"),
+                "@angular/cdk/a11y": path.join(__dirname, "node_modules/@angular/cdk/esm2015/a11y"),
                 "app": path.join(__dirname, "app")
             }),
             mainFields: es5 ? ['browser', 'module', 'main'] : ssr ? ['esm2015', 'es2015', 'jsnext:main', 'module', 'main'] : ['esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main']
