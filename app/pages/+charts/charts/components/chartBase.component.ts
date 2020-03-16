@@ -1,9 +1,9 @@
-import {Directive, ElementRef, Input, OnChanges, SimpleChanges, OnInit} from '@angular/core';
+import {Directive, ElementRef, Input, OnChanges, SimpleChanges, OnInit, Output, EventEmitter} from '@angular/core';
 import {nameof, isPresent} from '@jscrpt/common';
 import {BaseType, ScaleBand, ScaleLinear, scaleBand, select, Selection, scaleLinear, Axis, axisBottom, axisLeft, format, max} from 'd3';
 import * as moment from 'moment';
 
-import {ChartItem} from '../charts.interface';
+import {ChartItem, ChartItemTooltip} from '../charts.interface';
 
 /**
  * Base class for displaying charts
@@ -38,6 +38,20 @@ export abstract class ChartBaseComponent implements OnInit, OnChanges
      */
     @Input()
     public data: ChartItem[] = [];
+
+    //######################### public properties - outputs #########################
+
+    /**
+     * Occurs when there is need for displaying tooltip
+     */
+    @Output()
+    public showTooltip: EventEmitter<ChartItemTooltip> = new EventEmitter<ChartItemTooltip>();
+
+    /**
+     * Occurs when there is need for hiding tooltip
+     */
+    @Output()
+    public hideTooltip: EventEmitter<void> = new EventEmitter<void>();
 
     //######################### constructor #########################
     constructor(protected _element: ElementRef<HTMLElement>)
@@ -88,6 +102,7 @@ export abstract class ChartBaseComponent implements OnInit, OnChanges
                 });
 
             this._chart.yAxis = axisLeft(this._chart.yScale)
+                .tickSize(this._chart.width)
                 .ticks(4)
                 .tickFormat(d => format('~s')(d));
 
@@ -95,14 +110,22 @@ export abstract class ChartBaseComponent implements OnInit, OnChanges
 
             this._chart.yScale = this._chart.yScale.domain([0, maxVal + Math.round(maxVal * 0.2)]);
 
-            this._chart.yAxisG.call(this._chart.yAxis);
+            this._chart.yAxisG.call(this._chart.yAxis)
+                .attr("transform", `translate(${this._chart.width}, 0)`)
+                .selectAll("path").remove();
                 
             this._chart.xAxisG
                 .call(this._chart.xAxis)
                 .selectAll("text")
                     .style("text-anchor", "end")
                     .attr("dx", "-.8em")
-                    .attr("transform", "rotate(-40)" );
+                    .attr("transform", "rotate(-40)" )
+            
+            this._chart.xAxisG
+                .selectAll("path").remove();
+
+            this._chart.xAxisG
+                .selectAll("line").remove();
 
             this._processData();
         }
@@ -136,7 +159,7 @@ export abstract class ChartBaseComponent implements OnInit, OnChanges
         this._chart.xScale = scaleBand()
             .range([0, this._chart.width])
             .domain(this.data.map(itm => itm.date))
-            .padding(0.5);
+            .padding(0.6);
 
         this._chart.yScale = scaleLinear()
             .range([this._chart.height, 0]);

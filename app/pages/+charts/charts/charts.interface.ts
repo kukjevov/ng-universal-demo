@@ -1,15 +1,36 @@
 /**
- * Reprezentuje jednu polozku do grafu
+ * Chart item tooltip
+ */
+export interface ChartItemTooltip
+{
+    /**
+     * Value which should be displayed
+     */
+    value: ChartItem;
+
+    /**
+     * X coordinate for displaying tooltip
+     */
+    x: number;
+
+    /**
+     * Y coordinate for displaying tooltip
+     */
+    y: number;
+}
+
+/**
+ * Represents item for chart
  */
 export interface ChartItem
 {
     /**
-     * Datum reprezentujuci jeden den
+     * Date representing single day
      */
     date: string;
 
     /**
-     * Pocet pripadov
+     * Number of cases
      */
     cases: number;
 }

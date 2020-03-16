@@ -1,4 +1,5 @@
 import {Component, ChangeDetectionStrategy} from "@angular/core";
+import {event} from 'd3';
 
 import {ChartBaseComponent} from '../chartBase.component';
 
@@ -29,6 +30,23 @@ export class BarChartComponent extends ChartBaseComponent
                 .attr("x", d => this._chart.xScale(d.date))
                 .attr("width", this._chart.xScale.bandwidth())
                 .attr("y", d => this._chart.yScale(d.cases))
-                .attr("height", d => this._chart.height - this._chart.yScale(d.cases));
+                .attr("height", d => this._chart.height - this._chart.yScale(d.cases))
+            .on('mouseenter', data =>
+            {
+                let e = event as MouseEvent;
+                let target = e.target as SVGRectElement;
+                let rect = target.getBoundingClientRect();
+
+                this.showTooltip.emit(
+                {
+                    value: data,
+                    x: rect.left + (rect.width / 2),
+                    y: rect.top
+                });
+            })
+            .on('mouseleave', () =>
+            {
+                this.hideTooltip.emit();
+            });
     }
 }
