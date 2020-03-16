@@ -26,6 +26,10 @@ export const routesOptions: ModuleRoutesOptions =
         {
             path: 'lazy',
             loadChildren: () => import('../pages/+sample/sample.module').then(({SampleModule}) => SampleModule)
+        },
+        {
+            path: 'charts',
+            loadChildren: () => import('../pages/+charts/charts.module').then(({ChartsModule}) => ChartsModule)
         }
     ]
 };
