@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from "@angular/core";
-import {line, curveMonotoneX} from 'd3';
+import {line, curveMonotoneX, select} from 'd3';
 
 import {ChartBaseComponent} from '../chartBase.component';
 import {ChartItem} from '../../charts.interface';
@@ -37,31 +37,41 @@ export class LineChartComponent extends ChartBaseComponent
             .attr("class", "line item-color")
             .attr("d", lineGenerator);
 
-        chartG.selectAll(".dot.item-color")
+        chartG.selectAll(".value-hover")
             .data(this.data)
             .enter()
-            .append("circle")
-                .attr("class", "dot item-color")
-                .attr("cx", d => this._chart.xScale(d.date))
-                .attr("cy", d => this._chart.yScale(d.cases))
-                .attr("r", 4)
-            .on('mouseenter', data =>
-            {
-                let e = event as MouseEvent;
-                let target = e.target as SVGRectElement;
-                let rect = target.getBoundingClientRect();
-
-                this.showTooltip.emit(
+                .call(sel =>
                 {
-                    value: data,
-                    x: rect.left + (rect.width / 2),
-                    y: rect.top,
-                    visible: true
+                    sel.append("circle")
+                        .attr("class", "dot item-color")
+                        .attr("cx", d => this._chart.xScale(d.date))
+                        .attr("cy", d => this._chart.yScale(d.cases))
+                        .attr("r", 4);
+
+                    sel.append("rect")
+                        .attr("class", "value-hover")
+                        .attr("x", d => this._chart.xScale(d.date) - (this._chart.xScale.bandwidth() / 2))
+                        .attr("width", this._chart.xScale.bandwidth())
+                        .attr("y", 0)
+                        .attr("height", d => this._chart.height)
+                        .style('fill-opacity', 0)
+                        .on('mouseenter', (data, index) =>
+                        {
+                            let target = sel.selectAll('circle').nodes()[index] as SVGCircleElement;
+                            let rect = target.getBoundingClientRect();
+            
+                            this.showTooltip.emit(
+                            {
+                                value: data,
+                                x: rect.left + (rect.width / 2),
+                                y: rect.top,
+                                visible: true
+                            });
+                        })
+                        .on('mouseleave', () =>
+                        {
+                            this.hideTooltip.emit();
+                        });
                 });
-            })
-            .on('mouseleave', () =>
-            {
-                this.hideTooltip.emit();
-            });
     }
 }
