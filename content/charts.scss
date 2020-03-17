@@ -1,6 +1,36 @@
-.bar
+.total-cases
 {
-    fill: #999999;
+    .item-color
+    {
+        stroke: #ffab00;
+    }
+
+    .item-color
+    {
+        &.dot, &.legend
+        {
+            fill: #ffab00;
+
+            &:hover
+            {
+                fill-opacity: 0.8;
+            }
+        }
+    }
+}
+
+.daily-cases
+{
+    .item-color
+    {
+        fill: #999999;
+    }
+}
+
+.line
+{
+    fill: none;
+    stroke-width: 3;
 }
 
 .bar:hover

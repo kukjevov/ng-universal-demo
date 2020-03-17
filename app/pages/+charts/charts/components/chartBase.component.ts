@@ -209,7 +209,7 @@ export abstract class ChartBaseComponent implements OnInit, OnChanges
             .attr('cx', rect.x - 10)
             .attr('cy', -5)
             .attr('r', 5)
-            .attr('class', 'bar');
+            .attr('class', 'item-color legend');
 
         this._chart.othersG
             .append('g')

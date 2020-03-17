@@ -1,11 +1,28 @@
-<div class="flex-row flex-1">
-    <div class="flex-1"></div>
+<div class="flex-column flex-1 overflow-vertical-scroll thin-scrollbar">
+    <div class="flex-row flex-1">
+        <div class="flex-1"></div>
 
-    <div class="flex-4">
-        <chart [data]="barChartData"
-               valueText="Denne prípadov"
-               yValuesText="Počet prípadov denne"></chart>
+        <div class="flex-4">
+            <chart class="daily-cases"
+                   [data]="barChartData"
+                   valueText="Denne prípadov"
+                   yValuesText="Počet prípadov denne"></chart>
+        </div>
+        
+        <div class="flex-1"></div>
     </div>
-    
-    <div class="flex-1"></div>
+
+    <div class="flex-row flex-1">
+        <div class="flex-1"></div>
+
+        <div class="flex-4">
+            <chart class="total-cases"
+                   [data]="lineChartData"
+                   [isLineChart]="true"
+                   valueText="Celkom prípadov"
+                   yValuesText="Celkový počet prípadov"></chart>
+        </div>
+        
+        <div class="flex-1"></div>
+    </div>
 </div>

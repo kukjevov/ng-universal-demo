@@ -23,6 +23,11 @@ export class ChartsComponent implements OnInit
      */
     public barChartData: ChartItem[] = [];
 
+    /**
+     * Data for line chart
+     */
+    public lineChartData: ChartItem[] = [];
+
     //######################### public methods - implementation of OnInit #########################
     
     /**
@@ -75,6 +80,54 @@ export class ChartsComponent implements OnInit
             {
                 date: '2020-03-16',
                 cases: 11
+            }
+        ];
+
+        this.lineChartData =
+        [
+            {
+                date: '2020-03-06',
+                cases: 1
+            },
+            {
+                date: '2020-03-07',
+                cases: 3
+            },
+            {
+                date: '2020-03-08',
+                cases: 5
+            },
+            {
+                date: '2020-03-09',
+                cases: 7
+            },
+            {
+                date: '2020-03-10',
+                cases: 7
+            },
+            {
+                date: '2020-03-11',
+                cases: 10
+            },
+            {
+                date: '2020-03-12',
+                cases: 21
+            },
+            {
+                date: '2020-03-13',
+                cases: 32
+            },
+            {
+                date: '2020-03-14',
+                cases: 44
+            },
+            {
+                date: '2020-03-15',
+                cases: 61
+            },
+            {
+                date: '2020-03-16',
+                cases: 72
             }
         ];
     }

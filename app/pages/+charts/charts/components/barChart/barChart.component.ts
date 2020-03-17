@@ -22,11 +22,12 @@ export class BarChartComponent extends ChartBaseComponent
      */
     protected _processData()
     {
-        this._chart.chartG.selectAll(".bar")
+        this._chart.chartG
+            .selectAll(".item-color.bar")
             .data(this.data)
             .enter()
             .append("rect")
-                .attr("class", "bar")
+                .attr("class", "item-color bar")
                 .attr("x", d => this._chart.xScale(d.date))
                 .attr("width", this._chart.xScale.bandwidth())
                 .attr("y", d => this._chart.yScale(d.cases))
