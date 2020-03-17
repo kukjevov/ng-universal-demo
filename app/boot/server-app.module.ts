@@ -1,36 +1,34 @@
 import {NgModule, FactoryProvider} from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {BrowserTransferStateModule} from '@angular/platform-browser';
+import {ServerModule, ServerTransferStateModule} from '@angular/platform-server';
 import {ReportingExceptionHandlerOptions} from '@anglr/error-handling';
-import {HotkeyModule} from 'angular2-hotkeys';
-import * as config from 'config/global';
+import {ServerProvidersModule} from '@anglr/server-stuff';
+import {ServerHotkeysModule} from '@anglr/server-stuff/hotkeys';
 
 import {AppComponent} from './app.component';
 import {AppModule} from './app.module';
+import * as config from 'config/global';
 
 /**
  * Factory for ReportingExceptionHandlerOptions
  */
 export function reportingExceptionHandlerOptionsFactory()
 {
-    return new ReportingExceptionHandlerOptions(config.configuration.debug, true, false, false, false, false);
+	return new ReportingExceptionHandlerOptions(config.configuration.debug, false, false, false, false, false);
 }
 
 /**
- * Entry module for browser side
+ * Entry module for server side
  */
 @NgModule(
 {
     bootstrap: [AppComponent],
-    imports:
+    imports: 
     [
         AppModule,
-        BrowserAnimationsModule,
-        BrowserTransferStateModule,
-        HotkeyModule.forRoot(
-        {
-            cheatSheetCloseEsc: true
-        })
+        ServerModule,
+        ServerTransferStateModule,
+        ServerProvidersModule,
+        ServerHotkeysModule
     ],
     providers:
     [
@@ -41,6 +39,6 @@ export function reportingExceptionHandlerOptionsFactory()
         }
     ]
 })
-export class BrowserAppModule
+export class ServerAppModule 
 {
 }

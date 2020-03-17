@@ -6,6 +6,7 @@ import './hacks';
 import {platformBrowser} from '@angular/platform-browser';
 import {NgModuleRef, enableProdMode} from '@angular/core';
 import {runWhenModuleStable} from '@anglr/common';
+import {RestTransferStateService} from '@anglr/rest';
 import {hmrAccept, hmrFinishedNotification} from '@anglr/common/hmr';
 import * as config from 'config/global';
 
@@ -25,7 +26,8 @@ jsDevMode && hmrAccept(() => platform);
 
 var platform = platformBrowser();
 
-runWhenModuleStable(platform.bootstrapModule(BrowserAppModule), (moduleRef: NgModuleRef<{}>) => 
-{    
+runWhenModuleStable(platform.bootstrapModule(BrowserAppModule), (moduleRef: NgModuleRef<{}>) =>
+{
+    moduleRef.injector.get(RestTransferStateService)?.clearAndDeactivate();
     jsDevMode && hmrFinishedNotification();
 }, config.configuration.debug);

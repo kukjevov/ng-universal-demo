@@ -1,7 +1,6 @@
 import {NgModule, ClassProvider} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
-import {MatDialogModule} from '@angular/material/dialog';
 import {ModuleRoutes} from '@anglr/common/router';
 import {ConsoleLogModule} from '@anglr/common/structured-log';
 import {TitledDialogModule} from '@anglr/common/material';
@@ -31,11 +30,7 @@ import {UserSettingsComponent} from '../components';
         HttpClientModule,
         InternalServerErrorModule,
         CommonSharedModule,
-        HotkeyModule.forRoot(
-        {
-            cheatSheetCloseEsc: true
-        }),
-        MatDialogModule,
+        HotkeyModule,
         ConsoleLogModule.forRoot(),
         TitledDialogModule,
         TranslateModule.forRoot(

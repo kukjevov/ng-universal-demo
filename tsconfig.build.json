@@ -6,8 +6,7 @@
     },
     "exclude":
     [
-        "node_modules",
-        "karma-test-shim.ts"
+        "node_modules"
     ],
     "angularCompilerOptions":
     {

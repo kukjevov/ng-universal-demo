@@ -14,7 +14,9 @@ var app = connect();
 connectExtensions.extendConnectUse(app);
 
 const wwwroot = path.join(__dirname, "wwwroot");
+const serverPath = path.join(wwwroot, 'dist/server.es2015.js');
 const proxyUrlFile = path.join(__dirname, 'proxyUrl.js');
+var serverRenderFunc;
 var proxyUrl = "http://127.0.0.1:8080";
 
 var key = fs.readFileSync('server.key');
@@ -25,6 +27,19 @@ var options =
     key: key,
     cert: cert
 };
+
+/**
+ * Gets function used for server side rendering
+ */
+function getServerRenderFunc()
+{
+    if(!serverRenderFunc || !!argv.webpack)
+    {
+        serverRenderFunc = require(serverPath).serverRender;
+    }
+
+    return serverRenderFunc;
+}
 
 function isRequireAvailable(path)
 {
@@ -82,6 +97,36 @@ require('./server.rest')(app);
 
 //enable html5 routing
 app.use(history());
+
+//angular server side rendering
+app.use(function (req, res, next)
+{
+    if(req.url == '/index.html')
+    {
+        if(!isRequireAvailable(serverPath))
+        {
+            next();
+
+            return;
+        }
+
+        res.setHeader('Content-Type', 'text/html');
+
+        getServerRenderFunc()(path.join(wwwroot, 'index.html'), req.originalUrl, {baseUrl: "http://localhost:8888/", requestCookies: req.headers['cookie']}, function(err, succ)
+        {
+            if(succ && succ.statusCode)
+            {
+                res.statusCode = succ.statusCode;
+            }
+
+            res.end((err && err.toString()) || succ.html);
+        });
+
+        return;
+    }
+
+    next();
+});
 
 //return static files
 app.use(gzipStatic(wwwroot, 

@@ -11,6 +11,11 @@ globalDefine(global =>
     {
         global.HTMLDocument = function(){};
     }
+
+    if(!global.Konami)
+    {
+        global.Konami = function(){};
+    }
 });
 
 //HACK - prevents application crash if no error handler provided

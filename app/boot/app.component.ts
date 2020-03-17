@@ -1,4 +1,5 @@
 import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, Inject, OnInit} from '@angular/core';
+import {DOCUMENT} from '@angular/common';
 import {RouterOutlet, Router} from '@angular/router';
 import {GlobalizationService, LOGGER, Logger} from '@anglr/common';
 import {consoleAnimationTrigger} from '@anglr/common/structured-log';
@@ -109,7 +110,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
                 private _configSvc: ConfigReleaseService,
                 private _dialog: TitledDialogService,
                 settings: SettingsService,
-                @Inject(LOGGER) logger: Logger)
+                @Inject(LOGGER) logger: Logger,
+                @Inject(DOCUMENT) document: HTMLDocument)
     {
         logger.verbose('Application is starting, main component constructed.');
 
