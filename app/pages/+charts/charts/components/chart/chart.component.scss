@@ -1,0 +1,23 @@
+.chart-tooltip
+{
+    background-color: #DDDDDDAA;
+    padding: 8px 6px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 1px #AAA;
+    border: 1px solid #888;
+    width: 160px;
+    font-size: 0.85em;
+    transition: all 200ms;
+
+    &:before 
+    {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 70px;
+        width: 0;
+        border-top: 10px solid #aaa;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+    }
+}

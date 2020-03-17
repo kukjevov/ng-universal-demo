@@ -39,6 +39,12 @@ export abstract class ChartBaseComponent implements OnInit, OnChanges
     @Input()
     public data: ChartItem[] = [];
 
+    /**
+     * Height of chart
+     */
+    @Input()
+    public height: number;
+
     //######################### public properties - outputs #########################
 
     /**
@@ -98,7 +104,7 @@ export abstract class ChartBaseComponent implements OnInit, OnChanges
                         }
                     }
 
-                    return date?.format('L');
+                    return date?.format('MMM DD');
                 });
 
             this._chart.yAxis = axisLeft(this._chart.yScale)
@@ -147,11 +153,10 @@ export abstract class ChartBaseComponent implements OnInit, OnChanges
 
         let selfObj = select(this._element.nativeElement),
             svgWidth = (+selfObj.property("offsetWidth")),
-            svgHeight = 400,
             svg = selfObj.append("svg")
-                .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`);
+                .attr("viewBox", `0 0 ${svgWidth} ${this.height}`);
 
-        this._chart.height = svgHeight - this._chart.margin.top - this._chart.margin.bottom;
+        this._chart.height = this.height - this._chart.margin.top - this._chart.margin.bottom;
         this._chart.width = svgWidth - this._chart.margin.left - this._chart.margin.right;
 
         this._chart.chartG = svg.append("g").attr("transform", "translate(" + this._chart.margin.left + "," + this._chart.margin.top + ")");

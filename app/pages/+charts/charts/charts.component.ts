@@ -1,7 +1,7 @@
-import {Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef} from "@angular/core";
+import {Component, ChangeDetectionStrategy, OnInit} from "@angular/core";
 import {ComponentRoute} from "@anglr/common/router";
 
-import {ChartItem, ChartItemTooltip} from './charts.interface';
+import {ChartItem} from './charts.interface';
 
 /**
  * Charts sample page
@@ -17,11 +17,6 @@ import {ChartItem, ChartItemTooltip} from './charts.interface';
 export class ChartsComponent implements OnInit
 {
     //######################### public properties - template bindings #########################
-
-    /**
-     * Tooltip that is being displayed
-     */
-    public tooltip?: ChartItemTooltip;
 
     /**
      * Data for bar chart

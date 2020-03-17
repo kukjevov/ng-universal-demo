@@ -13,6 +13,7 @@ import {NgSelectModule} from '@anglr/select';
 import {CommonModule as NgCommonModule} from '@anglr/common';
 import {NumeralModule} from '@anglr/common/numeral';
 import {NumberInputModule} from '@anglr/common/forms';
+import {MomentModule} from '@anglr/common/moment';
 import {NotificationsModule} from '@anglr/notifications';
 import {InternalServerErrorModule} from '@anglr/error-handling';
 import {AuthorizationModule} from '@anglr/authentication';
@@ -35,6 +36,7 @@ import {TranslateModule} from '@ngx-translate/core';
         DebugDataModule,
         NumeralModule,
         NumberInputModule,
+        MomentModule,
         TranslateModule,
         BootstrapCoreModule,
         DatetimepickerModule,

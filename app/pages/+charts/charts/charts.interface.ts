@@ -17,6 +17,11 @@ export interface ChartItemTooltip
      * Y coordinate for displaying tooltip
      */
     y: number;
+
+    /**
+     * Indication that it should be visible
+     */
+    visible: boolean;
 }
 
 /**

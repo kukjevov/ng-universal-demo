@@ -1,5 +1,7 @@
 import {Component, ChangeDetectionStrategy} from "@angular/core";
 
+import {ChartBaseComponent} from '../chartBase.component';
+
 /**
  * Line chart for displaying data
  */
@@ -10,7 +12,7 @@ import {Component, ChangeDetectionStrategy} from "@angular/core";
     styleUrls: ['lineChart.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LineChartComponent
+export class LineChartComponent extends ChartBaseComponent
 {
     //######################### protected methods #########################
     
@@ -19,6 +21,5 @@ export class LineChartComponent
      */
     protected _processData()
     {
-
     }
 }

@@ -1,0 +1,20 @@
+<div *ngIf="isLineChart">
+    <line-chart [data]="data"
+                (showTooltip)="tooltip = $event"
+                (hideTooltip)="tooltip.value = null"></line-chart>
+</div>
+
+<div *ngIf="!isLineChart">
+    <bar-chart [data]="data"
+               [height]="height"
+               (showTooltip)="tooltip = $event"
+               (hideTooltip)="tooltip.visible = null"></bar-chart>
+</div>
+
+<div class="absolute chart-tooltip"
+     [style.opacity]="!!tooltip?.visible ? 1 : 0"
+     [style.left.px]="tooltip?.x | subtract: 80"
+     [style.top.px]="tooltip?.y | subtract: 65">
+    <div>{{tooltip?.value?.date | momentFormat: 'MMM DD'}}</div>
+    <div>{{valueText}}: <strong>{{tooltip?.value?.cases}}</strong></div>
+</div>

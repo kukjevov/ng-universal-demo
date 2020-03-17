@@ -2,18 +2,9 @@
     <div class="flex-1"></div>
 
     <div class="flex-4">
-        <bar-chart [data]="barChartData"
-                   (showTooltip)="tooltip = $event"
-                   (hideTooltip)="tooltip.value = null"></bar-chart>
+        <chart [data]="barChartData"
+               valueText="Denne prípadov"></chart>
     </div>
     
     <div class="flex-1"></div>
-</div>
-
-<div class="absolute"
-     [style.opacity]="!!tooltip?.value ? 1 : 0"
-     [style.left.px]="tooltip?.x"
-     [style.top.px]="tooltip?.y">
-    cases: {{tooltip?.value?.cases}}
-    date: {{tooltip?.value?.date}}
 </div>

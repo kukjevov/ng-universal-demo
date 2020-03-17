@@ -5,6 +5,8 @@ import {components} from "./charts.routes";
 import {BarChartComponent} from './charts/components/barChart/barChart.component';
 import {LineChartComponent} from './charts/components/lineChart/lineChart.component';
 import {CommonSharedModule} from '../../boot/commonShared.module';
+import {ChartComponent} from './charts/components/chart/chart.component';
+import {SubtractPipe} from './charts/pipes/subtract.pipe';
 
 /**
  * Module for charts pages
@@ -18,8 +20,10 @@ import {CommonSharedModule} from '../../boot/commonShared.module';
     declarations:
     [
         ...components,
+        ChartComponent,
         BarChartComponent,
-        LineChartComponent
+        LineChartComponent,
+        SubtractPipe
     ]
 })
 @ModuleRoutes(components)

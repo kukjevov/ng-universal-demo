@@ -41,7 +41,8 @@ export class BarChartComponent extends ChartBaseComponent
                 {
                     value: data,
                     x: rect.left + (rect.width / 2),
-                    y: rect.top
+                    y: rect.top,
+                    visible: true
                 });
             })
             .on('mouseleave', () =>
