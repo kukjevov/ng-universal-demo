@@ -52,4 +52,10 @@ export class ChartComponent
      */
     @Input()
     public yValuesText: string;
+
+    /**
+     * Chart title
+     */
+    @Input()
+    public chartTitle: string;
 }

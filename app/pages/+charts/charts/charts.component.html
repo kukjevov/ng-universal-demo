@@ -5,6 +5,7 @@
         <div class="flex-4">
             <chart class="daily-cases"
                    [data]="barChartData"
+                   chartTitle="Denne nových prípadov"
                    valueText="Denne prípadov"
                    yValuesText="Počet prípadov denne"></chart>
         </div>
@@ -19,6 +20,7 @@
             <chart class="total-cases"
                    [data]="lineChartData"
                    [isLineChart]="true"
+                   chartTitle="Prípadov celkom"
                    valueText="Celkom prípadov"
                    yValuesText="Celkový počet prípadov"></chart>
         </div>

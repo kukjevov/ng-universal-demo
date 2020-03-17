@@ -10,11 +10,6 @@
         &.dot, &.legend
         {
             fill: #ffab00;
-
-            &:hover
-            {
-                fill-opacity: 0.8;
-            }
         }
     }
 }
@@ -36,6 +31,14 @@
 .bar:hover
 {
     fill-opacity: 0.8;
+}
+
+.dot, .legend
+{
+    &:hover
+    {
+        fill-opacity: 0.7;
+    }
 }
 
 .y.axis

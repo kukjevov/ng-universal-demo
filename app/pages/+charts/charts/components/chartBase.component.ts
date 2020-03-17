@@ -136,7 +136,9 @@ export abstract class ChartBaseComponent implements OnInit, OnChanges
                 .call(this._chart.xAxis)
                 .selectAll("text")
                     .style("text-anchor", "end")
-                    .attr("dx", "-.8em")
+                    .style('font-size', '1.2em')
+                    .attr("dx", "-.3em")
+                    .attr("dy", ".3em")
                     .attr("transform", "rotate(-40)" )
             
             this._chart.xAxisG
