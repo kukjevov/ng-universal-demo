@@ -80,6 +80,10 @@ export class ChartsComponent implements OnInit
             {
                 date: '2020-03-16',
                 cases: 11
+            },
+            {
+                date: '2020-03-17',
+                cases: 12
             }
         ];
 
@@ -128,6 +132,10 @@ export class ChartsComponent implements OnInit
             {
                 date: '2020-03-16',
                 cases: 72
+            },
+            {
+                date: '2020-03-17',
+                cases: 84
             }
         ];
     }

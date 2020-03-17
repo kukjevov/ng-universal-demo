@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from "@angular/core";
-import {line, curveMonotoneX, select} from 'd3';
+import {line, curveMonotoneX} from 'd3';
 
 import {ChartBaseComponent} from '../chartBase.component';
 import {ChartItem} from '../../charts.interface';
@@ -33,9 +33,19 @@ export class LineChartComponent extends ChartBaseComponent
                 .attr('transform', `translate(18, 0)`);
 
         chartG.append("path")
-            .datum(this.data)
+            .datum(this.data.map(itm => 
+            {
+                return {
+                    date: itm.date,
+                    cases: 0
+                };
+            }))
             .attr("class", "line item-color")
-            .attr("d", lineGenerator);
+            .attr("d", lineGenerator)
+            .datum(this.data)
+            .transition()
+            .duration(850)
+                .attr("d", lineGenerator);
 
         chartG.selectAll(".value-hover")
             .data(this.data)
@@ -45,8 +55,11 @@ export class LineChartComponent extends ChartBaseComponent
                     sel.append("circle")
                         .attr("class", "dot item-color")
                         .attr("cx", d => this._chart.xScale(d.date))
-                        .attr("cy", d => this._chart.yScale(d.cases))
-                        .attr("r", 4);
+                        .attr("cy", () => this._chart.yScale(0))
+                        .attr("r", 4)
+                        .transition()
+                        .duration(850)
+                            .attr("cy", d => this._chart.yScale(d.cases));
 
                     sel.append("rect")
                         .attr("class", "value-hover")
