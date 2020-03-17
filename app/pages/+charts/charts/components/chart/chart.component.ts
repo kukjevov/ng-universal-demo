@@ -46,4 +46,10 @@ export class ChartComponent
      */
     @Input()
     public valueText: string;
+
+    /**
+     * Description of Y values
+     */
+    @Input()
+    public yValuesText: string;
 }

@@ -24,7 +24,7 @@ export abstract class ChartBaseComponent implements OnInit, OnChanges
         xAxis?: Axis<string>,
         yAxis?: Axis<number | {valueOf(): number}>,
         chartG?: Selection<BaseType, {}, null, undefined>,
-        legendGroup?: Selection<BaseType, {}, null, undefined>,
+        othersG?: Selection<BaseType, {}, null, undefined>,
         xAxisG?: Selection<BaseType, {}, null, undefined>,
         yAxisG?: Selection<BaseType, {}, null, undefined>,
         xScale?: ScaleBand<string>,
@@ -44,6 +44,18 @@ export abstract class ChartBaseComponent implements OnInit, OnChanges
      */
     @Input()
     public height: number;
+
+    /**
+     * Value text to be displayed in tooltip or legend
+     */
+    @Input()
+    public valueText: string;
+
+    /**
+     * Description of Y values
+     */
+    @Input()
+    public yValuesText: string;
 
     //######################### public properties - outputs #########################
 
@@ -149,7 +161,7 @@ export abstract class ChartBaseComponent implements OnInit, OnChanges
             return;
         }
 
-        this._chart.margin = {top: 16, right: 10, bottom: 60, left: 40};
+        this._chart.margin = {top: 16, right: 10, bottom: 76, left: 40};
 
         let selfObj = select(this._element.nativeElement),
             svgWidth = (+selfObj.property("offsetWidth")),
@@ -160,7 +172,9 @@ export abstract class ChartBaseComponent implements OnInit, OnChanges
         this._chart.width = svgWidth - this._chart.margin.left - this._chart.margin.right;
 
         this._chart.chartG = svg.append("g").attr("transform", "translate(" + this._chart.margin.left + "," + this._chart.margin.top + ")");
+        this._chart.othersG = svg.append("g");
 
+        //mierky pre ziskanie suradnic
         this._chart.xScale = scaleBand()
             .range([0, this._chart.width])
             .domain(this.data.map(itm => itm.date))
@@ -169,12 +183,44 @@ export abstract class ChartBaseComponent implements OnInit, OnChanges
         this._chart.yScale = scaleLinear()
             .range([this._chart.height, 0]);
 
+        //skupiny pre obe osi
         this._chart.xAxisG = this._chart.chartG.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + this._chart.height + ")");
 
         this._chart.yAxisG = this._chart.chartG.append("g")
             .attr("class", "y axis");
+
+        //legend
+        let legendG = this._chart.othersG
+            .append('g')
+                .attr('transform', `translate(${this._chart.margin.left + (this._chart.width / 2)}, ${this._chart.height + this._chart.margin.top + 56})`);
+                
+        let rect = legendG.append('text')
+            .text(this.valueText)
+            .attr('x', 0)
+            .attr('y', 0)
+            .style('text-anchor', 'middle')
+            .style('font-size', '0.85em')
+            .node()
+            .getBBox();
+
+        legendG.append('circle')
+            .attr('cx', rect.x - 10)
+            .attr('cy', -5)
+            .attr('r', 5)
+            .attr('class', 'bar');
+
+        this._chart.othersG
+            .append('g')
+                .attr('transform', `translate(0, ${this._chart.margin.top + (this._chart.height / 2)})`)
+            .append('text')
+                .attr('x', 0)
+                .attr('y', '1em')
+                .style('text-anchor', 'middle')
+                .style('font-size', '0.8em')
+                .attr("transform", "rotate(-90)" )
+                .text(this.yValuesText);
     }
 
     /**

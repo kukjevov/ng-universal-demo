@@ -7,6 +7,8 @@
 <div *ngIf="!isLineChart">
     <bar-chart [data]="data"
                [height]="height"
+               [valueText]="valueText"
+               [yValuesText]="yValuesText"
                (showTooltip)="tooltip = $event"
                (hideTooltip)="tooltip.visible = null"></bar-chart>
 </div>
@@ -15,6 +17,6 @@
      [style.opacity]="!!tooltip?.visible ? 1 : 0"
      [style.left.px]="tooltip?.x | subtract: 80"
      [style.top.px]="tooltip?.y | subtract: 65">
-    <div>{{tooltip?.value?.date | momentFormat: 'MMM DD'}}</div>
+    <div>{{tooltip?.value?.date | momentFormat: 'MMMM DD'}}</div>
     <div>{{valueText}}: <strong>{{tooltip?.value?.cases}}</strong></div>
 </div>
