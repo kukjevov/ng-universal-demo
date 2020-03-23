@@ -23,9 +23,5 @@ export const routesOptions: ModuleRoutesOptions =
     },
     staticRoutesBefore:
     [
-        {
-            path: 'lazy',
-            loadChildren: () => import('../pages/+sample/sample.module').then(({SampleModule}) => SampleModule)
-        }
     ]
 };
