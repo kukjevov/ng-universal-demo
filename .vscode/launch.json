@@ -8,10 +8,13 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Webpack Aot",
+            "name": "Launch Webpack Build",
             "program": "${workspaceRoot}/node_modules/webpack/bin/webpack.js",
             "args": [
-                "--env.aot"
+                "--env.aot",
+                "--env.dll",
+                "--env.css",
+                "--env.html"
             ],
             "outFiles": []
         },
