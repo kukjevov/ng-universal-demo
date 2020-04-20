@@ -16,6 +16,7 @@ import {GlobalizationService as GlobalizationServiceImpl} from '../services/glob
 import {NOTHING_SELECTED} from '../misc/constants';
 import {SettingsService, LocalSettingsStorage} from '../services/settings';
 import {SETTINGS_STORAGE} from '../misc/tokens';
+import {REDIRECT_LOCATION_INTERCEPTOR_PROVIDER} from '../services/api/account/redirectLocation.interceptor';
 
 /**
  * Creates APP initialization factory, that first try to authorize user before doing anything else
@@ -113,6 +114,7 @@ export var providers =
     NO_CONNECTION_INTERCEPTOR_PROVIDER,
     SUPPRESS_AUTH_INTERCEPTOR_PROVIDER,
     AUTH_INTERCEPTOR_PROVIDER,
+    REDIRECT_LOCATION_INTERCEPTOR_PROVIDER,
     PROGRESS_INTERCEPTOR_PROVIDER,
 
     //######################### NO CONNECTION INTERCEPTOR OPTIONS #########################
