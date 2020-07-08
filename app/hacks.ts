@@ -1,7 +1,8 @@
 import {isFunction, isBlank, initializeJsDevMode, globalDefine} from '@jscrpt/common';
 import {Observable} from 'rxjs';
 import * as moment from 'moment';
-import * as config from 'config/global';
+
+import {config} from './config';
 
 initializeJsDevMode();
 

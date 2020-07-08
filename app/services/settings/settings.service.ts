@@ -4,6 +4,7 @@ import {Subject, Observable} from "rxjs";
 
 import {SettingsStorage} from "./settings.interface";
 import {SETTINGS_STORAGE} from "../../misc/tokens";
+import {SettingsGeneral, SettingsDebug, SettingsLogging} from '../../config';
 
 /**
  * Class used as settings service

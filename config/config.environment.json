@@ -1,0 +1,12 @@
+{
+    "configuration":
+    {
+        "debug": "GUI_DEBUG",
+        "apiBaseUrl": "GUI_API_BASE_URL"
+    },
+    "general":
+    {
+        "theme": "GUI_THEME",
+        "language": "GUI_LANGUAGE"
+    }
+}

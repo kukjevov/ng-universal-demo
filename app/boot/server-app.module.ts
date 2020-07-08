@@ -6,7 +6,7 @@ import {ServerHotkeysModule} from '@anglr/server-stuff/hotkeys';
 
 import {AppComponent} from './app.component';
 import {AppModule} from './app.module';
-import * as config from 'config/global';
+import {config} from '../config';
 
 /**
  * Factory for ReportingExceptionHandlerOptions

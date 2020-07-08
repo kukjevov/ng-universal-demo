@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
 import {extend} from "@jscrpt/common";
 import * as store from 'store';
-import * as defualtConfig from 'config/global';
 
+import {config, SettingsGeneral, SettingsDebug, SettingsLogging} from '../../config';
 import {SettingsStorage} from "./settings.interface";
 
 const GENERAL_SETTINGS_STORAGE = 'general-settings';
@@ -28,8 +28,8 @@ export class LocalSettingsStorage implements SettingsStorage
                           {},
                           <SettingsGeneral>
                           {
-                              theme: defualtConfig.general.theme,
-                              language: defualtConfig.general.language
+                              theme: config.general.theme,
+                              language: config.general.language
                           },
                           settings);
 
@@ -56,8 +56,8 @@ export class LocalSettingsStorage implements SettingsStorage
                           {},
                           <SettingsDebug>
                           {
-                              consoleEnabled: defualtConfig.debug.consoleEnabled,
-                              debugData: defualtConfig.debug.debugData
+                              consoleEnabled: config.debug.consoleEnabled,
+                              debugData: config.debug.debugData
                           },
                           settings);
 
@@ -84,7 +84,7 @@ export class LocalSettingsStorage implements SettingsStorage
                           {},
                           <SettingsLogging>
                           {
-                              consoleLogLevel: defualtConfig.logging.consoleLogLevel
+                              consoleLogLevel: config.logging.consoleLogLevel
                           },
                           settings);
 

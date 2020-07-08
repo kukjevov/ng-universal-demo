@@ -60,9 +60,9 @@ if(isRequireAvailable(proxyUrlFile))
     proxyUrl = require(proxyUrlFile);
 }
 
-if(process.env.GUI_API_BASE_URL)
+if(process.env.SERVER_PROXY_HOST)
 {
-    proxyUrl = process.env.GUI_API_BASE_URL;
+    proxyUrl = process.env.SERVER_PROXY_HOST;
 }
 
 console.log(`Using proxy url '${proxyUrl}'`);

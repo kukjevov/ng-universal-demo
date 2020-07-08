@@ -1,5 +1,39 @@
 var Rest = require('connect-rest'),
-    bodyParser = require('body-parser');
+    fs = require('fs'),
+    path = require('path'),
+    bodyParser = require('body-parser'),
+    {isString, isJsObject} = require('@jscrpt/common');
+
+function parseConfigEnv(config)
+{
+    if(!config)
+    {
+        return null;
+    }
+
+    //iterate all over properties
+    if(isJsObject(config))
+    {
+        for(let prop in config)
+        {
+            let val = config[prop];
+
+            //use value as env var name
+            if(isString(val))
+            {
+                config[prop] = process.env[val] || null;
+            }
+            //if it is nested obj
+            else if(isJsObject(val))
+            {
+                parseConfigEnv(val);
+            }
+            //else do nothing special
+        }
+    }
+
+    return config;
+}
 
 module.exports = function(app)
 {
@@ -21,9 +55,33 @@ module.exports = function(app)
     //################################################ REST DEFINITION ################################################//
     //#################################################################################################################//
 
-    //config override
+    //config override from env
+    rest.get('configEnv', async () =>
+    {
+        try
+        {
+            return parseConfigEnv(JSON.parse(fs.readFileSync(path.join(__dirname, 'config/config.environment.json'), 'utf8')));
+        }
+        catch(e)
+        {
+            console.error(e);
+        }
+
+        return {};
+    });
+
+    //default config 
     rest.get('config', async () =>
     {
-        return require('./config/global.override');
+        try
+        {
+            return JSON.parse(fs.readFileSync(path.join(__dirname, 'config/config.json'), 'utf8'));
+        }
+        catch(e)
+        {
+            console.error(e);
+        }
+
+        return {};
     });
 };

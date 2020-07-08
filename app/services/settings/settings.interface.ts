@@ -1,3 +1,5 @@
+import {SettingsGeneral, SettingsDebug, SettingsLogging} from '../../config';
+
 /**
  * Definition of settings storage
  */

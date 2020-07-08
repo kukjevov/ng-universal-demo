@@ -4,8 +4,8 @@ import {DebugDataEnabledService} from "@anglr/common";
 import {ConsoleSinkConfigService} from "@anglr/common/structured-log";
 import {ValueNamePair} from "@jscrpt/common";
 import {LogEventLevel} from 'structured-log';
-import * as config from 'config/global';
 
+import {config, SettingsGeneral, SettingsDebug, LanguageDef} from '../../config';
 import {SettingsService} from "../../services/settings";
 
 /**

@@ -46,8 +46,6 @@ function getEntries(ssr, dll, css, diff)
             ...diff ? {} : {client: [path.join(__dirname, "app/main.browser.ts")]}
         };
 
-        entryPoints = Object.keys(entries);
-
         return entries;
     }
 }
@@ -61,7 +59,7 @@ function getAotPlugin(es5)
 {
     return new AngularCompilerPlugin(
     {
-        tsConfigPath: path.join(__dirname, 'tsconfig.build.json'),
+        tsConfigPath: path.join(__dirname, 'tsconfig.json'),
         sourceMap: true,
         compilerOptions:
         {
@@ -89,7 +87,6 @@ function getStyleLoaders(prod)
 }
 
 var distPath = "wwwroot/dist";
-var entryPoints = [];
 
 module.exports = [function(options, args)
 {
@@ -141,8 +138,6 @@ module.exports = [function(options, args)
                 "handlebars": path.join(__dirname, "node_modules/handlebars/dist/handlebars.js"),
                 "typeahead": path.join(__dirname, "node_modules/typeahead.js/dist/typeahead.jquery.js"),
                 "moment": path.join(__dirname, "node_modules/moment/min/moment-with-locales.js"),
-                "config/global": ssr ? path.join(__dirname, "config/global.json") : path.join(__dirname, "config/config.js"),
-                "config/default": path.join(__dirname, prod ? "config/global.json" : "config/global.development.json"),
                 "config/version": path.join(__dirname, "config/version.json"),
                 "@angular/cdk/a11y": path.join(__dirname, "node_modules/@angular/cdk/esm2015/a11y"),
                 "app": path.join(__dirname, "app")
@@ -283,25 +278,7 @@ module.exports = [function(options, args)
             {
                 filename: "../index.html",
                 template: path.join(__dirname, "index.html"),
-                inject: 'head',
-                chunksSortMode: function orderEntryLast(left, right)
-                {
-                    let leftIndex = entryPoints.indexOf(left.names[0]);
-                    let rightIndex = entryPoints.indexOf(right.names[0]);
-
-                    if (leftIndex > rightIndex)
-                    {
-                        return 1;
-                    }
-                    else if (leftIndex < rightIndex)
-                    {
-                        return -1;
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                }
+                inject: 'head'
             }));
 
             if(!debug)

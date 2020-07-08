@@ -1,33 +1,11 @@
 import 'modernizr';
-import './dependencies';
-import './dependencies.browser';
-import 'zone.js/dist/zone';
-import './hacks';
-import {platformBrowser} from '@angular/platform-browser';
-import {NgModuleRef, enableProdMode} from '@angular/core';
-import {runWhenModuleStable} from '@anglr/common';
-import {RestTransferStateService} from '@anglr/rest';
-import {hmrAccept, hmrFinishedNotification} from '@anglr/common/hmr';
-import * as config from 'config/global';
+import {loadConfig} from './config.loader';
 
-import {BrowserAppModule} from './boot/browser-app.module';
-
-if(isProduction)
+async function main()
 {
-    enableProdMode();
+    await loadConfig();
+    
+    await import('./main.browser.bootstrap');
 }
 
-if (jsDevMode && module['hot'])
-{
-    module['hot'].accept();
-}
-
-jsDevMode && hmrAccept(() => platform);
-
-var platform = platformBrowser();
-
-runWhenModuleStable(platform.bootstrapModule(BrowserAppModule), (moduleRef: NgModuleRef<{}>) =>
-{
-    moduleRef.injector.get(RestTransferStateService)?.clearAndDeactivate();
-    jsDevMode && hmrFinishedNotification();
-}, config.configuration.debug);
+main();

@@ -1,8 +1,11 @@
 *
 
-!config/global.override.js
+!config/config.json
+!config/config.environment.json
 !mocks
 !wwwroot
 !server.js
 !server.mock.js
 !server.rest.js
+!server.crt
+!server.key

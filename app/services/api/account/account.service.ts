@@ -7,14 +7,15 @@ import {SERVER_BASE_URL, SERVER_COOKIE_HEADER, SERVER_AUTH_HEADER, IgnoredInterc
 import {AuthenticationServiceOptions, UserIdentity, AccessToken, AuthInterceptor, SuppressAuthInterceptor} from '@anglr/authentication';
 import {Observable, Observer, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import * as global from 'config/global';
+
+import {config} from '../../../config';
 
 /**
  * Service used to access user account information
  */
 @Injectable()
-@BaseUrl(global.configuration.apiBaseUrl)
-@DefaultHeaders(global.configuration.defaultApiHeaders)
+@BaseUrl(config.configuration.apiBaseUrl)
+@DefaultHeaders(config.configuration.defaultApiHeaders)
 export class AccountService extends RESTClient implements AuthenticationServiceOptions<any>
 {
     //######################### constructor #########################
@@ -42,7 +43,7 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
         return Observable.create((observer: Observer<any>) =>
         {
             let req: HttpRequestIgnoredInterceptorId<any> = new HttpRequest<any>('POST',
-                                                                                 `${global.configuration.apiBaseUrl}authentication`,
+                                                                                 `${config.configuration.apiBaseUrl}authentication`,
                                                                                  new HttpParams()
                                                                                      .append("j_username", accessToken.userName)
                                                                                      .append("j_password", accessToken.password)
@@ -146,19 +147,19 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
             {
                 case 503:
                 {
-                    alert("Vzdialen· sluûba je nedostupn·. Sk˙ste op‰tovne neskÙr.");
+                    alert("Vzdialen√° slu≈æba je nedostupn√°. Sk√∫ste op√§tovne nesk√¥r.");
 
                     break;
                 }
                 case 504:
                 {
-                    alert("Vypröal Ëas na spracovanie poûiadavky cez http proxy. Sk˙ste op‰tovne neskÙr.");
+                    alert("Vypr≈°al √®as na spracovanie po≈æiadavky cez http proxy. Sk√∫ste op√§tovne nesk√¥r.");
 
                     break;
                 }
                 case 0:
                 {
-                    alert("Server je mimo prev·dzky. Sk˙ste op‰tovne neskÙr.");
+                    alert("Server je mimo prev√°dzky. Sk√∫ste op√§tovne nesk√¥r.");
 
                     break;
                 }

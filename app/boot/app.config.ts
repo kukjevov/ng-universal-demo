@@ -8,8 +8,8 @@ import {ERROR_RESPONSE_MAP_PROVIDER, REPORTING_EXCEPTION_HANDLER_PROVIDER, HttpE
 import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions} from '@anglr/grid';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import {LogEventLevel} from 'structured-log';
-import * as config from 'config/global';
 
+import {config} from '../config';
 import {AuthConfig} from '../services/api/account/authConfig';
 import {AccountService} from '../services/api/account/account.service';
 import {GlobalizationService as GlobalizationServiceImpl} from '../services/globalization/globalization.service';
