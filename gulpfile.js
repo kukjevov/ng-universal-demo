@@ -14,6 +14,8 @@ function logCopied()
     });
 }
 
+sass.compiler = require('sass');
+
 function compileScss()
 {
     return src('content/*.scss')

@@ -1,10 +1,12 @@
 // ---------------------- MISCELANEOUS ----------------------
-.pointer-cursor
+.pointer-cursor,
+.cursor-pointer
 {
     cursor: pointer;
 }
 
-.not-allowed-cursor
+.not-allowed-cursor,
+.cursor-not-allowed
 {
     cursor: not-allowed;
 }
