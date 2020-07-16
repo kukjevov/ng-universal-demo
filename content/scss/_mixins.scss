@@ -1,3 +1,5 @@
+@use 'vars';
+
 @mixin generate-margin-padding($type, $sizes)
 {
     @each $sizeType, $size in $sizes
@@ -95,7 +97,7 @@
             &>span[class^="glyphicon"]
             {
                 color: darken($background, 12%);
-                margin-right: $sizeXs;
+                margin-right: vars.$sizeXs;
             }
         }
 

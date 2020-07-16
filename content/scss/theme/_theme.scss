@@ -1,0 +1,108 @@
+@use 'sass:meta';
+@use 'sass:map';
+
+@use '../vars';
+@use '../mixins';
+@use '../themes';
+
+$theme: null !default;
+$themeVars: map.get(meta.module-variables("themes"), "#{$theme}-theme");
+
+//---------------------- PAGE STYLING ----------------------
+.app-page.#{$theme}
+{
+    background-color: map.get($themeVars, primaryBackgroundColor);
+    color: map.get($themeVars, primaryForegroundColor);
+
+    //############## SCROLLBAR ##############
+
+    .thin-scrollbar
+    {
+        scrollbar-color: map.get($themeVars, primaryScrollbarColor) map.get($themeVars, primaryScrollbarBackground);
+    }
+
+    .thin-scrollbar::-webkit-scrollbar-thumb
+    {
+        background-color: map.get($themeVars, primaryScrollbarColor);
+    }
+
+    .thin-scrollbar::-webkit-scrollbar
+    {
+        background-color: map.get($themeVars, primaryScrollbarBackground);
+    }
+
+    //############## BLOCKS ##############
+
+    .popup-block
+    {
+        box-shadow: 0 0 3px map.get($themeVars, popupBorder);
+        background-color: map.get($themeVars, popupBackground);
+    }
+
+    //############## BUTTONS ##############
+
+    .btn-line
+    {
+        background-color: map.get($themeVars, btnLineBackground);
+        color: map.get($themeVars, btnLineForeground);
+
+        &:hover
+        {
+            background-color: lighten(map.get($themeVars, btnLineBackground), 9%);
+        }
+
+        &:active, &.active
+        {
+            background-color: lighten(map.get($themeVars, btnLineBackground), 15%);
+        }
+
+        &>span[class^="fa"],
+        &>span[class^="fas"],
+        &>span[class^="glyphicon"]
+        {
+            color: darken(map.get($themeVars, btnLineForeground), 12%);
+            margin-right: vars.$sizeXs;
+        }
+    }
+
+    @include mixins.generate-button(map.get($themeVars, buttons));
+
+
+    //############## NG SELECT ##############
+
+    ng-select
+    {
+        button.btn-select
+        {
+            background-color: map.get($themeVars, primarySelectBackgroundColor);
+
+            &.btn:hover, &.btn:focus
+            {
+                color: map.get($themeVars, primarySelectForegroundColor);
+            }
+        }
+
+        .popup-div
+        {
+            background-color: map.get($themeVars, primarySelectPopupBackgroundColor);
+            color: map.get($themeVars, primarySelectPopupForegroundColor);
+
+            .option-item:hover, .option-item.selected, .option-item.active
+            {
+                background-color: lighten(map.get($themeVars, primarySelectBackgroundColor), 10%);
+                background-image: linear-gradient(to bottom, lighten(map.get($themeVars, primarySelectBackgroundColor), 10%) 0,lighten(map.get($themeVars, primarySelectBackgroundColor), 15%) 100%);
+                color: map.get($themeVars, primarySelectForegroundColor);
+            }
+        }
+
+        input.form-control
+        {
+            background-color: map.get($themeVars, primarySelectInputBackgroundColor);
+            color: map.get($themeVars, primarySelectInputForegroundColor);
+        }
+    }
+
+    //############## SHARED ##############
+
+    @include meta.load-css('components/shared', $with: (theme: $themeVars));
+}

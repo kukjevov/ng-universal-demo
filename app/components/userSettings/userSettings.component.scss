@@ -1,4 +1,4 @@
-@import "../../../content/scss/theme/theme-vars.scss";
+@use "../../../content/scss/vars";
 
 :host
 {
@@ -16,7 +16,7 @@
     span[class^="fas"],
     span[class^="glyphicon"]
     {
-        margin-right: $sizeSm;
+        margin-right: vars.$sizeSm;
     }
 }
 
@@ -26,7 +26,7 @@
     display: grid;
     grid-template-columns: auto 160px;
     grid-template-rows: auto;
-    column-gap: $sizeSm;
-    row-gap: $sizeXs;
+    column-gap: vars.$sizeSm;
+    row-gap: vars.$sizeXs;
     align-items: center;
 }

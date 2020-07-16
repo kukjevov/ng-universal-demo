@@ -1,9 +1,5 @@
-@import "scss/fonts.scss";
-@import "scss/misc.scss";
-@import "scss/theme/app-theme.scss";
-@import "scss/theme/app-dark-theme.scss";
-@import "scss/theme/app-light-theme.scss";
-@import "scss/components.scss";
+@use "scss/fonts";
+@use 'scss/app';
 
 // ---------------------- COMMON ----------------------
 *, *:focus
@@ -11,7 +7,7 @@
     outline: none;
 }
 
-* 
+*
 {
     box-sizing: border-box;
 }

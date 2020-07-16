@@ -42,7 +42,9 @@ function getEntries(ssr, dll, css, diff)
                 "highlight.js/styles/googlecode.css",
                 "@anglr/common/src/style.scss"
             ],
-            style: [path.join(__dirname, "content/site.scss")]} : {},
+            style: [path.join(__dirname, "content/site.scss"),
+                    path.join(__dirname, "content/dark.scss"),
+                    path.join(__dirname, "content/light.scss")]} : {},
             ...diff ? {} : {client: [path.join(__dirname, "app/main.browser.ts")]}
         };
 

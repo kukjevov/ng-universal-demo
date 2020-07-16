@@ -1,5 +1,7 @@
-@import 'theme-vars.scss';
-@import '../mixins.scss';
+@use 'sass:meta';
+
+@use 'vars';
+@use 'mixins';
 
 //---------------------- PAGE STYLING ----------------------
 .app-page
@@ -11,8 +13,8 @@
     
     .popup-block
     {
-        padding: $sizeSm;
-        border-radius: $borderRadius;
+        padding: vars.$sizeSm;
+        border-radius: vars.$borderRadius;
     }
 
     //############## DIALOG ##############
@@ -43,12 +45,16 @@
         }
     }
 
+    //############## MISC SHARED ##############
+
+    @include meta.load-css('misc');
+
     //############## MISC ##############
 
     hr
     {
-        margin-bottom: $sizeXs;
-        margin-top: $sizeXs;
+        margin-bottom: vars.$sizeXs;
+        margin-top: vars.$sizeXs;
     }
 
     .text-selection
@@ -63,85 +69,85 @@
     
     .border-round
     {
-        border-radius: $borderRadius;
+        border-radius: vars.$borderRadius;
     }
 
     .top-border-round
     {
-        border-top-left-radius: $borderRadius;
-        border-top-right-radius: $borderRadius;
+        border-top-left-radius: vars.$borderRadius;
+        border-top-right-radius: vars.$borderRadius;
     }
 
     .bottom-border-round
     {
-        border-bottom-left-radius: $borderRadius;
-        border-bottom-right-radius: $borderRadius;
+        border-bottom-left-radius: vars.$borderRadius;
+        border-bottom-right-radius: vars.$borderRadius;
     }
 
     .left-border-round
     {
-        border-top-left-radius: $borderRadius;
-        border-bottom-left-radius: $borderRadius;
+        border-top-left-radius: vars.$borderRadius;
+        border-bottom-left-radius: vars.$borderRadius;
     }
 
     .right-border-round
     {
-        border-top-right-radius: $borderRadius;
-        border-bottom-right-radius: $borderRadius;
+        border-top-right-radius: vars.$borderRadius;
+        border-bottom-right-radius: vars.$borderRadius;
     }
 
     .top-left-border-round
     {
-        border-top-left-radius: $borderRadius;
+        border-top-left-radius: vars.$borderRadius;
     }
 
     .bottom-left-border-round
     {
-        border-bottom-left-radius: $borderRadius;
+        border-bottom-left-radius: vars.$borderRadius;
     }
 
     .top-right-border-round
     {
-        border-top-right-radius: $borderRadius;
+        border-top-right-radius: vars.$borderRadius;
     }
 
     .bottom-right-border-round
     {
-        border-bottom-right-radius: $borderRadius;
+        border-bottom-right-radius: vars.$borderRadius;
     }
 
     .extra-small-text
     {
-        font-size: $fontSizeXs;
+        font-size: vars.$fontSizeXs;
     }
     
     .small-text
     {
-        font-size: $fontSizeSm;
+        font-size: vars.$fontSizeSm;
     }
 
     .medium-text
     {
-        font-size: $fontSizeMd;
+        font-size: vars.$fontSizeMd;
     }
 
     .large-text
     {
-        font-size: $fontSizeLg;
+        font-size: vars.$fontSizeLg;
     }
 
     .extra-large-text
     {
-        font-size: $fontSizeXl;
+        font-size: vars.$fontSizeXl;
     }
 
     .extra-extra-large-text
     {
-        font-size: $fontSizeXxl;
+        font-size: vars.$fontSizeXxl;
     }
 
-    @include generate-margin-padding(padding, $sizes);
-    @include generate-margin-padding(margin, $sizes);
+    @include mixins.generate-margin-padding(padding, vars.$sizes);
+    @include mixins.generate-margin-padding(margin, vars.$sizes);
 
     .margin-none
     {

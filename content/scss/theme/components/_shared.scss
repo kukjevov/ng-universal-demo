@@ -1,0 +1,31 @@
+@use 'sass:map';
+
+$theme: null !default;
+
+//############## TITLED DIALOG ##############
+
+titled-dialog
+{
+    box-shadow: 0 0 3px map.get($theme, dialogBorder);
+
+    .titled-dialog-title
+    {
+        color: map.get($theme, dialogTitleForeground);
+        background-color: darken(map.get($theme, dialogTitleBackground), 3%);
+
+        .close-dialog
+        {
+            &:hover
+            {
+                background-color: lighten(map.get($theme, dialogTitleBackground), 10%);
+                color: lighten(map.get($theme, dialogTitleForeground), 10%);
+            }
+        }
+    }
+
+    .titled-dialog-content
+    {
+        background-color: map.get($theme, dialogContentBackground);
+        color: map.get($theme, dialogContentForeground);
+    }
+}
