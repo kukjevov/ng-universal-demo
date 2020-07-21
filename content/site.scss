@@ -122,3 +122,34 @@ app
         transform: rotate(360deg);
     }
 }
+
+div.krvny-tlak-graf
+{
+    .axis.y
+    {
+        .tick:not(:first-child)
+        {
+            line
+            {
+                display: none;
+            }
+        }
+    }
+
+    .reference-value
+    {
+        stroke: #000;
+        fill: none;
+    }
+
+    .current-value
+    {
+        stroke: #00F;
+        fill: none;
+    }
+
+    circle.current-value
+    {
+        fill: #FFF;
+    }
+}
