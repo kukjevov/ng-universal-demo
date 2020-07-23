@@ -1,6 +1,7 @@
-import {Component, ChangeDetectionStrategy, Input, ElementRef, SimpleChanges, OnChanges} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Input, ElementRef, SimpleChanges, OnChanges, Inject} from '@angular/core';
+import {DOCUMENT} from '@angular/common';
 import {nameof} from '@jscrpt/common';
-import {Axis, Selection, BaseType, ScaleLinear, select, scaleLinear, axisBottom, axisLeft, min, max} from 'd3';
+import {Axis, Selection, BaseType, ScaleLinear, select, scaleLinear, axisBottom, axisLeft, min, max, event} from 'd3';
 
 import {KrvnyTlak} from '../../interfaces';
 
@@ -22,6 +23,7 @@ const refValues: [number, number, string][] =
 {
     selector: 'div.krvny-tlak-graf',
     template: '',
+    styleUrls: ['krvnyTlakGraf.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class KrvnyTlakGrafComponent implements OnChanges
@@ -58,6 +60,11 @@ export class KrvnyTlakGrafComponent implements OnChanges
      */
     private _dia: number;
 
+    /**
+     * Element that is used for displaying tooltip
+     */
+    private _tooltipElement: HTMLDivElement;
+
     //######################### public properties - inputs #########################
 
     /**
@@ -73,8 +80,12 @@ export class KrvnyTlakGrafComponent implements OnChanges
     public height: number;
 
     //######################### constructor #########################
-    constructor(private _element: ElementRef<HTMLElement>)
+    constructor(private _element: ElementRef<HTMLElement>,
+                @Inject(DOCUMENT) private _document: HTMLDocument)
     {
+        this._tooltipElement = this._document.createElement('div');
+        this._tooltipElement.className = "krvny-tlak-tooltip";
+        this._tooltipElement.style.display = 'none';
     }
 
     //######################### public methods - implementation of OnChanges #########################
@@ -115,6 +126,8 @@ export class KrvnyTlakGrafComponent implements OnChanges
             svgWidth = (+selfObj.property("offsetWidth")),
             svg = selfObj.append("svg")
                 .attr("viewBox", `0 0 ${svgWidth} ${this.height}`);
+
+        this._element.nativeElement.append(this._tooltipElement);
 
         this._chart.height = this.height - this._chart.margin.top - this._chart.margin.bottom;
         this._chart.width = svgWidth - this._chart.margin.left - this._chart.margin.right;
@@ -214,14 +227,30 @@ export class KrvnyTlakGrafComponent implements OnChanges
         this._renderValue(this._chart.value, this._sys, this._dia, sysMin, diaMin);
 
         this._chart.chartG.append('circle')
-            .attr('class', 'current-value')
-            .attr('cx', this._chart.xScale(diaMin))
-            .attr('cy', this._chart.yScale(sysMin))
-            .attr('r', 4)
+            .on('mouseenter', () =>
+            {
+                let e = event as MouseEvent;
+                let target = e.target as SVGRectElement;
+                let rect = target.getBBox();
+
+                this._tooltipElement.style.display = 'block';
+                this._tooltipElement.style.top = `${rect.y - 14}px`;
+                this._tooltipElement.style.left = `${rect.x}px`;
+
+                this._tooltipElement.innerText = `${this._sys}/${this._dia}`;
+            })
+            .on('mouseleave', () =>
+            {
+                this._tooltipElement.style.display = 'none';
+            })
+                .attr('class', 'current-value')
+                .attr('cx', this._chart.xScale(diaMin))
+                .attr('cy', this._chart.yScale(sysMin))
+                .attr('r', 4)
             .transition()
             .duration(500)
-            .attr('cx', this._chart.xScale(this._dia))
-            .attr('cy', this._chart.yScale(this._sys));
+                .attr('cx', this._chart.xScale(this._dia))
+                .attr('cy', this._chart.yScale(this._sys));
 
         refValues.forEach(([sys, _dia, text]) =>
         {
