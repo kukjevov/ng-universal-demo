@@ -52,7 +52,7 @@
         "@anglr/authentication": "7.0.0",
         "@anglr/bootstrap": "7.0.0",
         "@anglr/common": "7.3.1",
-        "@anglr/error-handling": "7.0.2",
+        "@anglr/error-handling": "next",
         "@anglr/grid": "8.0.1",
         "@anglr/md-help": "7.0.1",
         "@anglr/notifications": "7.0.0",

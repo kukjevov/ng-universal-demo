@@ -1,6 +1,6 @@
 import {NgModule, FactoryProvider} from '@angular/core';
 import {ServerModule, ServerTransferStateModule} from '@angular/platform-server';
-import {ReportingExceptionHandlerOptions} from '@anglr/error-handling';
+import {AnglrExceptionHandlerOptions} from '@anglr/error-handling';
 import {ServerProvidersModule} from '@anglr/server-stuff';
 import {ServerHotkeysModule} from '@anglr/server-stuff/hotkeys';
 
@@ -9,11 +9,11 @@ import {AppModule} from './app.module';
 import {config} from '../config';
 
 /**
- * Factory for ReportingExceptionHandlerOptions
+ * Factory for AnglrExceptionHandlerOptions
  */
-export function reportingExceptionHandlerOptionsFactory()
+export function anglrExceptionHandlerOptionsFactory()
 {
-	return new ReportingExceptionHandlerOptions(config.configuration.debug, false, false, false, false, false);
+	return new AnglrExceptionHandlerOptions(config.configuration.debug, false);
 }
 
 /**
@@ -34,8 +34,8 @@ export function reportingExceptionHandlerOptionsFactory()
     [
         <FactoryProvider>
         {
-            provide: ReportingExceptionHandlerOptions,
-            useFactory: reportingExceptionHandlerOptionsFactory
+            provide: AnglrExceptionHandlerOptions,
+            useFactory: anglrExceptionHandlerOptionsFactory
         }
     ]
 })

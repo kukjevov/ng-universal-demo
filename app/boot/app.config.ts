@@ -4,7 +4,9 @@ import {LocalPermanentStorageService} from '@anglr/common/store';
 import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService} from "@anglr/common";
 import {ConsoleSinkConfigService} from '@anglr/common/structured-log';
 import {NgxTranslateStringLocalizationService} from "@anglr/translate-extensions";
-import {ERROR_RESPONSE_MAP_PROVIDER, REPORTING_EXCEPTION_HANDLER_PROVIDER, HttpErrorInterceptorOptions, HTTP_ERROR_INTERCEPTOR_PROVIDER, BadRequestDetail, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER} from '@anglr/error-handling';
+import {ERROR_RESPONSE_MAP_PROVIDER, HttpErrorInterceptorOptions, HTTP_ERROR_INTERCEPTOR_PROVIDER, BadRequestDetail, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER} from '@anglr/error-handling';
+import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handling/material';
+import {ERROR_WITH_SCREENSHOT_EXTENDER} from '@anglr/error-handling/html2canvas';
 import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions} from '@anglr/grid';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import {LogEventLevel} from 'structured-log';
@@ -156,7 +158,10 @@ export var providers =
         provide: HttpErrorInterceptorOptions,
         useFactory: httpErrorInterceptorOptionsFactory
     },
-    REPORTING_EXCEPTION_HANDLER_PROVIDER,
+    ERROR_WITH_URL_EXTENDER,
+    ERROR_WITH_SCREENSHOT_EXTENDER,
+    ANGLR_EXCEPTION_HANDLER_PROVIDER,
+    DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER,
 
     <ValueProvider>
     {
