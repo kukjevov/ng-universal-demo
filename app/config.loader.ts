@@ -1,4 +1,5 @@
 import {Configuration, config as cfg} from './config';
+import defaultConfig from '../config/config.json';
 
 /**
  * Overrides config
@@ -46,30 +47,40 @@ export async function loadConfig(): Promise<void>
 {
     let loadJson = async path =>
     {
-        try
-        {
-            let response = await fetch(new Request(path));
+        let response = await fetch(new Request(path));
 
-            return await response.json();
-        }
-        catch(e)
-        {
-            alert(`Failed to load configuration '${e}'`);
-        }
-
-        return null;
+        return await response.json();
     };
     
-    //default configuration
-    let config: Configuration = await loadJson('local/config');
-
-    Object.keys(config).forEach(key =>
+    Object.keys(defaultConfig).forEach(key =>
     {
-        cfg[key] = config[key];
+        cfg[key] = defaultConfig[key];
     });
 
-    //config override from env variables
-    let configOverride = await loadJson('local/configEnv');
+    try
+    {
+        //default configuration
+        let config: Configuration = await loadJson('local/config');
+    
+        Object.keys(config).forEach(key =>
+        {
+            cfg[key] = config[key];
+        });
+    }
+    catch(e)
+    {
+        console.log('failed to load default configuration');
+    }
 
-    overrideConfig(configOverride);
+    try
+    {
+        //config override from env variables
+        let configOverride = await loadJson('local/configEnv');
+    
+        overrideConfig(configOverride);
+    }
+    catch(e)
+    {
+        console.log('failed to load environment configuration');
+    }
 }

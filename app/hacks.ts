@@ -1,6 +1,6 @@
 import {isFunction, isBlank, initializeJsDevMode, globalDefine} from '@jscrpt/common';
 import {Observable} from 'rxjs';
-import * as moment from 'moment';
+import moment from 'moment';
 
 import {config} from './config';
 

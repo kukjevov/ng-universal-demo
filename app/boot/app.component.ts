@@ -11,14 +11,14 @@ import {nameof} from '@jscrpt/common';
 import {TranslateService} from "@ngx-translate/core";
 import {Hotkey} from 'angular2-hotkeys';
 import {Subscription} from 'rxjs';
-import * as version from 'config/version';
-import * as moment from 'moment';
+import moment from 'moment';
 
 import {routeAnimationTrigger} from './app.component.animations';
 import {SettingsService} from '../services/settings';
 import {ConfigReleaseService} from '../services/api/configRelease/configRelease.service';
 import {UserSettingsComponent} from '../components';
 import {SettingsGeneral, SettingsDebug} from '../config';
+import version from '../../config/version.json';
 
 /**
  * Application entry component
