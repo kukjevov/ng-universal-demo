@@ -51,7 +51,7 @@
         "@anglr/animations": "7.0.0",
         "@anglr/authentication": "7.0.0",
         "@anglr/bootstrap": "7.0.0",
-        "@anglr/common": "7.3.1",
+        "@anglr/common": "next",
         "@anglr/error-handling": "next",
         "@anglr/grid": "8.0.1",
         "@anglr/md-help": "7.0.1",

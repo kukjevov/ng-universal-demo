@@ -2,11 +2,10 @@ import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider} from '@a
 import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, AUTH_INTERCEPTOR_CONFIG, AUTHENTICATION_SERVICE_OPTIONS, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER} from '@anglr/authentication';
 import {LocalPermanentStorageService} from '@anglr/common/store';
 import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService} from "@anglr/common";
-import {ConsoleSinkConfigService} from '@anglr/common/structured-log';
+import {ConsoleSinkConfigService, LOGGER_REST_CLIENT} from '@anglr/common/structured-log';
 import {NgxTranslateStringLocalizationService} from "@anglr/translate-extensions";
 import {ERROR_RESPONSE_MAP_PROVIDER, HttpErrorInterceptorOptions, HTTP_ERROR_INTERCEPTOR_PROVIDER, BadRequestDetail, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER} from '@anglr/error-handling';
 import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handling/material';
-import {ERROR_WITH_SCREENSHOT_EXTENDER} from '@anglr/error-handling/html2canvas';
 import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions} from '@anglr/grid';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import {LogEventLevel} from 'structured-log';
@@ -18,6 +17,7 @@ import {GlobalizationService as GlobalizationServiceImpl} from '../services/glob
 import {NOTHING_SELECTED} from '../misc/constants';
 import {SettingsService, LocalSettingsStorage} from '../services/settings';
 import {SETTINGS_STORAGE} from '../misc/tokens';
+import {RestLoggerService} from '../services/api/restLogger';
 
 /**
  * Creates APP initialization factory, that first try to authorize user before doing anything else
@@ -159,7 +159,6 @@ export var providers =
         useFactory: httpErrorInterceptorOptionsFactory
     },
     ERROR_WITH_URL_EXTENDER,
-    ERROR_WITH_SCREENSHOT_EXTENDER,
     ANGLR_EXCEPTION_HANDLER_PROVIDER,
     DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER,
 
@@ -233,6 +232,11 @@ export var providers =
             return new ConsoleSinkConfigService(null, LogEventLevel[settingsSvc?.settingsLogging?.consoleLogLevel]);
         },
         deps: [SettingsService]
+    },
+    <ClassProvider>
+    {
+        provide: LOGGER_REST_CLIENT,
+        useClass: RestLoggerService
     },
     <ClassProvider>
     {
