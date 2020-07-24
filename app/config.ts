@@ -107,4 +107,3 @@ export interface Configuration
 export const config: Configuration = 
 {
 };
-

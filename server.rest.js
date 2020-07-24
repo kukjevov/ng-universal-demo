@@ -35,6 +35,18 @@ function parseConfigEnv(config)
     return config;
 }
 
+function getConfigPath()
+{
+    var envConfig = path.join(__dirname, `config/config.${process.env.NODE_ENV}.json`);
+
+    if(process.env.NODE_ENV && fs.existsSync(envConfig))
+    {
+        return envConfig;
+    }
+
+    return path.join(__dirname, 'config/config.json');
+}
+
 module.exports = function(app)
 {
     app.use(bodyParser.urlencoded({extended: true}))
@@ -75,7 +87,7 @@ module.exports = function(app)
     {
         try
         {
-            return JSON.parse(fs.readFileSync(path.join(__dirname, 'config/config.json'), 'utf8'));
+            return JSON.parse(fs.readFileSync(getConfigPath(), 'utf8'));
         }
         catch(e)
         {

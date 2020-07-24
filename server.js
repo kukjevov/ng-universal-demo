@@ -9,6 +9,8 @@ var connect = require('connect'),
     https = require('https'),
     connectExtensions = require('nodejs-connect-extensions');
 
+require('dotenv').config();
+
 var app = connect();
 
 connectExtensions.extendConnectUse(app);

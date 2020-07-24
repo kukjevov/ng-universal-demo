@@ -4,6 +4,7 @@ wwwroot/
 packages/
 package-lock.json
 **/config/version.json
+.env
 proxyUrl.js
 *.log
 *.bak
