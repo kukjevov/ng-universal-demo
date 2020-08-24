@@ -5,7 +5,7 @@
         {{'Authentication failed! Please check your credentials and try again.' | translate}}
     </div>
 
-    <form class="form" role="form" [formGroup]="form" (submit)="login()">
+    <form class="form" role="form" [formGroup]="form" (submit)="login($event)">
         <div class="form-group">
             <label for="username">{{'Login' | translate}}</label>
             <input type="text" class="form-control" id="username" placeholder="{{'Your login' | translate}}" formControlName="userName">

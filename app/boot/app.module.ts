@@ -15,6 +15,7 @@ import {APP_TRANSFER_ID} from '../misc/constants';
 import {providers} from './app.config';
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
 import {UserSettingsComponent} from '../components';
+import {GridDetailExtensionsModule} from '../modules';
 
 /**
  * Main module shared for both server and browser side
@@ -40,7 +41,8 @@ import {UserSettingsComponent} from '../components';
                 provide: TranslateLoader, 
                 useClass: WebpackTranslateLoaderService
             }
-        })
+        }),
+        GridDetailExtensionsModule
     ],
     providers: providers,
     declarations:

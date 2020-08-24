@@ -1,4 +1,18 @@
-Home page
-<debug-data>
-    <div [cdkCopyToClipboard]="'a toto sa skopirovalo'">debug - toto sa kopiruje</div>
-</debug-data>
+<ng-grid #grid [gridOptions]="gridOptions" class="flex-1">
+    <basic-detail-table-metadata>
+        <basic-table-column id="storno" name="storno" title="Storno">
+            <ng-template #bodyTemplate let-file>
+                <span class="fas fa-minus-circle" *ngIf="file.storno"></span>
+            </ng-template>
+        </basic-table-column>
+
+        <basic-table-column id="faza" name="faza" title="Faza"></basic-table-column>
+        <basic-table-column id="id" name="id" title="Id"></basic-table-column>
+        <basic-table-column id="nazov" name="nazov" title="Názov"></basic-table-column>
+        <basic-table-column id="typ" name="typ" title="Typ"></basic-table-column>
+
+        <ng-template #detail let-file>
+            <div>ID: {{file.id}}</div>
+        </ng-template>
+    </basic-detail-table-metadata>
+</ng-grid>

@@ -5,6 +5,7 @@ import {ComponentRoute} from '@anglr/common/router';
 import {AuthenticationService} from '@anglr/authentication';
 import {slideInOutTrigger} from '@anglr/animations';
 import {Logger, LOGGER} from '@anglr/common';
+import {CallOnce} from '@jscrpt/common';
 import {empty} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
@@ -58,8 +59,11 @@ export class LoginComponent
     /**
      * Logs in user
      */
-    public login()
+    @CallOnce(300)
+    public login(event: Event)
     {
+        event.preventDefault();
+
         //TODO - add resolver that checks logged user and redirects to requested page
         this._authService
             .login(this.form.value)

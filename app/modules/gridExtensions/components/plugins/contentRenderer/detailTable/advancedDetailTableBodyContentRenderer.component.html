@@ -1,0 +1,20 @@
+<ng-template ngFor [ngForOf]="data" let-datum let-index="index">
+    <tr [ngClass]="options?.rowCssClass(datum)" class="pointer-cursor" (click)="options?.rowClick(datum, index)">
+        <td *ngFor="let meta of metadata?.columns"
+            [ngClass]="meta?.cellClass"
+            [attr.data-header-title]="meta?.title">
+            <ng-template [ngIf]="!meta?.bodyTemplate" [ngIfElse]="bodyTemplate">
+                {{datum[meta?.name]}}
+            </ng-template>
+
+            <ng-template #bodyTemplate [ngTemplateOutlet]="meta?.bodyTemplate" [ngTemplateOutletContext]="datum | toBasicTableColumnSelectableContext: meta: index: startingIndex: rowSelector">
+            </ng-template>
+        </td>
+    </tr>
+
+    <tr *ngIf="rowDetails[index] && metadata?.detailTemplate">
+        <td [attr.colspan]="metadata?.columns?.length">
+            <ng-template [ngTemplateOutlet]="metadata?.detailTemplate" [ngTemplateOutletContext]="datum | toBasicTableColumnSelectableContext: null: null: null: null"></ng-template>
+        </td>
+    </tr>
+</ng-template>
