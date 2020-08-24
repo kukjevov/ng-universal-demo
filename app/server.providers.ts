@@ -1,5 +1,5 @@
 import {StaticProvider, ValueProvider} from "@angular/core";
-import {SERVER_BASE_URL, SERVER_COOKIE_HEADER} from '@anglr/common';
+import {HTTP_REQUEST_BASE_URL, HTTP_REQUEST_COOKIE_HEADER} from '@anglr/common';
 
 /**
  * Additional data passed for with request to render server
@@ -26,12 +26,12 @@ export function getAdditionalProviders(additionalData: AdditionalData): StaticPr
     return [
         <ValueProvider>
         {
-            provide: SERVER_BASE_URL,
+            provide: HTTP_REQUEST_BASE_URL,
             useValue: additionalData.baseUrl
         },
         <ValueProvider>
         {
-            provide: SERVER_COOKIE_HEADER,
+            provide: HTTP_REQUEST_COOKIE_HEADER,
             useValue: additionalData.requestCookies
         }
     ];

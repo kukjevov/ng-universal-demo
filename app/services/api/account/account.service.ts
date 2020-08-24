@@ -1,10 +1,11 @@
-import {Injectable, Optional, Inject, Injector} from '@angular/core';
+import {Injectable, Optional, Inject, Injector, Type} from '@angular/core';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
-import {HttpClient, HttpParams, HttpErrorResponse, HttpResponse, HttpRequest, HttpEventType} from '@angular/common/http';
-import {RESTClient, GET, BaseUrl, DefaultHeaders, ResponseTransform, RestTransferStateService, POST, FullHttpResponse, DisableInterceptor} from '@anglr/rest';
-import {SERVER_BASE_URL, SERVER_COOKIE_HEADER, SERVER_AUTH_HEADER, IgnoredInterceptorsService, HttpRequestIgnoredInterceptorId} from "@anglr/common";
+import {HttpClient, HttpParams, HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {HTTP_REQUEST_BASE_URL} from '@anglr/common';
+import {RESTClient, GET, BaseUrl, DefaultHeaders, ResponseTransform, POST, FullHttpResponse, DisableInterceptor, REST_MIDDLEWARES_ORDER, REST_METHOD_MIDDLEWARES, RestMiddleware, Body} from '@anglr/rest';
 import {AuthenticationServiceOptions, UserIdentity, AccessToken, AuthInterceptor, SuppressAuthInterceptor} from '@anglr/authentication';
+import {ServiceUnavailableInterceptor, HttpGatewayTimeoutInterceptor, NoConnectionInterceptor} from '@anglr/error-handling';
 import {Observable, Observer, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
@@ -20,15 +21,13 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
 {
     //######################### constructor #########################
     constructor(http: HttpClient,
-                private _injector: Injector,
+                injector: Injector,
                 private _location: Location,
-                @Optional() transferState?: RestTransferStateService,
-                @Optional() @Inject(SERVER_BASE_URL) baseUrl?: string,
-                @Optional() @Inject(SERVER_COOKIE_HEADER) serverCookieHeader?: string,
-                @Optional() @Inject(SERVER_AUTH_HEADER) serverAuthHeader?: string,
-                @Optional() ignoredInterceptorsService?: IgnoredInterceptorsService)
+                @Optional() @Inject(HTTP_REQUEST_BASE_URL) baseUrl?: string,
+                @Inject(REST_MIDDLEWARES_ORDER) middlewaresOrder?: Type<RestMiddleware>[],
+                @Inject(REST_METHOD_MIDDLEWARES) methodMiddlewares?: Type<RestMiddleware>[])
     {
-        super(http, transferState, baseUrl, serverCookieHeader, serverAuthHeader, ignoredInterceptorsService, _injector);
+        super(http, baseUrl, injector, middlewaresOrder, methodMiddlewares);
     }
 
     //######################### public methods - implementation of AuthenticationServiceOptions #########################
@@ -40,29 +39,12 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
      */
     public login(accessToken: AccessToken): Observable<any>
     {
-        return Observable.create((observer: Observer<any>) =>
-        {
-            let req: HttpRequestIgnoredInterceptorId<any> = new HttpRequest<any>('POST',
-                                                                                 `${config.configuration.apiBaseUrl}authentication`,
-                                                                                 new HttpParams()
-                                                                                     .append("j_username", accessToken.userName)
-                                                                                     .append("j_password", accessToken.password)
-                                                                                     .append("remember-me", accessToken.rememberMe?.toString()));
+        let body = new HttpParams()
+            .append("j_username", accessToken.userName)
+            .append("j_password", accessToken.password)
+            .append("remember-me", accessToken.rememberMe?.toString());
 
-            req.requestId = 'authenticate-call';
-
-            this.ignoredInterceptorsService.addInterceptor(SuppressAuthInterceptor, req);
-
-            this.http.request(req).subscribe(result =>
-                                             {
-                                                if(result.type == HttpEventType.Response)
-                                                {
-                                                    observer.next(result);
-                                                    observer.complete();
-                                                }
-                                             },
-                                             error => observer.error(error));
-        });
+        return this._login(body);
     }
 
     /**
@@ -92,6 +74,9 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
     @FullHttpResponse()
     @DisableInterceptor(SuppressAuthInterceptor)
     @DisableInterceptor(AuthInterceptor)
+    @DisableInterceptor(ServiceUnavailableInterceptor)
+    @DisableInterceptor(HttpGatewayTimeoutInterceptor)
+    @DisableInterceptor(NoConnectionInterceptor)
     @GET("myaccount")
     public getUserIdentity(): Observable<UserIdentity<any>>
     {
@@ -103,7 +88,7 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
      */
     public showAuthPage(): Promise<boolean>
     {
-        return this._injector.get(Router).navigate(['/login'], {queryParams: {returnUrl: this._location.path()}});
+        return this.injector.get(Router).navigate(['/login'], {queryParams: {returnUrl: this._location.path()}});
     }
 
     /**
@@ -111,10 +96,20 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
      */
     public showAccessDenied(): Promise<boolean>
     {
-        return this._injector.get(Router).navigate(['/accessDenied']);
+        return this.injector.get(Router).navigate(['/accessDenied']);
     }
 
     //######################### private methods #########################
+
+    /**
+     * Sends login data to server
+     */
+    @DisableInterceptor(SuppressAuthInterceptor)
+    @POST('authentication')
+    private _login(@Body _body: HttpParams): Observable<any>
+    {
+        return null;
+    }
 
     /**
      * Method transforms response of get method
@@ -153,7 +148,7 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
                 }
                 case 504:
                 {
-                    alert("Vypršal èas na spracovanie požiadavky cez http proxy. Skúste opätovne neskôr.");
+                    alert("Vypršal čas na spracovanie požiadavky cez http proxy. Skúste opätovne neskôr.");
 
                     break;
                 }

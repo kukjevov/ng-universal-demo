@@ -1,5 +1,5 @@
 import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider} from '@angular/core';
-import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, AUTH_INTERCEPTOR_CONFIG, AUTHENTICATION_SERVICE_OPTIONS, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER} from '@anglr/authentication';
+import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, AUTHENTICATION_SERVICE_OPTIONS, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER} from '@anglr/authentication';
 import {LocalPermanentStorageService} from '@anglr/common/store';
 import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService} from "@anglr/common";
 import {ConsoleSinkConfigService, LOGGER_REST_CLIENT} from '@anglr/common/structured-log';
@@ -11,7 +11,6 @@ import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import {LogEventLevel} from 'structured-log';
 
 import {config} from '../config';
-import {AuthConfig} from '../services/api/account/authConfig';
 import {AccountService} from '../services/api/account/account.service';
 import {GlobalizationService as GlobalizationServiceImpl} from '../services/globalization/globalization.service';
 import {NOTHING_SELECTED} from '../misc/constants';
@@ -129,13 +128,6 @@ export var providers =
     {
         useFactory: httpGatewayTimeoutInterceptorOptionsFactory,
         provide: HttpGatewayTimeoutInterceptorOptions
-    },
-
-    //######################### AUTH INTERCEPTOR OPTIONS #########################
-    <ClassProvider>
-    {
-        provide: AUTH_INTERCEPTOR_CONFIG,
-        useClass: AuthConfig
     },
 
     //######################### GLOBALIZATION SERVICE #########################

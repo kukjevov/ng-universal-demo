@@ -1,9 +1,10 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {FormGroup, FormBuilder} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
 import {AuthenticationService} from '@anglr/authentication';
 import {slideInOutTrigger} from '@anglr/animations';
+import {Logger, LOGGER} from '@anglr/common';
 import {empty} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
@@ -41,6 +42,7 @@ export class LoginComponent
                 private _router: Router,
                 private _activeRoute: ActivatedRoute,
                 private _changeDetector: ChangeDetectorRef,
+                @Inject(LOGGER) private _logger: Logger,
                 formBuilder: FormBuilder)
     {
         this.form = formBuilder.group(
@@ -61,8 +63,9 @@ export class LoginComponent
         //TODO - add resolver that checks logged user and redirects to requested page
         this._authService
             .login(this.form.value)
-            .pipe(catchError(() =>
+            .pipe(catchError(e =>
             {
+                this._logger.error(`Failed to log in '${e}'`);
                 this.authenticationError = true;
                 this._changeDetector.detectChanges();
                 
