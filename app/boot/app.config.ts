@@ -8,6 +8,8 @@ import {ERROR_RESPONSE_MAP_PROVIDER, HttpErrorInterceptorOptions, HTTP_ERROR_INT
 import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handling/material';
 import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions} from '@anglr/grid';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
+import {DATE_API} from '@anglr/datetime';
+import {MomentDateApi} from '@anglr/datetime/moment';
 import {LogEventLevel} from 'structured-log';
 
 import {config} from '../config';
@@ -249,5 +251,12 @@ export var providers =
             return debugDataEnabled;
         },
         deps: [SettingsService]
+    },
+
+    //######################### DATE API #########################
+    <ClassProvider>
+    {
+        provide: DATE_API,
+        useClass: MomentDateApi
     }
 ];

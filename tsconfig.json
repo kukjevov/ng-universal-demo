@@ -17,6 +17,8 @@
         "baseUrl": ".",
         "paths": 
         {
+            "@anglr/datetime/moment": ["packages/ng-datetime-moment/moment.ts"],
+            "@anglr/datetime/date-fns": ["packages/ng-datetime-date-fns/date-fns.ts"],
             "@anglr/datetime": ["packages/ng-datetime/datetime.ts"]
         },
         "lib":
