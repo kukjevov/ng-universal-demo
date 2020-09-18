@@ -5,6 +5,7 @@ import {ModuleRoutes} from '@anglr/common/router';
 import {ConsoleLogModule} from '@anglr/common/structured-log';
 import {TitledDialogModule} from '@anglr/common/material';
 import {InternalServerErrorModule} from '@anglr/error-handling';
+import {DateTimeSelectorModule} from '@anglr/datetime';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {HotkeyModule} from 'angular2-hotkeys';
 
@@ -33,6 +34,7 @@ import {UserSettingsComponent} from '../components';
         HotkeyModule,
         ConsoleLogModule.forRoot(),
         TitledDialogModule,
+        DateTimeSelectorModule,
         TranslateModule.forRoot(
         {
             loader: <ClassProvider>

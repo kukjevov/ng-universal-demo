@@ -14,6 +14,11 @@
         "esModuleInterop": true,
         "moduleResolution": "node",
         "outDir": "wwwroot/app",
+        "baseUrl": ".",
+        "paths": 
+        {
+            "@anglr/datetime": ["packages/ng-datetime/datetime.ts"]
+        },
         "lib":
         [
             "es2016",
