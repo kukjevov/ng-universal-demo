@@ -9,7 +9,7 @@ import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handl
 import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions} from '@anglr/grid';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import {DATE_API} from '@anglr/datetime';
-import {MomentDateApi} from '@anglr/datetime/moment';
+import {MomentDateApi, MOMENT_FORMAT_PROVIDER} from '@anglr/datetime/moment';
 import {LogEventLevel} from 'structured-log';
 
 import {config} from '../config';
@@ -258,5 +258,6 @@ export var providers =
     {
         provide: DATE_API,
         useClass: MomentDateApi
-    }
+    },
+    MOMENT_FORMAT_PROVIDER
 ];
