@@ -1,4 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {FormControl} from '@angular/forms';
 import {ComponentRoute, ComponentRedirectRoute} from "@anglr/common/router";
 import {Authorize, AuthGuard} from '@anglr/authentication';
 
@@ -16,4 +17,12 @@ import {Authorize, AuthGuard} from '@anglr/authentication';
 @Authorize("home-page")
 export class HomeComponent
 {
+    public control: FormControl;
+
+    constructor()
+    {
+        this.control = new FormControl();
+
+        this.control.valueChanges.subscribe(val => console.log('val', val));
+    }
 }
