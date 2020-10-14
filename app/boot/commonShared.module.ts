@@ -5,7 +5,6 @@ import {RouterModule} from '@angular/router';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {ProgressIndicatorModule, DebugDataModule} from '@anglr/common';
-import {BootstrapCoreModule} from '@anglr/bootstrap/core';
 import {DatetimepickerModule} from '@anglr/bootstrap/datetimepicker';
 import {TypeaheadModule, TypeaheadTagsModule} from '@anglr/bootstrap/typeahead';
 import {GridModule} from '@anglr/grid';
@@ -17,6 +16,7 @@ import {NotificationsModule} from '@anglr/notifications';
 import {InternalServerErrorModule} from '@anglr/error-handling';
 import {AuthorizationModule} from '@anglr/authentication';
 import {TranslateModule} from '@ngx-translate/core';
+import {TooltipModule} from '../modules';
 
 /**
  * Common module for all other modules
@@ -36,7 +36,6 @@ import {TranslateModule} from '@ngx-translate/core';
         NumeralModule,
         NumberInputModule,
         TranslateModule,
-        BootstrapCoreModule,
         DatetimepickerModule,
         TypeaheadModule,
         TypeaheadTagsModule,
@@ -44,7 +43,8 @@ import {TranslateModule} from '@ngx-translate/core';
         GridModule,
         AuthorizationModule,
         NgSelectModule,
-        InternalServerErrorModule
+        InternalServerErrorModule,
+        TooltipModule
     ]
 })
 export class CommonSharedModule
