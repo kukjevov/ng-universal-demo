@@ -1,1 +1,7 @@
 @use 'scss/theme/theme' with ($theme: 'light');
+@use 'sass:meta';
+
+.app-page.light
+{
+    @include meta.load-css('../node_modules/@anglr/datetime/src/default');
+}

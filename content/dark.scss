@@ -1,1 +1,7 @@
 @use 'scss/theme/theme' with ($theme: 'dark');
+@use 'sass:meta';
+
+.app-page.dark
+{
+    @include meta.load-css('../node_modules/@anglr/datetime/src/dark');
+}

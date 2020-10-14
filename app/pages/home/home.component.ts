@@ -2,6 +2,7 @@ import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {ComponentRoute, ComponentRedirectRoute} from "@anglr/common/router";
 import {Authorize, AuthGuard} from '@anglr/authentication';
+import moment from 'moment';
 
 /**
  * Home component
@@ -21,7 +22,7 @@ export class HomeComponent
 
     constructor()
     {
-        this.control = new FormControl();
+        this.control = new FormControl(moment());
 
         this.control.valueChanges.subscribe(val => console.log('val', val));
     }

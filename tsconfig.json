@@ -30,7 +30,8 @@
         [
             "node",
             "bootstrap",
-            "konami.js"
+            "konami.js",
+            "mousetrap"
         ],
         "typeRoots":
         [

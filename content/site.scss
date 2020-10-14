@@ -1,4 +1,4 @@
-@use "scss/fonts";
+@use 'scss/fonts';
 @use 'scss/app';
 
 // ---------------------- COMMON ----------------------
@@ -38,6 +38,7 @@ app
         overflow-y: hidden;
         flex: 1;
         display: flex;
+        flex-direction: column;
         min-height: 0;
         min-width: 0;
     }
