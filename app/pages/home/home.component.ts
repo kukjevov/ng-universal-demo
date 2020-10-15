@@ -20,6 +20,8 @@ export class HomeComponent
 {
     public control: FormControl;
 
+    public visible: boolean = false;
+
     constructor()
     {
         this.control = new FormControl(moment());

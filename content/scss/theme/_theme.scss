@@ -6,6 +6,8 @@
 @use '../themes';
 
 $theme: null !default;
+$tooltipTheme: 'dark' !default;
+$datetimeTheme: 'default' !default;
 $themeVars: map.get(meta.module-variables("themes"), "#{$theme}-theme");
 
 //---------------------- PAGE STYLING ----------------------
@@ -13,6 +15,11 @@ $themeVars: map.get(meta.module-variables("themes"), "#{$theme}-theme");
 {
     background-color: map.get($themeVars, primaryBackgroundColor);
     color: map.get($themeVars, primaryForegroundColor);
+
+    //############## PACKAGES ##############
+
+    @include meta.load-css('../../../node_modules/@anglr/datetime/src/#{$datetimeTheme}');
+    @include meta.load-css("../../../node_modules/@anglr/common/styles/positions/#{$tooltipTheme}");
 
     //############## SCROLLBAR ##############
 

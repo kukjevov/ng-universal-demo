@@ -1,30 +1,44 @@
-<!-- <date-time-selector #minDateTime style="align-self: baseline;" [formControl]="control"></date-time-selector> -->
-<date-time-selector #minDateTime style="align-self: baseline;" [formControl]="control" [maxValue]="maxDateTime" minValue="-2m" validate></date-time-selector>
-<date-time-selector #maxDateTime style="align-self: baseline;" [minValue]="minDateTime" maxValue="2020-12-24"></date-time-selector>
-<div>tu je dalsi obsah {{control?.valid}}</div>
-<div>tu je dalsi obsah {{control?.errors | json}}</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div tooltip="toto je test">tu je dalsi obsah tooltip</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
-<div>tu je dalsi obsah</div>
+<div style="padding: 140px; overflow: auto;">
+    <!-- <date-time-selector #minDateTime style="align-self: baseline;" [formControl]="control"></date-time-selector> -->
+    <date-time-selector #minDateTime style="align-self: baseline;" [formControl]="control" [maxValue]="maxDateTime" minValue="-2m" validate></date-time-selector>
+    <date-time-selector #maxDateTime style="align-self: baseline;" [minValue]="minDateTime" maxValue="2020-12-24"></date-time-selector>
+    <div>tu je dalsi obsah {{control?.valid}}</div>
+    <div>tu je dalsi obsah {{control?.errors | json}}</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div tooltip="toto je test <strong>tucne</strong> pismenka" [allowHtml]="true" [tooltipTemplate]="sablonka">
+    <!-- <div tooltip="toto je test <strong>tucne</strong> pismenka" [allowHtml]="true"> -->
+        <ng-template #tooltipTemplate let-data>
+            <div>toto je sablona '{{data}}'</div>
+            <div>efaq</div>
+        </ng-template>
+        tu je dalsi obsah tooltip
+    </div>
+
+    <ng-template #sablonka let-data>
+        <div [innerHtml]="'INNER: ' + data"></div>
+    </ng-template>
+
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div (click)="visible = !visible">tu je dalsi obsah click</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+    <div>tu je dalsi obsah</div>
+</div>
