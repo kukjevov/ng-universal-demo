@@ -141,9 +141,9 @@ module.exports = [function(options, args)
                 "typeahead": path.join(__dirname, "node_modules/typeahead.js/dist/typeahead.jquery.js"),
                 "moment": path.join(__dirname, "node_modules/moment/min/moment-with-locales.js"),
                 "@angular/cdk/a11y": path.join(__dirname, "node_modules/@angular/cdk/esm2015/a11y"),
-                "@anglr/datetime/moment": path.join(__dirname, "packages/ng-datetime-moment/moment.ts"),
-                "@anglr/datetime/date-fns": path.join(__dirname, "packages/ng-datetime-date-fns/date-fns.ts"),
-                "@anglr/datetime": path.join(__dirname, "packages/ng-datetime/datetime.ts"),
+                // "@anglr/datetime/moment": path.join(__dirname, "packages/ng-datetime-moment/moment.ts"),
+                // "@anglr/datetime/date-fns": path.join(__dirname, "packages/ng-datetime-date-fns/date-fns.ts"),
+                // "@anglr/datetime": path.join(__dirname, "packages/ng-datetime/datetime.ts"),
                 "app": path.join(__dirname, "app")
             }),
             mainFields: es5 ? ['browser', 'module', 'main'] : ssr ? ['esm2015', 'es2015', 'jsnext:main', 'module', 'main'] : ['esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main']
