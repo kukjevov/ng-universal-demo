@@ -5,9 +5,6 @@ import {RouterModule} from '@angular/router';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {ProgressIndicatorModule, DebugDataModule} from '@anglr/common';
-import {BootstrapCoreModule} from '@anglr/bootstrap/core';
-import {DatetimepickerModule} from '@anglr/bootstrap/datetimepicker';
-import {TypeaheadModule, TypeaheadTagsModule} from '@anglr/bootstrap/typeahead';
 import {GridModule} from '@anglr/grid';
 import {NgSelectModule} from '@anglr/select';
 import {CommonModule as NgCommonModule} from '@anglr/common';
@@ -36,10 +33,6 @@ import {TranslateModule} from '@ngx-translate/core';
         NumeralModule,
         NumberInputModule,
         TranslateModule,
-        BootstrapCoreModule,
-        DatetimepickerModule,
-        TypeaheadModule,
-        TypeaheadTagsModule,
         NotificationsModule,
         GridModule,
         AuthorizationModule,

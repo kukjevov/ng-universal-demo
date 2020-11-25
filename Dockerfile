@@ -13,6 +13,7 @@ RUN npm install connect && \
     npm install connect-rest && \
     npm install "@jscrpt/common" && \
     npm install extend && \
+    npm install chalk && \
     npm install nodejs-connect-extensions
 
 EXPOSE 8888

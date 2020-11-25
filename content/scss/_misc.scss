@@ -41,6 +41,11 @@
     display: flex;
 }
 
+.contents
+{
+    display: contents;
+}
+
 .flex-row
 {
     display: flex;
@@ -122,22 +127,6 @@
     min-height: 0;
 }
 
-.flex-2-perc
-{
-    flex: 2;
-    max-width: 40%;
-    min-width: 0;
-    min-height: 0;
-}
-
-.flex-3-perc
-{
-    flex: 3;
-    max-width: 60%;
-    min-width: 0;
-    min-height: 0;
-}
-
 .grid-whole-row
 {
     grid-column: 1 / -1;
@@ -197,6 +186,16 @@
 .bottom-0
 {
     bottom: 0;
+}
+
+.margin-none
+{
+    margin: 0;
+}
+
+.padding-none
+{
+    padding: 0;
 }
 
 .va-middle
@@ -271,6 +270,11 @@
     width: 33.33%;
 }
 
+.text-selection
+{
+    user-select: text;
+}
+
 .bold 
 {
     font-weight: bold;    
@@ -284,6 +288,11 @@
 .text-uppercase
 {
     text-transform: uppercase;
+}
+
+.text-capitalize
+{
+    text-transform: capitalize;
 }
 
 .text-ellipsis

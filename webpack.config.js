@@ -38,7 +38,6 @@ function getEntries(ssr, dll, css, diff)
             [
                 "@angular/material/prebuilt-themes/indigo-pink.css",
                 "@fortawesome/fontawesome-free/css/all.min.css",
-                "eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
                 "highlight.js/styles/googlecode.css",
                 "@anglr/common/src/style.scss"
             ],
@@ -137,8 +136,6 @@ module.exports = [function(options, args)
             {
                 "modernizr": path.join(__dirname, "content/external/scripts/modernizr-custom.js"),
                 "numeral-languages": path.join(__dirname, "node_modules/numeral/locales.js"),
-                "handlebars": path.join(__dirname, "node_modules/handlebars/dist/handlebars.js"),
-                "typeahead": path.join(__dirname, "node_modules/typeahead.js/dist/typeahead.jquery.js"),
                 "moment": path.join(__dirname, "node_modules/moment/min/moment-with-locales.js"),
                 "@angular/cdk/a11y": path.join(__dirname, "node_modules/@angular/cdk/esm2015/a11y"),
                 "app": path.join(__dirname, "app")
@@ -161,20 +158,6 @@ module.exports = [function(options, args)
                     ]
                 },
                 //vendor globals
-                {
-                    test: require.resolve("jquery"),
-                    use:
-                    [
-                        {
-                            loader: 'expose-loader',
-                            options: '$'
-                        },
-                        {
-                            loader: 'expose-loader',
-                            options: 'jQuery'
-                        }
-                    ]
-                },
                 {
                     test: require.resolve("numeral"),
                     use:

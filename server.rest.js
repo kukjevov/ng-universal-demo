@@ -41,10 +41,15 @@ function getConfigPath()
 
     if(process.env.NODE_ENV && fs.existsSync(envConfig))
     {
+        console.log(`Loading configuration '${envConfig}'`);
+
         return envConfig;
     }
 
-    return path.join(__dirname, 'config/config.json');
+    const defConfig = 'config/config.json';
+    console.log(`Loading DEFAULT configuration '${defConfig}'`);
+
+    return path.join(__dirname, defConfig);
 }
 
 module.exports = function(app)

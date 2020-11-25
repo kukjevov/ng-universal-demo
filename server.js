@@ -82,7 +82,8 @@ if(!!argv.webpack)
     //enables webpack dev middleware
     app.use(webpackDev(compiler,
     {
-        publicPath: webpackConfig.output.publicPath
+        publicPath: webpackConfig.output.publicPath,
+        writeToDisk: true
     }));
 
     app.use(hmr(compiler));

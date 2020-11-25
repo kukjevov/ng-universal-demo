@@ -1,1 +1,1 @@
-@use 'scss/theme/theme' with ($theme: 'light');
+@use 'scss/theme/theme' with ($themeName: 'light', $tooltipTheme: 'dark', $datetimeTheme: 'default');

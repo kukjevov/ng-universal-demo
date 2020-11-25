@@ -1,3 +1,4 @@
+import {updateHttpRequestClone} from '@anglr/common';
 import {isFunction, isBlank, initializeJsDevMode, globalDefine} from '@jscrpt/common';
 import {Observable} from 'rxjs';
 import moment from 'moment';
@@ -5,6 +6,7 @@ import moment from 'moment';
 import {config} from './config';
 
 initializeJsDevMode();
+updateHttpRequestClone();
 
 globalDefine(global =>
 {

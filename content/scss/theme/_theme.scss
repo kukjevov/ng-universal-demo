@@ -1,71 +1,79 @@
 @use 'sass:meta';
 @use 'sass:map';
+@use 'sass:color';
 
 @use '../vars';
 @use '../mixins';
 @use '../themes';
 
-$theme: null !default;
-$themeVars: map.get(meta.module-variables("themes"), "#{$theme}-theme");
+$themeName: null !default;
+$tooltipTheme: 'dark' !default;
+$datetimeTheme: 'default' !default;
+$theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map.get(meta.module-variables("themes"), "#{$themeName}-theme"));
 
 //---------------------- PAGE STYLING ----------------------
-.app-page.#{$theme}
+.app-page.#{$themeName}
 {
-    background-color: map.get($themeVars, primaryBackgroundColor);
-    color: map.get($themeVars, primaryForegroundColor);
+    background-color: map.get($theme, primaryBackgroundColor);
+    color: map.get($theme, primaryForegroundColor);
+
+    //############## PACKAGES ##############
+
+    @include meta.load-css('../../../node_modules/@anglr/datetime/src/#{$datetimeTheme}');
+    @include meta.load-css("../../../node_modules/@anglr/common/styles/positions/#{$tooltipTheme}");
 
     //############## SCROLLBAR ##############
 
     .thin-scrollbar
     {
-        scrollbar-color: map.get($themeVars, primaryScrollbarColor) map.get($themeVars, primaryScrollbarBackground);
+        scrollbar-color: map.get($theme, primaryScrollbarColor) map.get($theme, primaryScrollbarBackground);
     }
 
     .thin-scrollbar::-webkit-scrollbar-thumb
     {
-        background-color: map.get($themeVars, primaryScrollbarColor);
+        background-color: map.get($theme, primaryScrollbarColor);
     }
 
     .thin-scrollbar::-webkit-scrollbar
     {
-        background-color: map.get($themeVars, primaryScrollbarBackground);
+        background-color: map.get($theme, primaryScrollbarBackground);
     }
 
     //############## BLOCKS ##############
 
     .popup-block
     {
-        box-shadow: 0 0 3px map.get($themeVars, popupBorder);
-        background-color: map.get($themeVars, popupBackground);
+        box-shadow: 0 0 3px map.get($theme, popupBorder);
+        background-color: map.get($theme, popupBackground);
     }
 
     //############## BUTTONS ##############
 
     .btn-line
     {
-        background-color: map.get($themeVars, btnLineBackground);
-        color: map.get($themeVars, btnLineForeground);
+        background-color: map.get($theme, btnLineBackground);
+        color: map.get($theme, btnLineForeground);
 
         &:hover
         {
-            background-color: lighten(map.get($themeVars, btnLineBackground), 9%);
+            background-color: lighten(map.get($theme, btnLineBackground), 9%);
         }
 
         &:active, &.active
         {
-            background-color: lighten(map.get($themeVars, btnLineBackground), 15%);
+            background-color: lighten(map.get($theme, btnLineBackground), 15%);
         }
 
         &>span[class^="fa"],
         &>span[class^="fas"],
         &>span[class^="glyphicon"]
         {
-            color: darken(map.get($themeVars, btnLineForeground), 12%);
+            color: darken(map.get($theme, btnLineForeground), 12%);
             margin-right: vars.$sizeXs;
         }
     }
 
-    @include mixins.generate-button(map.get($themeVars, buttons));
+    @include mixins.generate-button(map.get($theme, buttons));
 
 
     //############## NG SELECT ##############
@@ -74,35 +82,35 @@ $themeVars: map.get(meta.module-variables("themes"), "#{$theme}-theme");
     {
         button.btn-select
         {
-            background-color: map.get($themeVars, primarySelectBackgroundColor);
+            background-color: map.get($theme, primarySelectBackgroundColor);
 
             &.btn:hover, &.btn:focus
             {
-                color: map.get($themeVars, primarySelectForegroundColor);
+                color: map.get($theme, primarySelectForegroundColor);
             }
         }
 
         .popup-div
         {
-            background-color: map.get($themeVars, primarySelectPopupBackgroundColor);
-            color: map.get($themeVars, primarySelectPopupForegroundColor);
+            background-color: map.get($theme, primarySelectPopupBackgroundColor);
+            color: map.get($theme, primarySelectPopupForegroundColor);
 
             .option-item:hover, .option-item.selected, .option-item.active
             {
-                background-color: lighten(map.get($themeVars, primarySelectBackgroundColor), 10%);
-                background-image: linear-gradient(to bottom, lighten(map.get($themeVars, primarySelectBackgroundColor), 10%) 0,lighten(map.get($themeVars, primarySelectBackgroundColor), 15%) 100%);
-                color: map.get($themeVars, primarySelectForegroundColor);
+                background-color: lighten(map.get($theme, primarySelectBackgroundColor), 10%);
+                background-image: linear-gradient(to bottom, lighten(map.get($theme, primarySelectBackgroundColor), 10%) 0,lighten(map.get($theme, primarySelectBackgroundColor), 15%) 100%);
+                color: map.get($theme, primarySelectForegroundColor);
             }
         }
 
         input.form-control
         {
-            background-color: map.get($themeVars, primarySelectInputBackgroundColor);
-            color: map.get($themeVars, primarySelectInputForegroundColor);
+            background-color: map.get($theme, primarySelectInputBackgroundColor);
+            color: map.get($theme, primarySelectInputForegroundColor);
         }
     }
 
     //############## SHARED ##############
 
-    @include meta.load-css('components/shared', $with: (theme: $themeVars));
+    @include meta.load-css('components/shared', $with: (theme: $theme));
 }
