@@ -11,10 +11,16 @@
             "name": "Launch Webpack Build",
             "program": "${workspaceRoot}/node_modules/webpack/bin/webpack.js",
             "args": [
-                "--env.aot",
-                "--env.dll",
-                "--env.css",
-                "--env.html"
+                "--env",
+                "aot",
+                "--env",
+                "dll",
+                "--env",
+                "css",
+                "--env",
+                "html",
+                "--config",
+                "webpack.config.js"
             ],
             "outFiles": []
         },

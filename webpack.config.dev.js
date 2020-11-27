@@ -19,7 +19,7 @@ module.exports = function(options)
         {
             path: path.join(__dirname, distPath),
             filename: '[name].js',
-            library: '[name]_[hash]'
+            library: '[name]_[fullhash]'
         },
         mode: 'development',
         devtool: 'source-map',
@@ -27,6 +27,10 @@ module.exports = function(options)
         {
             symlinks: false,
             extensions: ['.ts', '.js'],
+            fallback:
+            {
+                "crypto": false
+            },
             alias:
             {
                 "numeral-languages": path.join(__dirname, "node_modules/numeral/locales.js"),
@@ -45,7 +49,10 @@ module.exports = function(options)
                     [
                         {
                             loader: 'expose-loader',
-                            options: 'numeral'
+                            options:
+                            {
+                                exposes: 'numeral'
+                            }
                         }
                     ]
                 },
@@ -55,7 +62,10 @@ module.exports = function(options)
                     [
                         {
                             loader: 'expose-loader',
-                            options: 'Konami'
+                            options:
+                            {
+                                exposes: 'Konami'
+                            }
                         }
                     ]
                 },
@@ -81,7 +91,7 @@ module.exports = function(options)
             new webpack.DllPlugin(
             {
                 path: path.join(__dirname, distPath + '/[name]-manifest.json'),
-                name: '[name]_[hash]'
+                name: '[name]_[fullhash]'
             }),
             new webpack.DefinePlugin(
             {

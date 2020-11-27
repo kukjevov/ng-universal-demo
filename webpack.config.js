@@ -3,7 +3,7 @@ var webpack = require('webpack'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin'),
     HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin'),
-    CopyWebpackPlugin = require('copy-webpack-plugin'),
+    // CopyWebpackPlugin = require('copy-webpack-plugin'),
     MiniCssExtractPlugin = require("mini-css-extract-plugin"),
     WebpackNotifierPlugin = require('webpack-notifier'),
     CompressionPlugin = require("compression-webpack-plugin"),
@@ -153,28 +153,10 @@ module.exports = [function(options, args)
                     [
                         {
                             loader: 'expose-loader',
-                            options: 'FormData'
-                        }
-                    ]
-                },
-                //vendor globals
-                {
-                    test: require.resolve("numeral"),
-                    use:
-                    [
-                        {
-                            loader: 'expose-loader',
-                            options: 'numeral'
-                        }
-                    ]
-                },
-                {
-                    test: require.resolve("konami"),
-                    use:
-                    [
-                        {
-                            loader: 'expose-loader',
-                            options: 'Konami'
+                            options:
+                            {
+                                exposes: 'FormData'
+                            }
                         }
                     ]
                 },
@@ -234,9 +216,9 @@ module.exports = [function(options, args)
         [
             new WebpackNotifierPlugin({title: `Webpack - ${hmr ? 'HMR' : (ssr ? 'SSR' : 'BUILD')}`, excludeWarnings: true, alwaysNotify: true, sound: false}),
             //copy external dependencies
-            new CopyWebpackPlugin(
-            [
-            ]),
+            // new CopyWebpackPlugin(
+            // {
+            // }),
             new BitBarWebpackProgressPlugin(),
             new webpack.DefinePlugin(
             {
@@ -334,6 +316,39 @@ module.exports = [function(options, args)
             }));
         }
     }
+    else
+    {
+        //vendor globals
+        config.module.rules.push(
+        {
+            test: require.resolve("numeral"),
+            use:
+            [
+                {
+                    loader: 'expose-loader',
+                    options:
+                    {
+                        exposes: 'numeral'
+                    }
+                }
+            ]
+        });
+
+        config.module.rules.push(
+        {
+            test: require.resolve("konami"),
+            use:
+            [
+                {
+                    loader: 'expose-loader',
+                    options:
+                    {
+                        exposes: 'Konami'
+                    }
+                }
+            ]
+        });
+    }
 
     //generate html with differential loading, old and modern scripts
     if(html && diff)
@@ -393,4 +408,4 @@ module.exports = [function(options, args)
     }
 
     return config;
-}]
+}];

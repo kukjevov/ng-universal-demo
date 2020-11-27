@@ -5,7 +5,7 @@ import 'moment';
 import 'html2canvas';
 import 'extend';
 import 'jquery-param';
-import 'crypto-js';
+import 'crypto-js/sha256';
 import 'file-saver';
 import 'd3';
 import 'marked';
