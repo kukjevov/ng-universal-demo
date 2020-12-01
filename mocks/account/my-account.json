@@ -1,13 +1,9 @@
 {
     "login": "mock-user",
-    "roles": [
-        "ROLE_DEVEL"
-    ],
-    "privileges": [
-        "home-page",
-        "samplePage-page",
-        "logging-settings",
-        "debug-settings",
-        "debugInfo"
+    "roles": 
+    [
+        "ROLE_DEVEL",
+        "ROLE_USER",
+        "ROLE_ADMIN"
     ]
 }

@@ -1,0 +1,7 @@
+{
+    "$schema": "./permissions.schema.json",
+    "home-page":        ["ROLE_DEVEL", "ROLE_ADMIN", "ROLE_USER"],
+    "logging-settings": ["ROLE_DEVEL", "ROLE_ADMIN"],
+    "debug-settings":   ["ROLE_DEVEL"],
+    "debugInfo":        ["ROLE_DEVEL"]
+}

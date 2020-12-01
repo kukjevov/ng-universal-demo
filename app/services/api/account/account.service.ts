@@ -6,10 +6,13 @@ import {HTTP_REQUEST_BASE_URL} from '@anglr/common';
 import {RESTClient, GET, BaseUrl, DefaultHeaders, ResponseTransform, POST, FullHttpResponse, DisableInterceptor, REST_MIDDLEWARES_ORDER, REST_METHOD_MIDDLEWARES, RestMiddleware, Body} from '@anglr/rest';
 import {AuthenticationServiceOptions, UserIdentity, AccessToken, AuthInterceptor, SuppressAuthInterceptor} from '@anglr/authentication';
 import {ServiceUnavailableInterceptor, HttpGatewayTimeoutInterceptor, NoConnectionInterceptor} from '@anglr/error-handling';
+import {isBlank} from '@jscrpt/common';
 import {Observable, Observer, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
 import {config} from '../../../config';
+import {UserInfo} from './account.interface';
+import permissions from '../../../../config/permissions.json';
 
 /**
  * Service used to access user account information
@@ -19,6 +22,13 @@ import {config} from '../../../config';
 @DefaultHeaders(config.configuration.defaultApiHeaders)
 export class AccountService extends RESTClient implements AuthenticationServiceOptions<any>
 {
+    //######################### private fields #########################
+
+    /**
+     * Computed permissions for roles
+     */
+    private _permissions: {[role: string]: string[]} = {};
+
     //######################### constructor #########################
     constructor(http: HttpClient,
                 injector: Injector,
@@ -28,6 +38,8 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
                 @Inject(REST_METHOD_MIDDLEWARES) methodMiddlewares?: Type<RestMiddleware>[])
     {
         super(http, baseUrl, injector, middlewaresOrder, methodMiddlewares);
+
+        this._computePermissionsForRoles();
     }
 
     //######################### public methods - implementation of AuthenticationServiceOptions #########################
@@ -166,14 +178,15 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
         {
             if(data instanceof HttpResponse)
             {
-                var tmp: any = data.body;
+                let body: UserInfo = data.body;
+                let privileges = this._roles2privileges(body.roles);
 
                 return {
                     isAuthenticated: true,
-                    userName: tmp.login,
+                    userName: body.login,
                     firstName: '',
-                    surname: tmp.login,
-                    permissions: tmp.privileges
+                    surname: body.login,
+                    permissions: privileges
                 };
             }
             else
@@ -181,5 +194,42 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
                 return data;
             }
         }));
+    }
+
+    /**
+     * Gets array of permissions for provided roles
+     * @param roles Array of roles to be transformed to permissions
+     */
+    private _roles2privileges(roles: string[]): string[]
+    {
+        let perms: {[permission: string]: boolean} = {};
+
+        (roles ?? []).forEach(role => (this._permissions[role] ?? []).forEach(permission => perms[permission] = true));
+
+        return Object.keys(perms);
+    }
+
+    /**
+     * Computes permissions for roles
+     */
+    private _computePermissionsForRoles()
+    {
+        Object.keys(permissions).forEach(permission =>
+        {
+            let roles = permissions[permission];
+
+            if(Array.isArray(roles))
+            {
+                roles.forEach(role =>
+                {
+                    if(isBlank(this._permissions[role]))
+                    {
+                        this._permissions[role] = [];
+                    }
+
+                    this._permissions[role].push(permission);
+                });
+            }
+        });
     }
 }

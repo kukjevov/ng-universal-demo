@@ -1,0 +1,46 @@
+{
+    "$schema": "http://json-schema.org/draft/2019-09/schema#",
+    "description": "Permissions schema",
+    "definitions":
+    {
+        "roles":
+        {
+            "type": "array",
+            "uniqueItems": true,
+            "items":
+            {
+                "type": "string",
+                "enum":
+                [
+                    "ROLE_DEVEL",
+                    "ROLE_USER",
+                    "ROLE_ADMIN"
+                ]
+            }
+        }
+    },
+    "type": "object",
+    "properties":
+    {
+        "home-page":
+        {
+            "$ref": "#/definitions/roles",
+            "description": "Displaying home page"
+        },
+        "logging-settings":
+        {
+            "$ref": "#/definitions/roles",
+            "description": "Displaying of logging configuration tab in settings"
+        },
+        "debug-settings":
+        {
+            "$ref": "#/definitions/roles",
+            "description": "Displaying of debug configuration tab in settings"
+        },
+        "debugInfo":
+        {
+            "$ref": "#/definitions/roles",
+            "description": "General permission used for displaying content used only for developers and debugging"
+        }
+    }
+}
