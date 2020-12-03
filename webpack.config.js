@@ -126,7 +126,7 @@ module.exports = [function(options, args)
             chunkFilename: `[name].${ssr ? 'server' : 'client'}.${es5 ? 'es5' : 'es2015'}.chunk.js`
         },
         mode: 'development',
-        devtool: hmr ? 'none' : 'source-map',
+        ...hmr ? {devServer: {hot: true, port: 9000, publicPath: '/dist/'}} : {devtool: 'source-map'},
         target: ssr ? 'node' : 'web',
         resolve:
         {
@@ -285,18 +285,19 @@ module.exports = [function(options, args)
         config.plugins.push(getAotPlugin(es5));
     }
 
-    if(hmr)
-    {
-        config.plugins.push(new webpack.HotModuleReplacementPlugin());
+    //Webpack 5 using WEBPACK DEV SERVER
+    // if(hmr)
+    // {
+    //     config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
-        Object.keys(config.entry).forEach(entry =>
-        {
-            if(config.entry[entry].constructor === Array)
-            {
-                config.entry[entry].unshift('webpack-hot-middleware/client');
-            }
-        });
-    }
+    //     Object.keys(config.entry).forEach(entry =>
+    //     {
+    //         if(config.entry[entry].constructor === Array)
+    //         {
+    //             config.entry[entry].unshift('webpack-hot-middleware/client');
+    //         }
+    //     });
+    // }
 
     //only if dll package is required, use only for development
     if(dll)

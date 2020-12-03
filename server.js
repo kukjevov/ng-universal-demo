@@ -72,21 +72,28 @@ console.log(`Using proxy url '${proxyUrl}'`);
 //enable webpack only if run with --webpack param
 if(!!argv.webpack)
 {
-    var webpack = require('webpack'),
-        webpackConfig = require('./webpack.config.js')[0]({hmr: true, dll: true, aot: true, css: true}),
-        webpackDev = require('webpack-dev-middleware'),
-        hmr = require("webpack-hot-middleware");
-
-    var compiler = webpack(webpackConfig);
-
-    //enables webpack dev middleware
-    app.use(webpackDev(compiler,
+    //WEBPACK 5 DEV SERVER
+    app.use(createProxyMiddleware(['/dist'],
     {
-        publicPath: webpackConfig.output.publicPath,
-        writeToDisk: true
+        target: 'http://localhost:9000',
+        ws: true
     }));
 
-    app.use(hmr(compiler));
+    // var webpack = require('webpack'),
+    //     webpackConfig = require('./webpack.config.js')[0]({hmr: true, dll: true, aot: true, css: true}),
+    //     webpackDev = require('webpack-dev-middleware'),
+    //     hmr = require("webpack-hot-middleware");
+
+    // var compiler = webpack(webpackConfig);
+
+    // //enables webpack dev middleware
+    // app.use(webpackDev(compiler,
+    // {
+    //     publicPath: webpackConfig.output.publicPath,
+    //     writeToDisk: true
+    // }));
+
+    // app.use(hmr(compiler));
 }
 
 //mock rest api
