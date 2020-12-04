@@ -5,8 +5,8 @@ import {ConsoleSinkConfigService} from "@anglr/common/structured-log";
 import {ValueNamePair} from "@jscrpt/common";
 import {LogEventLevel} from 'structured-log';
 
-import {config, SettingsGeneral, SettingsDebug, LanguageDef} from '../../config';
-import {SettingsService} from "../../services/settings";
+import {config, SettingsGeneral, SettingsDebug, LanguageDef} from '../../../../config';
+import {SettingsService} from "../../../../services/settings";
 
 /**
  * Available sections for user settings

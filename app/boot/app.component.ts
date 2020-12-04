@@ -16,7 +16,7 @@ import moment from 'moment';
 import {routeAnimationTrigger} from './app.component.animations';
 import {SettingsService} from '../services/settings';
 import {ConfigReleaseService} from '../services/api/configRelease/configRelease.service';
-import {UserSettingsComponent} from '../components';
+import {UserSettingsComponent} from '../modules';
 import {SettingsGeneral, SettingsDebug} from '../config';
 import version from '../../config/version.json';
 

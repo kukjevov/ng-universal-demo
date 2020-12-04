@@ -1,20 +1,22 @@
 import {NgModule, ClassProvider} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
+import {RouterModule} from '@angular/router';
+import {TitledDialogModule} from '@anglr/common/material';
 import {ModuleRoutes} from '@anglr/common/router';
 import {ConsoleLogModule} from '@anglr/common/structured-log';
-import {TitledDialogModule} from '@anglr/common/material';
+import {ProgressIndicatorModule} from '@anglr/common';
 import {InternalServerErrorModule} from '@anglr/error-handling';
+import {NotificationsModule} from '@anglr/notifications';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {HotkeyModule} from 'angular2-hotkeys';
 
 import {AppComponent} from './app.component';
 import {components, routesOptions} from './app.component.routes';
-import {CommonSharedModule} from './commonShared.module';
 import {APP_TRANSFER_ID} from '../misc/constants';
 import {providers} from './app.config';
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
-import {UserSettingsComponent} from '../components';
+import {UserSettingsModule} from '../modules';
 
 /**
  * Main module shared for both server and browser side
@@ -29,10 +31,13 @@ import {UserSettingsComponent} from '../components';
         }),
         HttpClientModule,
         InternalServerErrorModule,
-        CommonSharedModule,
+        ProgressIndicatorModule,
+        NotificationsModule,
+        RouterModule,
         HotkeyModule,
-        ConsoleLogModule.forRoot(),
+        UserSettingsModule,
         TitledDialogModule,
+        ConsoleLogModule.forRoot(),
         TranslateModule.forRoot(
         {
             loader: <ClassProvider>
@@ -46,7 +51,6 @@ import {UserSettingsComponent} from '../components';
     declarations:
     [
         AppComponent,
-        UserSettingsComponent,
         ...components
     ],
     exports: [AppComponent]

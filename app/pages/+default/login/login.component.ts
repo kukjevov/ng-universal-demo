@@ -5,7 +5,7 @@ import {ComponentRoute} from '@anglr/common/router';
 import {AuthenticationService} from '@anglr/authentication';
 import {slideInOutTrigger} from '@anglr/animations';
 import {Logger, LOGGER} from '@anglr/common';
-import {empty} from 'rxjs';
+import {EMPTY} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
 /**
@@ -69,7 +69,7 @@ export class LoginComponent
                 this.authenticationError = true;
                 this._changeDetector.detectChanges();
                 
-                return empty();
+                return EMPTY;
             }))
             .subscribe(() =>
             {
