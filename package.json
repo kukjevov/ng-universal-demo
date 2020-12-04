@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "Angular sample application",
     "scripts": {
-        "build": "webpack --env aot --env dll --env css --env html --config webpack.config.js",
+        "build": "webpack --env aot --env css --env html --config webpack.config.js",
         "build:ssr": "webpack --env aot --env ssr --config webpack.config.js",
         "build:aot": "npm run ngc -- -p tsconfig.json",
         "build:min": "webpack --env aot --env css --env html --mode=production --config webpack.config.js",
@@ -17,8 +17,8 @@
         "prebuild:debug": "npm run prebuild",
         "prebuild:min:debug": "npm run prebuild:min",
         "build:prepare:dev": "webpack --config webpack.config.dev.js",
-        "check:dev:build": "node ifMissingDevDeps.js && (npm run clean && npm run build:prepare:dev) || echo dependecies.js is present",
-        "check:dev:start": "node ifMissingDevDeps.js && (npm run build) || echo dependecies.js is present",
+        "check:dev:build": "node ifMissingDevDeps.js && (npm run clean) || echo index.html is present",
+        "check:dev:start": "node ifMissingDevDeps.js && (npm run build) || echo index.html is present",
         "clean": "rimraf wwwroot",
         "clean:deps": "rimraf package-lock.json node_modules",
         "clean:all": "npm run clean && npm run clean:deps",
@@ -30,7 +30,7 @@
         "postinstall": "npm run ngcc",
         "server": "node server.js",
         "prestart": "npm run check:dev:start",
-        "start": "npm run version:build && concurrently \"npm run server -- --webpack\" \"webpack serve --env aot --env dll --env css --env hmr --config webpack.config.js\""
+        "start": "npm run version:build && concurrently \"npm run server -- --webpack\" \"webpack serve --env aot --env css --env hmr --config webpack.config.js\""
     },
     "engines": {
         "node": ">=10.0.0"

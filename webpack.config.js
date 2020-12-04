@@ -10,6 +10,7 @@ var webpack = require('webpack'),
     SpeedMeasurePlugin = require("speed-measure-webpack-plugin"),
     BitBarWebpackProgressPlugin = require("bitbar-webpack-progress-plugin"),
     BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
+    TerserPlugin = require('terser-webpack-plugin'),
     extend = require('extend'),
     ts = require('typescript'),
     AngularCompilerPlugin =  require('@ngtools/webpack').AngularCompilerPlugin;
@@ -17,11 +18,10 @@ var webpack = require('webpack'),
 /**
  * Gets entries for webpack
  * @param {boolean} ssr Indication that it should be entries for server side rendering
- * @param {boolean} dll Indication that it should be dll import added to entries
  * @param {boolean} css Indication that it should be css added to entries
  * @param {boolean} diff Indication that it should be js added to entries
  */
-function getEntries(ssr, dll, css, diff)
+function getEntries(ssr, css, diff)
 {
     if(ssr)
     {
@@ -33,17 +33,8 @@ function getEntries(ssr, dll, css, diff)
     {
         var entries =
         {
-            ...dll ? {"import-dependencies": './webpack.config.dev.imports'} : {},
-            ...css ? {externalStyle:
-            [
-                "@angular/material/prebuilt-themes/indigo-pink.css",
-                "@fortawesome/fontawesome-free/css/all.min.css",
-                "highlight.js/styles/googlecode.css",
-                "@anglr/common/src/style.scss"
-            ],
-            style: [path.join(__dirname, "content/site.scss"),
-                    path.join(__dirname, "content/dark.scss"),
-                    path.join(__dirname, "content/light.scss")]} : {},
+            ...css ? {externalStyle: path.join(__dirname, "content/externalStyle.js"),
+                      style: path.join(__dirname, "content/style.js")} : {},
             ...diff ? {} : {client: [path.join(__dirname, "app/main.browser.ts")]}
         };
 
@@ -95,11 +86,11 @@ module.exports = [function(options, args)
     var hmr = !!options && !!options.hmr;
     var aot = !!options && !!options.aot;
     var ssr = !!options && !!options.ssr;
-    var dll = !!options && !!options.dll;
     var debug = !!options && !!options.debug;
     var es5 = !!options && !!options.es5;
     var css = !!options && !!options.css;
     var html = !!options && !!options.html;
+    var nomangle = !!options && !!options.nomangle;
     var diff = !!options && !!options.diff;
     var ngsw = process.env.NGSW == "true";
 
@@ -112,11 +103,11 @@ module.exports = [function(options, args)
 
     options = options || {};
 
-    console.log(`Running build with following configuration Production: ${prod} HMR: ${hmr} AOT Compilation: ${aot} SSR: ${ssr} DLL: ${dll} Debug: ${debug} ES5: ${es5} CSS: ${css} HTML: ${html} Differential build: ${diff}`);
+    console.log(`Running build with following configuration Production: ${prod} HMR: ${hmr} AOT Compilation: ${aot} SSR: ${ssr} Debug: ${debug} ES5: ${es5} CSS: ${css} HTML: ${html} Differential build: ${diff}`);
 
     var config =
     {
-        entry: getEntries(ssr, dll, css, diff),
+        entry: getEntries(ssr, css, diff),
         output:
         {
             globalObject: 'self',
@@ -146,6 +137,33 @@ module.exports = [function(options, args)
         {
             rules:
             [
+                //vendor globals
+                {
+                    test: require.resolve("numeral"),
+                    use:
+                    [
+                        {
+                            loader: 'expose-loader',
+                            options:
+                            {
+                                exposes: 'numeral'
+                            }
+                        }
+                    ]
+                },
+                {
+                    test: require.resolve("konami"),
+                    use:
+                    [
+                        {
+                            loader: 'expose-loader',
+                            options:
+                            {
+                                exposes: 'Konami'
+                            }
+                        }
+                    ]
+                },
                 //server globals
                 {
                     test: require.resolve("form-data"),
@@ -231,6 +249,24 @@ module.exports = [function(options, args)
         ]
     };
 
+    if(prod && nomangle)
+    {
+        config.optimization =
+        {
+            minimize: true,
+            minimizer:
+            [
+                new TerserPlugin(
+                {
+                    terserOptions:
+                    {
+                        mangle: false
+                    }
+                })
+            ]
+        };
+    }
+
     //server specific settings
     if(ssr)
     {
@@ -298,58 +334,6 @@ module.exports = [function(options, args)
     //         }
     //     });
     // }
-
-    //only if dll package is required, use only for development
-    if(dll)
-    {
-        config.plugins.push(new webpack.DllReferencePlugin(
-        {
-            context: __dirname,
-            manifest: require(path.join(__dirname, distPath + '/dependencies-manifest.json'))
-        }));
-
-        if(!debug && html)
-        {
-            config.plugins.push(new HtmlWebpackTagsPlugin(
-            {
-                tags: ['dependencies.js'],
-                append: false
-            }));
-        }
-    }
-    else
-    {
-        //vendor globals
-        config.module.rules.push(
-        {
-            test: require.resolve("numeral"),
-            use:
-            [
-                {
-                    loader: 'expose-loader',
-                    options:
-                    {
-                        exposes: 'numeral'
-                    }
-                }
-            ]
-        });
-
-        config.module.rules.push(
-        {
-            test: require.resolve("konami"),
-            use:
-            [
-                {
-                    loader: 'expose-loader',
-                    options:
-                    {
-                        exposes: 'Konami'
-                    }
-                }
-            ]
-        });
-    }
 
     //generate html with differential loading, old and modern scripts
     if(html && diff)
