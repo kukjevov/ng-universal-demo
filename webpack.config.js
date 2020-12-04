@@ -33,8 +33,15 @@ function getEntries(ssr, css, diff)
     {
         var entries =
         {
-            ...css ? {externalStyle: path.join(__dirname, "content/externalStyle.js"),
-                      style: path.join(__dirname, "content/style.js")} : {},
+            ...css ? {
+                         externalStyle: ["@angular/material/prebuilt-themes/indigo-pink.css",
+                                         "@fortawesome/fontawesome-free/css/all.min.css",
+                                         "highlight.js/styles/googlecode.css",
+                                         "@anglr/common/src/style.scss"],
+                         style: [path.join(__dirname, "content/site.scss"),
+                                 path.join(__dirname, "content/dark.scss"),
+                                 path.join(__dirname, "content/light.scss")]
+                     } : {},
             ...diff ? {} : {client: [path.join(__dirname, "app/main.browser.ts")]}
         };
 
@@ -117,8 +124,28 @@ module.exports = [function(options, args)
             chunkFilename: `[name].${ssr ? 'server' : 'client'}.${es5 ? 'es5' : 'es2015'}.chunk.js`
         },
         mode: 'development',
-        ...hmr ? {devServer: {hot: true, port: 9000, publicPath: '/dist/'}} : {devtool: 'source-map'},
+        ...hmr ?
+            {
+                devServer:
+                {
+                    hot: true,
+                    port: 9000,
+                    publicPath: '/dist/',
+                    contentBase: path.join(__dirname, distPath),
+                    contentBasePublicPath: '/dist/',
+                    writeToDisk: true,
+                    overlay: true
+                }
+            } :
+            {
+                devtool: 'source-map'
+            },
         target: ssr ? 'node' : 'web',
+        //TODO remove this when https://github.com/webpack/webpack-dev-server/issues/2792 is fixed
+        optimization:
+        {
+            runtimeChunk: "single"
+        },
         resolve:
         {
             symlinks: false,
@@ -294,7 +321,7 @@ module.exports = [function(options, args)
                 {
                     scriptOptions =
                     {
-                        custom: 
+                        custom:
                         [
                             {
                                 test: /es2015\.js$/,

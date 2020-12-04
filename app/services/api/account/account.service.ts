@@ -135,7 +135,7 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
         {
             if(error.status == 401)
             {
-                return Observable.create((observer: Observer<any>) =>
+                return new Observable((observer: Observer<any>) =>
                 {
                     observer.next(
                     {
