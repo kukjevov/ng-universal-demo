@@ -1,4 +1,5 @@
 import {Type} from '@angular/core';
+import {PreloadAllModules} from '@angular/router';
 import {ModuleRoutesOptions} from '@anglr/common/router';
 
 import {AccessDeniedComponent} from "../pages/accessDenied/accessDenied.component";
@@ -15,7 +16,8 @@ export const routesOptions: ModuleRoutesOptions =
     rootModule: true,
     rootModuleConfig:
     {
-        enableTracing: false
+        enableTracing: false,
+        preloadingStrategy: PreloadAllModules
     },
     staticRoutesBefore:
     [

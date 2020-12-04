@@ -1,12 +1,11 @@
 import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, Inject, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
-import {RouterOutlet, Router} from '@angular/router';
+import {RouterOutlet} from '@angular/router';
 import {GlobalizationService, LOGGER, Logger} from '@anglr/common';
 import {consoleAnimationTrigger} from '@anglr/common/structured-log';
 import {AppHotkeysService} from '@anglr/common/hotkeys';
 import {AuthenticationService} from '@anglr/authentication';
 import {fadeInOutTrigger} from '@anglr/animations';
-import {TitledDialogService} from '@anglr/common/material';
 import {nameof} from '@jscrpt/common';
 import {TranslateService} from "@ngx-translate/core";
 import {Hotkey} from 'angular2-hotkeys';
@@ -16,7 +15,6 @@ import moment from 'moment';
 import {routeAnimationTrigger} from './app.component.animations';
 import {SettingsService} from '../services/settings';
 import {ConfigReleaseService} from '../services/api/configRelease/configRelease.service';
-import {UserSettingsComponent} from '../modules';
 import {SettingsGeneral, SettingsDebug} from '../config';
 import version from '../../config/version.json';
 
@@ -102,14 +100,12 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
     public routerOutlet: RouterOutlet;
 
     //######################### constructor #########################
-    constructor(private _authSvc: AuthenticationService<any>,
+    constructor(_authSvc: AuthenticationService<any>,
                 translateSvc: TranslateService,
                 globalizationSvc: GlobalizationService,
                 private _changeDetector: ChangeDetectorRef,
                 private _appHotkeys: AppHotkeysService,
-                private _router: Router,
                 private _configSvc: ConfigReleaseService,
-                private _dialog: TitledDialogService,
                 settings: SettingsService,
                 @Inject(LOGGER) logger: Logger,
                 @Inject(DOCUMENT) document: HTMLDocument)
@@ -201,33 +197,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
         this._routerOutletActivatedSubscription = this.routerOutlet.activateEvents.subscribe(() =>
         {
             this.routeComponentState = this.routerOutlet.activatedRouteData['animation'] || (<any>this.routerOutlet.activatedRoute.component).name;
-        });
-    }
-
-    //######################### public methods - template bindings #########################
-
-    /**
-     * Logs out user
-     */
-    public async logout()
-    {
-        this._authSvc
-            .logout()
-            .subscribe(() =>
-            {
-                this._router.navigate(['/login']);
-            });
-    }
-
-    /**
-     * Opens settings dialog
-     */
-    public openSettings()
-    {
-        this._dialog.open(UserSettingsComponent,
-        {
-            title: 'user settings',
-            maxHeight: '80vh'
         });
     }
 

@@ -4,3 +4,4 @@ export * from './formsFeature.module';
 export * from './gridFeature.module';
 
 export * from './userSettings';
+export * from './menu';

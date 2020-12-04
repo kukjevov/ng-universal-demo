@@ -16,7 +16,7 @@ import {components, routesOptions} from './app.component.routes';
 import {APP_TRANSFER_ID} from '../misc/constants';
 import {providers} from './app.config';
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
-import {UserSettingsModule} from '../modules';
+import {MenuModule, UserSettingsModule} from '../modules';
 
 /**
  * Main module shared for both server and browser side
@@ -35,6 +35,7 @@ import {UserSettingsModule} from '../modules';
         NotificationsModule,
         RouterModule,
         HotkeyModule,
+        MenuModule,
         UserSettingsModule,
         TitledDialogModule,
         ConsoleLogModule.forRoot(),

@@ -1,10 +1,4 @@
-<div *ngIf="authenticated" class="flex-row-end">
-    <div class="flex-1">GUI: {{guiVersion}} {{serverName}}: {{serverVersion}}</div>
-    <a routerLink="/" routerLinkActive="active" class="margin-right-extra-small">Home</a>
-    <a routerLink="/lazy" routerLinkActive="active" class="margin-right-extra-small">Lazy</a>
-    <a (click)="logout()">Logout</a>
-    <a (click)="openSettings()" class="fas fa-cog"></a>
-</div>
+<main-menu></main-menu>
 
 <progress-indicator></progress-indicator>
 <internal-server-error></internal-server-error>

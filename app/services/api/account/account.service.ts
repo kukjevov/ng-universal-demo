@@ -186,7 +186,7 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
                     userName: body.login,
                     firstName: '',
                     surname: body.login,
-                    permissions: privileges
+                    permissions: privileges.concat(['authenticated'])
                 };
             }
             else
