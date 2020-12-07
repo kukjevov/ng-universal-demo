@@ -1,6 +1,8 @@
 import {NgModule} from '@angular/core';
+import {TitledDialogModule} from '@anglr/common/material';
 
 import {DisplayingFeatureModule} from '../../displayingFeature.module';
+import {UserSettingsModule} from '../../userSettings';
 import {MainMenuComponent} from '../components';
 
 /**
@@ -10,7 +12,9 @@ import {MainMenuComponent} from '../components';
 {
     imports:
     [
-        DisplayingFeatureModule
+        DisplayingFeatureModule,
+        UserSettingsModule,
+        TitledDialogModule,
     ],
     declarations:
     [
