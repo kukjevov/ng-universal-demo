@@ -27,7 +27,7 @@
         "tsc": "tsc",
         "ngc": "ngc",
         "ngcc": "ngcc",
-        "postinstall": "npm run ngcc",
+        "postinstall": "npm run ngcc && rimraf node_modules/angular2-hotkeys/node_modules",
         "server": "node server.js",
         "prestart": "npm run check:dev:start",
         "start": "npm run version:build && concurrently \"npm run server -- --webpack\" \"webpack serve --env aot --env css --env hmr --config webpack.config.js\""
@@ -52,12 +52,12 @@
         "@anglr/animations": "7.0.0",
         "@anglr/authentication": "8.0.0-beta.20201203074030",
         "@anglr/common": "8.0.0-beta.20201020083428",
-        "@anglr/datetime": "1.0.0-beta.20201207133630",
+        "@anglr/datetime": "1.0.0-beta.20201208131351",
         "@anglr/error-handling": "8.0.0-beta.20200825072456",
         "@anglr/grid": "8.0.3",
         "@anglr/md-help": "7.0.1",
         "@anglr/notifications": "7.0.0",
-        "@anglr/rest": "8.0.0-beta.20201012181947",
+        "@anglr/rest": "8.0.0-beta.20201209084518",
         "@anglr/select": "10.0.0-beta.20200916131941",
         "@anglr/server-stuff": "7.1.0",
         "@anglr/translate-extensions": "8.0.0-beta.20201127102253",
@@ -141,7 +141,7 @@
         "copyfiles": "2.4.0",
         "rimraf": "3.0.2",
         "webpack-cli": "4.2.0",
-        "webpack": "5.7.0",
+        "webpack": "5.10.0",
         "typescript": "4.0.5"
     }
 }
