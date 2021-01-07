@@ -93,6 +93,7 @@ module.exports = [function(options, args)
     var hmr = !!options && !!options.hmr;
     var aot = !!options && !!options.aot;
     var ssr = !!options && !!options.ssr;
+    var dll = !!options && !!options.dll;
     var debug = !!options && !!options.debug;
     var es5 = !!options && !!options.es5;
     var css = !!options && !!options.css;
@@ -110,7 +111,7 @@ module.exports = [function(options, args)
 
     options = options || {};
 
-    console.log(`Running build with following configuration Production: ${prod} HMR: ${hmr} AOT Compilation: ${aot} SSR: ${ssr} Debug: ${debug} ES5: ${es5} CSS: ${css} HTML: ${html} Differential build: ${diff}`);
+    console.log(`Running build with following configuration Production: ${prod} HMR: ${hmr} AOT Compilation: ${aot} SSR: ${ssr} DLL: ${dll} Debug: ${debug} ES5: ${es5} CSS: ${css} HTML: ${html} Differential build: ${diff}`);
 
     var config =
     {
@@ -164,33 +165,6 @@ module.exports = [function(options, args)
         {
             rules:
             [
-                //vendor globals
-                {
-                    test: require.resolve("numeral"),
-                    use:
-                    [
-                        {
-                            loader: 'expose-loader',
-                            options:
-                            {
-                                exposes: 'numeral'
-                            }
-                        }
-                    ]
-                },
-                {
-                    test: require.resolve("konami"),
-                    use:
-                    [
-                        {
-                            loader: 'expose-loader',
-                            options:
-                            {
-                                exposes: 'Konami'
-                            }
-                        }
-                    ]
-                },
                 //server globals
                 {
                     test: require.resolve("form-data"),
@@ -361,6 +335,58 @@ module.exports = [function(options, args)
     //         }
     //     });
     // }
+
+    //only if dll package is required, use only for development
+    if(dll)
+    {
+        config.plugins.push(new webpack.DllReferencePlugin(
+        {
+            context: __dirname,
+            manifest: require(path.join(__dirname, distPath + '/dependencies-manifest.json'))
+        }));
+
+        if(!debug && html)
+        {
+            config.plugins.push(new HtmlWebpackTagsPlugin(
+            {
+                tags: ['dependencies.js'],
+                append: false
+            }));
+        }
+    }
+    else
+    {
+        //vendor globals
+        config.module.rules.push(
+        {
+            test: require.resolve("numeral"),
+            use:
+            [
+                {
+                    loader: 'expose-loader',
+                    options:
+                    {
+                        exposes: 'numeral'
+                    }
+                }
+            ]
+        });
+        
+        config.module.rules.push(
+        {
+            test: require.resolve("konami"),
+            use:
+            [
+                {
+                    loader: 'expose-loader',
+                    options:
+                    {
+                        exposes: 'Konami'
+                    }
+                }
+            ]
+        });
+    }
 
     //generate html with differential loading, old and modern scripts
     if(html && diff)
