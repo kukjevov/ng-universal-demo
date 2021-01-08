@@ -1,9 +1,11 @@
 var webpack = require('webpack'),
-    path = require('path');
+    path = require('path'),
+    {getResolve, ruleKonami, ruleNumeral} = require('./webpack.config.common');
 
 module.exports = function(options)
 {
     var es5 = !!options && !!options.es5;
+    var ssr = !!options && !!options.ssr;
     var distPath = "wwwroot/dist";
 
     var config =
@@ -80,46 +82,14 @@ module.exports = function(options)
         devtool: 'source-map',
         resolve:
         {
-            symlinks: false,
-            extensions: ['.ts', '.js'],
-            alias:
-            {
-                "numeral-languages": path.join(__dirname, "node_modules/numeral/locales.js"),
-                "moment": path.join(__dirname, "node_modules/moment/min/moment-with-locales.js"),
-                "@angular/cdk/a11y": path.join(__dirname, "node_modules/@angular/cdk/esm2015/a11y")
-            },
-            mainFields: es5 ? ['browser', 'module', 'main'] : ['esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main']
+            ...getResolve(es5, ssr)
         },
         module:
         {
             rules:
             [
-                {
-                    test: require.resolve("numeral"),
-                    use:
-                    [
-                        {
-                            loader: 'expose-loader',
-                            options:
-                            {
-                                exposes: 'numeral'
-                            }
-                        }
-                    ]
-                },
-                {
-                    test: require.resolve("konami"),
-                    use:
-                    [
-                        {
-                            loader: 'expose-loader',
-                            options:
-                            {
-                                exposes: 'Konami'
-                            }
-                        }
-                    ]
-                }
+                ruleNumeral,
+                ruleKonami
             ]
         },
         plugins:

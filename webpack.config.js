@@ -13,7 +13,8 @@ var webpack = require('webpack'),
     TerserPlugin = require('terser-webpack-plugin'),
     extend = require('extend'),
     ts = require('typescript'),
-    AngularCompilerPlugin =  require('@ngtools/webpack').AngularCompilerPlugin;
+    AngularCompilerPlugin =  require('@ngtools/webpack').AngularCompilerPlugin,
+    {getResolve, ruleKonami, ruleNumeral} = require('./webpack.config.common');
 
 /**
  * Gets entries for webpack
@@ -149,17 +150,7 @@ module.exports = [function(options, args)
         },
         resolve:
         {
-            symlinks: false,
-            extensions: ['.ts', '.js'],
-            alias: extend(es5 ? require('rxjs/_esm5/path-mapping')() : require('rxjs/_esm2015/path-mapping')(),
-            {
-                "modernizr": path.join(__dirname, "content/external/scripts/modernizr-custom.js"),
-                "numeral-languages": path.join(__dirname, "node_modules/numeral/locales.js"),
-                "moment": path.join(__dirname, "node_modules/moment/min/moment-with-locales.js"),
-                "@angular/cdk/a11y": path.join(__dirname, "node_modules/@angular/cdk/esm2015/a11y"),
-                "app": path.join(__dirname, "app")
-            }),
-            mainFields: es5 ? ['browser', 'module', 'main'] : ssr ? ['esm2015', 'es2015', 'jsnext:main', 'module', 'main'] : ['esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main']
+            ...getResolve(es5, ssr)
         },
         module:
         {
@@ -357,35 +348,8 @@ module.exports = [function(options, args)
     else
     {
         //vendor globals
-        config.module.rules.push(
-        {
-            test: require.resolve("numeral"),
-            use:
-            [
-                {
-                    loader: 'expose-loader',
-                    options:
-                    {
-                        exposes: 'numeral'
-                    }
-                }
-            ]
-        });
-        
-        config.module.rules.push(
-        {
-            test: require.resolve("konami"),
-            use:
-            [
-                {
-                    loader: 'expose-loader',
-                    options:
-                    {
-                        exposes: 'Konami'
-                    }
-                }
-            ]
-        });
+        config.module.rules.push(ruleNumeral);
+        config.module.rules.push(ruleKonami);
     }
 
     //generate html with differential loading, old and modern scripts
