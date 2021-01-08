@@ -11,7 +11,6 @@ var webpack = require('webpack'),
     BitBarWebpackProgressPlugin = require("bitbar-webpack-progress-plugin"),
     BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
     TerserPlugin = require('terser-webpack-plugin'),
-    extend = require('extend'),
     ts = require('typescript'),
     AngularCompilerPlugin =  require('@ngtools/webpack').AngularCompilerPlugin,
     {getResolve, ruleKonami, ruleNumeral} = require('./webpack.config.common');

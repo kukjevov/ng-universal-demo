@@ -1,3 +1,6 @@
+var extend = require('extend'),
+    path = require('path');
+
 exports.ruleKonami =
 {
     test: require.resolve("konami"),
