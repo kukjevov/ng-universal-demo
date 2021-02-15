@@ -176,7 +176,9 @@ export var providers =
         provide: NO_DATA_RENDERER_OPTIONS,
         useValue: <NoDataRendererOptions<any>>
         {
-            text: "Neboli nájdené dáta odpovedajúce zadaným parametrom"
+            loading: 'Nahrávam dáta ...',
+            noData: 'Neboli nájdené dáta odpovedajúce zadaným parametrom',
+            notLoaded: 'Neboli načítané žiadne dáta zatiaľ'
         }
     },
     <ValueProvider>
