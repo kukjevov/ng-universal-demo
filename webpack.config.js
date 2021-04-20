@@ -12,7 +12,7 @@ var webpack = require('webpack'),
     BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
     TerserPlugin = require('terser-webpack-plugin'),
     ts = require('typescript'),
-    AngularCompilerPlugin =  require('@ngtools/webpack').AngularCompilerPlugin,
+    AngularWebpackPlugin =  require('@ngtools/webpack').AngularWebpackPlugin,
     {getResolve, ruleKonami, ruleNumeral} = require('./webpack.config.common');
 
 /**
@@ -56,7 +56,7 @@ function getEntries(ssr, css, diff)
  */
 function getAotPlugin(es5)
 {
-    return new AngularCompilerPlugin(
+    return new AngularWebpackPlugin(
     {
         tsConfigPath: path.join(__dirname, 'tsconfig.json'),
         sourceMap: true,

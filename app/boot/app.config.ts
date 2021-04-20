@@ -27,7 +27,7 @@ export function appInitializerFactory(authService: AuthenticationService<any>)
 {
     return () =>
     {
-        return new Promise(success =>
+        return new Promise<void>(success =>
         {
             authService
                 .getUserIdentity()
