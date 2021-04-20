@@ -41,6 +41,17 @@ function overrideConfig(override: Configuration)
 }
 
 /**
+ * Loads default config
+ */
+export function loadDefaultConfig(): void
+{
+    Object.keys(defaultConfig).forEach(key =>
+    {
+        cfg[key] = defaultConfig[key];
+    });
+}
+
+/**
  * Function used for loading configuration
  */
 export async function loadConfig(): Promise<void>
@@ -52,10 +63,7 @@ export async function loadConfig(): Promise<void>
         return await response.json();
     };
     
-    Object.keys(defaultConfig).forEach(key =>
-    {
-        cfg[key] = defaultConfig[key];
-    });
+    loadDefaultConfig();
 
     try
     {

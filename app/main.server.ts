@@ -14,8 +14,10 @@ import {serverRenderFactory, ServerRenderOptions} from '@anglr/server-stuff';
 
 import {ServerAppModule} from './boot/server-app.module';
 import {AdditionalData, getAdditionalProviders} from './server.providers';
+import {loadDefaultConfig} from './config.loader';
 
 enableProdMode();
+loadDefaultConfig();
 
 /**
  * Gets promise that renders app into string
