@@ -1,3 +1,4 @@
+/* eslint-disable ressurectit/imports-order */
 import './dependencies';
 import xhr2 from 'xhr2';
 

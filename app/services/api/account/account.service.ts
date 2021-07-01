@@ -51,10 +51,10 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
      */
     public login(accessToken: AccessToken): Observable<any>
     {
-        let body = new HttpParams()
-            .append("j_username", accessToken.userName)
-            .append("j_password", accessToken.password)
-            .append("remember-me", accessToken.rememberMe?.toString());
+        const body = new HttpParams()
+            .append('j_username', accessToken.userName)
+            .append('j_password', accessToken.password)
+            .append('remember-me', accessToken.rememberMe?.toString());
 
         return this._login(body);
     }
@@ -89,7 +89,7 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
     @DisableInterceptor(ServiceUnavailableInterceptor)
     @DisableInterceptor(HttpGatewayTimeoutInterceptor)
     @DisableInterceptor(NoConnectionInterceptor)
-    @GET("myaccount")
+    @GET('myaccount')
     public getUserIdentity(): Observable<UserIdentity<any>>
     {
         return null;
@@ -140,10 +140,10 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
                     observer.next(
                     {
                         isAuthenticated: false,
-                        userName: "",
+                        userName: '',
                         permissions: [],
-                        firstName: "",
-                        surname: ""
+                        firstName: '',
+                        surname: ''
                     });
                     
                     observer.complete();
@@ -154,19 +154,19 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
             {
                 case 503:
                 {
-                    alert("Vzdialená služba je nedostupná. Skúste opätovne neskôr.");
+                    alert('Vzdialená služba je nedostupná. Skúste opätovne neskôr.');
 
                     break;
                 }
                 case 504:
                 {
-                    alert("Vypršal čas na spracovanie požiadavky cez http proxy. Skúste opätovne neskôr.");
+                    alert('Vypršal čas na spracovanie požiadavky cez http proxy. Skúste opätovne neskôr.');
 
                     break;
                 }
                 case 0:
                 {
-                    alert("Server je mimo prevádzky. Skúste opätovne neskôr.");
+                    alert('Server je mimo prevádzky. Skúste opätovne neskôr.');
 
                     break;
                 }
@@ -178,8 +178,8 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
         {
             if(data instanceof HttpResponse)
             {
-                let body: UserInfo = data.body;
-                let privileges = this._roles2privileges(body.roles);
+                const body: UserInfo = data.body;
+                const privileges = this._roles2privileges(body.roles);
 
                 return {
                     isAuthenticated: true,
@@ -202,7 +202,7 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
      */
     private _roles2privileges(roles: string[]): string[]
     {
-        let perms: {[permission: string]: boolean} = {};
+        const perms: {[permission: string]: boolean} = {};
 
         (roles ?? []).forEach(role => (this._permissions[role] ?? []).forEach(permission => perms[permission] = true));
 
@@ -216,7 +216,7 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
     {
         Object.keys(permissions).forEach(permission =>
         {
-            let roles = permissions[permission];
+            const roles = permissions[permission];
 
             if(Array.isArray(roles))
             {

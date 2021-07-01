@@ -7,18 +7,18 @@ import defaultConfig from '../config/config.json';
  */
 function overrideConfig(override: Configuration)
 {
-    let isPresent = function isPresent(obj: any): boolean
+    const isPresent = function isPresent(obj: any): boolean
     {
         return obj !== undefined && obj !== null;
-    }
+    };
 
     if(isPresent(override?.configuration?.debug))
     {
         let debug: boolean = override?.configuration?.debug;
 
-        if(typeof override.configuration.debug == "string")
+        if(typeof override.configuration.debug == 'string')
         {
-            debug = (<string>override.configuration.debug).toLowerCase() == "true";
+            debug = (<string>override.configuration.debug).toLowerCase() == 'true';
         }
 
         cfg.configuration.debug = debug;
@@ -56,9 +56,9 @@ export function loadDefaultConfig(): void
  */
 export async function loadConfig(): Promise<void>
 {
-    let loadJson = async path =>
+    const loadJson = async path =>
     {
-        let response = await fetch(new Request(path));
+        const response = await fetch(new Request(path));
 
         return await response.json();
     };
@@ -68,7 +68,7 @@ export async function loadConfig(): Promise<void>
     try
     {
         //default configuration
-        let config: Configuration = await loadJson('local/config');
+        const config: Configuration = await loadJson('local/config');
     
         Object.keys(config).forEach(key =>
         {
@@ -83,7 +83,7 @@ export async function loadConfig(): Promise<void>
     try
     {
         //config override from env variables
-        let configOverride = await loadJson('local/configEnv');
+        const configOverride = await loadJson('local/configEnv');
     
         overrideConfig(configOverride);
     }

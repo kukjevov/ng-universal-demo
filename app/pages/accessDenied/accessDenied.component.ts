@@ -8,7 +8,7 @@ import {StatusCodeService} from '@anglr/common';
 @Component(
 {
     selector: 'access-denied-view',
-    templateUrl: "accessDenied.component.html",
+    templateUrl: 'accessDenied.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path:'accessDenied'})

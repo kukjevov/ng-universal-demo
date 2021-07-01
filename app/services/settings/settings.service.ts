@@ -1,9 +1,9 @@
-import {Injectable, KeyValueDiffers, Inject, KeyValueDiffer} from "@angular/core";
-import {extend} from "@jscrpt/common";
-import {Subject, Observable} from "rxjs";
+import {Injectable, KeyValueDiffers, Inject, KeyValueDiffer} from '@angular/core';
+import {extend} from '@jscrpt/common';
+import {Subject, Observable} from 'rxjs';
 
-import {SettingsStorage} from "./settings.interface";
-import {SETTINGS_STORAGE} from "../../misc/tokens";
+import {SettingsStorage} from './settings.interface';
+import {SETTINGS_STORAGE} from '../../misc/tokens';
 import {SettingsGeneral, SettingsDebug, SettingsLogging} from '../../config';
 
 /**
@@ -113,7 +113,7 @@ export class SettingsService
         this._settings = extend(true, {}, this._settings, settings);
         this._storage.set(settings);
 
-        let diff = this._settingsValueDiff.diff(settings)
+        const diff = this._settingsValueDiff.diff(settings);
         
         if(diff)
         {
@@ -133,7 +133,7 @@ export class SettingsService
         this._settingsDebugging = extend(true, {}, this._settingsDebugging, settings);
         this._storage.setDebugging(settings);
 
-        let diff = this._settingsDebuggingValueDiff.diff(settings)
+        const diff = this._settingsDebuggingValueDiff.diff(settings);
         
         if(diff)
         {

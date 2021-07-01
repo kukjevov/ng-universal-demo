@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {GlobalizationService as GlobalizationServiceInterface} from '@anglr/common';
-
 import {Observable, empty} from 'rxjs';
 
 /**
@@ -14,7 +13,7 @@ export class GlobalizationService extends GlobalizationServiceInterface
      */
     public get locale(): string
     {
-        return "sk";
+        return 'sk';
     }
     
     /**

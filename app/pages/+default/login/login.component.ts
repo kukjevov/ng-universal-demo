@@ -17,7 +17,7 @@ import {catchError} from 'rxjs/operators';
     templateUrl: 'login.component.html',
     host:
     {
-        "[class.justify-content-center]": "true"
+        '[class.justify-content-center]': 'true'
     },
     animations: [slideInOutTrigger],
     changeDetection: ChangeDetectionStrategy.OnPush

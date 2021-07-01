@@ -1,9 +1,9 @@
-import {Injectable} from "@angular/core";
-import {extend} from "@jscrpt/common";
+import {Injectable} from '@angular/core';
+import {extend} from '@jscrpt/common';
 import store from 'store';
 
 import {config, SettingsGeneral, SettingsDebug, SettingsLogging} from '../../config';
-import {SettingsStorage} from "./settings.interface";
+import {SettingsStorage} from './settings.interface';
 
 const GENERAL_SETTINGS_STORAGE = 'general-settings';
 const DEBUGGING_SETTINGS_STORAGE = 'debugging-settings';

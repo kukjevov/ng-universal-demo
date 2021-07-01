@@ -1,4 +1,4 @@
-import {StaticProvider, ValueProvider} from "@angular/core";
+import {StaticProvider, ValueProvider} from '@angular/core';
 import {HTTP_REQUEST_BASE_URL, HTTP_REQUEST_COOKIE_HEADER} from '@anglr/common';
 
 /**

@@ -1,6 +1,6 @@
-import {InjectionToken} from "@angular/core";
+import {InjectionToken} from '@angular/core';
 
-import {SettingsStorage} from "../services/settings";
+import {SettingsStorage} from '../services/settings';
 
 /**
  * Token used for settings storage

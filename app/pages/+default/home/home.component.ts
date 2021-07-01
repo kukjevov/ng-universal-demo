@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {ComponentRoute, ComponentRedirectRoute} from "@anglr/common/router";
+import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
 import {Authorize, AuthGuard} from '@anglr/authentication';
 
 /**
@@ -13,7 +13,7 @@ import {Authorize, AuthGuard} from '@anglr/authentication';
 })
 @ComponentRedirectRoute('', 'home')
 @ComponentRoute({path: 'home', canActivate: [AuthGuard]})
-@Authorize("home-page")
+@Authorize('home-page')
 export class HomeComponent
 {
 }

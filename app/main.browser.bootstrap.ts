@@ -1,3 +1,4 @@
+/* eslint-disable ressurectit/imports-order */
 import './dependencies';
 import './dependencies.browser';
 import 'zone.js/dist/zone';
@@ -23,9 +24,9 @@ if (jsDevMode && module['hot'])
 
 jsDevMode && hmrAccept(() => platform);
 
-var platform = platformBrowser();
+const platform = platformBrowser();
 
-runWhenModuleStable(platform.bootstrapModule(BrowserAppModule), (moduleRef: NgModuleRef<{}>) =>
+runWhenModuleStable(platform.bootstrapModule(BrowserAppModule), (moduleRef: NgModuleRef<any>) =>
 {
     moduleRef.injector.get(RestTransferStateService)?.clearAndDeactivate();
     jsDevMode && hmrFinishedNotification();

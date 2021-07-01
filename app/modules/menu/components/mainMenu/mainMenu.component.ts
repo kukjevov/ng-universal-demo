@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {AuthenticationService} from '@anglr/authentication';
 import {Router} from '@angular/router';
+import {AuthenticationService} from '@anglr/authentication';
 import {TitledDialogService} from '@anglr/common/material';
 
 import {UserSettingsComponent} from '../../../userSettings';

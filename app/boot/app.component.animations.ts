@@ -1,4 +1,4 @@
-import {trigger, transition, query, animate, style, animateChild, group} from "@angular/animations";
+import {trigger, transition, query, animate, style, animateChild, group} from '@angular/animations';
 
 /**
  * Animations run when changing route

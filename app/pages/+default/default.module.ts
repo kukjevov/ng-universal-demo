@@ -1,7 +1,7 @@
-import {NgModule} from "@angular/core";
-import {ModuleRoutes} from "@anglr/common/router";
+import {NgModule} from '@angular/core';
+import {ModuleRoutes} from '@anglr/common/router';
 
-import {components} from "./default.routes";
+import {components} from './default.routes';
 import {DebuggingFeatureModule, DisplayingFeatureModule, FormsFeatureModule} from '../../modules';
 
 /**

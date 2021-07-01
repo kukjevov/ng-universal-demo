@@ -1,12 +1,12 @@
-import {Component, ChangeDetectionStrategy} from "@angular/core";
-import {FormGroup, FormBuilder} from "@angular/forms";
-import {DebugDataEnabledService} from "@anglr/common";
-import {ConsoleSinkConfigService} from "@anglr/common/structured-log";
-import {ValueNamePair} from "@jscrpt/common";
+import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {FormGroup, FormBuilder} from '@angular/forms';
+import {DebugDataEnabledService} from '@anglr/common';
+import {ConsoleSinkConfigService} from '@anglr/common/structured-log';
+import {ValueNamePair} from '@jscrpt/common';
 import {LogEventLevel} from 'structured-log';
 
 import {config, SettingsGeneral, SettingsDebug, LanguageDef} from '../../../../config';
-import {SettingsService} from "../../../../services/settings";
+import {SettingsService} from '../../../../services/settings';
 
 /**
  * Available sections for user settings
@@ -97,9 +97,9 @@ export class UserSettingsComponent
                 consoleConfig: ConsoleSinkConfigService,
                 debugDataEnabled: DebugDataEnabledService)
     {
-        let settings = settingsSvc.settings;
-        let debuggingSettings = settingsSvc.settingsDebugging;
-        let loggingSettings = settingsSvc.settingsLogging;
+        const settings = settingsSvc.settings;
+        const debuggingSettings = settingsSvc.settingsDebugging;
+        const loggingSettings = settingsSvc.settingsLogging;
         
         this._getLogLevels();
 

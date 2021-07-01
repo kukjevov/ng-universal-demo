@@ -7,10 +7,9 @@ import {AppHotkeysService} from '@anglr/common/hotkeys';
 import {AuthenticationService} from '@anglr/authentication';
 import {fadeInOutTrigger} from '@anglr/animations';
 import {nameof} from '@jscrpt/common';
-import {TranslateService} from "@ngx-translate/core";
+import {TranslateService} from '@ngx-translate/core';
 import {Hotkey} from 'angular2-hotkeys';
 import {Subscription} from 'rxjs';
-import moment from 'moment';
 
 import {routeAnimationTrigger} from './app.component.animations';
 import {SettingsService} from '../services/settings';
@@ -24,7 +23,7 @@ import version from '../../config/version.json';
 @Component(
 {
     selector: 'app',
-    templateUrl: "app.component.html",
+    templateUrl: 'app.component.html',
     styleUrls: ['app.component.scss'],
     animations: [routeAnimationTrigger, fadeInOutTrigger, consoleAnimationTrigger],
     providers: [AppHotkeysService, ConfigReleaseService],
@@ -112,7 +111,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
     {
         logger.verbose('Application is starting, main component constructed.');
 
-        document.body.classList.add("app-page", settings.settings.theme);
+        document.body.classList.add('app-page', settings.settings.theme);
         this._theme = settings.settings.theme;
 
         new Konami(() =>
@@ -146,7 +145,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
                 }
             });
 
-        moment.locale(globalizationSvc.locale);
         translateSvc.setDefaultLang('en');
         translateSvc.use(settings.settings.language);
 
@@ -179,7 +177,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
      */
     public async ngOnInit()
     {
-        let srvCfg = await this._configSvc.get().toPromise();
+        const srvCfg = await this._configSvc.get().toPromise();
 
         this.serverVersion = srvCfg.release;
         this.serverName = srvCfg.name;
@@ -229,7 +227,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
      */
     private _toggleConsoleHotkey()
     {
-        let oldHelpHotkey = this._appHotkeys.hotkeys.get('~');
+        const oldHelpHotkey = this._appHotkeys.hotkeys.get('~');
 
         if(oldHelpHotkey)
         {

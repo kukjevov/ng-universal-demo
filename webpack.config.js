@@ -36,7 +36,7 @@ function getEntries(ssr, css, diff)
             ...css ? {
                          externalStyle: ["@angular/material/prebuilt-themes/indigo-pink.css",
                                          "@fortawesome/fontawesome-free/css/all.min.css",
-                                         "highlight.js/styles/googlecode.css",
+                                         "highlight.js/styles/vs2015.css",
                                          "@anglr/common/src/style.scss"],
                          style: [path.join(__dirname, "content/site.scss"),
                                  path.join(__dirname, "content/dark.scss"),
@@ -136,7 +136,8 @@ module.exports = [function(options, args)
                     contentBasePublicPath: '/dist/',
                     writeToDisk: true,
                     overlay: true
-                }
+                },
+                devtool: 'eval-source-map'
             } :
             {
                 devtool: 'source-map'

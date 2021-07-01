@@ -1,6 +1,6 @@
-import {Injectable} from "@angular/core";
-import {TranslateLoader} from "@ngx-translate/core";
-import {Observable, Observer} from "rxjs";
+import {Injectable} from '@angular/core';
+import {TranslateLoader} from '@ngx-translate/core';
+import {Observable, Observer} from 'rxjs';
 
 /**
  * Service used as webpack translate loader
@@ -18,7 +18,7 @@ export class WebpackTranslateLoaderService implements TranslateLoader
     {
         return Observable.create(async (observer: Observer<any>) =>
         {
-            let result = await import(`../../../content/l10n/${lang}.json`);
+            const result = await import(`../../../content/l10n/${lang}.json`);
 
             observer.next(result.default);
             observer.complete();
