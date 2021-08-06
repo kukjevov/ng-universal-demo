@@ -1,6 +1,6 @@
 import {Injector} from '@angular/core';
 import {isPresent} from '@jscrpt/common';
-import {Selection, BaseType, drag, event, select} from 'd3';
+import {Selection, BaseType, drag, select} from 'd3';
 import {Subject, Observable} from 'rxjs';
 
 import {Coordinates, SvgRelationDynamicNode, SvgNodeDynamicNode, SvgPeerDropArea, PropertiesMetadata, DesignerLayoutPlaceholderComponent, INVALIDATE_PROPERTIES} from '../../../../interfaces';
@@ -197,11 +197,11 @@ export class SvgNode implements SvgNodeDynamicNode
     {
         if(propertyName == INVALIDATE_PROPERTIES)
         {
-            let newDynamicInputs: ɵDynamicRelationsInputMetadata[] = (this._metadata.dynamicInputs && this._metadata.dynamicInputs(this._properties.value)) || [];
+            const newDynamicInputs: ɵDynamicRelationsInputMetadata[] = (this._metadata.dynamicInputs && this._metadata.dynamicInputs(this._properties.value)) || [];
 
             this._dynamicInputs.forEach(input =>
             {
-                let found = newDynamicInputs.find(itm => itm.ɵId == input.ɵId);
+                const found = newDynamicInputs.find(itm => itm.ɵId == input.ɵId);
 
                 if(found)
                 {
@@ -228,7 +228,7 @@ export class SvgNode implements SvgNodeDynamicNode
      */
     public getDynamicInputId(inputName: string): string
     {
-        let input = this._metadata.inputs.find(itm => itm.id == inputName);
+        const input = this._metadata.inputs.find(itm => itm.id == inputName);
 
         if(input)
         {
@@ -270,14 +270,14 @@ export class SvgNode implements SvgNodeDynamicNode
      */
     public addOutputRelation(outputName: string): SvgRelationDynamicNode
     {
-        let relation = this._createRelation();
-        let outputPeer = this._metadata.outputs.find(itm => itm.id == outputName);
+        const relation = this._createRelation();
+        const outputPeer = this._metadata.outputs.find(itm => itm.id == outputName);
 
         outputPeer.relations = outputPeer.relations || [];
 
         relation.startDestroyingSubscription = relation.destroying.subscribe(relation =>
         {
-            let index = outputPeer.relations.indexOf(relation);
+            const index = outputPeer.relations.indexOf(relation);
 
             if(index >= 0)
             {
@@ -298,7 +298,7 @@ export class SvgNode implements SvgNodeDynamicNode
      */
     public addInputRelation(relation: SvgRelationDynamicNode, inputName: string, dynamic: boolean): boolean
     {
-        let inputPeer = (dynamic ? this._dynamicInputs : this._metadata.inputs).find((itm: ɵDynamicRelationsInputMetadata) => (itm.ɵId || itm.id) == inputName);
+        const inputPeer = (dynamic ? this._dynamicInputs : this._metadata.inputs).find((itm: ɵDynamicRelationsInputMetadata) => (itm.ɵId || itm.id) == inputName);
 
         inputPeer.relations = inputPeer.relations || [];
 
@@ -316,7 +316,7 @@ export class SvgNode implements SvgNodeDynamicNode
 
         relation.endDestroyingSubscription = relation.destroying.subscribe(relation =>
         {
-            let index = inputPeer.relations.indexOf(relation);
+            const index = inputPeer.relations.indexOf(relation);
 
             if(index >= 0)
             {
@@ -400,7 +400,7 @@ export class SvgNode implements SvgNodeDynamicNode
                 .attr('stroke', '#d4d4d4')
             .on('click', () =>
             {
-                let propertiesSvc = this._injector.get(NODE_PROPERTIES_SERVICE);
+                const propertiesSvc = this._injector.get(NODE_PROPERTIES_SERVICE);
 
                 if(propertiesSvc)
                 {
@@ -417,7 +417,7 @@ export class SvgNode implements SvgNodeDynamicNode
         this._addInputs();
         this._addOutputs();
 
-        this._nodeGroup.call(drag().on('drag', () =>
+        this._nodeGroup.call(drag().on('drag', event =>
         {
             this._nodeX += event.dx;
             this._nodeY += event.dy;
@@ -497,7 +497,7 @@ export class SvgNode implements SvgNodeDynamicNode
     {
         let relation: SvgRelationDynamicNode;
 
-        let changes = group.selectAll<SVGGeometryElement, ɵDynamicRelationsInputMetadata>('g')
+        const changes = group.selectAll<SVGGeometryElement, ɵDynamicRelationsInputMetadata>('g')
             .data(inputs, datum => datum.ɵId || datum.id)
             .call(sel =>
             {
@@ -535,7 +535,7 @@ export class SvgNode implements SvgNodeDynamicNode
             .enter()
             .call(sel =>
             {
-                let inputGroup = sel.append('g');
+                const inputGroup = sel.append('g');
 
                 inputGroup.append('circle')
                     .attr('cx', 0)
@@ -555,8 +555,12 @@ export class SvgNode implements SvgNodeDynamicNode
                         .attr('r', 10)
                         .attr('fill', 'transparent')
                         .attr('cy', itm => itm.y)
-                    .on('mouseenter', (datum, index, groups) =>
+                    .on('mouseenter', (datum) =>
                     {
+                        //TODO
+                        let groups: any;
+                        let index: any;
+
                         select(groups[index])
                             .attr('fill', 'url(#input-hover)');
 
@@ -567,15 +571,19 @@ export class SvgNode implements SvgNodeDynamicNode
                             dynamic: dynamic
                         });
                     })
-                    .on('mouseleave', (_datum, index, groups) =>
+                    .on('mouseleave', (_event, _datum) =>
                     {
+                        //TODO
+                        let groups: any;
+                        let index: any;
+
                         select(groups[index])
                             .attr('fill', 'transparent');
 
                         this._validDropToggle(null);
                     })
                     .call(drag<SVGCircleElement, ɵDynamicRelationsInputMetadata>()
-                        .on('start', datum =>
+                        .on('start', (_event, datum) =>
                         {
                             relation = datum.relations && datum.relations.length && datum.relations[0];
 
@@ -586,7 +594,7 @@ export class SvgNode implements SvgNodeDynamicNode
 
                             datum.relations.splice(0, 1);
                         })
-                        .on('drag', () =>
+                        .on('drag', event =>
                         {
                             if(!relation)
                             {
@@ -646,13 +654,21 @@ export class SvgNode implements SvgNodeDynamicNode
                         .attr('r', 10)
                         .attr('fill', 'transparent')
                         .attr('cy', itm => itm.y)
-                    .on('mouseenter', (_datum, index, groups) =>
+                    .on('mouseenter', () =>
                     {
+                        //TODO
+                        let groups: any;
+                        let index: any;
+
                         select(groups[index])
                             .attr('fill', 'url(#output-hover)');
                     })
-                    .on('mouseleave', (_datum, index, groups) =>
+                    .on('mouseleave', () =>
                     {
+                        //TODO
+                        let groups: any;
+                        let index: any;
+
                         select(groups[index])
                             .attr('fill', 'transparent');
                     })
@@ -665,7 +681,7 @@ export class SvgNode implements SvgNodeDynamicNode
 
                             relation.startDestroyingSubscription = relation.destroying.subscribe(relation =>
                             {
-                                let index = datum.relations.indexOf(relation);
+                                const index = datum.relations.indexOf(relation);
 
                                 if(index >= 0)
                                 {
@@ -677,7 +693,7 @@ export class SvgNode implements SvgNodeDynamicNode
 
                             datum.relations.push(relation);
                         })
-                        .on('drag', () =>
+                        .on('drag', event =>
                         {
                             relation.end =
                             {
@@ -742,7 +758,7 @@ export class SvgNode implements SvgNodeDynamicNode
      */
     protected _getOutputs(): DynamicComponentRelationOutputMetadata[]
     {
-        let result: DynamicComponentRelationOutputMetadata[] = [];
+        const result: DynamicComponentRelationOutputMetadata[] = [];
 
         if(this._metadata && this._metadata.outputs && this._metadata.outputs.length)
         {
@@ -753,7 +769,7 @@ export class SvgNode implements SvgNodeDynamicNode
                     return;
                 }
 
-                let inputs: DynamicComponentRelationInputMetadata[] = [];
+                const inputs: DynamicComponentRelationInputMetadata[] = [];
 
                 output.relations.forEach(relation =>
                 {

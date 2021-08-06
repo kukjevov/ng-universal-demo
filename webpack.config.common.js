@@ -68,6 +68,8 @@ export const getResolve = function(ssr)
             "modernizr": path.join(dirName, "content/external/scripts/modernizr-custom.js"),
             "numeral-languages": path.join(dirName, "node_modules/numeral/locales.js"),
             // "@angular/cdk/a11y": path.join(dirName, "node_modules/@angular/cdk/esm2015/a11y"),
+            "handlebars": path.join(dirName, "node_modules/handlebars/dist/handlebars.js"),
+            "@ngDynamic": path.join(dirName, "app/dynamicPackage"),
             "app": path.join(dirName, "app")
         },
         mainFields: ssr ? ['esm2015', 'es2015', 'jsnext:main', 'module', 'main'] : ['esm2020', 'esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main'],

@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, OnInit, Injector, OnDestroy} from '@angular/core';
 import {generateId} from '@jscrpt/common';
-import {select, Selection, event, zoom, zoomTransform} from 'd3';
+import {select, Selection, zoom, zoomTransform} from 'd3';
 import {Subscription, Subject, Observable} from 'rxjs';
 
 import {SvgNode, SvgRelation} from './misc';
@@ -116,9 +116,9 @@ export class NodeDesignerComponent implements OnInit, OnDestroy
     public ngOnInit()
     {
         //creates scale and drag behavior
-        let $zoom = zoom()
+        const $zoom = zoom()
             .scaleExtent([1/4, 2])
-            .on('zoom', () =>
+            .on('zoom', event =>
         {
             if(this._svgData.parentGroup)
             {
@@ -127,7 +127,7 @@ export class NodeDesignerComponent implements OnInit, OnDestroy
         });
 
         //creates svg element
-        let selfObj = select(this._element.nativeElement),
+        const selfObj = select(this._element.nativeElement),
             svgWidth = '100%',
             svgHeight = '100%';
         this._svgData.svg = selfObj.append('svg')
@@ -168,7 +168,7 @@ export class NodeDesignerComponent implements OnInit, OnDestroy
         this._svgData.parentGroup.remove();
         this._svgData.parentGroup = null;
         this._svgData.svg.remove();
-        this._svgData.svg = null
+        this._svgData.svg = null;
         this._svgData = {};
     }
 
@@ -191,9 +191,9 @@ export class NodeDesignerComponent implements OnInit, OnDestroy
      */
     public addComponent(coordinates: Coordinates, component: DesignerLayoutPlaceholderComponent, metadata: RelationsMetadata, nodeOptions?: any): SvgNodeDynamicNode
     {
-        let currentZoom = zoomTransform(this._svgData.svg.node());
+        const currentZoom = zoomTransform(this._svgData.svg.node());
 
-        let svgNodeInfo =
+        const svgNodeInfo =
         {
             svgNodeDestroyingSubscription: null,
             component: component,
@@ -253,10 +253,10 @@ export class NodeDesignerComponent implements OnInit, OnDestroy
      */
     public addNode(coordinates: Coordinates, metadata: RelationsMetadata, nodeOptions?: any): SvgNodeDynamicNode
     {
-        let currentZoom = zoomTransform(this._svgData.svg.node());
-        let ɵMetadata: ɵRelationsMetadata = metadata;
+        const currentZoom = zoomTransform(this._svgData.svg.node());
+        const ɵMetadata: ɵRelationsMetadata = metadata;
 
-        let svgNodeInfo =
+        const svgNodeInfo =
         {
             svgNodeDestroyingSubscription: null,
             svgNode: metadata.customNode ? new metadata.customNode(this._svgData.parentGroup,
@@ -315,7 +315,7 @@ export class NodeDesignerComponent implements OnInit, OnDestroy
      */
     private _handleDestroySvgNode = (svgNode: SvgNodeDynamicNode) =>
     {
-        let found = this._addedNodes.find(itm => itm.svgNode == svgNode);
+        const found = this._addedNodes.find(itm => itm.svgNode == svgNode);
 
         if(found)
         {
@@ -324,7 +324,7 @@ export class NodeDesignerComponent implements OnInit, OnDestroy
                 this._destroyingComponentNodeSubject.next(found.component);
             }
 
-            let index = this._addedNodes.indexOf(found);
+            const index = this._addedNodes.indexOf(found);
             this._addedNodes.splice(index, 1);
             found.component = null;
             found.svgNodeDestroyingSubscription.unsubscribe();
@@ -338,7 +338,7 @@ export class NodeDesignerComponent implements OnInit, OnDestroy
      */
     private _createDefs()
     {
-        let inputGradient = this._svgData.svg.append('defs')
+        const inputGradient = this._svgData.svg.append('defs')
             .append('radialGradient')
                 .attr('id', 'input-hover');
 
@@ -350,7 +350,7 @@ export class NodeDesignerComponent implements OnInit, OnDestroy
             .attr('offset', '100%')
             .attr('stop-color', 'transparent');
 
-        let outputGradient = this._svgData.svg.append('defs')
+        const outputGradient = this._svgData.svg.append('defs')
             .append('radialGradient')
                 .attr('id', 'output-hover');
 
@@ -368,9 +368,9 @@ export class NodeDesignerComponent implements OnInit, OnDestroy
      */
     private async _getMetadata(): Promise<DynamicComponentRelationMetadata[]>
     {
-        let result: DynamicComponentRelationMetadata[] = [];
+        const result: DynamicComponentRelationMetadata[] = [];
 
-        for(let node of this._addedNodes)
+        for(const node of this._addedNodes)
         {
             result.push(await node.svgNode.metadata);
         }

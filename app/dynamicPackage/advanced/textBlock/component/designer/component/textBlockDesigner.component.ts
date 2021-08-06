@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {SafeHtml, DomSanitizer} from '@angular/platform-browser';
-import * as handlebars from 'handlebars';
+import handlebars from 'handlebars';
 
 import {PlaceholderBaseComponent, PropertiesService} from '../../../../../../ngDynamic-designer';
 import {DynamicComponentMetadataGeneric} from '../../../../../../ngDynamic-core';

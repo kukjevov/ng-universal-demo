@@ -579,7 +579,7 @@ declare module 'rxjs/operators/internal/operators/count' {
       * will pass this error notification along without emitting a value first. If
       * the source Observable does not terminate at all, `count` will neither emit
       * a value nor terminate. This operator takes an optional `predicate` function
-      * as argument, in which case the output emission will represent the number of
+      argument, in which case the output emission will represent the number of
       * source values that matched `true` with the `predicate`.
       *
       * ## Examples
@@ -803,7 +803,7 @@ declare module 'rxjs/operators/internal/operators/dematerialize' {
       * {@link Notification} objects as `next` emissions, and does not emit any
       * `error`. Such Observable is the output of a `materialize` operation. Those
       * notifications are then unwrapped using the metadata they contain, and emitted
-      * as `next`, `error`, and `complete` on the output Observable.
+      `next`, `error`, and `complete` on the output Observable.
       *
       * Use this operator in conjunction with {@link materialize}.
       *
@@ -1619,7 +1619,7 @@ declare module 'rxjs/operators/internal/operators/observeOn' {
         * Observable directly (usually into the operator that creates it). `observeOn` simply delays notifications a
         * little bit more, to ensure that they are emitted at expected moments.
         *
-        * As a matter of fact, `observeOn` accepts second parameter, which specifies in milliseconds with what delay notifications
+        a matter of fact, `observeOn` accepts second parameter, which specifies in milliseconds with what delay notifications
         * will be emitted. The main difference between {@link delay} operator and `observeOn` is that `observeOn`
         * will delay all notifications - including error notifications - while `delay` will pass through error
         * from source Observable immediately when it is emitted. In general it is highly recommended to use `delay` operator
@@ -1974,7 +1974,7 @@ declare module 'rxjs/operators/internal/operators/retry' {
     /**
       * Returns an Observable that mirrors the source Observable with the exception of an `error`. If the source Observable
       * calls `error`, this method will resubscribe to the source Observable for a maximum of `count` resubscriptions (given
-      * as a number parameter) rather than propagating the `error` call.
+      a number parameter) rather than propagating the `error` call.
       *
       * ![](retry.png)
       *
@@ -2031,7 +2031,7 @@ declare module 'rxjs/operators/internal/operators/sample' {
       * looks at the source Observable and emits whichever value it has most recently
       * emitted since the previous sampling, unless the source has not emitted
       * anything since the previous sampling. The `notifier` is subscribed to as soon
-      * as the output Observable is subscribed.
+      the output Observable is subscribed.
       *
       * ## Example
       * On every click, sample the most recent "seconds" timer

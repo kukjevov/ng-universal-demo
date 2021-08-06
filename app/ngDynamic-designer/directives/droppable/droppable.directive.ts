@@ -1,6 +1,6 @@
 import {Directive, HostListener, ElementRef, EventEmitter, Output, Input} from '@angular/core';
 import {isPresent} from '@jscrpt/common';
-import * as moment from 'moment';
+import moment from 'moment';
 
 import {DropEvent, DropArea} from '../../interfaces';
 
