@@ -1,58 +1,144 @@
-// ---------------------- DARK THEME ----------------------
-$primaryBackgroundColor: #eaeaea;
+@use 'sass:color';
 
-$primaryForegroundColor: #1a1a1a;
+//############## AVAILABLE COLORS ##############
 
-$primaryLinkColor: #63c0f5;
+$white: #f0f0f0;
+$black: #2A2A2A;
 
-$primaryPaginationForeground: #00a5a5;
-$primaryPaginationActiveForeground: darken($primaryBackgroundColor, 15%);
-$primaryPaginationActiveBackground: $primaryPaginationForeground;
+$gray-0: #535353;
+$gray-1: #e0e0e0;
+$gray-2: #cccccc;
+$gray-3: #aaaaaa;
+$gray-4: #9d9d9d;
+$gray-5: #737373;
+$gray-6: #555555;
+$gray-7: #2b2e33;
+$gray-8: #1c232f;
+$gray-9: #1e1e1e;
 
-$primaryCodeBackground: #151515;
-$secondaryCodeBackground: $primaryCodeBackground;
-$primaryCodeForeground: #DCDCDC;
-$secondaryCodeForeground: #569CD6;
-$primaryCodeBorder: #333333;
+$green: #6aba4f;
+$lightBlue: #5bc0de;
+$blue: #337ab7;
+$assecoBlue: #00a3e0;
+$red: #ec0e0e;
+$orangeRed: #e45514;
+$orange: #e4a256;
+$yellowGreen: #bbdd4f;
+$yellow: #d4da03;
+$brown: #6b4b02;
 
-$primaryScrollbarColor: #cdcdcd;
-$primaryScrollbarBackground: $primaryBackgroundColor;
+//############## BACKGROUNDS ##############
 
-$primarySelectBackgroundColor: darken($primaryBackgroundColor, 5%);
-$primarySelectForegroundColor: #FFFFFF;
-$primarySelectPopupBackgroundColor: $primarySelectBackgroundColor;
-$primarySelectPopupForegroundColor: $primaryForegroundColor;
-$primarySelectInputBackgroundColor: $primaryBackgroundColor;
-$primarySelectInputForegroundColor: $primaryForegroundColor;
+$pageBackground: $black;
+$primaryBackground: $gray-0;
+$secondaryBackground: $gray-7;
+$blockBackground: $black;
+$pageTitleBackground: $gray-8;
+$mainMenuBackground: $assecoBlue;
 
-$titleBarBackground: lighten($primaryBackgroundColor, 5%);
-$titleBarCloseBackground: #E81123;
-$titleBarIconBackground: #FFFFFF;
+//############## FOREGROUNDS ##############
 
-$navigationBackground: darken($primaryBackgroundColor, 8%);
-$navigationActiveBackground: #00a5a51a;
-$navigationShadowColor: $navigationBackground;
-$navigationMenuItemActiveMarkColor: #00a5a5;
+$pageForeground: $black;
+$primaryForeground: $black;
+$secondaryForeground: $white;
+$blockForeground: $white;
+$pageTitleForeground: $gray-1;
+$mainMenuForeground: $black;
+$mainMenuForegroundActive: $white;
 
-$popupBorder: #000000;
-$popupBackground: darken($primaryBackgroundColor, 5%);
+//############## DIALOG ##############
 
-$dialogTitleBackground: darken($primaryBackgroundColor, 5%);
-$dialogTitleForeground: $primaryForegroundColor;
-$dialogContentBackground: darken($primaryBackgroundColor, 5%);
-$dialogContentForeground: $primaryForegroundColor;
-$dialogBorder: $popupBorder;
+$dialogBorder: $gray-7;
+$dialogTitleForeground: $gray-0;
+$dialogTitleBackground: $gray-8;
+$dialogContentBackground: $white;
+$dialogContentForeground: $black;
 
-$primarySelectBackgroundColor: darken($primaryBackgroundColor, 5%);
-$primarySelectForegroundColor: $primaryForegroundColor;
-$primarySelectPopupBackgroundColor: $primarySelectBackgroundColor;
-$primarySelectPopupForegroundColor: $primaryForegroundColor;
-$primarySelectInputBackgroundColor: $primaryBackgroundColor;
-$primarySelectInputForegroundColor: $primaryForegroundColor;
+//############## FORMS ##############
 
-$btnLineBackground: $popupBackground;
-$btnLineForeground: $primaryForegroundColor;
+$inputForeground: $gray-6;
+$inputBackground: $white;
+$inputBorder: $gray-2;
+$inputGroupAddonBackground: color.scale($gray-0, $lightness: 30%);
 
-$buttons: (
-    primary: (background: #00a5a5, foreground: #FAFAFA)
+//############## GRID ##############
+
+$gridEvenRowBackground: $white;
+$gridOddRowBackground: $gray-0;
+
+//############## TITLE BAR ##############
+
+$titleBarBackground: $primaryBackground;
+$titleBarForeground: $primaryForeground;
+
+//############## SEPARATOR ##############
+
+$separatorForeground: $gray-6;
+
+//############## LEVELS ##############
+
+$success: $green;
+$info: $lightBlue;
+$warning: $orange;
+$error: $red;
+
+//############## WEIGHTS ##############
+
+$weightForeground: $white;
+$weight-0: $green;
+$weight-1: $yellowGreen;
+$weight-2: $yellow;
+$weight-3: $orange;
+$weight-4: $orangeRed;
+$weight-5: $red;
+
+//############## INPUTS ##############
+
+$primaryInputBackground: $white;
+$primaryInputForeground: $gray-6;
+$primaryInputBorder: $gray-2;
+$primarySelectActive: $gray-0;
+
+//############## PAGING ##############
+
+$primaryPagingBackground: $white;
+$primaryPagingForeground: $blue;
+$secondaryPagingBackground: $blue;
+$secondaryPagingForeground: $white;
+$primaryPagingDisabledBackground: $white;
+$primaryPagingDisabledForeground: $black;
+
+//############## STYLE SAMPLES ##############
+
+$styleSampleShadow: $gray-3;
+$styleSampleDescriptionBackgroundStart: $gray-0;
+$styleSampleDescriptionBackgroundEnd: $white;
+$styleSampleDescriptionCodeBackgroundStart: $gray-0;
+$styleSampleDescriptionCodeBackgroundEnd: $gray-9;
+
+//############## ALERTS ##############
+
+$alerts:
+(
+    info: (background: $lightBlue, foreground: $white),
+    warning: (background: $orange, foreground: $white),
+    success: (background: $green, foreground: $white),
+    danger: (background: $red, foreground: $white),
+    error: (background: $red, foreground: $white)
+);
+
+//############## BUTTONS ##############
+
+$btnIconForeground: $gray-5;
+$btnIconForegroundHover: $green;
+
+$buttons:
+(
+    primary: (background: $green, foreground: $white),
+    info: (background: $lightBlue, foreground: $white),
+    default: (background: $gray-4, foreground: $white),
+    success: (background: $green, foreground: $white),
+    warning: (background: $orange, foreground: $white),
+    danger: (background: $red, foreground: $white),
+    error: (background: $red, foreground: $white)
 );

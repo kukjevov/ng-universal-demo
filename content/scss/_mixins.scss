@@ -1,3 +1,6 @@
+@use 'sass:color';
+@use 'sass:map';
+
 @use 'vars';
 
 @mixin generate-margin-padding($type, $sizes)
@@ -47,75 +50,69 @@
 {
     @each $name, $color in $colors
     {
+        
         $background: map-get($color, "background");
         $foreground: map-get($color, "foreground");
 
         .btn-#{$name}
         {
-            letter-spacing: 1px;
-            background-image: none;
-            text-shadow: 0 0;
-            box-shadow: 0 0;
-            text-transform: uppercase;
-
-            &:active:not(.disabled)
-            {
-                box-shadow: 0 0;
-            }
-        }
-
-        .btn-#{$name}
-        {
             background-color: $background;
             border-color: $background;
-            transition: all 350ms;
+            color: $foreground;
 
             &:active:not(.disabled)
             {
-                background-color: $background;
-                border-color: $background;
-                padding-left: 9px;
-                padding-right: 9px;
-                margin-left: 3px;
-                margin-right: 3px;
+                background-color: color.scale($background, $lightness: -18%);
+                border-color: color.scale($background, $lightness: -18%);
             }
 
             &:hover,
             &:focus
             {
-                background-color: darken($background, 6%);
-                border-color: darken($background, 6%);
+                background-color: color.scale($background, $lightness: -12%);
+                border-color: color.scale($background, $lightness: -12%);
             }
 
             &>span
             {
-                color: map-get($color, "foreground");
+                color: $foreground;
             }
 
             &>span[class^="fa"],
             &>span[class^="fas"],
             &>span[class^="glyphicon"]
             {
-                color: darken($background, 12%);
-                margin-right: vars.$sizeXs;
+                color: color.scale($background, $lightness: -26%);
             }
         }
+    }
+}
 
-        .tight
+@mixin generate-alert($colors)
+{
+    @each $name, $color in $colors
+    {
+        $background: map-get($color, "background");
+        $foreground: map-get($color, "foreground");
+
+        .alert-#{$name}
         {
-            .btn-#{$name}
-            {
-                font-size: 0.8em;
-                padding: 4px 8px;
-
-                &:active:not(.disabled)
-                {
-                    padding-left: 6px;
-                    padding-right: 6px;
-                    margin-left: 2px;
-                    margin-right: 2px;
-                }
-            }
+            background-color: color.scale($background, $lightness: 22%);
+            color: $foreground;
+            border-color: $background;
         }
+    }
+}
+
+@mixin thin-scrollbar-color($theme, $color)
+{
+    .thin-scrollbar
+    {
+        scrollbar-color: color.scale(map.get($theme, $color), $lightness: -15%) transparent;
+    }
+
+    .thin-scrollbar::-webkit-scrollbar-thumb
+    {
+        background-color: color.scale(map.get($theme, $color), $lightness: -15%);
     }
 }

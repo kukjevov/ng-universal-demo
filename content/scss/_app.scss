@@ -27,23 +27,91 @@
 
     //############## BUTTONS ##############
 
-    .btn-line
+    %btn-base
     {
-        display: block;
-        padding: 2px 4px;
+        letter-spacing: 1px;
+        background-image: none;
+        text-shadow: 0 0;
+        box-shadow: 0 0;
+        text-transform: uppercase;
+        transition: all 350ms;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: vars.$borderRadius;
+        padding: 4px 10px;
+        font-family: "SegoeUI";
         cursor: pointer;
-        border-radius: 2px;
-        
-        &:hover
+        white-space: nowrap;
+        font-size: 11px;
+    }
+
+    .btn
+    {
+        @extend %btn-base;
+
+        &:active:not(.disabled)
         {
-            text-decoration: none;
+            box-shadow: 0 0;
         }
 
-        &>span
+        &:active:not(.disabled)
         {
-            text-transform: capitalize;
+            // padding-left: 9px;
+            // padding-right: 9px;
+            // margin-left: 3px;
+            // margin-right: 3px;
         }
+
+        span[class^="fa"],
+        span[class^="fas"],
+        span[class^="fab"],
+        span[class^="glyphicon"]
+        {
+            margin-right: vars.$sizeXs;
+        }
+
+
+
+
     }
+
+    multi-button.btn
+    {
+        padding: 0;
+        
+        button
+        {
+            @extend %btn-base;
+        }
+
+
+
+
+    }
+
+    .btn-icon
+    {
+        border: none;
+        padding: 0;
+        margin: 0;
+        background-color: transparent;
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    //############## ALERTS ##############
+
+    .alert
+    {
+        padding: 6px 8px;
+        border-radius: vars.$borderRadius;
+        border-width: 1px;
+        margin-top: 10px;
+        margin-right: 10px;
+        border-style: solid;
+    }
+
 
     //############## MISC SHARED ##############
 
@@ -55,6 +123,9 @@
     {
         margin-bottom: vars.$sizeXs;
         margin-top: vars.$sizeXs;
+        border: none;
+        border-top-width: 1px;
+        border-top-style: solid;
     }
 
     .text-selection

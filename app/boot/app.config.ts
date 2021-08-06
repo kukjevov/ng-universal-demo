@@ -6,7 +6,7 @@ import {ConsoleSinkConfigService, LOGGER_REST_CLIENT, REST_SINK} from '@anglr/co
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
 import {ERROR_RESPONSE_MAP_PROVIDER, HttpErrorInterceptorOptions, HTTP_ERROR_INTERCEPTOR_PROVIDER, BadRequestDetail, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER} from '@anglr/error-handling';
 import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handling/material';
-import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions, METADATA_SELECTOR_TYPE, METADATA_SELECTOR_OPTIONS} from '@anglr/grid';
+import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions, METADATA_SELECTOR_TYPE, METADATA_SELECTOR_OPTIONS, CONTENT_RENDERER_OPTIONS, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions} from '@anglr/grid';
 import {DialogMetadataSelectorComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import {DATE_FNS_REST_DATE_API} from '@anglr/rest/date-fns';
@@ -29,15 +29,19 @@ import {RestLoggerService} from '../services/api/restLogger';
  */
 export function appInitializerFactory(authService: AuthenticationService<any>): () => Promise<void>
 {
-    return () =>
+    return async () =>
     {
-        return new Promise<void>(success =>
+        try
         {
-            authService
-                .getUserIdentity()
-                .then(() => success())
-                .catch(reason => alert(`Authentication failed: ${reason}`));
-        });
+            await authService
+                .getUserIdentity();
+        }
+        catch(e)
+        {
+            alert(`Authentication failed: ${e}`);
+
+            throw e;
+        }
     };
 }
 
@@ -180,9 +184,12 @@ export const providers =
         provide: NO_DATA_RENDERER_OPTIONS,
         useValue: <NoDataRendererOptions<any>>
         {
-            loading: 'Nahrávam dáta ...',
-            noData: 'Neboli nájdené dáta odpovedajúce zadaným parametrom',
-            notLoaded: 'Neboli načítané žiadne dáta zatiaľ'
+            texts:
+            {
+                loading: 'Nahrávam dáta ...',
+                noData: 'Neboli nájdené dáta odpovedajúce zadaným parametrom',
+                notLoaded: 'Neboli načítané žiadne dáta zatiaľ'
+            }
         }
     },
     <ValueProvider>
@@ -205,6 +212,28 @@ export const providers =
         useValue: <DialogMetadataSelectorOptions>
         {
             showButtonVisible: false
+        }
+    },
+    <ValueProvider>
+    {
+        provide: CONTENT_RENDERER_OPTIONS,
+        useValue: <TableContentRendererOptions>
+        {
+            cssClasses:
+            {
+                containerDiv: 'table-container thin-scrollbar'
+            }
+        }
+    },
+    <ValueProvider>
+    {
+        provide: HEADER_CONTENT_RENDERER_OPTIONS,
+        useValue: <TableHeaderContentRendererOptions>
+        {
+            cssClasses:
+            {
+                thDefault: 'header-default fixed-header'
+            }
         }
     },
     

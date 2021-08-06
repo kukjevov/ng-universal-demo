@@ -129,21 +129,43 @@ export const routeAnimationTrigger = trigger('routeAnimations',
             ]),
             query(':enter',
             [
-                style({ left: '-100%'})
+                style({ opacity: 0})
             ]),
             query(':leave', animateChild()),
             group(
             [
                 query(':leave',
                 [
-                    animate('350ms ease-out', style({ left: '100%'}))
+                    animate('350ms ease-out', style({ opacity: 0}))
                 ]),
                 query(':enter',
                 [
-                    animate('350ms ease-out', style({ left: '0%'}))
+                    animate('350ms ease-out', style({ opacity: 1}))
                 ])
             ]),
             query(':enter', animateChild())
+        ])
+    ])
+]);
+
+export const loaderTrigger = trigger('loaderAnimation',
+[
+    transition(':leave',
+    [
+        group(
+        [
+            query('.loading-card', 
+            [
+                animate('300ms', style(
+                {
+                    transform: 'scale(4)'
+                }))
+            ]),
+            animate('200ms 100ms', style(
+            {
+                opacity: 0
+            }))
+            
         ])
     ])
 ]);

@@ -24,20 +24,21 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
 
     //############## SCROLLBAR ##############
 
-    .thin-scrollbar
-    {
-        scrollbar-color: map.get($theme, primaryScrollbarColor) map.get($theme, primaryScrollbarBackground);
-    }
-
-    .thin-scrollbar::-webkit-scrollbar-thumb
-    {
-        background-color: map.get($theme, primaryScrollbarColor);
-    }
+    @include mixins.thin-scrollbar-color($theme, "pageBackground");
 
     .thin-scrollbar::-webkit-scrollbar
     {
-        background-color: map.get($theme, primaryScrollbarBackground);
+        background-color: transparent;
     }
+
+    app
+    {
+        router-outlet+*, router-outlet+*+*
+        {
+            @extend .thin-scrollbar;
+        }
+    }
+
 
     //############## BLOCKS ##############
 
@@ -49,66 +50,38 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
 
     //############## BUTTONS ##############
 
-    .btn-line
+    @include mixins.generate-button(map.get($theme, buttons));
+
+    .btn-icon
     {
-        background-color: map.get($theme, btnLineBackground);
-        color: map.get($theme, btnLineForeground);
+        color: map.get($theme, btnIconForeground);
 
-        &:hover
+        &:hover,
+        &:focus
         {
-            background-color: lighten(map.get($theme, btnLineBackground), 9%);
+            color: map.get($theme, btnIconForegroundHover);
+
+            .double-right-icon
+            {
+                div
+                {
+                    border-color: map.get($theme, btnIconForegroundHover);
+                }
+            }
         }
 
-        &:active, &.active
+        &:active
         {
-            background-color: lighten(map.get($theme, btnLineBackground), 15%);
-        }
-
-        &>span[class^="fa"],
-        &>span[class^="fas"],
-        &>span[class^="glyphicon"]
-        {
-            color: darken(map.get($theme, btnLineForeground), 12%);
-            margin-right: vars.$sizeXs;
+            color: color.scale(map.get($theme, btnIconForegroundHover), $lightness: -10%);
+            transform: scale(105%);
         }
     }
 
     @include mixins.generate-button(map.get($theme, buttons));
 
+    //############## ALERTS ##############
 
-    //############## NG SELECT ##############
-
-    ng-select
-    {
-        button.btn-select
-        {
-            background-color: map.get($theme, primarySelectBackgroundColor);
-
-            &.btn:hover, &.btn:focus
-            {
-                color: map.get($theme, primarySelectForegroundColor);
-            }
-        }
-
-        .popup-div
-        {
-            background-color: map.get($theme, primarySelectPopupBackgroundColor);
-            color: map.get($theme, primarySelectPopupForegroundColor);
-
-            .option-item:hover, .option-item.selected, .option-item.active
-            {
-                background-color: lighten(map.get($theme, primarySelectBackgroundColor), 10%);
-                background-image: linear-gradient(to bottom, lighten(map.get($theme, primarySelectBackgroundColor), 10%) 0,lighten(map.get($theme, primarySelectBackgroundColor), 15%) 100%);
-                color: map.get($theme, primarySelectForegroundColor);
-            }
-        }
-
-        input.form-control
-        {
-            background-color: map.get($theme, primarySelectInputBackgroundColor);
-            color: map.get($theme, primarySelectInputForegroundColor);
-        }
-    }
+    @include mixins.generate-alert(map.get($theme, alerts));
 
     //############## SHARED ##############
 

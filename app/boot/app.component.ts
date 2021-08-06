@@ -1,7 +1,7 @@
 import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, Inject, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
-import {GlobalizationService, LOGGER, Logger} from '@anglr/common';
+import {LOGGER, Logger} from '@anglr/common';
 import {consoleAnimationTrigger} from '@anglr/common/structured-log';
 import {AppHotkeysService} from '@anglr/common/hotkeys';
 import {AuthenticationService} from '@anglr/authentication';
@@ -11,7 +11,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {Hotkey} from 'angular2-hotkeys';
 import {Subscription} from 'rxjs';
 
-import {routeAnimationTrigger} from './app.component.animations';
+import {loaderTrigger, routeAnimationTrigger} from './app.component.animations';
 import {SettingsService} from '../services/settings';
 import {ConfigReleaseService} from '../services/api/configRelease/configRelease.service';
 import {SettingsGeneral, SettingsDebug} from '../config';
@@ -25,7 +25,7 @@ import version from '../../config/version.json';
     selector: 'app',
     templateUrl: 'app.component.html',
     styleUrls: ['app.component.scss'],
-    animations: [routeAnimationTrigger, fadeInOutTrigger, consoleAnimationTrigger],
+    animations: [routeAnimationTrigger, fadeInOutTrigger, consoleAnimationTrigger, loaderTrigger],
     providers: [AppHotkeysService, ConfigReleaseService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -90,6 +90,11 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
      */
     public serverName: string = '';
 
+    /**
+     * Indication whether is application initialized
+     */
+    public initialized: boolean = false;
+
     //######################### public properties - children #########################
 
     /**
@@ -101,7 +106,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
     //######################### constructor #########################
     constructor(_authSvc: AuthenticationService<any>,
                 translateSvc: TranslateService,
-                globalizationSvc: GlobalizationService,
                 private _changeDetector: ChangeDetectorRef,
                 private _appHotkeys: AppHotkeysService,
                 private _configSvc: ConfigReleaseService,
@@ -196,6 +200,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
         {
             this.routeComponentState = this.routerOutlet.activatedRouteData['animation'] || (<any>this.routerOutlet.activatedRoute.component).name;
         });
+
+        this.initialized = true;
     }
 
     //######################### public methods - implementation of OnDestroy #########################
