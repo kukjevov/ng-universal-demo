@@ -4,6 +4,7 @@ import {ModuleRoutesOptions} from '@anglr/common/router';
 
 import {AccessDeniedComponent} from '../pages/accessDenied/accessDenied.component';
 import {NotFoundComponent} from '../pages/notFound/notFound.component';
+import {dynamicComponentPageRoute} from '../ngDynamic-core';
 
 export const components: Type<any>[] =
 [
@@ -21,6 +22,7 @@ export const routesOptions: ModuleRoutesOptions =
     },
     staticRoutesBefore:
     [
+        dynamicComponentPageRoute,
         {
             path: '',
             loadChildren: () => import('../pages/+default/default.module').then(({DefaultModule}) => DefaultModule)

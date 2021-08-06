@@ -236,6 +236,7 @@ module.exports = [function(options, args)
                 isNgsw: ngsw,
                 jsDevMode: !prod,
                 ...prod ? {ngDevMode: false} : {},
+                designerMetadata: true,
                 ngI18nClosureMode: false
             })
         ]
@@ -410,4 +411,29 @@ module.exports = [function(options, args)
     }
 
     return config;
+},
+{
+    mode: 'development',
+    entry: 
+    {
+		"editor.worker": 'monaco-editor/esm/vs/editor/editor.worker.js',
+		"json.worker": 'monaco-editor/esm/vs/language/json/json.worker',
+		"css.worker": 'monaco-editor/esm/vs/language/css/css.worker',
+		"html.worker": 'monaco-editor/esm/vs/language/html/html.worker',
+		"ts.worker": 'monaco-editor/esm/vs/language/typescript/ts.worker'
+	},
+    output: 
+    {
+		globalObject: 'self',
+		path: path.join(__dirname, distPath),
+        filename: '[name].js'
+	},
+    module: 
+    {
+        rules: [
+        {
+			test: /\.css$/,
+			use: ['style-loader', 'css-loader']
+		}]
+	},
 }];

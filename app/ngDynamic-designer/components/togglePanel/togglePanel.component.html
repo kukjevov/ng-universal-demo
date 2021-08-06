@@ -1,0 +1,9 @@
+<h5 class="toggle-heading">
+    {{title}}
+    <div class="icon-wrapper pull-right pointer-cursor">
+        <span (click)="toggle()" class="fa selection" [ngClass]="contentVisible ? 'fa-chevron-down' : 'fa-chevron-up'"></span>
+    </div>
+</h5>
+<div *ngIf="contentVisible">
+    <ng-content></ng-content>
+</div>

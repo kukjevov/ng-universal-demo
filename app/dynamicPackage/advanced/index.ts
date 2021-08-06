@@ -1,0 +1,1 @@
+export {TextBlockComponentOptions} from './textBlock/component';
