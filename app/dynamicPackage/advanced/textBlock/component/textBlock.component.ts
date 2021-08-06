@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ElementRef} from '@angular/core';
-import * as handlebars from 'handlebars';
+import handlebars from 'handlebars';
 
 import {DynamicComponentGeneric} from '../../../../ngDynamic-core';
 import {TextBlockComponentOptions} from './textBlock.interface';

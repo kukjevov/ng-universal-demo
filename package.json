@@ -82,7 +82,7 @@
         "buffer": "6.0.3",
         "stream-browserify": "3.0.0",
         "file-saver": "2.0.5",
-        "d3": "6.5.0",
+        "d3": "7.0.0",
         "marked": "2.0.0",
         "highlight.js": "10.6.0",
         "sourcemapped-stacktrace": "1.1.11",
@@ -96,7 +96,7 @@
     "devDependencies": {
         "@types/node": "14.14.28",
         "@types/connect": "3.4.34",
-        "@types/d3": "6.3.0",
+        "@types/d3": "7.0.0",
         "@types/marked": "1.2.2",
         "@types/mousetrap": "1.6.3",
         "@types/highlight.js": "10.1.0",

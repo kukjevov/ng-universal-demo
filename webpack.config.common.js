@@ -46,7 +46,9 @@ exports.getResolve = function(es5, ssr)
         {
             "modernizr": path.join(__dirname, "content/external/scripts/modernizr-custom.js"),
             "numeral-languages": path.join(__dirname, "node_modules/numeral/locales.js"),
+            "handlebars": path.join(__dirname, "node_modules/handlebars/dist/handlebars.js"),
             "@angular/cdk/a11y": path.join(__dirname, "node_modules/@angular/cdk/esm2015/a11y"),
+            "@ngDynamic": path.join(__dirname, "app/dynamicPackage"),
             "app": path.join(__dirname, "app")
         }),
         mainFields: es5 ? ['browser', 'module', 'main'] : ssr ? ['esm2015', 'es2015', 'jsnext:main', 'module', 'main'] : ['esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main']
