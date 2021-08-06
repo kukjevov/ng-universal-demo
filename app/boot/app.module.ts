@@ -16,6 +16,7 @@ import {APP_TRANSFER_ID} from '../misc/constants';
 import {providers} from './app.config';
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
 import {MenuModule} from '../modules';
+import {NgDynamicCoreModule} from '../ngDynamic-core';
 
 /**
  * Main module shared for both server and browser side
@@ -43,7 +44,8 @@ import {MenuModule} from '../modules';
                 provide: TranslateLoader, 
                 useClass: WebpackTranslateLoaderService
             }
-        })
+        }),
+        NgDynamicCoreModule.forRoot()
     ],
     providers: providers,
     declarations:

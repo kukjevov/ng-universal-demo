@@ -1,0 +1,14 @@
+<h4 class="padding-md-left">Layout tree</h4>
+<cdk-tree [treeControl]="treeControl" [dataSource]="treeDataSource">
+    <cdk-tree-node *cdkTreeNodeDef="let node" class="padding-md-left" [class.selected]="isSelected(node)" (click)="onNodeSelection(node)">
+        <div cdkTreeNodePadding cdkTreeNodePaddingIndent="20">
+            <span class="icon-wrapper">
+                <span cdkTreeNodeToggle class="fa" *ngIf="isExpandable(node)" [ngClass]="treeControl.isExpanded(node) ? 'fa-chevron-down' : 'fa-chevron-right'"></span>
+            </span>
+            <span class="icon-wrapper">
+                <span [ngClass]="node?.options?.iconCssClass"></span>
+            </span>
+            <span class="text">{{node?.options?.id}}</span>
+        </div>
+    </cdk-tree-node>
+</cdk-tree>
