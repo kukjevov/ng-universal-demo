@@ -86,4 +86,8 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
     //############## SHARED ##############
 
     @include meta.load-css('components/shared', $with: (theme: $theme));
+
+    //############## COMPONENTS ##############
+
+    @include meta.load-css('components/layoutDesigner', $with: (theme: $theme));
 }

@@ -37,7 +37,7 @@ export class PackageLoader
             {
                 delete components[componentName];
             }
-        })
+        });
 
         return components;
     }
@@ -86,12 +86,14 @@ export class PackageLoader
         };
     }
 
+    //TODO need rework - BUKO
     /**
      * Loads package into cache
      * @param packageName Name of package to be loaded
      */
     private async _loadPackage(packageName: string)
     {
+        const localPackage = 'app';
         let npmPackage: PackageComponents = this._cachedNpmPackage[packageName];
 
         if(!npmPackage)

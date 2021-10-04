@@ -555,12 +555,11 @@ export class SvgNode implements SvgNodeDynamicNode
                         .attr('r', 10)
                         .attr('fill', 'transparent')
                         .attr('cy', itm => itm.y)
-                    .on('mouseenter', (datum) =>
+                    .on('mouseenter', (event, datum) =>
                     {
-                        //TODO
-                        let groups: any;
-                        let index: any;
-
+                        const groups = sel.nodes();
+                        const index = groups.indexOf(event.currentTarget);
+                        
                         select(groups[index])
                             .attr('fill', 'url(#input-hover)');
 
@@ -571,11 +570,10 @@ export class SvgNode implements SvgNodeDynamicNode
                             dynamic: dynamic
                         });
                     })
-                    .on('mouseleave', (_event, _datum) =>
+                    .on('mouseleave', (event) =>
                     {
-                        //TODO
-                        let groups: any;
-                        let index: any;
+                        const groups = sel.nodes();
+                        const index = groups.indexOf(event.currentTarget);
 
                         select(groups[index])
                             .attr('fill', 'transparent');
@@ -654,26 +652,24 @@ export class SvgNode implements SvgNodeDynamicNode
                         .attr('r', 10)
                         .attr('fill', 'transparent')
                         .attr('cy', itm => itm.y)
-                    .on('mouseenter', () =>
+                    .on('mouseenter', (event) =>
                     {
-                        //TODO
-                        let groups: any;
-                        let index: any;
+                        const groups = sel.nodes();
+                        const index = groups.indexOf(event.currentTarget);
 
                         select(groups[index])
                             .attr('fill', 'url(#output-hover)');
                     })
-                    .on('mouseleave', () =>
+                    .on('mouseleave', (event) =>
                     {
-                        //TODO
-                        let groups: any;
-                        let index: any;
+                        const groups = sel.nodes();
+                        const index = groups.indexOf(event.currentTarget);
 
                         select(groups[index])
                             .attr('fill', 'transparent');
                     })
                     .call(drag<SVGCircleElement, ɵDynamicRelationsInputMetadata>()
-                        .on('start', datum =>
+                        .on('start', (event, datum) =>
                         {
                             datum.relations = datum.relations || [];
 
