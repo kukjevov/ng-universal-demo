@@ -26,6 +26,10 @@ export const routesOptions: ModuleRoutesOptions =
         {
             path: '',
             loadChildren: () => import('../pages/+default/default.module').then(({DefaultModule}) => DefaultModule)
+        },
+        {
+            path: 'designer',
+            loadChildren: () => import('../ngDynamic-designer/modules/ngDynamicDesigner.module').then(({NgDynamicDesignerModule}) => NgDynamicDesignerModule)
         }
     ]
 };

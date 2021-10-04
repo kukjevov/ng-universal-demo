@@ -1,19 +1,19 @@
 <div class="layout-designer">
-    <header>
-        <button type="button" class="btn btn-primary pull-right" (click)="save()">
+    <header class="flex-row align-items-center">
+        <button type="button" class="btn btn-primary margin-right-small" (click)="save()">
             Save
         </button>
-        <button type="button" class="btn btn-primary" [class.active]="isMode(designerModes.LAYOUT)" (click)="setMode(designerModes.LAYOUT)">
+        <button type="button" class="btn btn-primary margin-right-small" [class.active]="isMode(designerModes.LAYOUT)" (click)="setMode(designerModes.LAYOUT)">
             Layout
         </button>
-        <button type="button" class="btn btn-primary" [class.active]="isMode(designerModes.NODE)" (click)="setMode(designerModes.NODE)">
+        <button type="button" class="btn btn-primary margin-right-small" [class.active]="isMode(designerModes.NODE)" (click)="setMode(designerModes.NODE)">
             Node
         </button>
-        <button type="button" class="btn btn-primary" [class.active]="isMode(designerModes.CODE)" (click)="setMode(designerModes.CODE)" *ngIf="isMode(designerModes.CODE)">
+        <button type="button" class="btn btn-primary margin-right-small" [class.active]="isMode(designerModes.CODE)" (click)="setMode(designerModes.CODE)" *ngIf="isMode(designerModes.CODE)">
             Code
         </button>
 
-        <span style="margin-left: 10px;">Name: {{id}}</span>
+        <span>Name: {{id}}</span>
     </header>
     
     <layout-designer [style.display]="isMode(designerModes.LAYOUT) ? 'contents': 'none'" [packageNames]="designerPackageNames" [rootComponentMetadata]="designerState?.metadata?.layout"></layout-designer>

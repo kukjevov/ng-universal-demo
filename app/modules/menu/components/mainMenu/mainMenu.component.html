@@ -1,6 +1,7 @@
 <div *authorize="'authenticated'" class="flex-row-end">
     <a routerLink="/" routerLinkActive="active" class="margin-right-extra-small">Home</a>
-    <a routerLink="/lazy" routerLinkActive="active" class="margin-right-extra-small">Lazy</a>
+    <a routerLink="/dynamic/sample" routerLinkActive="active" class="margin-right-extra-small">Dynamic sample</a>
+    <a routerLink="/designer/new" routerLinkActive="active" class="margin-right-extra-small">Designer</a>
     <a (click)="logout()">Logout</a>
     <a (click)="openSettings()" class="fas fa-cog"></a>
 </div>
