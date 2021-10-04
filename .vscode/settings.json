@@ -11,5 +11,9 @@
     "typescript.preferences.quoteStyle": "single",
     "typescript.format.enable": false,
     "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
-    "files.eol": "\n"
+    "files.eol": "\n",
+    "css.styleSheets":
+    [
+        "/wwwroot/dist/style.css"
+    ]
 }

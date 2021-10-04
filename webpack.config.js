@@ -201,7 +201,7 @@ module.exports = [function(options, args)
                 },
                 {
                     test: /\.css$/,
-                    use: getExternalStyleLoaders(prod),
+                    use: getExternalStyleLoaders(true),
                     exclude:
                     [
                         path.join(__dirname, "app"),
@@ -210,7 +210,7 @@ module.exports = [function(options, args)
                 },
                 {
                     test: /\.scss$/,
-                    use: getStyleLoaders(prod),
+                    use: getStyleLoaders(true),
                     exclude:
                     [
                         path.join(__dirname, "app")
@@ -237,6 +237,11 @@ module.exports = [function(options, args)
                 jsDevMode: !prod,
                 ...prod ? {ngDevMode: false} : {},
                 ngI18nClosureMode: false
+            }),
+            new MiniCssExtractPlugin(
+            {
+                filename: prod ? '[name].[hash].css' : '[name].css',
+                chunkFilename: prod ? '[id].[hash].css' : '[id].css'
             })
         ]
     };
@@ -389,12 +394,6 @@ module.exports = [function(options, args)
     {
         config.output.filename = `[name].[hash].${diff ? 'file' : es5 ? 'es5' : 'es2015'}.js`;
         config.output.chunkFilename = `[name].${ssr ? 'server' : 'client'}.${es5 ? 'es5' : 'es2015'}.chunk.[chunkhash].js`;
-
-        config.plugins.push(new MiniCssExtractPlugin(
-        {
-            filename: '[name].[hash].css',
-            chunkFilename: '[id].[hash].css',
-        }));
 
         config.plugins.push(new CompressionPlugin({test: /\.js$|\.css$/}));
     }
