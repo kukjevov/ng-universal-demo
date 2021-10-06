@@ -6,7 +6,7 @@ import {ModuleRoutes} from '@anglr/common/router';
 import {ConsoleLogModule} from '@anglr/common/structured-log';
 import {ProgressIndicatorModule} from '@anglr/common';
 import {InternalServerErrorModule} from '@anglr/error-handling';
-import {NotificationsModule} from '@anglr/notifications';
+import {NotificationsGlobalModule} from '@anglr/notifications';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {HotkeyModule} from 'angular2-hotkeys';
 
@@ -31,7 +31,7 @@ import {MenuModule} from '../modules';
         HttpClientModule,
         InternalServerErrorModule,
         ProgressIndicatorModule,
-        NotificationsModule,
+        NotificationsGlobalModule.forRoot(),
         RouterModule,
         HotkeyModule,
         MenuModule,

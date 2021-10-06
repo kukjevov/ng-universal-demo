@@ -1,7 +1,7 @@
 import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider} from '@angular/core';
 import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, AUTHENTICATION_SERVICE_OPTIONS, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER} from '@anglr/authentication';
 import {LocalPermanentStorageService} from '@anglr/common/store';
-import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService} from '@anglr/common';
+import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService, DEFAULT_NOTIFICATIONS} from '@anglr/common';
 import {ConsoleSinkConfigService, LOGGER_REST_CLIENT, REST_SINK} from '@anglr/common/structured-log';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
 import {ERROR_RESPONSE_MAP_PROVIDER, HttpErrorInterceptorOptions, HTTP_ERROR_INTERCEPTOR_PROVIDER, BadRequestDetail, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER} from '@anglr/error-handling';
@@ -318,5 +318,8 @@ export const providers =
         {
             locale: sk
         }
-    }
+    },
+
+    //######################### NOTIFICATIONS #########################
+    DEFAULT_NOTIFICATIONS,
 ];

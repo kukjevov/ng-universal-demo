@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
-import {ClipboardModule} from '@angular/cdk/clipboard';
-import {DebugDataModule} from '@anglr/common';
+import {DebugDataCopyClickModule} from '@anglr/common/material';
 
 /**
  * Common module for allowing debugging features in code
@@ -9,8 +8,7 @@ import {DebugDataModule} from '@anglr/common';
 {
     exports:
     [
-        ClipboardModule,
-        DebugDataModule
+        DebugDataCopyClickModule
     ]
 })
 export class DebuggingFeatureModule
