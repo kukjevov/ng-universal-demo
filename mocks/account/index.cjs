@@ -1,7 +1,7 @@
 module.exports = function(app)
 {
     //LOGIN, LOGOUT
-    require('./account')(app);
+    require('./account.cjs')(app);
 
     //MY ACCOUNT
     app.useMock('GET', '/api/myaccount', () =>

@@ -1,4 +1,4 @@
-FROM node:14.16-alpine
+FROM node:14.18-alpine
 
 WORKDIR approot
 
@@ -15,6 +15,7 @@ RUN npm install connect && \
     npm install extend && \
     npm install chalk && \
     npm install dotenv && \
+    npm install tslib && \
     npm install nodejs-connect-extensions
 
 EXPOSE 8888

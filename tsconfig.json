@@ -10,7 +10,7 @@
         "noImplicitAny": false,
         "noImplicitReturns": false,
         "noImplicitOverride": true,
-        "noImplicitThis": true,
+        "noImplicitThis": false,
         "noUnusedLocals": true,
         "noUnusedParameters": false,
         "strict": false,

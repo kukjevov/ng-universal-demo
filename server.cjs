@@ -98,7 +98,7 @@ if(!!argv.webpack)
 }
 
 //mock rest api
-require('./server.mock')(app);
+require('./server.mock.cjs')(app);
 
 //proxy special requests to other location
 app.use(createProxyMiddleware(['/api', '/swagger'],
@@ -130,7 +130,7 @@ app.use(createProxyMiddleware(['/api', '/swagger'],
                               }));
 
 //custom rest api
-require('./server.rest')(app);
+require('./server.rest.cjs')(app);
 
 //enable html5 routing
 app.use(history());

@@ -1,9 +1,10 @@
 /* eslint-disable */
-var webpack = require('webpack'),
-    path = require('path'),
-    {getResolve, ruleKonami, ruleNumeral, ruleJsModule} = require('./webpack.config.common');
+import webpack from 'webpack';
+import path from 'path';
+import {getResolve, ruleKonami, ruleNumeral, ruleJsModule} from './webpack.config.common.js';
+import {dirName} from './webpack.resolves.cjs';
 
-module.exports = function(options)
+export default function(options)
 {
     var ssr = !!options && !!options.ssr;
     var distPath = "wwwroot/dist";
@@ -78,7 +79,7 @@ module.exports = function(options)
         },
         output:
         {
-            path: path.join(__dirname, distPath),
+            path: path.join(dirName, distPath),
             filename: '[name].js',
             library: '[name]_[fullhash]'
         },
@@ -101,7 +102,7 @@ module.exports = function(options)
         [
             new webpack.DllPlugin(
             {
-                path: path.join(__dirname, distPath + '/[name]-manifest.json'),
+                path: path.join(dirName, distPath + '/[name]-manifest.json'),
                 name: '[name]_[fullhash]'
             }),
             new webpack.DefinePlugin(

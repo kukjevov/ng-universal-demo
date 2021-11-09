@@ -4,7 +4,7 @@ var fs = require('fs'),
 
 function includeEnvMock(app)
 {
-    var envMock = path.join(__dirname, `server.mock.${process.env.NODE_ENV}.js`);
+    var envMock = path.join(__dirname, `server.mock.${process.env.NODE_ENV}.cjs`);
 
     if(process.env.NODE_ENV && fs.existsSync(envMock))
     {
@@ -20,11 +20,11 @@ module.exports = function(app)
     includeEnvMock(app);
 
     //LOAD ACCOUNT RESOURCE
-    require('./mocks/account')(app);
+    require('./mocks/account/index.cjs')(app);
 
     //LOAD CONFIG RESOURCE
-    require('./mocks/config')(app);
+    require('./mocks/config/index.cjs')(app);
 
     //LOAD LOGGER RESOURCE
-    require('./mocks/logger')(app);
+    require('./mocks/logger/index.cjs')(app);
 };

@@ -1,20 +1,20 @@
 /* eslint-disable */
-var webpack = require('webpack'),
-    path = require('path'),
-    HtmlWebpackPlugin = require('html-webpack-plugin'),
-    ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin'),
-    HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin'),
-    // CopyWebpackPlugin = require('copy-webpack-plugin'),
-    MiniCssExtractPlugin = require('mini-css-extract-plugin'),
-    WebpackNotifierPlugin = require('webpack-notifier'),
-    CompressionPlugin = require('compression-webpack-plugin'),
-    SpeedMeasurePlugin = require('speed-measure-webpack-plugin'),
-    BitBarWebpackProgressPlugin = require('bitbar-webpack-progress-plugin'),
-    BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
-    TerserPlugin = require('terser-webpack-plugin'),
-    ts = require('typescript'),
-    AngularWebpackPlugin =  require('@ngtools/webpack').AngularWebpackPlugin,
-    {getResolve, ruleKonami, ruleNumeral, ruleJsModule} = require('./webpack.config.common');
+import webpack from 'webpack';
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import ScriptExtHtmlWebpackPlugin from 'script-ext-html-webpack-plugin';
+import HtmlWebpackTagsPlugin from 'html-webpack-tags-plugin';
+// import CopyWebpackPlugin from 'copy-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import WebpackNotifierPlugin from 'webpack-notifier';
+import CompressionPlugin from 'compression-webpack-plugin';
+import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
+import BitBarWebpackProgressPlugin from 'bitbar-webpack-progress-plugin';
+import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
+import TerserPlugin from 'terser-webpack-plugin';
+import {AngularWebpackPlugin} from '@ngtools/webpack';
+import {getResolve, ruleKonami, ruleNumeral, ruleJsModule} from './webpack.config.common.js';
+import {dirName, formDataResolve} from './webpack.resolves.cjs';
 
 /**
  * Gets entries for webpack
@@ -26,7 +26,7 @@ function getEntries(ssr, css)
     if(ssr)
     {
         return {
-            server: path.join(__dirname, 'app/main.server.ts')
+            server: path.join(dirName, 'app/main.server.ts')
         };
     }
     else
@@ -35,15 +35,14 @@ function getEntries(ssr, css)
         {
             ...css ? 
             {
-                externalStyle: ['@angular/material/prebuilt-themes/indigo-pink.css',
-                                '@fortawesome/fontawesome-free/css/all.min.css',
+                externalStyle: ['@fortawesome/fontawesome-free/css/all.min.css',
                                 'highlight.js/styles/vs2015.css',
                                 '@anglr/common/src/style.scss'],
-                style: [path.join(__dirname, 'content/site.scss'),
-                        path.join(__dirname, 'content/dark.scss'),
-                        path.join(__dirname, 'content/light.scss')]
+                style: [path.join(dirName, 'content/site.scss'),
+                        path.join(dirName, 'content/dark.scss'),
+                        path.join(dirName, 'content/light.scss')]
             } : {},
-            client: [path.join(__dirname, 'app/main.browser.ts')]
+            client: [path.join(dirName, 'app/main.browser.ts')]
         };
 
         return entries;
@@ -68,7 +67,7 @@ function getStyleLoaders()
 
 var distPath = 'wwwroot/dist';
 
-module.exports = [function(options, args)
+export default [function(options, args)
 {
     var prod = args && args.mode == 'production' || false;
     var hmr = !!options && !!options.hmr;
@@ -97,7 +96,7 @@ module.exports = [function(options, args)
         output:
         {
             globalObject: 'self',
-            path: path.join(__dirname, distPath),
+            path: path.join(dirName, distPath),
             filename: `[name].js`,
             publicPath: prod ? 'dist/' : '/dist/',
             chunkFilename: `[name].${ssr ? 'server' : 'client'}.chunk.js`,
@@ -112,7 +111,7 @@ module.exports = [function(options, args)
                     port: 9000,
                     static:
                     {
-                        directory: path.join(__dirname, distPath),
+                        directory: path.join(dirName, distPath),
                         publicPath: '/dist/',
                     },
                     devMiddleware:
@@ -152,7 +151,7 @@ module.exports = [function(options, args)
             [
                 //server globals
                 {
-                    test: require.resolve('form-data'),
+                    test: formDataResolve,
                     use:
                     [
                         {
@@ -183,7 +182,7 @@ module.exports = [function(options, args)
                     use: ['raw-loader', 'sass-loader'],
                     include:
                     [
-                        path.join(__dirname, 'app')
+                        path.join(dirName, 'app')
                     ]
                 },
                 {
@@ -191,7 +190,7 @@ module.exports = [function(options, args)
                     use: ['raw-loader'],
                     include:
                     [
-                        path.join(__dirname, 'packages')
+                        path.join(dirName, 'packages')
                     ]
                 },
                 {
@@ -199,8 +198,8 @@ module.exports = [function(options, args)
                     use: getExternalStyleLoaders(true),
                     exclude:
                     [
-                        path.join(__dirname, 'app'),
-                        path.join(__dirname, 'packages')
+                        path.join(dirName, 'app'),
+                        path.join(dirName, 'packages')
                     ]
                 },
                 {
@@ -208,7 +207,7 @@ module.exports = [function(options, args)
                     use: getStyleLoaders(true),
                     exclude:
                     [
-                        path.join(__dirname, 'app')
+                        path.join(dirName, 'app')
                     ]
                 },
                 {
@@ -240,7 +239,7 @@ module.exports = [function(options, args)
             }),
             new AngularWebpackPlugin(
             {
-                tsConfigPath: path.join(__dirname, 'tsconfig.json'),
+                tsConfigPath: path.join(dirName, 'tsconfig.json'),
                 sourceMap: true,
             })
         ]
@@ -276,7 +275,7 @@ module.exports = [function(options, args)
             config.plugins.push(new HtmlWebpackPlugin(
             {
                 filename: '../index.html',
-                template: path.join(__dirname, 'index.html'),
+                template: path.join(dirName, 'index.html'),
                 inject: 'head'
             }));
 
@@ -293,20 +292,20 @@ module.exports = [function(options, args)
     //only if dll package is required, use only for development
     if(dll)
     {
-        config.plugins.push(new webpack.DllReferencePlugin(
-        {
-            context: __dirname,
-            manifest: require(path.join(__dirname, distPath + '/dependencies-manifest.json'))
-        }));
+        // config.plugins.push(new webpack.DllReferencePlugin(
+        // {
+        //     context: dirName,
+        //     manifest: require(path.join(dirName, distPath + '/dependencies-manifest.json'))
+        // }));
 
-        if(!debug && html)
-        {
-            config.plugins.push(new HtmlWebpackTagsPlugin(
-            {
-                tags: ['dependencies.js'],
-                append: false
-            }));
-        }
+        // if(!debug && html)
+        // {
+        //     config.plugins.push(new HtmlWebpackTagsPlugin(
+        //     {
+        //         tags: ['dependencies.js'],
+        //         append: false
+        //     }));
+        // }
     }
     else
     {
