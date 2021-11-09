@@ -1,0 +1,126 @@
+.control-label
+{
+    text-align: left;
+    display: block;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+}
+
+%form-control
+{
+    text-align: left;
+    font-family: Inter;
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #6e707e;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #d1d3e2;
+    border-radius: .35rem;
+    transition: border-color .15s ease-in-out,
+                box-shadow .15s ease-in-out,
+                outline-color .15s ease-in-out;
+}
+
+.form-control:not(ng-select)
+{
+    @extend %form-control;
+}
+
+textarea.form-control
+{
+    height: calc(3em + 0.75rem + 2px);
+    line-height: 1.1;
+}
+
+ng-select.form-control
+{
+    text-align: left;
+
+    .normal-state button.btn-select
+    {
+        @extend %form-control;
+
+        display: flex;
+        letter-spacing: 0;
+        text-transform: none;
+    }
+
+    .edit-normal-state div.btn-select
+    {
+        @extend %form-control;
+
+        display: flex;
+    }
+}
+
+.has-error
+{
+    %control-error
+    {
+        border-color: #fc3030;
+
+        outline-color: transparent;
+        outline-style: solid;
+        outline-width: 2px;
+
+        &:active,
+        &:focus
+        {
+            outline-color: #a60000;
+        }
+    }
+
+    .control-label
+    {
+        color: #fc3030;
+    }
+
+    .form-control:not(ng-select)
+    {
+        @extend %control-error;
+    }
+
+    ng-select.form-control
+    {
+        .normal-state button.btn-select
+        {
+            @extend %control-error;
+
+            display: flex;
+        }
+
+        .edit-normal-state div.btn-select
+        {
+            @extend %control-error;
+
+            display: flex;
+        }
+    }
+}
+
+.validation-error-div
+{
+    position: absolute;
+
+    &>div
+    {
+        color: #fc3030;
+    }
+}
+
+.relative-error
+{
+    position: relative;
+
+    .validation-error-div
+    {
+        bottom: calc(-1em - 2px);
+    }
+}

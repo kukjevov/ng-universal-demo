@@ -3,7 +3,7 @@ import webpack from 'webpack';
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ScriptExtHtmlWebpackPlugin from 'script-ext-html-webpack-plugin';
-import HtmlWebpackTagsPlugin from 'html-webpack-tags-plugin';
+// import HtmlWebpackTagsPlugin from 'html-webpack-tags-plugin';
 // import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import WebpackNotifierPlugin from 'webpack-notifier';
@@ -35,9 +35,6 @@ function getEntries(ssr, css)
         {
             ...css ? 
             {
-                externalStyle: ['@fortawesome/fontawesome-free/css/all.min.css',
-                                'highlight.js/styles/vs2015.css',
-                                '@anglr/common/src/style.scss'],
                 style: [path.join(dirName, 'content/site.scss'),
                         path.join(dirName, 'content/dark.scss'),
                         path.join(dirName, 'content/light.scss')]
@@ -52,7 +49,7 @@ function getEntries(ssr, css)
 /**
  * Gets array of webpack loaders for external style files
  */
-function getExternalStyleLoaders()
+function getCssLoaders()
 {
     return [{loader: MiniCssExtractPlugin.loader, options: {publicPath: ''}}, 'css-loader'];
 }
@@ -60,7 +57,7 @@ function getExternalStyleLoaders()
 /**
  * Gets array of webpack loaders for style files
  */
-function getStyleLoaders()
+function getSassLoaders()
 {
     return [{loader: MiniCssExtractPlugin.loader, options: {publicPath: ''}}, 'css-loader', 'sass-loader'];
 }
@@ -195,7 +192,7 @@ export default [function(options, args)
                 },
                 {
                     test: /\.css$/,
-                    use: getExternalStyleLoaders(true),
+                    use: getCssLoaders(true),
                     exclude:
                     [
                         path.join(dirName, 'app'),
@@ -204,7 +201,7 @@ export default [function(options, args)
                 },
                 {
                     test: /\.scss$/,
-                    use: getStyleLoaders(true),
+                    use: getSassLoaders(true),
                     exclude:
                     [
                         path.join(dirName, 'app')

@@ -1,0 +1,41 @@
+table
+{
+    width: 100%;
+    border-collapse: collapse;
+
+    thead
+    {
+        tr
+        {
+            text-align: left;
+            
+            th
+            {
+                padding-top: 4px;
+                padding-bottom: 4px;
+            }
+        }
+    }
+
+    tbody
+    {
+        tr:nth-child(2n+1)
+        {
+            background-color: #c6c6c6;
+        }
+    }
+
+    th, td
+    {
+        padding: 0 10px;
+    }
+
+    ng-basic-paging
+    {
+        ul
+        {
+            display: flex;
+            list-style: none;
+        }
+    }
+}
