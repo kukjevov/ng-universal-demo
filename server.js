@@ -1,3 +1,4 @@
+/* eslint-disable */
 var connect = require('connect'),
     gzipStatic = require('connect-gzip-static'),
     serveStatic = require('serve-static'),
@@ -104,6 +105,7 @@ app.use(createProxyMiddleware(['/api', '/swagger'],
                               {
                                   target: proxyUrl,
                                   ws: true,
+                                  secure: false,
                                   onError: function(err, req, res)
                                   {
                                       if(err.code == "ECONNREFUSED" || err.code == "ECONNRESET")

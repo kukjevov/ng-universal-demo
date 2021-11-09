@@ -1,48 +1,49 @@
+/* eslint-disable */
 var webpack = require('webpack'),
     path = require('path'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin'),
     HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin'),
     // CopyWebpackPlugin = require('copy-webpack-plugin'),
-    MiniCssExtractPlugin = require("mini-css-extract-plugin"),
+    MiniCssExtractPlugin = require('mini-css-extract-plugin'),
     WebpackNotifierPlugin = require('webpack-notifier'),
-    CompressionPlugin = require("compression-webpack-plugin"),
-    SpeedMeasurePlugin = require("speed-measure-webpack-plugin"),
-    BitBarWebpackProgressPlugin = require("bitbar-webpack-progress-plugin"),
+    CompressionPlugin = require('compression-webpack-plugin'),
+    SpeedMeasurePlugin = require('speed-measure-webpack-plugin'),
+    BitBarWebpackProgressPlugin = require('bitbar-webpack-progress-plugin'),
     BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
     TerserPlugin = require('terser-webpack-plugin'),
     ts = require('typescript'),
     AngularWebpackPlugin =  require('@ngtools/webpack').AngularWebpackPlugin,
-    {getResolve, ruleKonami, ruleNumeral} = require('./webpack.config.common');
+    {getResolve, ruleKonami, ruleNumeral, ruleJsModule} = require('./webpack.config.common');
 
 /**
  * Gets entries for webpack
  * @param {boolean} ssr Indication that it should be entries for server side rendering
  * @param {boolean} css Indication that it should be css added to entries
- * @param {boolean} diff Indication that it should be js added to entries
  */
-function getEntries(ssr, css, diff)
+function getEntries(ssr, css)
 {
     if(ssr)
     {
         return {
-            server: path.join(__dirname, "app/main.server.ts")
+            server: path.join(__dirname, 'app/main.server.ts')
         };
     }
     else
     {
         var entries =
         {
-            ...css ? {
-                         externalStyle: ["@angular/material/prebuilt-themes/indigo-pink.css",
-                                         "@fortawesome/fontawesome-free/css/all.min.css",
-                                         "highlight.js/styles/vs2015.css",
-                                         "@anglr/common/src/style.scss"],
-                         style: [path.join(__dirname, "content/site.scss"),
-                                 path.join(__dirname, "content/dark.scss"),
-                                 path.join(__dirname, "content/light.scss")]
-                     } : {},
-            ...diff ? {} : {client: [path.join(__dirname, "app/main.browser.ts")]}
+            ...css ? 
+            {
+                externalStyle: ['@angular/material/prebuilt-themes/indigo-pink.css',
+                                '@fortawesome/fontawesome-free/css/all.min.css',
+                                'highlight.js/styles/vs2015.css',
+                                '@anglr/common/src/style.scss'],
+                style: [path.join(__dirname, 'content/site.scss'),
+                        path.join(__dirname, 'content/dark.scss'),
+                        path.join(__dirname, 'content/light.scss')]
+            } : {},
+            client: [path.join(__dirname, 'app/main.browser.ts')]
         };
 
         return entries;
@@ -50,57 +51,34 @@ function getEntries(ssr, css, diff)
 }
 
 /**
- * Generates a AotPlugin for @ngtools/webpack
- *
- * @param {boolean} es5 Indication whether compile application in es5 or es2015
- */
-function getAotPlugin(es5)
-{
-    return new AngularWebpackPlugin(
-    {
-        tsConfigPath: path.join(__dirname, 'tsconfig.json'),
-        sourceMap: true,
-        compilerOptions:
-        {
-            target: es5 ? ts.ScriptTarget.ES5 : ts.ScriptTarget.ES2015
-        }
-    });
-}
-
-/**
  * Gets array of webpack loaders for external style files
- * @param {boolean} prod Indication that currently is running production build
  */
-function getExternalStyleLoaders(prod)
+function getExternalStyleLoaders()
 {
-    return prod ? [{loader: MiniCssExtractPlugin.loader, options: {publicPath: ""}}, 'css-loader'] : ['style-loader', 'css-loader'];
+    return [{loader: MiniCssExtractPlugin.loader, options: {publicPath: ''}}, 'css-loader'];
 }
 
 /**
  * Gets array of webpack loaders for style files
- * @param {boolean} prod Indication that currently is running production build
  */
-function getStyleLoaders(prod)
+function getStyleLoaders()
 {
-    return prod ? [{loader: MiniCssExtractPlugin.loader, options: {publicPath: ""}}, 'css-loader', 'sass-loader'] : ['style-loader', 'css-loader', 'sass-loader'];
+    return [{loader: MiniCssExtractPlugin.loader, options: {publicPath: ''}}, 'css-loader', 'sass-loader'];
 }
 
-var distPath = "wwwroot/dist";
+var distPath = 'wwwroot/dist';
 
 module.exports = [function(options, args)
 {
     var prod = args && args.mode == 'production' || false;
     var hmr = !!options && !!options.hmr;
-    var aot = !!options && !!options.aot;
     var ssr = !!options && !!options.ssr;
     var dll = !!options && !!options.dll;
     var debug = !!options && !!options.debug;
-    var es5 = !!options && !!options.es5;
     var css = !!options && !!options.css;
     var html = !!options && !!options.html;
     var nomangle = !!options && !!options.nomangle;
-    var diff = !!options && !!options.diff;
-    var ngsw = process.env.NGSW == "true";
+    var ngsw = process.env.NGSW == 'true';
 
     if(!!options && options.ngsw != undefined)
     {
@@ -111,18 +89,19 @@ module.exports = [function(options, args)
 
     options = options || {};
 
-    console.log(`Running build with following configuration Production: ${prod} HMR: ${hmr} AOT Compilation: ${aot} SSR: ${ssr} DLL: ${dll} Debug: ${debug} ES5: ${es5} CSS: ${css} HTML: ${html} Differential build: ${diff}`);
+    console.log(`Running build with following configuration Production: ${prod} HMR: ${hmr} SSR: ${ssr} DLL: ${dll} Debug: ${debug} CSS: ${css} HTML: ${html}`);
 
     var config =
     {
-        entry: getEntries(ssr, css, diff),
+        entry: getEntries(ssr, css),
         output:
         {
             globalObject: 'self',
             path: path.join(__dirname, distPath),
-            filename: `[name].${diff ? 'file' : es5 ? 'es5' : 'es2015'}.js`,
+            filename: `[name].js`,
             publicPath: prod ? 'dist/' : '/dist/',
-            chunkFilename: `[name].${ssr ? 'server' : 'client'}.${es5 ? 'es5' : 'es2015'}.chunk.js`
+            chunkFilename: `[name].${ssr ? 'server' : 'client'}.chunk.js`,
+            assetModuleFilename: 'assets/[hash][ext][query]'
         },
         mode: 'development',
         ...hmr ?
@@ -131,11 +110,26 @@ module.exports = [function(options, args)
                 {
                     hot: true,
                     port: 9000,
-                    publicPath: '/dist/',
-                    contentBase: path.join(__dirname, distPath),
-                    contentBasePublicPath: '/dist/',
-                    writeToDisk: true,
-                    overlay: true
+                    static:
+                    {
+                        directory: path.join(__dirname, distPath),
+                        publicPath: '/dist/',
+                    },
+                    devMiddleware:
+                    {
+                        publicPath: '/dist/',
+                        writeToDisk: true,
+                    },
+                    client:
+                    {
+                        logging: 'info',
+                        overlay: 
+                        {
+                            errors: true,
+                            warnings: false
+                        },
+                        progress: true,
+                    }
                 },
                 devtool: 'eval-source-map'
             } :
@@ -146,11 +140,11 @@ module.exports = [function(options, args)
         //TODO remove this when https://github.com/webpack/webpack-dev-server/issues/2792 is fixed
         optimization:
         {
-            runtimeChunk: "single"
+            runtimeChunk: 'single'
         },
         resolve:
         {
-            ...getResolve(es5, ssr)
+            ...getResolve(ssr)
         },
         module:
         {
@@ -158,7 +152,7 @@ module.exports = [function(options, args)
             [
                 //server globals
                 {
-                    test: require.resolve("form-data"),
+                    test: require.resolve('form-data'),
                     use:
                     [
                         {
@@ -173,30 +167,31 @@ module.exports = [function(options, args)
                 //file processing
                 {
                     test: /\.ts$/,
-                    loader: '@ngtools/webpack'
+                    use: ['@ngtools/webpack']
                 },
+                ruleJsModule,
                 {
                     test: /\.html$/,
-                    loader: 'raw-loader'
+                    use: ['raw-loader']
                 },
                 {
                     test: /\.typings$/,
-                    loader: 'raw-loader'
+                    use: ['raw-loader']
                 },
                 {
                     test: /\.component\.scss$/,
                     use: ['raw-loader', 'sass-loader'],
                     include:
                     [
-                        path.join(__dirname, "app")
+                        path.join(__dirname, 'app')
                     ]
                 },
                 {
                     test: /\.component\.css$/,
-                    use: 'raw-loader',
+                    use: ['raw-loader'],
                     include:
                     [
-                        path.join(__dirname, "packages")
+                        path.join(__dirname, 'packages')
                     ]
                 },
                 {
@@ -204,8 +199,8 @@ module.exports = [function(options, args)
                     use: getExternalStyleLoaders(true),
                     exclude:
                     [
-                        path.join(__dirname, "app"),
-                        path.join(__dirname, "packages")
+                        path.join(__dirname, 'app'),
+                        path.join(__dirname, 'packages')
                     ]
                 },
                 {
@@ -213,12 +208,12 @@ module.exports = [function(options, args)
                     use: getStyleLoaders(true),
                     exclude:
                     [
-                        path.join(__dirname, "app")
+                        path.join(__dirname, 'app')
                     ]
                 },
                 {
                     test: /\.(ttf|woff|woff2|eot|svg|png|jpeg|jpg|bmp|gif|icon|ico)$/,
-                    loader: "file-loader"
+                    type: 'asset/resource'
                 }
             ]
         },
@@ -242,6 +237,11 @@ module.exports = [function(options, args)
             {
                 filename: prod ? '[name].[hash].css' : '[name].css',
                 chunkFilename: prod ? '[id].[hash].css' : '[id].css'
+            }),
+            new AngularWebpackPlugin(
+            {
+                tsConfigPath: path.join(__dirname, 'tsconfig.json'),
+                sourceMap: true,
             })
         ]
     };
@@ -275,62 +275,20 @@ module.exports = [function(options, args)
         {
             config.plugins.push(new HtmlWebpackPlugin(
             {
-                filename: "../index.html",
-                template: path.join(__dirname, "index.html"),
+                filename: '../index.html',
+                template: path.join(__dirname, 'index.html'),
                 inject: 'head'
             }));
 
             if(!debug)
             {
-                let scriptOptions =
+                config.plugins.push(new ScriptExtHtmlWebpackPlugin(
                 {
                     defaultAttribute: 'defer'
-                };
-
-                if(diff)
-                {
-                    scriptOptions =
-                    {
-                        custom:
-                        [
-                            {
-                                test: /es2015\.js$/,
-                                attribute: 'type',
-                                value: 'module'
-                            },
-                            {
-                                test: /es5\.js$/,
-                                attribute: 'nomodule',
-                                value: true
-                            }
-                        ]
-                    };
-                }
-
-                config.plugins.push(new ScriptExtHtmlWebpackPlugin(scriptOptions));
+                }));
             }
         }
     }
-
-    //aot specific settings
-    if(aot)
-    {
-        config.plugins.push(getAotPlugin(es5));
-    }
-
-    //Webpack 5 using WEBPACK DEV SERVER
-    // if(hmr)
-    // {
-    //     config.plugins.push(new webpack.HotModuleReplacementPlugin());
-
-    //     Object.keys(config.entry).forEach(entry =>
-    //     {
-    //         if(config.entry[entry].constructor === Array)
-    //         {
-    //             config.entry[entry].unshift('webpack-hot-middleware/client');
-    //         }
-    //     });
-    // }
 
     //only if dll package is required, use only for development
     if(dll)
@@ -357,43 +315,11 @@ module.exports = [function(options, args)
         config.module.rules.push(ruleKonami);
     }
 
-    //generate html with differential loading, old and modern scripts
-    if(html && diff)
-    {
-        config.plugins.push(new HtmlWebpackTagsPlugin(
-        {
-            tags:
-            [
-                {
-                    path: distPath,
-                    glob: '*es2015.js',
-                    globFlatten: true,
-                    globPath: distPath
-                }
-            ],
-            append: true
-        }));
-
-        config.plugins.push(new HtmlWebpackTagsPlugin(
-        {
-            tags:
-            [
-                {
-                    path: distPath,
-                    glob: '*es5.js',
-                    globFlatten: true,
-                    globPath: distPath
-                }
-            ],
-            append: true
-        }));
-    }
-
     //production specific settings - prod is used only for client part
     if(prod)
     {
-        config.output.filename = `[name].[hash].${diff ? 'file' : es5 ? 'es5' : 'es2015'}.js`;
-        config.output.chunkFilename = `[name].${ssr ? 'server' : 'client'}.${es5 ? 'es5' : 'es2015'}.chunk.[chunkhash].js`;
+        config.output.filename = `[name].[hash].js`;
+        config.output.chunkFilename = `[name].${ssr ? 'server' : 'client'}.chunk.[chunkhash].js`;
 
         config.plugins.push(new CompressionPlugin({test: /\.js$|\.css$/}));
     }

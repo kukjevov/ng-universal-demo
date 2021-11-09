@@ -24,6 +24,11 @@ export interface SettingsConfiguration
     debug: boolean;
 
     /**
+     * Indication that missing translation debugging should be enabled
+     */
+    debugTranslations: boolean;
+
+    /**
      * Base url that is used for accessing REST api
      */
     apiBaseUrl: string;

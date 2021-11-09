@@ -1,17 +1,16 @@
 import {updateHttpRequestClone} from '@anglr/common';
-import {isFunction, isBlank, initializeJsDevMode, globalDefine} from '@jscrpt/common';
+import {isFunction, isBlank, globalDefine} from '@jscrpt/common';
 import {Observable} from 'rxjs';
 
 import {config} from './config';
 
-initializeJsDevMode();
 updateHttpRequestClone();
 
 globalDefine(global =>
 {
-    if(!global.HTMLDocument)
+    if(!global.Document)
     {
-        global.HTMLDocument = function(){};
+        global.Document = function(){};
     }
 
     if(!global.Konami)

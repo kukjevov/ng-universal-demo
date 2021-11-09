@@ -1,10 +1,10 @@
+/* eslint-disable */
 var webpack = require('webpack'),
     path = require('path'),
-    {getResolve, ruleKonami, ruleNumeral} = require('./webpack.config.common');
+    {getResolve, ruleKonami, ruleNumeral, ruleJsModule} = require('./webpack.config.common');
 
 module.exports = function(options)
 {
-    var es5 = !!options && !!options.es5;
     var ssr = !!options && !!options.ssr;
     var distPath = "wwwroot/dist";
 
@@ -14,16 +14,14 @@ module.exports = function(options)
         {
             "dependencies":
             [
-                'core-js/es6',
-                'core-js/es7/reflect',
                 'numeral',
                 'numeral-languages',
                 'konami',
 
+                'rxjs',
                 'date-fns',
                 'html2canvas',
                 'extend',
-                'jquery-param',
                 'crypto-js',
                 'file-saver',
                 'd3',
@@ -31,8 +29,9 @@ module.exports = function(options)
                 'highlight.js',
                 'sourcemapped-stacktrace',
                 'positions',
-                'store',
                 '@popperjs/core',
+                'store',
+                'structured-log',
 
                 '@jscrpt/common',
                 '@angular/animations',
@@ -87,14 +86,15 @@ module.exports = function(options)
         devtool: 'source-map',
         resolve:
         {
-            ...getResolve(es5, ssr)
+            ...getResolve(ssr)
         },
         module:
         {
             rules:
             [
                 ruleNumeral,
-                ruleKonami
+                ruleKonami,
+                ruleJsModule,
             ]
         },
         plugins:

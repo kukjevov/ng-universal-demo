@@ -1,3 +1,4 @@
+/* eslint-disable */
 var fs = require('fs'),
     path = require('path');
 
@@ -15,9 +16,15 @@ function includeEnvMock(app)
 
 module.exports = function(app)
 {
+    //uses environment specific mocks
+    includeEnvMock(app);
+
     //LOAD ACCOUNT RESOURCE
     require('./mocks/account')(app);
 
     //LOAD CONFIG RESOURCE
     require('./mocks/config')(app);
+
+    //LOAD LOGGER RESOURCE
+    require('./mocks/logger')(app);
 };
