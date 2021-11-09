@@ -29,7 +29,6 @@
         [
             "node",
             "konami.js",
-            "mousetrap"
         ],
         "typeRoots":
         [

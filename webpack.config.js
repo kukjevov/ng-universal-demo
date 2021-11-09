@@ -69,7 +69,6 @@ export default [function(options, args)
     var prod = args && args.mode == 'production' || false;
     var hmr = !!options && !!options.hmr;
     var ssr = !!options && !!options.ssr;
-    var dll = !!options && !!options.dll;
     var debug = !!options && !!options.debug;
     var css = !!options && !!options.css;
     var html = !!options && !!options.html;
@@ -85,7 +84,7 @@ export default [function(options, args)
 
     options = options || {};
 
-    console.log(`Running build with following configuration Production: ${prod} HMR: ${hmr} SSR: ${ssr} DLL: ${dll} Debug: ${debug} CSS: ${css} HTML: ${html}`);
+    console.log(`Running build with following configuration Production: ${prod} HMR: ${hmr} SSR: ${ssr} Debug: ${debug} CSS: ${css} HTML: ${html}`);
 
     var config =
     {
@@ -146,6 +145,8 @@ export default [function(options, args)
         {
             rules:
             [
+                ruleNumeral,
+                ruleKonami,
                 //server globals
                 {
                     test: formDataResolve,
@@ -284,31 +285,6 @@ export default [function(options, args)
                 }));
             }
         }
-    }
-
-    //only if dll package is required, use only for development
-    if(dll)
-    {
-        // config.plugins.push(new webpack.DllReferencePlugin(
-        // {
-        //     context: dirName,
-        //     manifest: require(path.join(dirName, distPath + '/dependencies-manifest.json'))
-        // }));
-
-        // if(!debug && html)
-        // {
-        //     config.plugins.push(new HtmlWebpackTagsPlugin(
-        //     {
-        //         tags: ['dependencies.js'],
-        //         append: false
-        //     }));
-        // }
-    }
-    else
-    {
-        //vendor globals
-        config.module.rules.push(ruleNumeral);
-        config.module.rules.push(ruleKonami);
     }
 
     //production specific settings - prod is used only for client part

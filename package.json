@@ -4,20 +4,17 @@
     "description": "Angular sample application",
     "type": "module",
     "scripts": {
-        "build": "webpack --env aot --env dll --env css --env html --config webpack.config.js",
-        "build:ssr": "webpack --env aot --env ssr --config webpack.config.js",
-        "build:aot": "npm run ngc -- -p tsconfig.json",
-        "build:min": "webpack --env aot --env css --env html --mode=production --node-env=production --config webpack.config.js",
+        "build": "webpack --env css --env html --config webpack.config.js",
+        "build:ssr": "webpack --env ssr --config webpack.config.js",
+        "build:min": "webpack --env css --env html --mode=production --node-env=production --config webpack.config.js",
         "build:debug": "npm run build -- --env debug",
         "build:min:debug": "npm run build:min -- --env debug",
-        "prebuild": "npm run check:dev:build && npm run version:build",
-        "prebuild:aot": "npm run prebuild:min",
+        "prebuild": "npm run version:build",
+        "prebuild:srr": "npm run prebuild",
         "prebuild:min": "npm run clean && npm run version:build",
         "prebuild:debug": "npm run prebuild",
         "prebuild:min:debug": "npm run prebuild:min",
-        "build:prepare:dev": "echo 'ok' #webpack --config webpack.config.dev.js",
-        "check:dev:build": "node ifMissingDevDeps.cjs && (npm run clean && npm run build:prepare:dev) || echo dependecies.js is present",
-        "check:dev:start": "node ifMissingDevDeps.cjs && (npm run build) || echo dependecies.js is present",
+        "check:dev:start": "node ifMissingDevDeps.cjs && npm run build || echo dependecies.js is present",
         "clean": "rimraf wwwroot",
         "clean:deps": "rimraf package-lock.json node_modules || echo 'node_modules removed'",
         "clean:all": "npm run clean && npm run clean:deps",
@@ -28,7 +25,7 @@
         "server": "node server.cjs",
         "lint": "eslint app/**/*.ts",
         "prestart": "npm run check:dev:start",
-        "start": "npm run version:build && concurrently \"npm run server -- --webpack\" \"webpack serve --env aot --env dll --env css --env hmr --config webpack.config.js\""
+        "start": "npm run version:build && concurrently \"npm run server -- --webpack\" \"webpack serve --env css --env hmr --config webpack.config.js\""
     },
     "engines": {
         "node": "^12.20.0 || ^14.15.0 || >=16.10.0"
