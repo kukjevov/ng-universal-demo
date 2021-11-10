@@ -13,6 +13,7 @@ import BitBarWebpackProgressPlugin from 'bitbar-webpack-progress-plugin';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import TerserPlugin from 'terser-webpack-plugin';
 import {AngularWebpackPlugin} from '@ngtools/webpack';
+import {HmrLoader} from '@angular-devkit/build-angular/src/webpack/plugins/hmr/hmr-loader.js';
 import {getResolve, ruleKonami, ruleNumeral, ruleJsModule} from './webpack.config.common.js';
 import {dirName, formDataResolve} from './webpack.resolves.cjs';
 
@@ -62,7 +63,8 @@ function getSassLoaders()
     return [{loader: MiniCssExtractPlugin.loader, options: {publicPath: ''}}, 'css-loader', 'sass-loader'];
 }
 
-var distPath = 'wwwroot/dist';
+const distPath = 'wwwroot/dist';
+const angularEntryFile = 'main.browser.bootstrap.ts';
 
 export default [function(options, args)
 {
@@ -86,7 +88,7 @@ export default [function(options, args)
 
     console.log(`Running build with following configuration Production: ${prod} HMR: ${hmr} SSR: ${ssr} Debug: ${debug} CSS: ${css} HTML: ${html}`);
 
-    var config =
+    const config =
     {
         entry: getEntries(ssr, css),
         output:
@@ -146,6 +148,13 @@ export default [function(options, args)
         {
             rules:
             [
+                ...hmr ? 
+                [
+                    {
+                        loader: HmrLoader,
+                        include: path.join(dirName, 'app', angularEntryFile),
+                    }
+                ] : [],
                 ruleNumeral,
                 ruleKonami,
                 //server globals

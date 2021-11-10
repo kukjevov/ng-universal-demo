@@ -7,7 +7,7 @@ import {platformBrowser} from '@angular/platform-browser';
 import {NgModuleRef, enableProdMode} from '@angular/core';
 import {runWhenModuleStable} from '@anglr/common';
 import {RestTransferStateService} from '@anglr/rest';
-import {hmrAccept, hmrFinishedNotification} from '@anglr/common/hmr';
+import {hmrFinishedNotification} from '@anglr/common/hmr';
 
 import {config} from './config';
 import {BrowserAppModule} from './boot/browser-app.module';
@@ -16,13 +16,6 @@ if(isProduction)
 {
     enableProdMode();
 }
-
-if (jsDevMode && module['hot'])
-{
-    module['hot'].accept();
-}
-
-jsDevMode && hmrAccept(() => platform);
 
 const platform = platformBrowser();
 

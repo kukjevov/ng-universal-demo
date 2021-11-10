@@ -5,8 +5,7 @@
         "apiBaseUrl": "api/",
         "defaultApiHeaders": 
         {
-            "Accept": "application/json",
-            "Accept-Encoding": "br;q=1.0, gzip;q=0.8, deflate;q=0.7, *;q=0.1"
+            "Accept": "application/json"
         },
         "themes":
         [
