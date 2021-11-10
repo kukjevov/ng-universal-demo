@@ -165,10 +165,11 @@ app.use(function (req, res, next)
     next();
 });
 
+//maybe move to https://www.npmjs.com/package/express-static-gzip
 //return static files
 app.use(gzipStatic(wwwroot, 
                    {
-                       maxAge: '1d',
+                       maxAge: '7d',
                        setHeaders: function setCustomCacheControl (res, path) 
                        {
                            if (serveStatic.mime.lookup(path) === 'text/html') 

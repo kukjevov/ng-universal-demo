@@ -107,8 +107,9 @@ export default [function(options, args)
                     port: 9000,
                     static:
                     {
-                        directory: path.join(dirName, distPath),
-                        publicPath: '/dist/',
+                        directory: path.join(dirName, distPath, 'assets'),
+                        publicPath: '/dist/assets',
+                        watch: true
                     },
                     devMiddleware:
                     {
