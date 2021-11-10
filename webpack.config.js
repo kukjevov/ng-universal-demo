@@ -1,6 +1,7 @@
 /* eslint-disable */
 import webpack from 'webpack';
 import path from 'path';
+// import {ScriptTarget} from 'typescript';
 import {createHash} from 'crypto';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ScriptExtHtmlWebpackPlugin from 'script-ext-html-webpack-plugin';
@@ -16,6 +17,7 @@ import TerserPlugin from 'terser-webpack-plugin';
 import {AngularWebpackPlugin} from '@ngtools/webpack';
 import linkerPlugin from '@angular/compiler-cli/linker/babel';
 import {HmrLoader} from '@angular-devkit/build-angular/src/webpack/plugins/hmr/hmr-loader.js';
+import {JavaScriptOptimizerPlugin} from '@angular-devkit/build-angular/src/webpack/plugins/javascript-optimizer-plugin.js';
 import {dirName, konamiResolve, numeralResolve, cryptoBrowserifyResolve, bufferResolve, streamBrowserifyResolve, formDataResolve, ngVersion, tsConfig, webpackConfig} from './webpack.commonjs.cjs';
 
 /**
@@ -77,6 +79,7 @@ export default [function(options, args)
     var html = !!options && !!options.html;
     var nomangle = !!options && !!options.nomangle;
     var noCache = !!options && !!options.noCache;
+    var esbuild = !!options && !!options.esbuild;
     var ngsw = process.env.NGSW == 'true';
 
     if(!!options && options.ngsw != undefined)
@@ -88,7 +91,7 @@ export default [function(options, args)
 
     options = options || {};
 
-    console.log(`Running build with following configuration Production: ${prod} HMR: ${hmr} SSR: ${ssr} Debug: ${debug} CSS: ${css} HTML: ${html}`);
+    console.log(`Running build with following configuration Production: ${prod} HMR: ${hmr} SSR: ${ssr} Debug: ${debug} CSS: ${css} HTML: ${html} NoMangle: ${nomangle} NoCache: ${noCache} EsBuild: ${esbuild}`);
 
     const config =
     {
@@ -329,7 +332,27 @@ export default [function(options, args)
         ]
     };
 
-    if(prod && nomangle)
+    if(prod && esbuild)
+    {
+        config.optimization =
+        {
+            minimizer: 
+            [
+                new JavaScriptOptimizerPlugin(
+                {
+                    // define: buildOptions.aot ? GLOBAL_DEFS_FOR_TERSER_WITH_AOT : GLOBAL_DEFS_FOR_TERSER,
+                    sourcemap: true,
+                    // target: ScriptTarget.ES2020,
+                    target: 7,
+                    keepNames: nomangle,
+                    removeLicenses: false,
+                    // advanced: buildOptions.buildOptimizer,
+                })
+            ]
+        };
+    }
+
+    if(prod && nomangle && !esbuild)
     {
         config.optimization =
         {
