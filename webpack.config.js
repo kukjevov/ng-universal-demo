@@ -1,6 +1,7 @@
 /* eslint-disable */
 import webpack from 'webpack';
 import path from 'path';
+import {createHash} from 'crypto';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ScriptExtHtmlWebpackPlugin from 'script-ext-html-webpack-plugin';
 // import HtmlWebpackTagsPlugin from 'html-webpack-tags-plugin';
@@ -13,9 +14,9 @@ import BitBarWebpackProgressPlugin from 'bitbar-webpack-progress-plugin';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import TerserPlugin from 'terser-webpack-plugin';
 import {AngularWebpackPlugin} from '@ngtools/webpack';
+import linkerPlugin from '@angular/compiler-cli/linker/babel';
 import {HmrLoader} from '@angular-devkit/build-angular/src/webpack/plugins/hmr/hmr-loader.js';
-import {getResolve, ruleKonami, ruleNumeral, ruleJsModule} from './webpack.config.common.js';
-import {dirName, formDataResolve} from './webpack.resolves.cjs';
+import {dirName, konamiResolve, numeralResolve, cryptoBrowserifyResolve, bufferResolve, streamBrowserifyResolve, formDataResolve, ngVersion, tsConfig, webpackConfig} from './webpack.commonjs.cjs';
 
 /**
  * Gets entries for webpack
@@ -75,6 +76,7 @@ export default [function(options, args)
     var css = !!options && !!options.css;
     var html = !!options && !!options.html;
     var nomangle = !!options && !!options.nomangle;
+    var noCache = !!options && !!options.noCache;
     var ngsw = process.env.NGSW == 'true';
 
     if(!!options && options.ngsw != undefined)
@@ -140,9 +142,43 @@ export default [function(options, args)
         {
             runtimeChunk: 'single'
         },
+        ...noCache ? {} :
+        {
+            cache:
+            {
+                type: 'filesystem',
+                cacheDirectory: path.join(dirName, "node_modules", ".cache", 'angular-webpack'),
+                maxMemoryGenerations: 1,
+                // We use the versions and build options as the cache name. The Webpack configurations are too
+                // dynamic and shared among different build types: test, build and serve.
+                // None of which are "named".
+                name: createHash('sha1')
+                    .update(ngVersion)
+                    .update(dirName)
+                    .update(tsConfig)
+                    .update(webpackConfig)
+                    .digest('hex'),
+            }
+        },
         resolve:
         {
-            ...getResolve(ssr)
+            symlinks: false,
+            fallback:
+            {
+                "crypto": cryptoBrowserifyResolve,
+                "buffer": bufferResolve,
+                "stream": streamBrowserifyResolve
+            },
+            extensions: ['.ts', '.mjs', '.js'],
+            alias:
+            {
+                "modernizr": path.join(dirName, "content/external/scripts/modernizr-custom.js"),
+                "numeral-languages": path.join(dirName, "node_modules/numeral/locales.js"),
+                // "@angular/cdk/a11y": path.join(dirName, "node_modules/@angular/cdk/esm2015/a11y"),
+                "app": path.join(dirName, "app")
+            },
+            mainFields: ssr ? ['esm2015', 'es2015', 'jsnext:main', 'module', 'main'] : ['esm2020', 'esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main'],
+            conditionNames: ['esm2020', 'es2015']
         },
         module:
         {
@@ -155,8 +191,32 @@ export default [function(options, args)
                         include: path.join(dirName, 'app', angularEntryFile),
                     }
                 ] : [],
-                ruleNumeral,
-                ruleKonami,
+                {
+                    test: numeralResolve,
+                    use:
+                    [
+                        {
+                            loader: 'expose-loader',
+                            options:
+                            {
+                                exposes: 'numeral'
+                            }
+                        }
+                    ]
+                },
+                {
+                    test: konamiResolve,
+                    use:
+                    [
+                        {
+                            loader: 'expose-loader',
+                            options:
+                            {
+                                exposes: 'Konami'
+                            }
+                        }
+                    ]
+                },
                 //server globals
                 {
                     test: formDataResolve,
@@ -176,7 +236,23 @@ export default [function(options, args)
                     test: /\.ts$/,
                     use: ['@ngtools/webpack']
                 },
-                ruleJsModule,
+                {
+                    test: /\.m?js$/,
+                    use: 
+                    {
+                        loader: 'babel-loader',
+                        options: 
+                        {
+                            plugins: [linkerPlugin],
+                            compact: false,
+                            cacheDirectory: true,
+                        }
+                    },
+                    resolve: 
+                    {
+                        fullySpecified: false
+                    }
+                },
                 {
                     test: /\.html$/,
                     use: ['raw-loader']
