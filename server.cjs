@@ -1,4 +1,3 @@
-/* eslint-disable */
 var connect = require('connect'),
     gzipStatic = require('connect-gzip-static'),
     serveStatic = require('serve-static'),
@@ -18,7 +17,7 @@ connectExtensions.extendConnectUse(app);
 
 const wwwroot = path.join(__dirname, "wwwroot");
 const serverPath = path.join(wwwroot, 'dist/server.es2015.js');
-const proxyUrlFile = path.join(__dirname, 'proxyUrl.js');
+const proxyUrlFile = path.join(__dirname, 'proxyUrl.cjs');
 var serverRenderFunc;
 var proxyUrl = "http://127.0.0.1:8080";
 
@@ -79,22 +78,6 @@ if(!!argv.webpack)
         target: 'http://localhost:9000',
         ws: true
     }));
-
-    // var webpack = require('webpack'),
-    //     webpackConfig = require('./webpack.config.js')[0]({hmr: true, dll: true, aot: true, css: true}),
-    //     webpackDev = require('webpack-dev-middleware'),
-    //     hmr = require("webpack-hot-middleware");
-
-    // var compiler = webpack(webpackConfig);
-
-    // //enables webpack dev middleware
-    // app.use(webpackDev(compiler,
-    // {
-    //     publicPath: webpackConfig.output.publicPath,
-    //     writeToDisk: true
-    // }));
-
-    // app.use(hmr(compiler));
 }
 
 //mock rest api

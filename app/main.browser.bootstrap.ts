@@ -1,7 +1,7 @@
 /* eslint-disable ressurectit/imports-order */
 import './dependencies';
 import './dependencies.browser';
-import 'zone.js/dist/zone';
+import 'zone.js';
 import './hacks';
 import {platformBrowser} from '@angular/platform-browser';
 import {NgModuleRef, enableProdMode} from '@angular/core';

@@ -1,4 +1,3 @@
-/* eslint-disable */
 var Rest = require('connect-rest'),
     fs = require('fs'),
     path = require('path'),

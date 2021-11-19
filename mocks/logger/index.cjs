@@ -53,7 +53,7 @@ function writeError(error)
 module.exports = function(app)
 {
     //LOGGER
-    app.useMock('POST', '/api/v1/logger', (req) =>
+    app.useMock('POST', '/api/logger', (req) =>
     {
         let body = [];
 

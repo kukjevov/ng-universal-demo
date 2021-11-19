@@ -21,6 +21,12 @@ RUN npm install connect && \
 EXPOSE 8888
 EXPOSE 8880
 
+ARG defaultbase=/
+ENV BASEURL=$defaultbase
+
 COPY . /approot/
 
-CMD node ./server.js
+RUN echo "sed -i -E \"s@base href=\\\"[^\\\"]*\\\"@base href=\\\"\$BASEURL\\\"@\" wwwroot/index.html && node ./server.cjs" > run.sh
+RUN chmod +x run.sh
+
+CMD ./run.sh

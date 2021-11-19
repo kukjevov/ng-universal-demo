@@ -1,4 +1,3 @@
-/* eslint-disable */
 import webpack from 'webpack';
 import path from 'path';
 // import {ScriptTarget} from 'typescript';
@@ -152,9 +151,6 @@ export default [function(options, args)
                 type: 'filesystem',
                 cacheDirectory: path.join(dirName, "node_modules", ".cache", 'angular-webpack'),
                 maxMemoryGenerations: 1,
-                // We use the versions and build options as the cache name. The Webpack configurations are too
-                // dynamic and shared among different build types: test, build and serve.
-                // None of which are "named".
                 name: createHash('sha1')
                     .update(ngVersion)
                     .update(dirName)
@@ -177,7 +173,6 @@ export default [function(options, args)
             {
                 "modernizr": path.join(dirName, "content/external/scripts/modernizr-custom.js"),
                 "numeral-languages": path.join(dirName, "node_modules/numeral/locales.js"),
-                // "@angular/cdk/a11y": path.join(dirName, "node_modules/@angular/cdk/esm2015/a11y"),
                 "app": path.join(dirName, "app")
             },
             mainFields: ssr ? ['esm2015', 'es2015', 'jsnext:main', 'module', 'main'] : ['esm2020', 'esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main'],
@@ -282,7 +277,7 @@ export default [function(options, args)
                 },
                 {
                     test: /\.css$/,
-                    use: getCssLoaders(true),
+                    use: getCssLoaders(),
                     exclude:
                     [
                         path.join(dirName, 'app'),
@@ -291,7 +286,7 @@ export default [function(options, args)
                 },
                 {
                     test: /\.scss$/,
-                    use: getSassLoaders(true),
+                    use: getSassLoaders(),
                     exclude:
                     [
                         path.join(dirName, 'app')

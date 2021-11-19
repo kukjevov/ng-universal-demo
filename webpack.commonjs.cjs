@@ -1,4 +1,3 @@
-/* eslint-disable */
 const {readFileSync} = require('fs');
 
 exports.konamiResolve = require.resolve('konami');
