@@ -1,1 +1,6 @@
-declare var isProduction: boolean;
+declare let isProduction: boolean;
+
+interface ImportMeta
+{
+    webpackHot?: boolean;
+}

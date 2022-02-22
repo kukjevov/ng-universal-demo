@@ -15,6 +15,8 @@ import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import TerserPlugin from 'terser-webpack-plugin';
 import {AngularWebpackPlugin} from '@ngtools/webpack';
 import linkerPlugin from '@angular/compiler-cli/linker/babel';
+import asyncGeneratorFunctions from '@babel/plugin-proposal-async-generator-functions';
+import asyncToGenerator from '@babel/plugin-transform-async-to-generator';
 import {HmrLoader} from '@angular-devkit/build-angular/src/webpack/plugins/hmr/hmr-loader.js';
 import {JavaScriptOptimizerPlugin} from '@angular-devkit/build-angular/src/webpack/plugins/javascript-optimizer-plugin.js';
 import {dirName, konamiResolve, numeralResolve, cryptoBrowserifyResolve, bufferResolve, streamBrowserifyResolve, formDataResolve, ngVersion, tsConfig, webpackConfig} from './webpack.commonjs.cjs';
@@ -232,7 +234,23 @@ export default [function(options, args)
                 //file processing
                 {
                     test: /\.ts$/,
-                    use: ['@ngtools/webpack']
+                    use:
+                    [
+                        {
+                            loader: 'babel-loader',
+                            options: 
+                            {
+                                plugins:
+                                [
+                                    asyncGeneratorFunctions,
+                                    asyncToGenerator,
+                                ],
+                                compact: false,
+                                cacheDirectory: true,
+                            }
+                        },
+                        '@ngtools/webpack',
+                    ]
                 },
                 {
                     test: /\.m?js$/,
@@ -241,7 +259,12 @@ export default [function(options, args)
                         loader: 'babel-loader',
                         options: 
                         {
-                            plugins: [linkerPlugin],
+                            plugins:
+                            [
+                                linkerPlugin,
+                                asyncGeneratorFunctions,
+                                asyncToGenerator,
+                            ],
                             compact: false,
                             cacheDirectory: true,
                         }

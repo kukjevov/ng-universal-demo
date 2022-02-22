@@ -1,12 +1,9 @@
-import {Injectable, Optional, Inject, Injector, Type} from '@angular/core';
-import {Router} from '@angular/router';
-import {Location} from '@angular/common';
-import {HttpClient, HttpParams, HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {HTTP_REQUEST_BASE_URL} from '@anglr/common';
-import {RESTClient, GET, BaseUrl, DefaultHeaders, ResponseTransform, POST, FullHttpResponse, DisableInterceptor, REST_MIDDLEWARES_ORDER, REST_METHOD_MIDDLEWARES, RestMiddleware, Body} from '@anglr/rest';
-import {AuthenticationServiceOptions, UserIdentity, AccessToken, AuthInterceptor, SuppressAuthInterceptor} from '@anglr/authentication';
+import {Injectable} from '@angular/core';
+import {HttpParams, HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {RESTClient, GET, BaseUrl, DefaultHeaders, ResponseTransform, POST, FullHttpResponse, DisableInterceptor, Body} from '@anglr/rest';
+import {UserIdentity, AccessToken, AuthInterceptor, SuppressAuthInterceptor} from '@anglr/authentication';
 import {ServiceUnavailableInterceptor, HttpGatewayTimeoutInterceptor, NoConnectionInterceptor} from '@anglr/error-handling';
-import {isBlank} from '@jscrpt/common';
+import {Dictionary} from '@jscrpt/common';
 import {Observable, Observer, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
@@ -17,29 +14,26 @@ import permissions from '../../../../config/permissions.json';
 /**
  * Service used to access user account information
  */
-@Injectable()
+@Injectable({providedIn: 'root'})
 @BaseUrl(config.configuration.apiBaseUrl)
 @DefaultHeaders(config.configuration.defaultApiHeaders)
-export class AccountService extends RESTClient implements AuthenticationServiceOptions<any>
+export class AccountService extends RESTClient
 {
     //######################### private fields #########################
 
     /**
      * Computed permissions for roles
      */
-    private _permissions: {[role: string]: string[]} = {};
+    private _permissions: Dictionary<string[]>;
 
-    //######################### constructor #########################
-    constructor(http: HttpClient,
-                injector: Injector,
-                private _location: Location,
-                @Optional() @Inject(HTTP_REQUEST_BASE_URL) baseUrl?: string,
-                @Inject(REST_MIDDLEWARES_ORDER) middlewaresOrder?: Type<RestMiddleware>[],
-                @Inject(REST_METHOD_MIDDLEWARES) methodMiddlewares?: Type<RestMiddleware>[])
+    //######################### private properties #########################
+
+    /**
+     * Gets computed permissions for roles
+     */
+    private get permissions(): Dictionary<string[]>
     {
-        super(http, baseUrl, injector, middlewaresOrder, methodMiddlewares);
-
-        this._computePermissionsForRoles();
+        return this._permissions ?? (this._permissions = this._computePermissionsForRoles());
     }
 
     //######################### public methods - implementation of AuthenticationServiceOptions #########################
@@ -49,7 +43,7 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
      * @param  {AccessToken} accessToken Access token used for authentication
      * @returns Observable
      */
-    public login(accessToken: AccessToken): Observable<any>
+    public login(accessToken: AccessToken): Observable<void>
     {
         const body = new HttpParams()
             .append('j_username', accessToken.userName)
@@ -60,20 +54,11 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
     }
 
     /**
-     * Gets indication whether current state of app is displaying login page
-     * @returns boolean
-     */
-    public isAuthPage(): boolean
-    {
-        return this._location.path().indexOf('/login') == 0;
-    }
-
-    /**
      * Methods logs out user out of system
      * @returns Observable
      */
     @POST('logout')
-    public logout(): Observable<any>
+    public logout(): Observable<void>
     {
         return null;
     }
@@ -90,25 +75,9 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
     @DisableInterceptor(HttpGatewayTimeoutInterceptor)
     @DisableInterceptor(NoConnectionInterceptor)
     @GET('myaccount')
-    public getUserIdentity(): Observable<UserIdentity<any>>
+    public getUserIdentity(): Observable<UserIdentity>
     {
         return null;
-    }
-
-    /**
-     * Redirects current page to authentication page
-     */
-    public showAuthPage(): Promise<boolean>
-    {
-        return this.injector.get(Router).navigate(['/login'], {queryParams: {returnUrl: this._location.path()}});
-    }
-
-    /**
-     * Redirects current page to access denied page
-     */
-    public showAccessDenied(): Promise<boolean>
-    {
-        return this.injector.get(Router).navigate(['/accessDenied']);
     }
 
     //######################### private methods #########################
@@ -118,7 +87,7 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
      */
     @DisableInterceptor(SuppressAuthInterceptor)
     @POST('authentication')
-    private _login(@Body _body: HttpParams): Observable<any>
+    private _login(@Body _body: HttpParams): Observable<void>
     {
         return null;
     }
@@ -204,7 +173,7 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
     {
         const perms: {[permission: string]: boolean} = {};
 
-        (roles ?? []).forEach(role => (this._permissions[role] ?? []).forEach(permission => perms[permission] = true));
+        (roles ?? []).forEach(role => (this.permissions[role] ?? []).forEach(permission => perms[permission] = true));
 
         return Object.keys(perms);
     }
@@ -212,8 +181,10 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
     /**
      * Computes permissions for roles
      */
-    private _computePermissionsForRoles()
+    private _computePermissionsForRoles(): Dictionary<string[]>
     {
+        const computedPermissions: Dictionary<string[]> = {};
+
         Object.keys(permissions).forEach(permission =>
         {
             const roles = permissions[permission];
@@ -222,14 +193,12 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
             {
                 roles.forEach(role =>
                 {
-                    if(isBlank(this._permissions[role]))
-                    {
-                        this._permissions[role] = [];
-                    }
-
-                    this._permissions[role].push(permission);
+                    computedPermissions[role] ??= [];
+                    computedPermissions[role].push(permission);
                 });
             }
         });
+
+        return computedPermissions;
     }
 }

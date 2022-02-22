@@ -1,13 +1,16 @@
 import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider, Provider, ExistingProvider} from '@angular/core';
-import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, AUTHENTICATION_SERVICE_OPTIONS, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER} from '@anglr/authentication';
+import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER, AuthenticationServiceOptions} from '@anglr/authentication';
 import {LocalPermanentStorageService} from '@anglr/common/store';
 import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS} from '@anglr/common';
 import {ConsoleSinkConfigService, LOGGER_REST_CLIENT, REST_SINK} from '@anglr/common/structured-log';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
 import {ERROR_HANDLING_NOTIFICATIONS, ERROR_RESPONSE_MAP_PROVIDER, HttpErrorInterceptorOptions, HTTP_ERROR_INTERCEPTOR_PROVIDER, BadRequestDetail, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER} from '@anglr/error-handling';
 import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handling/material';
-import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions, METADATA_SELECTOR_TYPE, METADATA_SELECTOR_OPTIONS, CONTENT_RENDERER_OPTIONS, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions} from '@anglr/grid';
+import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions, METADATA_SELECTOR_TYPE, METADATA_SELECTOR_OPTIONS, CONTENT_RENDERER_OPTIONS, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, GRID_INITIALIZER_TYPE, QueryPermanentStorageGridInitializerComponent, GRID_INITIALIZER_OPTIONS, QueryPermanentStorageGridInitializerOptions} from '@anglr/grid';
 import {DialogMetadataSelectorComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
+import {VALIDATION_ERROR_MESSAGES} from '@anglr/common/forms';
+import {TooltipOptions, TOOLTIP_OPTIONS} from '@anglr/common/positions';
+import {ConfirmationDialogOptions, CONFIRMATION_DIALOG_OPTIONS} from '@anglr/common/material';
 import {MD_HELP_NOTIFICATIONS} from '@anglr/md-help/web';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import {DATE_FNS_REST_DATE_API} from '@anglr/rest/date-fns';
@@ -17,12 +20,12 @@ import {sk} from 'date-fns/locale';
 import {LogEventLevel} from 'structured-log';
 
 import {config} from '../config';
-import {AccountService} from '../services/api/account/account.service';
 import {GlobalizationService as GlobalizationServiceImpl} from '../services/globalization/globalization.service';
 import {NOTHING_SELECTED} from '../misc/constants';
 import {SettingsService, LocalSettingsStorage} from '../services/settings';
 import {SETTINGS_STORAGE} from '../misc/tokens';
 import {RestLoggerService} from '../services/api/restLogger';
+import {AccountAuthOptions} from '../services/api/account/accountAuth.options';
 
 /**
  * Creates APP initialization factory, that first try to authorize user before doing anything else
@@ -150,8 +153,8 @@ export const providers: Provider[] =
     //######################### AUTHENTICATION & AUTHORIZATION #########################
     <ClassProvider>
     {
-        provide: AUTHENTICATION_SERVICE_OPTIONS,
-        useClass: AccountService
+        provide: AuthenticationServiceOptions,
+        useClass: AccountAuthOptions
     },
 
     //######################### ERROR HANDLING #########################
@@ -213,6 +216,19 @@ export const providers: Provider[] =
         useValue: <DialogMetadataSelectorOptions>
         {
             showButtonVisible: false
+        }
+    },
+    <ValueProvider>
+    {
+        provide: GRID_INITIALIZER_TYPE,
+        useValue: QueryPermanentStorageGridInitializerComponent
+    },
+    <ValueProvider>
+    {
+        provide: GRID_INITIALIZER_OPTIONS,
+        useValue: <QueryPermanentStorageGridInitializerOptions>
+        {
+            storageIppName: 'all-grid-ipp'
         }
     },
     <ValueProvider>
@@ -321,6 +337,26 @@ export const providers: Provider[] =
         }
     },
 
+    //######################### VALIDATION ERRORS #########################
+
+    <ValueProvider>
+    {
+        provide: VALIDATION_ERROR_MESSAGES,
+        useValue:
+        {
+            required: 'Položka je povinná.',
+            number: 'Položka musí byť číslo.',
+            pattern: 'Položka nie je v požadovanom formáte.',
+            minValue: 'Nedodržaná minimálna povolená hodnota.',
+            maxValue: 'Nedodržaná maximálna povolená hodnota.',
+            minlength: 'Nedodržaná minimálna dĺžka.',
+            maxlength: 'Nedodržaná maximálna dĺžka.',
+            birthNumber: 'Nesprávny formát rodného čísla.',
+            email: 'Položka musí byť email.',
+            availableUsername: 'Prihlasovacie meno je použité',
+        }
+    },
+
     //######################### NOTIFICATIONS #########################
     DEFAULT_NOTIFICATIONS,
     <ExistingProvider>
@@ -332,5 +368,27 @@ export const providers: Provider[] =
     {
         provide: ERROR_HANDLING_NOTIFICATIONS,
         useExisting: NOTIFICATIONS
-    }
+    },
+
+    //######################### TOOLTIP #########################
+    <ValueProvider>
+    {
+        provide: TOOLTIP_OPTIONS,
+        useValue: <TooltipOptions>
+        {
+            fixedPosition: true
+        }
+    },
+    
+    //######################### CONFIRMATION DIALOG #########################
+    <ValueProvider>
+    {
+        provide: CONFIRMATION_DIALOG_OPTIONS,
+        useValue: <ConfirmationDialogOptions>
+        {
+            confirmationText: 'Prajete si pokračovať?',
+            dialogCancelText: 'Nie',
+            dialogConfirmText: 'Áno'
+        }
+    },
 ];

@@ -89,6 +89,7 @@ app.use(createProxyMiddleware(['/api', '/swagger'],
                                   target: proxyUrl,
                                   ws: true,
                                   secure: false,
+                                  changeOrigin: true,
                                   onError: function(err, req, res)
                                   {
                                       if(err.code == "ECONNREFUSED" || err.code == "ECONNRESET")

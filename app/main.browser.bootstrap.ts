@@ -7,7 +7,7 @@ import {platformBrowser} from '@angular/platform-browser';
 import {NgModuleRef, enableProdMode} from '@angular/core';
 import {runWhenModuleStable} from '@anglr/common';
 import {RestTransferStateService} from '@anglr/rest';
-import {hmrFinishedNotification} from '@anglr/common/hmr';
+import {simpleNotification} from '@jscrpt/common';
 
 import {config} from './config';
 import {BrowserAppModule} from './boot/browser-app.module';
@@ -22,5 +22,5 @@ const platform = platformBrowser();
 runWhenModuleStable(platform.bootstrapModule(BrowserAppModule), (moduleRef: NgModuleRef<any>) =>
 {
     moduleRef.injector.get(RestTransferStateService)?.clearAndDeactivate();
-    jsDevMode && hmrFinishedNotification();
+    jsDevMode && simpleNotification(jsDevMode && import.meta.webpackHot);
 }, config.configuration.debug);

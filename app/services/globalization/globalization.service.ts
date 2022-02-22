@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {GlobalizationService as GlobalizationServiceInterface} from '@anglr/common';
-import {Observable, empty} from 'rxjs';
+import {Observable, EMPTY} from 'rxjs';
 
 /**
  * Globalization service that is used for obtaining globalization language
@@ -21,6 +21,6 @@ export class GlobalizationService extends GlobalizationServiceInterface
      */
     public get localeChange(): Observable<void>
     {
-        return empty();
+        return EMPTY;
     }
 }

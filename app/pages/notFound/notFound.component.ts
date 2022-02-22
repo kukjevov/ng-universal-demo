@@ -11,6 +11,7 @@ import {StatusCodeService} from '@anglr/common';
     templateUrl: 'notFound.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
+@ComponentRoute({path: 'notFound'})
 @ComponentRoute({path: '**'})
 export class NotFoundComponent
 {

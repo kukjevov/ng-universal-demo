@@ -1,10 +1,7 @@
-import {updateHttpRequestClone} from '@anglr/common';
 import {isFunction, isBlank, globalDefine} from '@jscrpt/common';
 import {Observable} from 'rxjs';
 
 import {config} from './config';
-
-updateHttpRequestClone();
 
 globalDefine(global =>
 {
