@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Location} from '@angular/common';
 import {Router} from '@angular/router';
 import {AccessToken, AuthenticationServiceOptions, UserIdentity} from '@anglr/authentication';
+import {isPresent} from '@jscrpt/common';
 import {Observable} from 'rxjs';
 
 import {AccountService} from './account.service';
@@ -33,8 +34,13 @@ export class AccountAuthOptions extends AuthenticationServiceOptions
     /**
      * @inheritdoc
      */
-    public isAuthPage(): boolean
+    public isAuthPage(path?: string): boolean
     {
+        if(isPresent(path))
+        {
+            return path.indexOf('/login') == 0;
+        }
+
         return this._location.path().indexOf('/login') == 0;
     }
     
