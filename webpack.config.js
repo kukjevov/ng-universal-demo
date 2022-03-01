@@ -178,7 +178,7 @@ export default [function(options, args)
                 "app": path.join(dirName, "app")
             },
             mainFields: ssr ? ['esm2015', 'es2015', 'jsnext:main', 'module', 'main'] : ['esm2020', 'esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main'],
-            conditionNames: ['esm2020', 'es2015']
+            conditionNames: ['esm2020', 'es2015', 'import']
         },
         module:
         {

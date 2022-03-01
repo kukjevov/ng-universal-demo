@@ -11,6 +11,7 @@ import {DialogMetadataSelectorComponent, DialogMetadataSelectorOptions} from '@a
 import {VALIDATION_ERROR_MESSAGES} from '@anglr/common/forms';
 import {TooltipOptions, TOOLTIP_OPTIONS} from '@anglr/common/positions';
 import {ConfirmationDialogOptions, CONFIRMATION_DIALOG_OPTIONS} from '@anglr/common/material';
+import {FLOATING_UI_POSITION} from '@anglr/common/floating-ui';
 import {MD_HELP_NOTIFICATIONS} from '@anglr/md-help/web';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import {DATE_FNS_REST_DATE_API} from '@anglr/rest/date-fns';
@@ -391,4 +392,7 @@ export const providers: Provider[] =
             dialogConfirmText: 'Áno'
         }
     },
+
+    //######################### POSITION #########################
+    FLOATING_UI_POSITION,
 ];
