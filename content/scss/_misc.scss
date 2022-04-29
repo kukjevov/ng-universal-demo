@@ -124,6 +124,11 @@
     align-self: center;
 }
 
+.align-self-stretch
+{
+    align-self: stretch;
+}
+
 .align-content-start
 {
     align-content: flex-start;
@@ -147,6 +152,11 @@
 .justify-content-center
 {
     justify-content: center;
+}
+
+.justify-content-space-evenly
+{
+    justify-content: space-evenly;
 }
 
 .relative
@@ -177,16 +187,6 @@
 .bottom-0
 {
     bottom: 0;
-}
-
-.margin-none
-{
-    margin: 0;
-}
-
-.padding-none
-{
-    padding: 0;
 }
 
 .va-middle
@@ -355,6 +355,11 @@
 .notransition
 {
     transition: none !important;
+}
+
+.transition-all-400
+{
+    transition: all 400ms;
 }
 
 .file-upload.input-group

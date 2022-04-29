@@ -6,8 +6,12 @@
 //---------------------- PAGE STYLING ----------------------
 .app-page
 {
-    font-family: "Open Sans";
+    font-family: "Inter";
     user-select: none;
+
+    //############## PACKAGES ##############
+
+    @include meta.load-css('../../node_modules/@anglr/common/styles/light');
 
     //############## BLOCKS ##############
     
@@ -15,6 +19,68 @@
     {
         padding: vars.$sizeSm;
         border-radius: vars.$borderRadius;
+    }
+
+    .primary-block,
+    .secondary-block
+    {
+        padding-top: vars.$sizeSm;
+        padding-bottom: vars.$sizeSm;
+    }
+
+    .highlight-block
+    {
+        padding: vars.$sizeSm;
+        border-radius: vars.$borderRadius;
+    }
+
+    //############## TITLED DIALOG ##############
+
+    titled-dialog,
+    movable-titled-dialog
+    {
+        .titled-dialog-title
+        {
+            border-top-left-radius: vars.$borderRadius;
+            border-top-right-radius: vars.$borderRadius;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .titled-dialog-content
+        {
+            border-bottom-left-radius: vars.$borderRadius;
+            border-bottom-right-radius: vars.$borderRadius;
+        }
+    }
+
+    //############## TITLES ##############
+
+    .page-title
+    {
+        padding: 20px 20px 10px;
+        font-size: 22px;
+        margin: vars.$sizeSm 0 0;
+    }
+
+    .section-title
+    {
+        margin-bottom: vars.$sizeXs;
+        margin-left: vars.$sizeXs;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 500;
+        font-size: 1.05em;
+    }
+
+    .subsection-title
+    {
+        margin-bottom: vars.$sizeXs;
+        margin-left: vars.$sizeXs;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 500;
+        font-size: 0.9em;
     }
 
     //############## DIALOG ##############
@@ -39,7 +105,7 @@
         border-width: 1px;
         border-radius: vars.$borderRadius;
         padding: 4px 10px;
-        font-family: "SegoeUI";
+        font-family: "Inter";
         cursor: pointer;
         white-space: nowrap;
         font-size: 11px;
@@ -69,10 +135,6 @@
         {
             margin-right: vars.$sizeXs;
         }
-
-
-
-
     }
 
     multi-button.btn
@@ -83,10 +145,6 @@
         {
             @extend %btn-base;
         }
-
-
-
-
     }
 
     .btn-icon
@@ -220,18 +278,12 @@
     @include mixins.generate-margin-padding(padding, vars.$sizes);
     @include mixins.generate-margin-padding(margin, vars.$sizes);
 
-    .margin-none
-    {
-        margin: 0;
-    }
-
-    .padding-none
-    {
-        padding: 0;
-    }
-
     .spread-text
     {
         letter-spacing: 1px;
     }
+
+    //############## COMPONENTS ##############
+
+    @include meta.load-css('parts/forms');
 }

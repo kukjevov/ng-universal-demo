@@ -1,9 +1,10 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
+import {CommonUtilsModule, CommonLocalizeModule, TooltipModule} from '@anglr/common';
 import {NumeralModule} from '@anglr/common/numeral';
-import {TooltipModule} from '@anglr/common/positions';
 import {AuthorizationModule} from '@anglr/authentication';
+import {DatePipesModule} from '@anglr/datetime';
 import {TranslateModule} from '@ngx-translate/core';
 
 /**
@@ -15,9 +16,12 @@ import {TranslateModule} from '@ngx-translate/core';
     [
         CommonModule,
         RouterModule,
+        CommonUtilsModule,
+        CommonLocalizeModule,
         NumeralModule,
         TooltipModule,
         TranslateModule,
+        DatePipesModule,
         AuthorizationModule,
     ]
 })

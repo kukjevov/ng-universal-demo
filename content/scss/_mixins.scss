@@ -104,15 +104,30 @@
     }
 }
 
-@mixin thin-scrollbar-color($theme, $color)
+@mixin thin-scrollbar-color($theme, $color, $lightness: -30%)
 {
-    .thin-scrollbar
+    @if $lightness 
     {
-        scrollbar-color: color.scale(map.get($theme, $color), $lightness: -15%) transparent;
-    }
+        .thin-scrollbar
+        {
+            scrollbar-color: color.scale(map.get($theme, $color), $lightness: $lightness) transparent;
+        }
 
-    .thin-scrollbar::-webkit-scrollbar-thumb
+        .thin-scrollbar::-webkit-scrollbar-thumb
+        {
+            background-color: color.scale(map.get($theme, $color), $lightness: $lightness);
+        }
+    }
+    @else
     {
-        background-color: color.scale(map.get($theme, $color), $lightness: -15%);
+        .thin-scrollbar
+        {
+            scrollbar-color: color.scale(map.get($theme, $color), $lightness: $lightness) transparent;
+        }
+
+        .thin-scrollbar::-webkit-scrollbar-thumb
+        {
+            background-color: color.scale(map.get($theme, $color), $lightness: $lightness);
+        }
     }
 }

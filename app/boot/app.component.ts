@@ -179,7 +179,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * Initialize component
      */
-    public async ngOnInit()
+    public async ngOnInit(): Promise<void>
     {
         const srvCfg = await this._configSvc.get().toPromise();
 

@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {RESTClient, BaseUrl, DefaultHeaders, POST, JsonContentType, Body, DisableInterceptor, ParameterTransform} from '@anglr/rest';
+import {RESTClient, BaseUrl, DefaultHeaders, POST, JsonContentType, Body, DisableInterceptor, ParameterTransform, DisableMiddleware} from '@anglr/rest';
 import {LoggerRestClient, RestLog} from '@anglr/common/structured-log';
-import {HttpErrorInterceptor} from '@anglr/error-handling';
 import {AuthInterceptor, SuppressAuthInterceptor} from '@anglr/authentication';
-import {Observable} from 'rxjs';
+import {ClientErrorHandlingMiddleware} from '@anglr/error-handling/rest';
+import {EMPTY, Observable} from 'rxjs';
+import {catchError} from 'rxjs/operators';
 
 import {config} from '../../../config';
 import version from '../../../../config/version.json';
@@ -19,15 +20,31 @@ export class RestLoggerService extends RESTClient implements LoggerRestClient
     //######################### public methods - implementation of LoggerRestClient #########################
 
     /**
+     * @inheritdoc
+     */
+    public log(logs: RestLog[]): Observable<void>
+    {
+        return this._log(logs)
+            .pipe(catchError(_ =>
+            {
+                console.warn('Failed to create log on server');
+
+                return EMPTY;
+            }));
+    }
+
+    //######################### private methods #########################
+
+    /**
      * Logs message on server using REST
      * @param logs - Array of logs to be logged
      */
     @JsonContentType()
-    @DisableInterceptor(HttpErrorInterceptor)
+    @DisableMiddleware(ClientErrorHandlingMiddleware)
     @DisableInterceptor(AuthInterceptor)
     @DisableInterceptor(SuppressAuthInterceptor)
     @POST('logger')
-    public log(@Body @ParameterTransform('_unhandledErrorsTransform') _logs: RestLog[]): Observable<void>
+    public _log(@Body @ParameterTransform('_unhandledErrorsTransform') _logs: RestLog[]): Observable<void>
     {
         return null;
     }
@@ -49,7 +66,7 @@ export class RestLoggerService extends RESTClient implements LoggerRestClient
             }
 
             log.version = version.version;
-            log.id = 'doktor-fe';
+            log.id = 'angular-gui';
         }
 
         for(let x = 0; x < logs.length; x++)

@@ -8,7 +8,7 @@ import {DebugDataCopyClickModule} from '@anglr/common/material';
 {
     exports:
     [
-        DebugDataCopyClickModule
+        DebugDataCopyClickModule,
     ]
 })
 export class DebuggingFeatureModule

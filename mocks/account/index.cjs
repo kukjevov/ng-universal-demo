@@ -14,7 +14,7 @@ module.exports = function(app)
                 emptyResult: true
             };
         }
-
+ 
         //signed user
         return 'mocks/account/my-account.json';
     });

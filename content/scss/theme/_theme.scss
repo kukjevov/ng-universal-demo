@@ -6,16 +6,22 @@
 @use '../mixins';
 @use '../themes';
 
+@use '../../../node_modules/@anglr/common/styles/dark-colors-vars';
+@use '../../../node_modules/@anglr/common/styles/light-colors-vars';
+
 $themeName: null !default;
 $tooltipTheme: 'dark' !default;
 $datetimeTheme: 'default' !default;
+$multiButtonTheme: 'light' !default;
 $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map.get(meta.module-variables("themes"), "#{$themeName}-theme"));
 
 //---------------------- PAGE STYLING ----------------------
 .app-page.#{$themeName}
 {
-    background-color: map.get($theme, primaryBackgroundColor);
-    color: map.get($theme, primaryForegroundColor);
+    @extend .multibutton-#{$multiButtonTheme}-theme;
+
+    background-color: map.get($theme, pageBackground);
+    color: map.get($theme, pageForeground);
 
     //############## PACKAGES ##############
 
@@ -39,13 +45,53 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
         }
     }
 
+    //############## TEXTS ##############
 
+    .text-danger,
+    .text-error
+    {
+        color: map.get($theme, textDanger);
+    }
+
+    .text-warning
+    {
+        color: map.get($theme, textWarning);
+    }
+
+    .text-success
+    {
+        color: map.get($theme, textSuccess);
+    }
+
+    .text-info
+    {
+        color: map.get($theme, textInfo);
+    }
+
+    //############## SEPARATOR ##############
+    hr
+    {
+        border-top-color: map.get($theme, separatorForeground);
+    }
     //############## BLOCKS ##############
 
-    .popup-block
+    .primary-block,
+    .secondary-block
     {
-        box-shadow: 0 0 3px map.get($theme, popupBorder);
-        background-color: map.get($theme, popupBackground);
+        &.thin-scrollbar,
+        .thin-scrollbar
+        {
+            overflow-y: scroll;
+        }
+    }
+
+    //############## TITLES ##############
+
+    .page-title
+    {
+        background-color: map.get($theme, pageTitleBackground);
+        color: map.get($theme, pageTitleForeground);
+    }
     }
 
     //############## BUTTONS ##############
@@ -83,7 +129,10 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
 
     @include mixins.generate-alert(map.get($theme, alerts));
 
-    //############## SHARED ##############
+    //############## SHARED/COMMON/PARTS ##############
 
-    @include meta.load-css('components/shared', $with: (theme: $theme));
-}
+    @include meta.load-css('parts/forms', $with: (theme: $theme));
+    @include meta.load-css('parts/blocks', $with: (theme: $theme));
+    @include meta.load-css('parts/grid', $with: (theme: $theme));
+    @include meta.load-css('parts/shared.components', $with: (theme: $theme));
+    @include meta.load-css('parts/common.components', $with: (theme: $theme));

@@ -18,6 +18,8 @@ $fontSizeXl: 18px;
 $fontSizeXxl: 22px;
 $fontSizeXxxl: 32px;
 
+$responsiveTrasholdMd: 800px;
+
 $borderRadius: 4px;
 
-$sizes: (extra-small: $sizeXs, small: $sizeSm, medium: $sizeMd, big: $sizeLg);
+$sizes: (none: 0, extra-small: $sizeXs, small: $sizeSm, medium: $sizeMd, big: $sizeLg);

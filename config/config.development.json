@@ -23,7 +23,8 @@
                 "lang": "sk",
                 "name": "Slovenčina"
             }
-        ]
+        ],
+        "disableMockLogger": false
     },
     "general":
     {

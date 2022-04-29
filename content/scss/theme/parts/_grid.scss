@@ -1,0 +1,53 @@
+@use 'sass:map';
+
+@use '../mixins/grid.mixins' as grid;
+
+$theme: null !default;
+
+//############## GRID ##############
+
+ng-grid
+{
+    div.css-grid-content-renderer
+    {
+        .fixed-header
+        {
+            background-color: map.get($theme, gridOddRowBackground);
+        }
+
+        .content-renderer-body > div:nth-of-type(2n+1) > div
+        {
+            background-color: map.get($theme, gridEvenRowBackground);
+        }
+
+        .content-renderer-header > div
+        {
+            border-color: map.get($theme, gridOddRowBackground);
+        }
+    }
+
+    table
+    {
+        .fixed-header
+        {
+            background-color: map.get($theme, gridOddRowBackground);
+        }
+
+        & > thead > tr > th
+        {
+            border-color: map.get($theme, gridOddRowBackground);
+        }
+
+        & > tbody > tr:nth-of-type(2n+1)
+        {
+            background-color: map.get($theme, gridEvenRowBackground);
+        }
+    }
+
+    @include grid.paging-full-coloring(map.get($theme, primaryPagingBackground),
+                                       map.get($theme, primaryPagingForeground),
+                                       map.get($theme, primaryPagingDisabledBackground),
+                                       map.get($theme, primaryPagingDisabledForeground),
+                                       map.get($theme, secondaryPagingBackground),
+                                       map.get($theme, secondaryPagingForeground));
+}

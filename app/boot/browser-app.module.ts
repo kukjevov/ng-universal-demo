@@ -9,14 +9,6 @@ import {AppComponent} from './app.component';
 import {AppModule} from './app.module';
 
 /**
- * Factory for AnglrExceptionHandlerOptions
- */
-export function anglrExceptionHandlerOptionsFactory()
-{
-    return new AnglrExceptionHandlerOptions(config.configuration.debug, false);
-}
-
-/**
  * Entry module for browser side
  */
 @NgModule(
@@ -37,7 +29,7 @@ export function anglrExceptionHandlerOptionsFactory()
         <FactoryProvider>
         {
             provide: AnglrExceptionHandlerOptions,
-            useFactory: anglrExceptionHandlerOptionsFactory
+            useFactory: () => new AnglrExceptionHandlerOptions(config.configuration.debug, false)
         }
     ]
 })

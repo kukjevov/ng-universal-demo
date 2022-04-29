@@ -1,0 +1,65 @@
+@mixin paging-coloring($background,
+                       $foreground,
+                       $disabledBackground,
+                       $disabledForeground,
+                       $activeBackground,
+                       $activeForeground)
+{
+    li
+    {
+        a
+        {
+            background-color: $background;
+            color: $foreground;
+        }
+
+        &.disabled a
+        {
+            background-color: $disabledBackground;
+            color: $disabledForeground;
+        }
+
+        &.active a
+        {
+            background-color: $activeBackground;
+            color: $activeForeground;
+        }
+    }
+}
+
+@mixin paging-full-coloring($background,
+                            $foreground,
+                            $disabledBackground,
+                            $disabledForeground,
+                            $activeBackground,
+                            $activeForeground)
+{
+    ng-basic-paging
+    {
+        &>div
+        {
+            &>ul
+            {
+                @include paging-coloring($background,
+                                         $foreground,
+                                         $disabledBackground,
+                                         $disabledForeground,
+                                         $activeBackground,
+                                         $activeForeground);
+            }
+    
+            &>div
+            {
+                ul
+                {
+                    @include paging-coloring($background,
+                                             $foreground,
+                                             $disabledBackground,
+                                             $disabledForeground,
+                                             $activeBackground,
+                                             $activeForeground);
+                }
+            }
+        }
+    }
+}

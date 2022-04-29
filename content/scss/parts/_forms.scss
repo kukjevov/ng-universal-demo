@@ -1,88 +1,192 @@
+@use '../vars';
+
+//############## CONTROL LABEL ##############
+
 .control-label
 {
-    text-align: left;
     display: block;
+    font-size: 12px;
     font-weight: 500;
-    letter-spacing: 1px;
-    margin-bottom: 2px;
 }
+
+//############## FORM CONTROL ##############
 
 %form-control
 {
-    text-align: left;
-    font-family: Inter;
-    display: block;
+    border-radius: vars.$borderRadius;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: none;
+    font-size: 12px;
+    padding: 3px;
+    padding-left: 7px;
     width: 100%;
-    height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #6e707e;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #d1d3e2;
-    border-radius: .35rem;
-    transition: border-color .15s ease-in-out,
-                box-shadow .15s ease-in-out,
-                outline-color .15s ease-in-out;
+    font-family: "Inter";
 }
 
-.form-control:not(ng-select)
+.form-control:not(ng-select):not(date-time-selector)
 {
     @extend %form-control;
 }
 
-textarea.form-control
-{
-    height: calc(3em + 0.75rem + 2px);
-    line-height: 1.1;
-}
-
 ng-select.form-control
 {
-    text-align: left;
-
-    .normal-state button.btn-select
+    .covid-normal-state
     {
         @extend %form-control;
 
         display: flex;
-        letter-spacing: 0;
-        text-transform: none;
+        flex-direction: row;
+        flex-wrap: wrap;
+        row-gap: vars.$sizeXs;
+        padding-left: 3px;
+
+        .selected-value
+        {
+            margin-left: 4px;
+            flex: 1;
+            text-align: left;
+        }
     }
 
-    .edit-normal-state div.btn-select
+    .covid-live-input
     {
-        @extend %form-control;
+        padding: 0;
+        border: none;
+        width: 100%;
+        min-width: 150px;
+    }
 
-        display: flex;
+    .covid-live-wrapper
+    {
+        width: initial;
+        flex: 1;
+        margin-left: vars.$sizeXs;
+    }
+
+    .covid-select-tag
+    {
+        white-space: nowrap;
+        padding: 0 4px;
+        border-radius: 3px;
+        margin-left: vars.$sizeXs;
+    }
+
+    .covid-popup-div
+    {
+        padding: 5px 4px;
+        font-weight: 500;
+        font-size: 0.9em;
     }
 }
+
+date-time-selector.form-control
+{
+    input-date-time-selector
+    {
+        input
+        {
+            @extend %form-control;
+        }
+    }
+}
+
+//############## INPUT GROUP ##############
+
+.input-group
+{
+    display: flex;
+    flex-direction: row;
+
+    .input-group-addon
+    {
+        font-size: 0.7em;
+        align-self: center;
+        padding: 3px 4px 4px;
+        border-top-style: solid;
+        border-bottom-style: solid;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+
+        &:first-child
+        {
+            border-left-width: 1px;
+            border-left-style: solid;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+    }
+
+    .form-control
+    {
+        flex: 1;
+        min-width: 0;
+        min-height: 0;
+        border-radius: 0;
+
+        &:last-child
+        {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+    }
+}
+
+//############## TIGHT ##############
+
+// .tight
+// {
+//     .btn
+//     {
+//         font-size: 0.8em;
+//         padding: 4px 8px;
+
+//         &:active:not(.disabled):not(.btn-select)
+//         {
+//             padding-left: 6px;
+//             padding-right: 6px;
+//             margin-left: 2px;
+//             margin-right: 2px;
+//         }
+//     }
+
+//     ng-select
+//     {
+//         button.btn-select,
+//         div.btn-select
+//         {
+//             font-size: 12px;
+//             padding: 3px;
+//         }
+
+//         .edit-normal-state
+//         {
+//             .btn-select
+//             {
+//                 padding: 0;
+
+//                 .edit-control
+//                 {
+//                     height: auto;
+//                     padding: 3px;
+//                 }
+//             }
+//         }
+//     }
+// }
+
+//############## FORM ERRORS ##############
 
 .has-error
 {
     %control-error
     {
-        border-color: #fc3030;
-
         outline-color: transparent;
         outline-style: solid;
         outline-width: 2px;
-
-        &:active,
-        &:focus
-        {
-            outline-color: #a60000;
-        }
     }
 
-    .control-label
-    {
-        color: #fc3030;
-    }
-
-    .form-control:not(ng-select)
+    .form-control:not(ng-select):not(date-time-selector)
     {
         @extend %control-error;
     }
@@ -103,24 +207,32 @@ ng-select.form-control
             display: flex;
         }
     }
+
+    date-time-selector.form-control
+    {
+        input-date-time-selector
+        {
+            input
+            {
+                @extend %control-error;
+            }
+        }
+    }
 }
 
 .validation-error-div
 {
-    position: absolute;
-
-    &>div
-    {
-        color: #fc3030;
-    }
+    font-size: 0.7em;
 }
 
-.relative-error
+.form-error
 {
-    position: relative;
+    list-style: square;
+    display: list-item;
+    margin-left: 14px;
+}
 
-    .validation-error-div
-    {
-        bottom: calc(-1em - 2px);
-    }
+reserved-space-validation-errors-container>div
+{
+    min-height: .9em;
 }

@@ -1,24 +1,26 @@
-import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider, Provider, ExistingProvider} from '@angular/core';
+import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider, Provider, ExistingProvider, Injector} from '@angular/core';
 import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER, AuthenticationServiceOptions} from '@anglr/authentication';
 import {LocalPermanentStorageService} from '@anglr/common/store';
 import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS} from '@anglr/common';
 import {ConsoleSinkConfigService, LOGGER_REST_CLIENT, REST_SINK} from '@anglr/common/structured-log';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
-import {ERROR_HANDLING_NOTIFICATIONS, ERROR_RESPONSE_MAP_PROVIDER, HttpErrorInterceptorOptions, HTTP_ERROR_INTERCEPTOR_PROVIDER, BadRequestDetail, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER} from '@anglr/error-handling';
+import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, handle400WithValidationsFunc, handle404Func, HttpClientErrorCustomHandler, HttpClientErrorResponseMapper, HttpClientValidationErrorResponseMapper, HTTP_CLIENT_ERROR_CUSTOM_HANDLER, HTTP_CLIENT_ERROR_RESPONSE_MAPPER, HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER} from '@anglr/error-handling';
 import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handling/material';
 import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions, METADATA_SELECTOR_TYPE, METADATA_SELECTOR_OPTIONS, CONTENT_RENDERER_OPTIONS, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, GRID_INITIALIZER_TYPE, QueryPermanentStorageGridInitializerComponent, GRID_INITIALIZER_OPTIONS, QueryPermanentStorageGridInitializerOptions} from '@anglr/grid';
 import {DialogMetadataSelectorComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
-import {VALIDATION_ERROR_MESSAGES} from '@anglr/common/forms';
-import {TooltipOptions, TOOLTIP_OPTIONS} from '@anglr/common/positions';
-import {ConfirmationDialogOptions, CONFIRMATION_DIALOG_OPTIONS} from '@anglr/common/material';
+import {ReservedSpaceValidationErrorsContainerComponent, ValidationErrorRendererFactoryOptions, VALIDATION_ERROR_MESSAGES, VALIDATION_ERROR_RENDERER_FACTORY_OPTIONS} from '@anglr/common/forms';
+import {ConfirmationDialogOptions, CONFIRMATION_DIALOG_OPTIONS, MovableTitledDialogComponent, TitledDialogServiceOptions} from '@anglr/common/material';
 import {FLOATING_UI_POSITION} from '@anglr/common/floating-ui';
 import {MD_HELP_NOTIFICATIONS} from '@anglr/md-help/web';
+import {ClientErrorHandlingMiddleware} from '@anglr/error-handling/rest';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import {DATE_FNS_REST_DATE_API} from '@anglr/rest/date-fns';
 import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATEFNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
-import {sk} from 'date-fns/locale';
+import {AdvancedCacheMiddleware, BodyParameterMiddleware, CacheMiddleware, ClearAdvancedCacheMiddleware, HeaderParameterMiddleware, HeadersMiddleware, IgnoredInterceptorsMiddleware, LoggerMiddleware, MockLoggerMiddleware, PathParameterMiddleware, ProducesMiddleware, ProgressIndicatorGroupMiddleware, QueryObjectParameterMiddleware, QueryParameterMiddleware, ReportProgressMiddleware, ResponseTransformMiddleware, ResponseTypeMiddleware, REST_METHOD_MIDDLEWARES, REST_MIDDLEWARES_ORDER, REST_MOCK_LOGGER} from '@anglr/rest';
+import {isString, isJsObject} from '@jscrpt/common';
 import {LogEventLevel} from 'structured-log';
+import {sk} from 'date-fns/locale';
 
 import {config} from '../config';
 import {GlobalizationService as GlobalizationServiceImpl} from '../services/globalization/globalization.service';
@@ -27,6 +29,7 @@ import {SettingsService, LocalSettingsStorage} from '../services/settings';
 import {SETTINGS_STORAGE} from '../misc/tokens';
 import {RestLoggerService} from '../services/api/restLogger';
 import {AccountAuthOptions} from '../services/api/account/accountAuth.options';
+import {RestMockLoggerService} from '../services/api/restMockLogger';
 
 /**
  * Creates APP initialization factory, that first try to authorize user before doing anything else
@@ -51,59 +54,9 @@ export function appInitializerFactory(authService: AuthenticationService<any>): 
 }
 
 /**
- * Factory for HttpErrorInterceptorOptions
- */
-export function httpErrorInterceptorOptionsFactory()
-{
-    return new HttpErrorInterceptorOptions(config.configuration.debug);
-}
-
-/**
- * Response mapping function
- */
-export function httpErrorInterceptorMappingFunction(err: any) : BadRequestDetail
-{
-    const result =
-    {
-        errors: [],
-        validationErrors: {}
-    };
-
-    if(err && err.message)
-    {
-        result.errors.push(err.message);
-    }
-
-    if(err && err.errors && Array.isArray(err.errors))
-    {
-        (<Array<any>>err.errors).forEach(itm =>
-        {
-            let message = '';
-
-            if(itm.defaultMessage)
-            {
-                message += itm.defaultMessage;
-            }
-
-            if(itm.code)
-            {
-                message = `${itm.code}: ${message}`;
-            }
-
-            if(message)
-            {
-                result.errors.push(message);
-            }
-        });
-    }
-
-    return result;
-}
-
-/**
  * Factory method for creating HttpGatewayTimeoutInterceptorOptions
  */
-export function httpGatewayTimeoutInterceptorOptionsFactory()
+export function httpGatewayTimeoutInterceptorOptionsFactory(): HttpGatewayTimeoutInterceptorOptions
 {
     return new HttpGatewayTimeoutInterceptorOptions('Server neodpovedal v stanovenom čase.');
 }
@@ -111,7 +64,7 @@ export function httpGatewayTimeoutInterceptorOptionsFactory()
 /**
  * Factory method for creating NoConnectionInterceptorOptions
  */
-export function noConnectionInterceptorOptionsFactory()
+export function noConnectionInterceptorOptionsFactory(): NoConnectionInterceptorOptions
 {
     return new NoConnectionInterceptorOptions('Server je mimo prevádzky.');
 }
@@ -124,7 +77,7 @@ export const providers: Provider[] =
     //######################### HTTP INTERCEPTORS #########################
     HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER,
     SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER,
-    HTTP_ERROR_INTERCEPTOR_PROVIDER,
+    HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER,
     NO_CONNECTION_INTERCEPTOR_PROVIDER,
     SUPPRESS_AUTH_INTERCEPTOR_PROVIDER,
     AUTH_INTERCEPTOR_PROVIDER,
@@ -159,20 +112,9 @@ export const providers: Provider[] =
     },
 
     //######################### ERROR HANDLING #########################
-    <FactoryProvider>
-    {
-        provide: HttpErrorInterceptorOptions,
-        useFactory: httpErrorInterceptorOptionsFactory
-    },
     ERROR_WITH_URL_EXTENDER,
     ANGLR_EXCEPTION_HANDLER_PROVIDER,
     DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER,
-
-    <ValueProvider>
-    {
-        provide: ERROR_RESPONSE_MAP_PROVIDER,
-        useValue: httpErrorInterceptorMappingFunction
-    },
 
     //######################### APP INITIALIZER #########################
     <FactoryProvider>
@@ -304,9 +246,6 @@ export const providers: Provider[] =
         useClass: LocalSettingsStorage
     },
 
-    //######################### REST #########################
-    DATE_FNS_REST_DATE_API,
-
     //######################### DEBUG DATA #########################
     <FactoryProvider>
     {
@@ -357,6 +296,14 @@ export const providers: Provider[] =
             availableUsername: 'Prihlasovacie meno je použité',
         }
     },
+    <ValueProvider>
+    {
+        provide: VALIDATION_ERROR_RENDERER_FACTORY_OPTIONS,
+        useValue: <ValidationErrorRendererFactoryOptions>
+        {
+            container: ReservedSpaceValidationErrorsContainerComponent
+        }
+    },
 
     //######################### NOTIFICATIONS #########################
     DEFAULT_NOTIFICATIONS,
@@ -370,15 +317,18 @@ export const providers: Provider[] =
         provide: ERROR_HANDLING_NOTIFICATIONS,
         useExisting: NOTIFICATIONS
     },
+    <ExistingProvider>
+    {
+        provide: CLIENT_ERROR_NOTIFICATIONS,
+        useExisting: NOTIFICATIONS
+    },
 
-    //######################### TOOLTIP #########################
+    //######################### TITLED DIALOG #########################
+
     <ValueProvider>
     {
-        provide: TOOLTIP_OPTIONS,
-        useValue: <TooltipOptions>
-        {
-            fixedPosition: true
-        }
+        provide: TitledDialogServiceOptions,
+        useValue: new TitledDialogServiceOptions(MovableTitledDialogComponent)
     },
     
     //######################### CONFIRMATION DIALOG #########################
@@ -395,4 +345,98 @@ export const providers: Provider[] =
 
     //######################### POSITION #########################
     FLOATING_UI_POSITION,
+    //######################### REST CONFIG #########################
+    DATE_FNS_REST_DATE_API,
+    <ClassProvider>
+    {
+        provide: REST_MOCK_LOGGER,
+        useClass: RestMockLoggerService
+    },
+    <ValueProvider>
+    {
+        provide: REST_MIDDLEWARES_ORDER,
+        useValue:
+        [
+            BodyParameterMiddleware,
+            PathParameterMiddleware,
+            QueryObjectParameterMiddleware,
+            QueryParameterMiddleware,
+            HeadersMiddleware,
+            HeaderParameterMiddleware,
+            ClientErrorHandlingMiddleware,
+            ProducesMiddleware,
+            LoggerMiddleware,
+            IgnoredInterceptorsMiddleware,
+            ProgressIndicatorGroupMiddleware,
+            ResponseTransformMiddleware,
+            ResponseTypeMiddleware,
+            CacheMiddleware,
+            ClearAdvancedCacheMiddleware,
+            AdvancedCacheMiddleware,
+            ...jsDevMode ? [...config.configuration.disableMockLogger ? [] : [MockLoggerMiddleware]] : [],
+            ReportProgressMiddleware,
+        ]
+    },
+    <ValueProvider>
+    {
+        provide: REST_METHOD_MIDDLEWARES,
+        useValue:
+        [
+            LoggerMiddleware,
+            ResponseTypeMiddleware,
+            ReportProgressMiddleware,
+            ClientErrorHandlingMiddleware,
+            ...jsDevMode ? [...config.configuration.disableMockLogger ? [] : [MockLoggerMiddleware]] : [],
+        ]
+    },
+    <ValueProvider>
+    {
+        provide: HTTP_CLIENT_ERROR_RESPONSE_MAPPER,
+        useValue: <HttpClientErrorResponseMapper>(err => 
+        {
+            if(err?.error?.errors)
+            {
+                return err?.error?.errors;
+            }
+
+            if(isString(err?.error))
+            {
+                return [err?.error];
+            }
+
+            if(isJsObject(err?.error))
+            {
+                return [JSON.stringify(err?.error)];
+            }
+            
+            return [err.message];
+        })
+    },
+    <ValueProvider>
+    {
+        provide: HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER,
+        useValue: <HttpClientValidationErrorResponseMapper>(err => 
+        {
+            if(err?.error?.validationErrors)
+            {
+                return err?.error?.validationErrors;
+            }
+
+            return null;
+        })
+    },
+    <FactoryProvider>
+    {
+        provide: HTTP_CLIENT_ERROR_CUSTOM_HANDLER,
+        useFactory: injector =>
+        {
+            return <Record<number, HttpClientErrorCustomHandler<any>>>
+            {
+                400: err => handle400WithValidationsFunc(err, {injector}),
+                404: handle404Func
+            };
+        },
+        deps: [Injector]
+    },
+    
 ];

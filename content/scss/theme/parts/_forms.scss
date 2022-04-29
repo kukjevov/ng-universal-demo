@@ -1,0 +1,124 @@
+@use 'sass:map';
+
+$theme: null !default;
+
+//############## FORM CONTROL ##############
+
+%form-control
+{
+    color: map.get($theme, inputForeground);
+    border-color: map.get($theme, inputBorder);
+    background-color: map.get($theme, inputBackground);
+}
+
+%form-control-disabled
+{
+    &:disabled
+    {
+        background-color: transparent;
+        border: none;
+    }
+}
+
+.form-control:not(ng-select):not(date-time-selector)
+{
+    @extend %form-control, %form-control-disabled;
+}
+
+ng-select.form-control
+{
+    .covid-normal-state
+    {
+        @extend %form-control;
+    }
+
+    .covid-select-tag
+    {
+        background-color: map.get($theme, selectTagBackground);
+        color: map.get($theme, selectTagForeground);
+    }
+}
+
+date-time-selector.form-control
+{
+    input-date-time-selector
+    {
+        input
+        {
+            @extend %form-control, %form-control-disabled;
+        }
+    }
+}
+
+//############## DATE TIME PICKER ##############
+
+date-time-picker
+{
+    z-index: 1100;
+}
+
+
+//############## INPUT GROUP ##############
+
+.input-group
+{
+    .input-group-addon
+    {
+        color: map.get($theme, inputForeground);
+        background-color: map.get($theme, inputGroupAddonBackground);
+        border-color: map.get($theme, inputBorder);
+    }
+}
+
+//############## FORM ERRORS ##############
+
+.has-error
+{
+    %control-error
+    {
+        border-color: map.get($theme, inputInvalidBorder);
+
+        &:active,
+        &:focus
+        {
+            outline-color: map.get($theme, inputInvalidErrorOutline);
+        }
+    }
+
+    .control-label
+    {
+        color: map.get($theme, inputInvalidLabel);
+    }
+
+    .form-control:not(ng-select):not(date-time-selector)
+    {
+        @extend %control-error;
+    }
+
+    ng-select.form-control
+    {
+        .covid-normal-state
+        {
+            @extend %control-error;
+        }
+    }
+
+    date-time-selector.form-control
+    {
+        input-date-time-selector
+        {
+            input
+            {
+                @extend %control-error;
+            }
+        }
+    }
+}
+
+.validation-error-div
+{
+    &>div
+    {
+        color: map.get($theme, inputInvalidErrorColor);
+    }
+}

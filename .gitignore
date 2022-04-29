@@ -2,8 +2,13 @@
 node_modules/
 wwwroot/
 packages/
+mockLogger/
 package-lock.json
 **/config/version.json
+**/config/config.*.json
+**/server.mock.*.cjs
+!**/config/config.development.json
+!**/config/config.environment.json
 .env
 proxyUrl.js
 *.log

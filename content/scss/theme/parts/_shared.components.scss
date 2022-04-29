@@ -4,7 +4,8 @@ $theme: null !default;
 
 //############## TITLED DIALOG ##############
 
-titled-dialog
+titled-dialog,
+movable-titled-dialog
 {
     box-shadow: 0 0 3px map.get($theme, dialogBorder);
 

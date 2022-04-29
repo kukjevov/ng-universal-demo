@@ -38,7 +38,7 @@ $mainMenuBackground: $assecoBlue;
 
 //############## FOREGROUNDS ##############
 
-$pageForeground: $black;
+$pageForeground: $white;
 $primaryForeground: $black;
 $secondaryForeground: $white;
 $blockForeground: $white;
@@ -58,13 +58,26 @@ $dialogContentForeground: $black;
 
 $inputForeground: $gray-6;
 $inputBackground: $white;
-$inputBorder: $gray-2;
+$inputBorder: $gray-3;
 $inputGroupAddonBackground: color.scale($gray-0, $lightness: 30%);
+$inputInvalidLabel: $red;
+$inputInvalidBorder: $red;
+$inputInvalidErrorColor: $red;
+$inputInvalidErrorOutline: $red;
+
+//############## SELECT ##############
+
+$selectTagBackground: $assecoBlue;
+$selectTagForeground: $black;
 
 //############## GRID ##############
 
 $gridEvenRowBackground: $white;
 $gridOddRowBackground: $gray-0;
+$hightlightGridHeaderBackground: $gray-8;
+$hightlightGridHeaderForeground: $white;
+$hightlightGridEvenRowBackground: $gray-0;
+$hightlightGridOddRowBackground: $white;
 
 //############## TITLE BAR ##############
 
@@ -81,6 +94,7 @@ $success: $green;
 $info: $lightBlue;
 $warning: $orange;
 $error: $red;
+$default: $gray-5;
 
 //############## WEIGHTS ##############
 
@@ -92,13 +106,6 @@ $weight-3: $orange;
 $weight-4: $orangeRed;
 $weight-5: $red;
 
-//############## INPUTS ##############
-
-$primaryInputBackground: $white;
-$primaryInputForeground: $gray-6;
-$primaryInputBorder: $gray-2;
-$primarySelectActive: $gray-0;
-
 //############## PAGING ##############
 
 $primaryPagingBackground: $white;
@@ -107,6 +114,12 @@ $secondaryPagingBackground: $blue;
 $secondaryPagingForeground: $white;
 $primaryPagingDisabledBackground: $white;
 $primaryPagingDisabledForeground: $black;
+$highlightPrimaryPagingBackground: $white;
+$highlightPrimaryPagingForeground: $gray-8;
+$highlightSecondaryPagingBackground: $gray-8;
+$highlightSecondaryPagingForeground: $white;
+$highlightPrimaryPagingDisabledBackground: $white;
+$highlightPrimaryPagingDisabledForeground: $black;
 
 //############## STYLE SAMPLES ##############
 
@@ -127,6 +140,13 @@ $alerts:
     error: (background: $red, foreground: $white)
 );
 
+//############## TEXTS ##############
+
+$textDanger: $error;
+$textWarning: $warning;
+$textSuccess: $success;
+$textInfo: $info;
+
 //############## BUTTONS ##############
 
 $btnIconForeground: $gray-5;
@@ -136,7 +156,7 @@ $buttons:
 (
     primary: (background: $green, foreground: $white),
     info: (background: $lightBlue, foreground: $white),
-    default: (background: $gray-4, foreground: $white),
+    default: (background: $default, foreground: $white),
     success: (background: $green, foreground: $white),
     warning: (background: $orange, foreground: $white),
     danger: (background: $red, foreground: $white),

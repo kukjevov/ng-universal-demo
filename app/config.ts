@@ -47,6 +47,11 @@ export interface SettingsConfiguration
      * Available languages for application
      */
     languages: LanguageDef[];
+
+    /**
+     * Indication whether disable mock logger
+     */
+    disableMockLogger: boolean;
 }
 
 export interface SettingsGeneral
