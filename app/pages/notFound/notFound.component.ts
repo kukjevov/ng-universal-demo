@@ -1,5 +1,4 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {ComponentRoute} from '@anglr/common/router';
 import {StatusCodeService} from '@anglr/common';
 
 /**
@@ -9,10 +8,9 @@ import {StatusCodeService} from '@anglr/common';
 {
     selector: 'not-found-view',
     templateUrl: 'notFound.component.html',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@ComponentRoute({path: 'notFound'})
-@ComponentRoute({path: '**'})
 export class NotFoundComponent
 {
     //######################### constructor #########################

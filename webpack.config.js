@@ -144,7 +144,14 @@ export default [function(options, args)
         //TODO remove this when https://github.com/webpack/webpack-dev-server/issues/2792 is fixed
         optimization:
         {
-            runtimeChunk: 'single'
+            runtimeChunk: 'single',
+            ...prod ? 
+                {
+                    splitChunks: 
+                    {
+                        chunks: 'all',
+                    }
+                } : {},
         },
         ...noCache ? {} :
         {

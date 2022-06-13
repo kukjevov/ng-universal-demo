@@ -1,5 +1,4 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {ComponentRoute} from '@anglr/common/router';
 import {StatusCodeService} from '@anglr/common';
 
 /**
@@ -9,9 +8,9 @@ import {StatusCodeService} from '@anglr/common';
 {
     selector: 'access-denied-view',
     templateUrl: 'accessDenied.component.html',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@ComponentRoute({path:'accessDenied'})
 export class AccessDeniedComponent
 {
     //######################### constructor #########################

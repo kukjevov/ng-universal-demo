@@ -6,18 +6,18 @@ import {ConsoleSinkConfigService, LOGGER_REST_CLIENT, REST_SINK} from '@anglr/co
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
 import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, handle400WithValidationsFunc, handle404Func, HttpClientErrorCustomHandler, HttpClientErrorResponseMapper, HttpClientValidationErrorResponseMapper, HTTP_CLIENT_ERROR_CUSTOM_HANDLER, HTTP_CLIENT_ERROR_RESPONSE_MAPPER, HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER} from '@anglr/error-handling';
 import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handling/material';
-import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions, METADATA_SELECTOR_TYPE, METADATA_SELECTOR_OPTIONS, CONTENT_RENDERER_OPTIONS, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, GRID_INITIALIZER_TYPE, QueryPermanentStorageGridInitializerComponent, GRID_INITIALIZER_OPTIONS, QueryPermanentStorageGridInitializerOptions} from '@anglr/grid';
+import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions, METADATA_SELECTOR_TYPE, METADATA_SELECTOR_OPTIONS, CONTENT_RENDERER_OPTIONS, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, GRID_INITIALIZER_TYPE, GRID_INITIALIZER_OPTIONS, QueryPermanentStorageGridInitializerOptions, QueryGridInitializerComponent} from '@anglr/grid';
 import {DialogMetadataSelectorComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
 import {ReservedSpaceValidationErrorsContainerComponent, ValidationErrorRendererFactoryOptions, VALIDATION_ERROR_MESSAGES, VALIDATION_ERROR_RENDERER_FACTORY_OPTIONS} from '@anglr/common/forms';
 import {ConfirmationDialogOptions, CONFIRMATION_DIALOG_OPTIONS, MovableTitledDialogComponent, TitledDialogServiceOptions} from '@anglr/common/material';
 import {FLOATING_UI_POSITION} from '@anglr/common/floating-ui';
-import {MD_HELP_NOTIFICATIONS} from '@anglr/md-help/web';
-import {ClientErrorHandlingMiddleware} from '@anglr/error-handling/rest';
+import {MD_HELP_NOTIFICATIONS, RenderMarkdownConfig, RENDER_MARKDOWN_CONFIG} from '@anglr/md-help/web';
+import {ClientErrorHandlingMiddleware, REST_ERROR_HANDLING_MIDDLEWARE_ORDER} from '@anglr/error-handling/rest';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
-import {DATE_FNS_REST_DATE_API} from '@anglr/rest/date-fns';
 import {DATE_API} from '@anglr/datetime';
-import {DateFnsDateApi, DateFnsLocale, DATEFNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
-import {AdvancedCacheMiddleware, BodyParameterMiddleware, CacheMiddleware, ClearAdvancedCacheMiddleware, HeaderParameterMiddleware, HeadersMiddleware, IgnoredInterceptorsMiddleware, LoggerMiddleware, MockLoggerMiddleware, PathParameterMiddleware, ProducesMiddleware, ProgressIndicatorGroupMiddleware, QueryObjectParameterMiddleware, QueryParameterMiddleware, ReportProgressMiddleware, ResponseTransformMiddleware, ResponseTypeMiddleware, REST_METHOD_MIDDLEWARES, REST_MIDDLEWARES_ORDER, REST_MOCK_LOGGER} from '@anglr/rest';
+import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
+import {LoggerMiddleware, MockLoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, REST_METHOD_MIDDLEWARES, REST_MOCK_LOGGER} from '@anglr/rest';
+import {DATETIME_REST_DATE_API} from '@anglr/rest/datetime';
 import {isString, isJsObject} from '@jscrpt/common';
 import {LogEventLevel} from 'structured-log';
 import {sk} from 'date-fns/locale';
@@ -141,6 +141,11 @@ export const providers: Provider[] =
     },
     <ValueProvider>
     {
+        provide: GRID_INITIALIZER_TYPE,
+        useValue: QueryGridInitializerComponent
+    },
+    <ValueProvider>
+    {
         provide: PAGING_OPTIONS,
         useValue: <BasicPagingOptions>
         {
@@ -160,11 +165,6 @@ export const providers: Provider[] =
         {
             showButtonVisible: false
         }
-    },
-    <ValueProvider>
-    {
-        provide: GRID_INITIALIZER_TYPE,
-        useValue: QueryPermanentStorageGridInitializerComponent
     },
     <ValueProvider>
     {
@@ -267,7 +267,8 @@ export const providers: Provider[] =
         provide: DATE_API,
         useClass: DateFnsDateApi
     },
-    DATEFNS_FORMAT_PROVIDER,
+    DATE_FNS_FORMAT_PROVIDER,
+    DATE_FNS_DATE_API_OBJECT_TYPE,
     <ValueProvider>
     {
         provide: DATE_FNS_LOCALE,
@@ -345,38 +346,26 @@ export const providers: Provider[] =
 
     //######################### POSITION #########################
     FLOATING_UI_POSITION,
+
+    //######################### MARKDOWN #########################
+    <ValueProvider>
+    {
+        provide: RENDER_MARKDOWN_CONFIG,
+        useValue: <RenderMarkdownConfig>
+        {
+            assetsPathPrefix: 'dist/md',
+            baseUrl: '/pomoc'
+        }
+    },
+
     //######################### REST CONFIG #########################
-    DATE_FNS_REST_DATE_API,
+    DATETIME_REST_DATE_API,
     <ClassProvider>
     {
         provide: REST_MOCK_LOGGER,
         useClass: RestMockLoggerService
     },
-    <ValueProvider>
-    {
-        provide: REST_MIDDLEWARES_ORDER,
-        useValue:
-        [
-            BodyParameterMiddleware,
-            PathParameterMiddleware,
-            QueryObjectParameterMiddleware,
-            QueryParameterMiddleware,
-            HeadersMiddleware,
-            HeaderParameterMiddleware,
-            ClientErrorHandlingMiddleware,
-            ProducesMiddleware,
-            LoggerMiddleware,
-            IgnoredInterceptorsMiddleware,
-            ProgressIndicatorGroupMiddleware,
-            ResponseTransformMiddleware,
-            ResponseTypeMiddleware,
-            CacheMiddleware,
-            ClearAdvancedCacheMiddleware,
-            AdvancedCacheMiddleware,
-            ...jsDevMode ? [...config.configuration.disableMockLogger ? [] : [MockLoggerMiddleware]] : [],
-            ReportProgressMiddleware,
-        ]
-    },
+    REST_ERROR_HANDLING_MIDDLEWARE_ORDER,
     <ValueProvider>
     {
         provide: REST_METHOD_MIDDLEWARES,

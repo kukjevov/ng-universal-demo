@@ -83,6 +83,28 @@ if(!!argv.webpack)
 //mock rest api
 require('./server.mock.cjs')(app);
 
+const onError = function(err, req, res)
+{
+    if(err.code == "ECONNREFUSED" || err.code == "ECONNRESET")
+    {
+        res.writeHead(503,
+        {
+            'Content-Type': 'text/plain'
+        });
+
+        res.end('Remote server is offline.');
+
+        return;
+    }
+
+    res.writeHead(504,
+    {
+        'Content-Type': 'text/plain'
+    });
+
+    res.end('Failed to proxy request.');
+}
+
 //proxy special requests to other location
 app.use(createProxyMiddleware(['/api', '/swagger'],
                               {
@@ -90,27 +112,7 @@ app.use(createProxyMiddleware(['/api', '/swagger'],
                                   ws: true,
                                   secure: false,
                                   changeOrigin: true,
-                                  onError: function(err, req, res)
-                                  {
-                                      if(err.code == "ECONNREFUSED" || err.code == "ECONNRESET")
-                                      {
-                                          res.writeHead(503,
-                                          {
-                                              'Content-Type': 'text/plain'
-                                          });
-                      
-                                          res.end('Remote server is offline.');
-                      
-                                          return;
-                                      }
-                      
-                                      res.writeHead(504,
-                                      {
-                                          'Content-Type': 'text/plain'
-                                      });
-                        
-                                      res.end('Failed to proxy request.');
-                                  }
+                                  onError
                               }));
 
 //custom rest api

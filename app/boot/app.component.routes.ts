@@ -1,14 +1,11 @@
 import {Type} from '@angular/core';
-import {PreloadAllModules} from '@angular/router';
 import {ModuleRoutesOptions} from '@anglr/common/router';
 
-import {AccessDeniedComponent} from '../pages/accessDenied/accessDenied.component';
-import {NotFoundComponent} from '../pages/notFound/notFound.component';
+import {accessDeniedRoute} from '../pages/accessDenied/accessDenied.route';
+import {notFoundRoute} from '../pages/notFound/notFound.route';
 
 export const components: Type<any>[] =
 [
-    AccessDeniedComponent,
-    NotFoundComponent
 ];
 
 export const routesOptions: ModuleRoutesOptions =
@@ -17,7 +14,7 @@ export const routesOptions: ModuleRoutesOptions =
     rootModuleConfig:
     {
         enableTracing: false,
-        preloadingStrategy: PreloadAllModules
+        // preloadingStrategy: PreloadAllModules
     },
     staticRoutesBefore:
     [
@@ -25,5 +22,10 @@ export const routesOptions: ModuleRoutesOptions =
             path: '',
             loadChildren: () => import('../pages/+default/default.module').then(({DefaultModule}) => DefaultModule)
         }
+    ],
+    staticRoutesAfter:
+    [
+        accessDeniedRoute,
+        notFoundRoute,
     ]
 };

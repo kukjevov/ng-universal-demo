@@ -5,8 +5,10 @@ import {ConsoleSinkConfigService} from '@anglr/common/structured-log';
 import {ValueNamePair} from '@jscrpt/common';
 import {LogEventLevel} from 'structured-log';
 
-import {config, SettingsGeneral, SettingsDebug, LanguageDef} from '../../../../config';
-import {SettingsService} from '../../../../services/settings';
+import {config, SettingsGeneral, SettingsDebug, LanguageDef} from '../../config';
+import {SettingsService} from '../../services/settings';
+import {DisplayingFeatureModule} from '../../modules/displayingFeature.module';
+import {FormsFeatureModule} from '../../modules/formsFeature.module';
 
 /**
  * Available sections for user settings
@@ -45,9 +47,15 @@ interface SettingsLoggingEnum
     selector: 'user-settings',
     templateUrl: 'userSettings.component.html',
     styleUrls: ['userSettings.component.scss'],
+    standalone: true,
+    imports:
+    [
+        DisplayingFeatureModule,
+        FormsFeatureModule,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserSettingsComponent
+export class UserSettingsSAComponent
 {
     //######################### public properties - template bindings #########################
 
@@ -141,7 +149,7 @@ export class UserSettingsComponent
 
             settingsSvc.setLoggingSettings(
             {
-                consoleLogLevel: LogEventLevel[+loggingSettings.consoleLogLevel]
+                consoleLogLevel: LogEventLevel[+loggingSettings.consoleLogLevel],
             });
         });
     }

@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {AuthenticationService} from '@anglr/authentication';
 import {TitledDialogService} from '@anglr/common/material';
 
-import {UserSettingsComponent} from '../../../userSettings';
+import {UserSettingsSAComponent} from '../../../../components';
 
 /**
  * Component used for displaying application main menu
@@ -44,7 +44,7 @@ export class MainMenuComponent
      */
     public openSettings()
     {
-        this._dialog.open(UserSettingsComponent,
+        this._dialog.open(UserSettingsSAComponent,
         {
             title: 'user settings',
             maxHeight: '80vh'
