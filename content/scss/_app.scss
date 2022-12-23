@@ -3,6 +3,8 @@
 @use 'vars';
 @use 'mixins';
 
+@use '@anglr/datetime/styles' as datetime;
+
 //---------------------- PAGE STYLING ----------------------
 .app-page
 {
@@ -11,6 +13,7 @@
 
     //############## PACKAGES ##############
 
+    @include datetime.buildThemeCss;
     @include meta.load-css('../../node_modules/@anglr/common/styles/light');
 
     //############## BLOCKS ##############

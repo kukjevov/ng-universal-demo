@@ -16,12 +16,15 @@ export class WebpackTranslateLoaderService implements TranslateLoader
      */
     public getTranslation(lang: string): Observable<any> 
     {
-        return Observable.create(async (observer: Observer<any>) =>
+        return new Observable((observer: Observer<any>) =>
         {
-            const result = await import(`../../../content/l10n/${lang}.json`);
-
-            observer.next(result.default);
-            observer.complete();
+            (async () => 
+            {
+                const result = await import(`../../../content/l10n/${lang}.json`);
+    
+                observer.next(result.default);
+                observer.complete();
+            })();
         });
     }
 }

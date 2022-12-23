@@ -1,1 +1,2 @@
-@use 'scss/theme/theme' with ($themeName: 'dark', $tooltipTheme: 'light', $datetimeTheme: 'dark');
+@use '@anglr/datetime/styles/themes/dark' as dateTimeTheme;
+@use 'scss/theme/theme' with ($themeName: 'dark', $tooltipTheme: 'light', $dateTimeTheme: dateTimeTheme.defineTheme());
