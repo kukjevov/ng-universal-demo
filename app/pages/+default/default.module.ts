@@ -13,7 +13,7 @@ import {DebuggingFeatureModule, DisplayingFeatureModule, FormsFeatureModule} fro
     [
         DisplayingFeatureModule,
         FormsFeatureModule,
-        DebuggingFeatureModule
+        DebuggingFeatureModule,
     ],
     declarations:
     [
