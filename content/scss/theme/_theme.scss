@@ -1,7 +1,7 @@
 @use 'sass:meta';
 
 @use '../vars';
-@use './mixins/themeColors';
+@use './themeColors' as themeColors;
 
 @use '@anglr/datetime/styles' as datetime;
 @use '../../../node_modules/@anglr/common/styles/dark-colors-vars';

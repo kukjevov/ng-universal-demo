@@ -5,18 +5,33 @@
     titled-dialog,
     movable-titled-dialog
     {
+        box-shadow: 0 0 3px var(--dialog-border);
+
         .titled-dialog-title
         {
             border-top-left-radius: vars.$borderRadius;
             border-top-right-radius: vars.$borderRadius;
             text-transform: uppercase;
             letter-spacing: 1px;
+            color: var(--dialog-title-foreground);
+            background-color: var(--dialog-title-background);
+
+            .close-dialog
+            {
+                &:hover
+                {
+                    background-color: var(--dialog-closeButton-hover-background);
+                    color: var(--dialog-closeButton-hover-foreground);
+                }
+            }
         }
 
         .titled-dialog-content
         {
             border-bottom-left-radius: vars.$borderRadius;
             border-bottom-right-radius: vars.$borderRadius;
+            background-color: var(--dialog-content-background);
+            color: var(--dialog-content-foreground);
         }
     }
 

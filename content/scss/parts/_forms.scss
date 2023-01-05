@@ -9,8 +9,6 @@
     font-weight: 500;
 }
 
-
-
 //############## FORM CONTROL ##############
 
 %form-control
@@ -24,11 +22,28 @@
     padding-left: 7px;
     width: 100%;
     font-family: "Inter";
+    color: var(--input-foreground);
+    border-color: var(--input-border);
+    background-color: var(--input-background);
+}
+
+%form-control-disabled
+{
+    &:disabled
+    {
+        background-color: transparent;
+        border-color: transparent;
+
+        .selected-caret
+        {
+            color: transparent;
+        }
+    }
 }
 
 .form-control:not(ng-select)
 {
-    @extend %form-control;
+    @extend %form-control, %form-control-disabled;
 }
 
 .form-control-static
@@ -37,8 +52,22 @@
     padding-left: 3px;
     padding-left: 7px;
     margin-bottom: 0.9em;
+    color: var(--input-foreground);
 }
 
+ng-select.form-control
+{
+    .covid-normal-state
+    {
+        @extend %form-control, %form-control-disabled;
+    }
+
+    .covid-select-tag
+    {
+        background-color: var(--select-tag-background);
+        color: var(--select-tag-foreground);
+    }
+}
 
 //############## INPUT GROUP ##############
 
@@ -49,6 +78,9 @@
 
     .input-group-addon
     {
+        color: var(--input-foreground);
+        background-color: var(--input-error-background);
+        border-color: var(--input-border);
         font-size: 0.7em;
         align-self: center;
         padding: 3px 4px 4px;
@@ -133,6 +165,18 @@
         outline-color: transparent;
         outline-style: solid;
         outline-width: 2px;
+        border-color: var(--input-invalid-border);
+
+        &:active,
+        &:focus
+        {
+            outline-color: var(--input-error-outline);
+        }
+    }
+
+    .control-label
+    {
+        color: var(--label-invalid-foreground);
     }
 
     .form-control:not(ng-select)
@@ -161,6 +205,11 @@
 .validation-error-div
 {
     font-size: 0.7em;
+
+    &>div
+    {
+        color: var(--label-invalid-background);
+    }
 }
 
 .form-error

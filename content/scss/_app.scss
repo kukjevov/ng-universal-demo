@@ -2,7 +2,6 @@
 
 @use 'misc' as misc;
 @use 'mixins';
-@use 'theme/themeApp';
 @use 'vars';
 
 @use 'parts/alerts' as alerts;
@@ -22,6 +21,10 @@
     user-select: none;
     background-color: var(--page-background);
     color: var(--page-foreground);
+
+    //############## SCROLLBAR ##############
+
+    @include mixins.thin-scrollbar-color('--page-scrollbar');
 
     //############## PARTS ##############
 

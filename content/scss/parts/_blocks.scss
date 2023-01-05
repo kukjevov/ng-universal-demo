@@ -1,4 +1,5 @@
 @use '../vars';
+@use '../mixins';
 
 @mixin css
 {
@@ -15,10 +16,36 @@
     {
         padding-top: vars.$sizeSm;
         padding-bottom: vars.$sizeSm;
+
+        &.thin-scrollbar,
+        .thin-scrollbar
+        {
+            overflow-y: scroll;
+        }
+    }
+
+    .primary-block
+    {
+        @include mixins.thin-scrollbar-color('--primary-scrollbar');
+
+        background-color: var(--primary-background);
+        color: var(--primary-foreground);
+    }
+
+    .secondary-block
+    {
+        @include mixins.thin-scrollbar-color('--secondary-scrollbar');
+
+        background-color: var(--secondary-background);
+        color: var(--secondary-foreground);
     }
 
     .highlight-block
     {
+        @include mixins.thin-scrollbar-color('--block-scrollbar');
+
+        background-color: var(--block-background);
+        color: var(--block-foreground);
         padding: vars.$sizeSm;
         border-radius: vars.$borderRadius;
     }

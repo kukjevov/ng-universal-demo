@@ -15,6 +15,7 @@
 
             .content-renderer-header > div
             {
+                border-color: var(--grid-oddRow-background);
                 padding: 5px;
                 border-width: 1px;
                 border-style: solid;
@@ -27,6 +28,7 @@
                 position: sticky;
                 top: 0;
                 z-index: 10;
+                background-color: var(--grid-oddRow-background);
             }
 
             .header-content::first-letter
@@ -37,6 +39,11 @@
             .header-content
             {
                 display: inline-block;
+            }
+
+            .content-renderer-body > div:nth-of-type(2n+1) > div
+            {
+                background-color: var(--grid-evenRow-background);
             }
         }
 
@@ -55,6 +62,7 @@
 
             .fixed-header
             {
+                background-color: var(--grid-oddRow-background);
                 white-space: nowrap;
                 position: sticky;
                 top: 0;
@@ -63,6 +71,7 @@
 
             & > thead > tr > th
             {
+                border-color: var(--grid-oddRow-background);
                 padding: 5px;
                 vertical-align: bottom;
                 border-width: 1px;
@@ -74,6 +83,11 @@
             {
                 padding: 3px;
                 vertical-align: middle;
+            }
+
+            & > tbody > tr:nth-of-type(2n+1)
+            {
+                background-color: var(--grid-evenRow-background);
             }
         }
 
@@ -134,6 +148,81 @@
                             }
                         }
                     }
+                }
+            }
+        }
+
+        @include paging-full-coloring('');
+    }
+
+    .highlight-block
+    {
+        ng-grid
+        {
+            div.css-grid-content-renderer
+            {
+                .content-renderer-header > div
+                {
+                    border-color: var(--hightlight-grid-header-background);
+                }
+
+                .fixed-header
+                {
+                    background-color: var(--hightlight-grid-header-background);
+                    color: var(--hightlight-grid-header-foreground);
+                }
+
+                .content-renderer-body > div:nth-of-type(2n+1) > div
+                {
+                    background-color: var(--hightlight-grid-evenRow-background);
+                }
+            }
+
+            @include paging-full-coloring('highlight-');
+        }
+    }
+}
+
+@mixin paging-coloring($name)
+{
+    li
+    {
+        a
+        {
+            background-color: var(--paging-onPrimary-#{$name}background);
+            color: var(--paging-onPrimary-#{$name}foreground);
+        }
+
+        &.disabled a
+        {
+            background-color: var(--paging-onPrimary-disabled-#{$name}background);
+            color: var(--paging-onPrimary-disabled-#{$name}foreground);
+        }
+
+        &.active a
+        {
+            background-color: var(--paging-onSecondary-#{$name}background);
+            color: var(--paging-onSecondary-#{$name}foreground);
+        }
+    }
+}
+
+@mixin paging-full-coloring($name)
+{
+    ng-basic-paging
+    {
+        &>div
+        {
+            &>ul
+            {
+                @include paging-coloring($name);
+            }
+    
+            &>div
+            {
+                ul
+                {
+                    @include paging-coloring($name);
                 }
             }
         }
