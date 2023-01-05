@@ -1,7 +1,16 @@
 @use 'sass:meta';
 
-@use 'vars';
+@use 'misc' as misc;
 @use 'mixins';
+@use 'theme/themeApp';
+@use 'vars';
+
+@use 'parts/alerts' as alerts;
+@use 'parts/blocks' as blocks;
+@use 'parts/buttons' as buttons;
+@use 'parts/common.components' as commonComponents;
+@use 'parts/grid' as grid;
+@use 'parts/titles' as titles;
 
 @use '@anglr/datetime/styles' as datetime;
 
@@ -9,174 +18,28 @@
 .app-page
 {
     font-family: "Inter";
+    font-size: 12px;
     user-select: none;
+    background-color: var(--page-background);
+    color: var(--page-foreground);
+
+    //############## PARTS ##############
+
+    @include alerts.css;
+    @include blocks.css;
+    @include buttons.css;
+    @include commonComponents.css;
+    @include grid.css;
+    @include titles.css;
 
     //############## PACKAGES ##############
 
     @include datetime.buildThemeCss;
     @include meta.load-css('../../node_modules/@anglr/common/styles/light');
 
-    //############## BLOCKS ##############
-    
-    .popup-block
-    {
-        padding: vars.$sizeSm;
-        border-radius: vars.$borderRadius;
-    }
-
-    .primary-block,
-    .secondary-block
-    {
-        padding-top: vars.$sizeSm;
-        padding-bottom: vars.$sizeSm;
-    }
-
-    .highlight-block
-    {
-        padding: vars.$sizeSm;
-        border-radius: vars.$borderRadius;
-    }
-
-    //############## TITLED DIALOG ##############
-
-    titled-dialog,
-    movable-titled-dialog
-    {
-        .titled-dialog-title
-        {
-            border-top-left-radius: vars.$borderRadius;
-            border-top-right-radius: vars.$borderRadius;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .titled-dialog-content
-        {
-            border-bottom-left-radius: vars.$borderRadius;
-            border-bottom-right-radius: vars.$borderRadius;
-        }
-    }
-
-    //############## TITLES ##############
-
-    .page-title
-    {
-        padding: 20px 20px 10px;
-        font-size: 22px;
-        margin: vars.$sizeSm 0 0;
-    }
-
-    .section-title
-    {
-        margin-bottom: vars.$sizeXs;
-        margin-left: vars.$sizeXs;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        font-weight: 500;
-        font-size: 1.05em;
-    }
-
-    .subsection-title
-    {
-        margin-bottom: vars.$sizeXs;
-        margin-left: vars.$sizeXs;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        font-weight: 500;
-        font-size: 0.9em;
-    }
-
-    //############## DIALOG ##############
-
-    mat-dialog-container
-    {
-        padding: 0;
-        overflow: visible;
-    }
-
-    //############## BUTTONS ##############
-
-    %btn-base
-    {
-        letter-spacing: 1px;
-        background-image: none;
-        text-shadow: 0 0;
-        box-shadow: 0 0;
-        text-transform: uppercase;
-        transition: all 350ms;
-        border-style: solid;
-        border-width: 1px;
-        border-radius: vars.$borderRadius;
-        padding: 4px 10px;
-        font-family: "Inter";
-        cursor: pointer;
-        white-space: nowrap;
-        font-size: 11px;
-    }
-
-    .btn
-    {
-        @extend %btn-base;
-
-        &:active:not(.disabled)
-        {
-            box-shadow: 0 0;
-        }
-
-        &:active:not(.disabled)
-        {
-            // padding-left: 9px;
-            // padding-right: 9px;
-            // margin-left: 3px;
-            // margin-right: 3px;
-        }
-
-        span[class^="fa"],
-        span[class^="fas"],
-        span[class^="fab"],
-        span[class^="glyphicon"]
-        {
-            margin-right: vars.$sizeXs;
-        }
-    }
-
-    multi-button.btn
-    {
-        padding: 0;
-        
-        button
-        {
-            @extend %btn-base;
-        }
-    }
-
-    .btn-icon
-    {
-        border: none;
-        padding: 0;
-        margin: 0;
-        background-color: transparent;
-        cursor: pointer;
-        user-select: none;
-        -webkit-user-select: none;
-    }
-
-    //############## ALERTS ##############
-
-    .alert
-    {
-        padding: 6px 8px;
-        border-radius: vars.$borderRadius;
-        border-width: 1px;
-        margin-top: 10px;
-        margin-right: 10px;
-        border-style: solid;
-    }
-
-
     //############## MISC SHARED ##############
 
-    @include meta.load-css('misc');
+    @include misc.css();
 
     //############## MISC ##############
 
@@ -187,6 +50,7 @@
         border: none;
         border-top-width: 1px;
         border-top-style: solid;
+        border-top-color: var(--separator-foreground);
     }
 
     .text-selection
@@ -250,43 +114,62 @@
 
     .extra-small-text
     {
-        font-size: vars.$fontSizeXs;
+        font-size: 0.8rem;
     }
     
     .small-text
     {
-        font-size: vars.$fontSizeSm;
+        font-size: 0.9rem;
+    }
+
+    .normal-text
+    {
+        font-size: 1rem;
     }
 
     .medium-text
     {
-        font-size: vars.$fontSizeMd;
+        font-size: 1.1rem;
     }
 
     .large-text
     {
-        font-size: vars.$fontSizeLg;
+        font-size: 1.2rem;
     }
 
     .extra-large-text
     {
-        font-size: vars.$fontSizeXl;
+        font-size: 1.5rem;
     }
 
     .extra-extra-large-text
     {
-        font-size: vars.$fontSizeXxl;
+        font-size: 1.8rem;
+    }
+
+    //############## TEXTS ##############
+
+    .text-danger,
+    .text-error
+    {
+        color: var(--text-danger);
+    }
+
+    .text-warning
+    {
+        color: var(--text-warning);
+    }
+
+    .text-success
+    {
+        color: var(--text-success);
+    }
+
+    .text-info
+    {
+        color: var(--text-info);
     }
 
     @include mixins.generate-margin-padding(padding, vars.$sizes);
     @include mixins.generate-margin-padding(margin, vars.$sizes);
-
-    .spread-text
-    {
-        letter-spacing: 1px;
-    }
-
-    //############## COMPONENTS ##############
-
-    @include meta.load-css('parts/forms');
 }

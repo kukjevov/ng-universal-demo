@@ -1,0 +1,25 @@
+@use '../vars';
+
+@mixin css
+{
+    //############## BLOCKS ##############
+    
+    .popup-block
+    {
+        padding: vars.$sizeSm;
+        border-radius: vars.$borderRadius;
+    }
+
+    .primary-block,
+    .secondary-block
+    {
+        padding-top: vars.$sizeSm;
+        padding-bottom: vars.$sizeSm;
+    }
+
+    .highlight-block
+    {
+        padding: vars.$sizeSm;
+        border-radius: vars.$borderRadius;
+    }
+}

@@ -1,38 +1,28 @@
-@mixin paging-coloring($background,
-                       $foreground,
-                       $disabledBackground,
-                       $disabledForeground,
-                       $activeBackground,
-                       $activeForeground)
+@mixin paging-coloring($name)
 {
     li
     {
         a
         {
-            background-color: $background;
-            color: $foreground;
+            background-color: var(--paging-onPrimary-#{$name}background);
+            color: var(--paging-onPrimary-#{$name}foreground);
         }
 
         &.disabled a
         {
-            background-color: $disabledBackground;
-            color: $disabledForeground;
+            background-color: var(--paging-onPrimary-disabled-#{$name}background);
+            color: var(--paging-onPrimary-disabled-#{$name}foreground);
         }
 
         &.active a
         {
-            background-color: $activeBackground;
-            color: $activeForeground;
+            background-color: var(--paging-onSecondary-#{$name}background);
+            color: var(--paging-onSecondary-#{$name}foreground);
         }
     }
 }
 
-@mixin paging-full-coloring($background,
-                            $foreground,
-                            $disabledBackground,
-                            $disabledForeground,
-                            $activeBackground,
-                            $activeForeground)
+@mixin paging-full-coloring($name)
 {
     ng-basic-paging
     {
@@ -40,24 +30,14 @@
         {
             &>ul
             {
-                @include paging-coloring($background,
-                                         $foreground,
-                                         $disabledBackground,
-                                         $disabledForeground,
-                                         $activeBackground,
-                                         $activeForeground);
+                @include paging-coloring($name);
             }
     
             &>div
             {
                 ul
                 {
-                    @include paging-coloring($background,
-                                             $foreground,
-                                             $disabledBackground,
-                                             $disabledForeground,
-                                             $activeBackground,
-                                             $activeForeground);
+                    @include paging-coloring($name);
                 }
             }
         }

@@ -1,8 +1,0 @@
-@use 'sass:meta';
-
-@use 'theme/dark';
-@use 'theme/light';
-
-$dark-theme: meta.module-variables('dark');
-$light-theme: meta.module-variables('light');
-$default-theme: $light-theme;

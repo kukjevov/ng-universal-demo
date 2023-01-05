@@ -1,6 +1,3 @@
-@use 'sass:color';
-@use 'sass:map';
-
 @use 'vars';
 
 @mixin generate-margin-padding($type, $sizes)
@@ -46,88 +43,20 @@
     }
 }
 
-@mixin generate-button($colors)
+@mixin thin-scrollbar-color($color)
 {
-    @each $name, $color in $colors
+    .thin-scrollbar
     {
-        
-        $background: map-get($color, "background");
-        $foreground: map-get($color, "foreground");
-
-        .btn-#{$name}
-        {
-            background-color: $background;
-            border-color: $background;
-            color: $foreground;
-
-            &:active:not(.disabled)
-            {
-                background-color: color.scale($background, $lightness: -18%);
-                border-color: color.scale($background, $lightness: -18%);
-            }
-
-            &:hover,
-            &:focus
-            {
-                background-color: color.scale($background, $lightness: -12%);
-                border-color: color.scale($background, $lightness: -12%);
-            }
-
-            &>span
-            {
-                color: $foreground;
-            }
-
-            &>span[class^="fa"],
-            &>span[class^="fas"],
-            &>span[class^="glyphicon"]
-            {
-                color: color.scale($background, $lightness: -26%);
-            }
-        }
+        scrollbar-color: var($color) transparent;
     }
-}
 
-@mixin generate-alert($colors)
-{
-    @each $name, $color in $colors
+    .thin-scrollbar::-webkit-scrollbar-thumb
     {
-        $background: map-get($color, "background");
-        $foreground: map-get($color, "foreground");
-
-        .alert-#{$name}
-        {
-            background-color: color.scale($background, $lightness: 22%);
-            color: $foreground;
-            border-color: $background;
-        }
+        background-color: var($color);
     }
-}
 
-@mixin thin-scrollbar-color($theme, $color, $lightness: -30%)
-{
-    @if $lightness 
+    .thin-scrollbar::-webkit-scrollbar-track
     {
-        .thin-scrollbar
-        {
-            scrollbar-color: color.scale(map.get($theme, $color), $lightness: $lightness) transparent;
-        }
-
-        .thin-scrollbar::-webkit-scrollbar-thumb
-        {
-            background-color: color.scale(map.get($theme, $color), $lightness: $lightness);
-        }
-    }
-    @else
-    {
-        .thin-scrollbar
-        {
-            scrollbar-color: color.scale(map.get($theme, $color), $lightness: $lightness) transparent;
-        }
-
-        .thin-scrollbar::-webkit-scrollbar-thumb
-        {
-            background-color: color.scale(map.get($theme, $color), $lightness: $lightness);
-        }
+        background-color: transparent;
     }
 }

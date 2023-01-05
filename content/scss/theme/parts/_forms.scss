@@ -1,14 +1,10 @@
-@use 'sass:map';
-
-$theme: null !default;
-
 //############## FORM CONTROL ##############
 
 %form-control
 {
-    color: map.get($theme, inputForeground);
-    border-color: map.get($theme, inputBorder);
-    background-color: map.get($theme, inputBackground);
+    color: var(--input-foreground);
+    border-color: var(--input-border);
+    background-color: var(--input-background);
 }
 
 %form-control-disabled
@@ -16,11 +12,21 @@ $theme: null !default;
     &:disabled
     {
         background-color: transparent;
-        border: none;
+        border-color: transparent;
+
+        .selected-caret
+        {
+            color: transparent;
+        }
     }
 }
 
-.form-control:not(ng-select):not(date-time-selector)
+.form-control-static
+{
+    color: var(--input-foreground);
+}
+
+.form-control:not(ng-select)
 {
     @extend %form-control, %form-control-disabled;
 }
@@ -29,34 +35,15 @@ ng-select.form-control
 {
     .covid-normal-state
     {
-        @extend %form-control;
+        @extend %form-control, %form-control-disabled;
     }
 
     .covid-select-tag
     {
-        background-color: map.get($theme, selectTagBackground);
-        color: map.get($theme, selectTagForeground);
+        background-color: var(--select-tag-background);
+        color: var(--select-tag-foreground);
     }
 }
-
-date-time-selector.form-control
-{
-    input-date-time-selector
-    {
-        input
-        {
-            @extend %form-control, %form-control-disabled;
-        }
-    }
-}
-
-//############## DATE TIME PICKER ##############
-
-date-time-picker
-{
-    z-index: 1100;
-}
-
 
 //############## INPUT GROUP ##############
 
@@ -64,9 +51,9 @@ date-time-picker
 {
     .input-group-addon
     {
-        color: map.get($theme, inputForeground);
-        background-color: map.get($theme, inputGroupAddonBackground);
-        border-color: map.get($theme, inputBorder);
+        color: var(--input-foreground);
+        background-color: var(--input-error-background);
+        border-color: var(--input-border);
     }
 }
 
@@ -76,21 +63,21 @@ date-time-picker
 {
     %control-error
     {
-        border-color: map.get($theme, inputInvalidBorder);
+        border-color: var(--input-invalid-border);
 
         &:active,
         &:focus
         {
-            outline-color: map.get($theme, inputInvalidErrorOutline);
+            outline-color: var(--input-error-outline);
         }
     }
 
     .control-label
     {
-        color: map.get($theme, inputInvalidLabel);
+        color: var(--label-invalid-foreground);
     }
 
-    .form-control:not(ng-select):not(date-time-selector)
+    .form-control:not(ng-select)
     {
         @extend %control-error;
     }
@@ -102,23 +89,12 @@ date-time-picker
             @extend %control-error;
         }
     }
-
-    date-time-selector.form-control
-    {
-        input-date-time-selector
-        {
-            input
-            {
-                @extend %control-error;
-            }
-        }
-    }
 }
 
 .validation-error-div
 {
     &>div
     {
-        color: map.get($theme, inputInvalidErrorColor);
+        color: var(--label-invalid-background);
     }
 }

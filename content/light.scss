@@ -1,2 +1,3 @@
 @use '@anglr/datetime/styles/themes/light' as dateTimeTheme;
-@use 'scss/theme/theme' with ($themeName: 'light', $tooltipTheme: 'dark', $dateTimeTheme: dateTimeTheme.defineTheme());
+@use './scss/theme/light' as appTheme;
+@use 'scss/theme/theme' with ($theme: appTheme.defineTheme(), $themeName: 'light', $tooltipTheme: 'dark', $dateTimeTheme: dateTimeTheme.defineTheme());

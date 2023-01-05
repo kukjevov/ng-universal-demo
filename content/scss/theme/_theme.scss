@@ -1,139 +1,29 @@
 @use 'sass:meta';
-@use 'sass:map';
-@use 'sass:color';
 
 @use '../vars';
-@use '../mixins';
-@use '../themes';
+@use './mixins/themeColors';
 
 @use '@anglr/datetime/styles' as datetime;
 @use '../../../node_modules/@anglr/common/styles/dark-colors-vars';
 @use '../../../node_modules/@anglr/common/styles/light-colors-vars';
 
+$theme: () !default;
 $themeName: null !default;
-$tooltipTheme: 'dark' !default;
 $dateTimeTheme: null !default;
+$tooltipTheme: 'dark' !default;
 $multiButtonTheme: 'light' !default;
-$theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map.get(meta.module-variables("themes"), "#{$themeName}-theme"));
 
 //---------------------- PAGE STYLING ----------------------
 .app-page.#{$themeName}
 {
     @extend .multibutton-#{$multiButtonTheme}-theme;
 
-    background-color: map.get($theme, pageBackground);
-    color: map.get($theme, pageForeground);
+    //############## THEME ##############
+
+    @include themeColors.buildThemeColors($theme);
 
     //############## PACKAGES ##############
 
     @include datetime.buildThemeColors($dateTimeTheme);
     @include meta.load-css("../../../node_modules/@anglr/common/styles/positions/#{$tooltipTheme}");
-
-    //############## SCROLLBAR ##############
-
-    @include mixins.thin-scrollbar-color($theme, "pageBackground");
-
-    .thin-scrollbar::-webkit-scrollbar
-    {
-        background-color: transparent;
-    }
-
-    app
-    {
-        router-outlet+*, router-outlet+*+*
-        {
-            @extend .thin-scrollbar;
-        }
-    }
-
-    //############## TEXTS ##############
-
-    .text-danger,
-    .text-error
-    {
-        color: map.get($theme, textDanger);
-    }
-
-    .text-warning
-    {
-        color: map.get($theme, textWarning);
-    }
-
-    .text-success
-    {
-        color: map.get($theme, textSuccess);
-    }
-
-    .text-info
-    {
-        color: map.get($theme, textInfo);
-    }
-
-    //############## SEPARATOR ##############
-    hr
-    {
-        border-top-color: map.get($theme, separatorForeground);
-    }
-    //############## BLOCKS ##############
-
-    .primary-block,
-    .secondary-block
-    {
-        &.thin-scrollbar,
-        .thin-scrollbar
-        {
-            overflow-y: scroll;
-        }
-    }
-
-    //############## TITLES ##############
-
-    .page-title
-    {
-        background-color: map.get($theme, pageTitleBackground);
-        color: map.get($theme, pageTitleForeground);
-    }
-    }
-
-    //############## BUTTONS ##############
-
-    @include mixins.generate-button(map.get($theme, buttons));
-
-    .btn-icon
-    {
-        color: map.get($theme, btnIconForeground);
-
-        &:hover,
-        &:focus
-        {
-            color: map.get($theme, btnIconForegroundHover);
-
-            .double-right-icon
-            {
-                div
-                {
-                    border-color: map.get($theme, btnIconForegroundHover);
-                }
-            }
-        }
-
-        &:active
-        {
-            color: color.scale(map.get($theme, btnIconForegroundHover), $lightness: -10%);
-            transform: scale(105%);
-        }
-    }
-
-    @include mixins.generate-button(map.get($theme, buttons));
-
-    //############## ALERTS ##############
-
-    @include mixins.generate-alert(map.get($theme, alerts));
-
-    //############## SHARED/COMMON/PARTS ##############
-
-    @include meta.load-css('parts/forms', $with: (theme: $theme));
-    @include meta.load-css('parts/blocks', $with: (theme: $theme));
-    @include meta.load-css('parts/grid', $with: (theme: $theme));
-    @include meta.load-css('parts/shared.components', $with: (theme: $theme));
-    @include meta.load-css('parts/common.components', $with: (theme: $theme));
+}

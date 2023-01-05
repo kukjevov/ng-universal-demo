@@ -1,0 +1,136 @@
+@mixin css
+{
+    //############## BUTTONS ##############
+
+    %btn-base
+    {
+        letter-spacing: 1px;
+        background-image: none;
+        text-shadow: 0 0;
+        box-shadow: 0 0;
+        text-transform: uppercase;
+        transition: all 350ms;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: vars.$borderRadius;
+        padding: 4px 10px;
+        font-family: "Inter";
+        cursor: pointer;
+        white-space: nowrap;
+        font-size: 0.95em;
+    }
+
+    .btn
+    {
+        @extend %btn-base;
+
+        &:active:not(.disabled)
+        {
+            box-shadow: 0 0;
+        }
+
+        &:active:not(.disabled)
+        {
+            // padding-left: 9px;
+            // padding-right: 9px;
+            // margin-left: 3px;
+            // margin-right: 3px;
+        }
+
+        &.disabled,
+        &:disabled
+        {
+            opacity: 0.75;
+            cursor: not-allowed;
+        }
+
+        span[class^="fa"],
+        span[class^="fas"],
+        span[class^="fab"],
+        span[class^="glyphicon"]
+        {
+            margin-right: vars.$sizeXs;
+        }
+    }
+
+    multi-button.btn
+    {
+        padding: 0;
+        
+        button
+        {
+            @extend %btn-base;
+        }
+    }
+
+    .btn-icon
+    {
+        color: var(--button-icon-foreground);
+        border: none;
+        padding: 0;
+        margin: 0;
+        background-color: transparent;
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+
+        &:hover,
+        &:focus
+        {
+            color: var(--button-icon-hover-foreground);
+
+            .double-right-icon
+            {
+                div
+                {
+                    border-color: var(--button-icon-hover-foreground);
+                }
+            }
+        }
+
+        &:active
+        {
+            color: var(--button-icon-hover-foreground);
+            transform: scale(105%);
+        }
+    }
+
+    @include generate-button(('primary', 'info', 'default', 'success', 'warning', 'danger', 'error'));
+}
+
+@mixin generate-button($buttonNames)
+{
+    @each $buttonName in $buttonNames
+    {
+        .btn-#{$buttonName}
+        {
+            background-color: var(--button-#{$buttonName}-background);
+            border-color: var(--button-#{$buttonName}-background);
+            color: var(--button-#{$buttonName}-foreground);
+
+            &:active:not(.disabled)
+            {
+                filter: saturate(120%);
+            }
+
+            &:hover,
+            &:focus
+            {
+                filter: brightness(92%) saturate(130%);
+            }
+
+            &>span
+            {
+                color: var(--button-#{$buttonName}-foreground);
+            }
+
+            &>span[class^="fa"],
+            &>span[class^="fas"],
+            &>span[class^="glyphicon"]
+            {
+                color: var(--button-#{$buttonName}-background);
+                filter: brightness(82%);
+            }
+        }
+    }
+}

@@ -1,8 +1,4 @@
-@use 'sass:map';
-
 @use '../mixins/grid.mixins' as grid;
-
-$theme: null !default;
 
 //############## GRID ##############
 
@@ -12,17 +8,17 @@ ng-grid
     {
         .fixed-header
         {
-            background-color: map.get($theme, gridOddRowBackground);
+            background-color: var(--grid-oddRow-background);
         }
 
         .content-renderer-body > div:nth-of-type(2n+1) > div
         {
-            background-color: map.get($theme, gridEvenRowBackground);
+            background-color: var(--grid-evenRow-background);
         }
 
         .content-renderer-header > div
         {
-            border-color: map.get($theme, gridOddRowBackground);
+            border-color: var(--grid-oddRow-background);
         }
     }
 
@@ -30,24 +26,19 @@ ng-grid
     {
         .fixed-header
         {
-            background-color: map.get($theme, gridOddRowBackground);
+            background-color: var(--grid-oddRow-background);
         }
 
         & > thead > tr > th
         {
-            border-color: map.get($theme, gridOddRowBackground);
+            border-color: var(--grid-oddRow-background);
         }
 
         & > tbody > tr:nth-of-type(2n+1)
         {
-            background-color: map.get($theme, gridEvenRowBackground);
+            background-color: var(--grid-evenRow-background);
         }
     }
 
-    @include grid.paging-full-coloring(map.get($theme, primaryPagingBackground),
-                                       map.get($theme, primaryPagingForeground),
-                                       map.get($theme, primaryPagingDisabledBackground),
-                                       map.get($theme, primaryPagingDisabledForeground),
-                                       map.get($theme, secondaryPagingBackground),
-                                       map.get($theme, secondaryPagingForeground));
+    @include grid.paging-full-coloring('');
 }

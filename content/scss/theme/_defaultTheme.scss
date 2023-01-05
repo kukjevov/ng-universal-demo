@@ -1,0 +1,334 @@
+@use 'sass:color';
+@use 'sass:map';
+
+//############## AVAILABLE COLORS ##############
+
+$white: #ffffff;
+$black: #111111;
+
+$gray-0: #e5e5e5;
+$gray-1: #e0e0e0;
+$gray-2: #cccccc;
+$gray-3: #aaaaaa;
+$gray-4: #9d9d9d;
+$gray-5: #737373;
+$gray-6: #555555;
+$gray-7: #3c4453;
+$gray-8: #323944;
+$gray-9: #1e1e1e;
+
+$almostWhite: #f5f5f5;
+$green: #6aba4f;
+$lightBlue: #5bc0de;
+$blue: #337ab7;
+$assecoBlue: #00a3e0;
+$red: #ec0e0e;
+$orangeRed: #e45514;
+$orange: #e4a256;
+$yellowGreen: #bbdd4f;
+$yellow: #d4da03;
+$brown: #6b4b02;
+$transparentBlack: #00000066;
+
+//############## DEFAULT THEME ##############
+
+$_defaultTheme:
+(
+    page:
+    (
+        background: $white,
+        foreground: $black,
+        scrollbar: color.scale($white, $lightness: 14%),
+    ),
+    primary:
+    (
+        background: $gray-0,
+        foreground: $black,
+        scrollbar: color.scale($gray-0, $lightness: 14%),
+    ),
+    secondary:
+    (
+        background: $gray-7,
+        foreground: $white,
+        scrollbar: color.scale($gray-7, $lightness: 14%),
+    ),
+    block:
+    (
+        background: $white,
+        foreground: $black,
+        scrollbar: color.scale($white, $lightness: 14%),
+    ),
+    pageTitle:
+    (
+        background: $gray-8,
+        foreground: $gray-1,
+    ),
+    mainMenu:
+    (
+        background: $orangeRed,
+        backgroundGradient: color.scale($orangeRed, $lightness: -12%, $saturation: 15%),
+        foreground: $black,
+        active:
+        (
+            foreground: $white,
+            background: inherit,
+        ),
+        drawer:
+        (
+            background: $white,
+            foreground: $black,
+        )
+    ),
+    dialog:
+    (
+        border: $gray-7,
+        title:
+        (
+            background: $gray-8,
+            foreground: $gray-0,
+        ),
+        content:
+        (
+            background: $white,
+            foreground: $black,
+        ),
+        closeButton:
+        (
+            hover:
+            (
+                background: color.scale($gray-8, $lightness: 10%),
+                foreground: color.scale($gray-0, $lightness: 10%),
+            ),
+        ),
+    ),
+    input:
+    (
+        background: $white,
+        foreground: $gray-6,
+        border: $gray-3,
+        groupAddon:
+        (
+            background: color.scale($gray-0, $lightness: 30%),
+            foreground: inherit,
+        ),
+        invalid:
+        (
+            border: $red,
+        ),
+        error:
+        (
+            background: inherit,
+            foreground: $red,
+            outline: $red,
+        ),
+    ),
+    label:
+    (
+        invalid:
+        (
+            foreground: $red,
+            background: inherit,
+        ),
+    ),
+    select:
+    (
+        tag:
+        (
+            background: $assecoBlue,
+            foreground: $black,
+        ),
+    ),
+    grid:
+    (
+        evenRow:
+        (
+            background: $white,
+            foreground: inherit,
+        ),
+        oddRow:
+        (
+            background: $gray-0,
+            foreground: inherit,
+        ),
+        highlight:
+        (
+            header:
+            (
+                background: $gray-8,
+                foreground: $white,
+            ),
+            evenRow:
+            (
+                background: $gray-0,
+                foreground: inherit,
+            ),
+            oddRow:
+            (
+                background: $white,
+                foreground: inherit,
+            ),
+        ),
+    ),
+    separator:
+    (
+        background: inherit,
+        foreground: $gray-6,
+    ),
+    level:
+    (
+        succes: $green,
+        info: $lightBlue,
+        warning: $orange,
+        error: $red,
+        default: $gray-5,
+    ),
+    weight:
+    (
+        foreground: $white,
+        weight-0: $green,
+        weight-1: $yellowGreen,
+        weight-2: $yellow,
+        weight-3: $orange,
+        weight-4: $orangeRed,
+        weight-5: $red,
+    ),
+    paging:
+    (
+        onPrimary:
+        (
+            background: $white,
+            foreground: $blue,
+            disabled:
+            (
+                background: $white,
+                foreground: $black,
+            ),
+            highlight:
+            (
+                background: $white,
+                foreground: $gray-8,
+                disabled:
+                (
+                    background: $white,
+                    foreground: $black,
+                ),
+            ),
+        ),
+        onSecondary:
+        (
+            background: $blue,
+            foreground: $white,
+            highlight:
+            (
+                background: $gray-8,
+                foreground: $white,
+            ),
+        ),
+    ),
+    alert:
+    (
+        info:
+        (
+            background: $lightBlue,
+            foreground: $white,
+        ),
+        warning:
+        (
+            background: $orange,
+            foreground: $white,
+        ),
+        success:
+        (
+            background: $green,
+            foreground: $white,
+        ),
+        danger:
+        (
+            background: $red,
+            foreground: $white,
+        ),
+        error:
+        (
+            background: $red,
+            foreground: $white,
+        ),
+    ),
+    text:
+    (
+        danger:
+        (
+            background: inherit,
+            foreground: $red,
+        ),
+        warning:
+        (
+            background: inherit,
+            foreground: $orange,
+        ),
+        success:
+        (
+            background: inherit,
+            foreground: $green,
+        ),
+        info:
+        (
+            background: inherit,
+            foreground: $lightBlue,
+        ),
+    ),
+    button:
+    (
+        primary:
+        (
+            background: $green,
+            foreground: $white,
+        ),
+        info:
+        (
+            background: $lightBlue,
+            foreground: $white,
+        ),
+        default:
+        (
+            background: $gray-5,
+            foreground: $white,
+        ),
+        success:
+        (
+            background: $green,
+            foreground: $white,
+        ),
+        warning:
+        (
+            background: $orange,
+            foreground: $white,
+        ),
+        danger:
+        (
+            background: $red,
+            foreground: $white,
+        ),
+        error:
+        (
+            background: $red,
+            foreground: $white,
+        ),
+        icon:
+        (
+            background: inherit,
+            foreground: $gray-5,
+            hover:
+            (
+                background: inherit,
+                foreground: $green,
+            ),
+        ),
+    ),
+);
+
+@function defineTheme($colors)
+{
+    $theme: map.deep-merge($_defaultTheme, $colors);
+
+    @return $theme;
+}

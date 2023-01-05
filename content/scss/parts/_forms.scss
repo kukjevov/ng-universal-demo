@@ -5,9 +5,11 @@
 .control-label
 {
     display: block;
-    font-size: 12px;
+    font-size: 1em;
     font-weight: 500;
 }
+
+
 
 //############## FORM CONTROL ##############
 
@@ -17,79 +19,26 @@
     border-style: solid;
     border-width: 1px;
     box-shadow: none;
-    font-size: 12px;
+    font-size: 1em;
     padding: 3px;
     padding-left: 7px;
     width: 100%;
     font-family: "Inter";
 }
 
-.form-control:not(ng-select):not(date-time-selector)
+.form-control:not(ng-select)
 {
     @extend %form-control;
 }
 
-ng-select.form-control
+.form-control-static
 {
-    .covid-normal-state
-    {
-        @extend %form-control;
-
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        row-gap: vars.$sizeXs;
-        padding-left: 3px;
-
-        .selected-value
-        {
-            margin-left: 4px;
-            flex: 1;
-            text-align: left;
-        }
-    }
-
-    .covid-live-input
-    {
-        padding: 0;
-        border: none;
-        width: 100%;
-        min-width: 150px;
-    }
-
-    .covid-live-wrapper
-    {
-        width: initial;
-        flex: 1;
-        margin-left: vars.$sizeXs;
-    }
-
-    .covid-select-tag
-    {
-        white-space: nowrap;
-        padding: 0 4px;
-        border-radius: 3px;
-        margin-left: vars.$sizeXs;
-    }
-
-    .covid-popup-div
-    {
-        padding: 5px 4px;
-        font-weight: 500;
-        font-size: 0.9em;
-    }
+    padding: 3px;
+    padding-left: 3px;
+    padding-left: 7px;
+    margin-bottom: 0.9em;
 }
 
-date-time-selector.form-control
-{
-    input-date-time-selector
-    {
-        input
-        {
-            @extend %form-control;
-        }
-    }
-}
 
 //############## INPUT GROUP ##############
 
@@ -186,7 +135,7 @@ date-time-selector.form-control
         outline-width: 2px;
     }
 
-    .form-control:not(ng-select):not(date-time-selector)
+    .form-control:not(ng-select)
     {
         @extend %control-error;
     }
@@ -205,17 +154,6 @@ date-time-selector.form-control
             @extend %control-error;
 
             display: flex;
-        }
-    }
-
-    date-time-selector.form-control
-    {
-        input-date-time-selector
-        {
-            input
-            {
-                @extend %control-error;
-            }
         }
     }
 }

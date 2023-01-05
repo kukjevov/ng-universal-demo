@@ -1,43 +1,43 @@
-@use 'sass:map';
-@use 'sass:color';
-
 @use '../../vars';
 
-$theme: null !default;
+//############## MAIN MENU - GLOBAL ##############
+
+.submenu-item
+{
+    background-color: var(--mainMenu-background);
+}
 
 //############## MAIN MENU ##############
 
 main-menu
 {
-    $menuBackground: map.get($theme, mainMenuBackground);
-    $menuBackgroundGradient: color.scale($menuBackground, $lightness: -12%, $saturation: 15%);
-
-    background-color: $menuBackground;
-    background-image: linear-gradient(to top, $menuBackground 0, $menuBackgroundGradient 100%);
-    color: map.get($theme, mainMenuForeground);
+    background-color: var(--mainMenu-background);
+    background-image: linear-gradient(to top, var(--mainMenu-background) 0, var(--mainMenu-backgroundGradient) 100%);
+    color: var(--mainMenu-foreground);
 
     .main-item
     {
         &:hover
         {
-            background-color: color.scale($menuBackgroundGradient, $lightness: -7%);
+            backdrop-filter: brightness(94%);
         }
         
         &:active
         {
-            background-color: color.scale($menuBackgroundGradient, $lightness: -10%);
-            color: color.scale(map.get($theme, mainMenuForeground), $lightness: 6%);
-            box-shadow: 0 0 4px color.scale($menuBackground, $lightness: 20%);
+            background-color: var(--mainMenu-active-background);
+            color: var(--mainMenu-active-foreground);
+            box-shadow: 0 0 4px var(--mainMenu-active-background);
         }
 
         &.active
         {
-            color: color.mix($menuBackground, map.get($theme, mainMenuForegroundActive), $weight: 20%);
+            // color: color.mix($menuBackground, map.get($theme, mainMenuForegroundActive), $weight: 20%);
+            color: var(--mainMenu-active-foreground);
         }
 
         div
         {
-            background-image: linear-gradient(to bottom, $menuBackground 0, color.scale($menuBackgroundGradient, $lightness: 5%) 100%);
+            background-image: linear-gradient(to bottom, var(--mainMenu-background) 0, var(--mainMenu-backgroundGradient) 100%);
 
             @media screen and (max-width: vars.$responsiveTrasholdMd)
             {
@@ -47,16 +47,17 @@ main-menu
             .submenu-item
             {
                 padding: 5px 10px;
-                color: map.get($theme, mainMenuForeground);
+                color: var(--mainMenu-foreground);
 
                 &:hover
                 {
-                    background-color: $menuBackgroundGradient;
+                    background-color: var(--mainMenu-backgroundGradient);
                 }
 
                 &.active
                 {
-                    color: color.mix($menuBackground, map.get($theme, mainMenuForegroundActive), $weight: 20%);
+                    // color: color.mix($menuBackground, map.get($theme, mainMenuForegroundActive), $weight: 20%);
+                    color: var(--mainMenu-active-foreground);
                 }
             }
         }
@@ -70,8 +71,8 @@ main-menu
     .vertical,
     .horizontal
     {
-        border-color: $foreground;
-        background-color: $foreground;
+        border-color: var($foreground);
+        background-color: var($foreground);
     }
 
     a.btn-icon:hover
@@ -79,22 +80,22 @@ main-menu
         .vertical,
         .horizontal
         {
-            border-color: $foregroundHover;
-            background-color: $foregroundHover;
+            border-color: var($foregroundHover);
+            background-color: var($foregroundHover);
         }
     }
 }
 
 collapsible-icon
 {
-    @include collapsible-icon(map.get($theme, btnIconForeground), map.get($theme, btnIconForegroundHover));
+    @include collapsible-icon('--button-icon-foreground', '--button-icon-hover-foreground');
 }
 
 .secondary-block
 {
     collapsible-icon
     {
-        @include collapsible-icon(color.scale(map.get($theme, btnIconForeground), $lightness: 60%), map.get($theme, btnIconForegroundHover));
+        @include collapsible-icon('--button-icon-foreground', '--button-icon-hover-foreground');
     }
 }
 
@@ -107,7 +108,7 @@ collapsible-icon
     {
         div
         {
-            border-color: map.get($theme, btnIconForeground);
+            border-color: var(--button-icon-foreground);
         }
     }
 }
@@ -118,36 +119,36 @@ vaha-tag
 {
     div
     {
-        color: map.get($theme, weightForeground);
+        color: var(--weight-foreground);
 
         &.weight-0
         {
-            background-color: map.get($theme, weight-0);
+            background-color: var(--weight-weight-0);
         }
         
         &.weight-1
         {
-            background-color: map.get($theme, weight-1);
+            background-color: var(--weight-weight-1);
         }
 
         &.weight-2
         {
-            background-color: map.get($theme, weight-2);
+            background-color: var(--weight-weight-2);
         }
 
         &.weight-3
         {
-            background-color: map.get($theme, weight-3);
+            background-color: var(--weight-weight-3);
         }
 
         &.weight-4
         {
-            background-color: map.get($theme, weight-4);
+            background-color: var(--weight-weight-4);
         }
 
         &.weight-5
         {
-            background-color: map.get($theme, weight-5);
+            background-color: var(--weight-weight-5);
         }
     }
 }

@@ -1,40 +1,30 @@
-@use 'sass:map';
-
 @use '../../mixins';
 @use '../mixins/grid.mixins' as grid;
 
-$theme: null !default;
-
 //############## BLOCKS ##############
-
-.popup-block
-{
-    box-shadow: 0 0 3px map.get($theme, popupBorder);
-    background-color: map.get($theme, popupBackground);
-}
 
 .primary-block
 {
-    @include mixins.thin-scrollbar-color($theme, "primaryBackground");
+    @include mixins.thin-scrollbar-color('--primary-scrollbar');
 
-    background-color: map.get($theme, primaryBackground);
-    color: map.get($theme, primaryForeground);
+    background-color: var(--primary-background);
+    color: var(--primary-foreground);
 }
 
 .secondary-block
 {
-    @include mixins.thin-scrollbar-color($theme, "secondaryBackground");
+    @include mixins.thin-scrollbar-color('--secondary-scrollbar');
 
-    background-color: map.get($theme, secondaryBackground);
-    color: map.get($theme, secondaryForeground);
+    background-color: var(--secondary-background);
+    color: var(--secondary-foreground);
 }
 
 .highlight-block
 {
-    @include mixins.thin-scrollbar-color($theme, "blockBackground");
+    @include mixins.thin-scrollbar-color('--block-scrollbar');
 
-    background-color: map.get($theme, blockBackground);
-    color: map.get($theme, blockForeground);
+    background-color: var(--block-background);
+    color: var(--block-foreground);
 
     ng-grid
     {
@@ -42,26 +32,21 @@ $theme: null !default;
         {
             .content-renderer-header > div
             {
-                border-color: map.get($theme, hightlightGridHeaderBackground);
+                border-color: var(--hightlight-grid-header-background);
             }
 
             .fixed-header
             {
-                background-color: map.get($theme, hightlightGridHeaderBackground);
-                color: map.get($theme, hightlightGridHeaderForeground);
+                background-color: var(--hightlight-grid-header-background);
+                color: var(--hightlight-grid-header-foreground);
             }
 
             .content-renderer-body > div:nth-of-type(2n+1) > div
             {
-                background-color: map.get($theme, hightlightGridEvenRowBackground);
+                background-color: var(--hightlight-grid-evenRow-background);
             }
         }
 
-        @include grid.paging-full-coloring(map.get($theme, highlightPrimaryPagingBackground),
-                                           map.get($theme, highlightPrimaryPagingForeground),
-                                           map.get($theme, highlightPrimaryPagingDisabledBackground),
-                                           map.get($theme, highlightPrimaryPagingDisabledForeground),
-                                           map.get($theme, highlightSecondaryPagingBackground),
-                                           map.get($theme, highlightSecondaryPagingForeground));
+        @include grid.paging-full-coloring('highlight-');
     }
 }

@@ -1,0 +1,141 @@
+@mixin css
+{
+    //############## GRID ##############
+
+    ng-grid
+    {
+        div.css-grid-content-renderer
+        {
+            .content-renderer-body > div > div
+            {
+                padding: 3px;
+                border-top: none;
+                line-height: initial;
+            }
+
+            .content-renderer-header > div
+            {
+                padding: 5px;
+                border-width: 1px;
+                border-style: solid;
+                line-height: initial;
+            }
+
+            .fixed-header
+            {
+                white-space: nowrap;
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+
+            .header-content::first-letter
+            {
+                text-transform: uppercase;
+            }
+
+            .header-content
+            {
+                display: inline-block;
+            }
+        }
+
+        table
+        {
+            width: 100%;
+            max-width: 100%;
+            background-color: transparent;
+            border-spacing: 0;
+            border-collapse: collapse;
+    
+            .header-ordering
+            {
+                padding-left: 4px;
+            }
+
+            .fixed-header
+            {
+                white-space: nowrap;
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+
+            & > thead > tr > th
+            {
+                padding: 5px;
+                vertical-align: bottom;
+                border-width: 1px;
+                border-style: solid;
+                text-align: left;
+            }
+    
+            & > tbody > tr > td
+            {
+                padding: 3px;
+                vertical-align: middle;
+            }
+        }
+
+        ng-basic-paging
+        {
+            margin-top: vars.$sizeSm;
+
+            &>div
+            {
+                display: flex;
+                flex-direction: row;
+
+                &>ul
+                {
+                    margin: 0;
+                    padding: 0;
+                    flex: 1;
+                    display: flex;
+
+                    li
+                    {
+                        list-style: none;
+
+                        a
+                        {
+                            padding: 5px 10px;
+                            font-size: 12px;
+                        }
+                    }
+                }
+
+                &>div
+                {
+                    display: flex;
+                    flex-direction: row;
+
+                    .items-count
+                    {
+                        align-self: center;
+                        line-height: 1em;
+                    }
+
+                    ul
+                    {
+                        display: flex;
+                        flex-direction: row;
+                        margin: 0;
+                        padding: 0;
+
+                        li
+                        {
+                            list-style: none;
+
+                            a
+                            {
+                                padding: 5px 10px;
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

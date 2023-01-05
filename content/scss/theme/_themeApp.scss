@@ -1,0 +1,36 @@
+@use 'sass:meta';
+
+@use '../mixins';
+
+//---------------------- PAGE STYLING ----------------------
+.app-page
+{
+    //############## SCROLLBAR ##############
+
+    @include mixins.thin-scrollbar-color('--page-scrollbar');
+
+    .thin-scrollbar::-webkit-scrollbar
+    {
+        background-color: transparent;
+    }
+
+    app
+    {
+        router-outlet+*, router-outlet+*+*
+        {
+            @extend .thin-scrollbar;
+        }
+    }
+
+    //############## BLOCKS ##############
+
+    .primary-block,
+    .secondary-block
+    {
+        &.thin-scrollbar,
+        .thin-scrollbar
+        {
+            overflow-y: scroll;
+        }
+    }
+}

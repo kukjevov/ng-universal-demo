@@ -1,0 +1,37 @@
+@mixin css
+{
+    //############## TITLED DIALOG ##############
+
+    titled-dialog,
+    movable-titled-dialog
+    {
+        .titled-dialog-title
+        {
+            border-top-left-radius: vars.$borderRadius;
+            border-top-right-radius: vars.$borderRadius;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .titled-dialog-content
+        {
+            border-bottom-left-radius: vars.$borderRadius;
+            border-bottom-right-radius: vars.$borderRadius;
+        }
+    }
+
+    //############## TOOLTIP ##############
+
+    tooltip-popup
+    {
+        z-index: 19876;
+    }
+
+    //############## DIALOG ##############
+
+    mat-dialog-container
+    {
+        padding: 0;
+        overflow: visible;
+    }
+}
