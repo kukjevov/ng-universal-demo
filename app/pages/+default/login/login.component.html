@@ -1,21 +1,26 @@
 <div class="align-self-center">
-    <h1 class="text-uppercase text-center" >{{'gui' | translate}}</h1>
+    <h1 class="text-uppercase text-center">{{'gui' | translate}}</h1>
 
     <div class="alert alert-danger" *ngIf="authenticationError" @slideInOut>
         {{'Authentication failed! Please check your credentials and try again.' | translate}}
     </div>
 
-    <form class="form" role="form" [formGroup]="form" (submit)="login()">
-        <div class="form-group">
-            <label for="username">{{'Login' | translate}}</label>
-            <input type="text" class="form-control" id="username" placeholder="{{'Your login' | translate}}" formControlName="userName">
+    <form class="form" role="form" [formGroup]="form" (submit)="$event.preventDefault(); $event.stopPropagation(); login()">
+        <div class="form-group margin-bottom-extra-small">
+            <label class="control-label" for="username">{{'Login' | translate}}</label>
+            <input type="text" class="form-control" [placeholder]="'Your login' | translate" formControlName="userName">
         </div>
 
-        <div class="form-group">
-            <label for="password">{{'Password' | translate}}</label>
-            <input type="password" class="form-control" id="password" placeholder="{{'Your password' | translate}}" formControlName="password">
+        <div class="form-group margin-bottom-small">
+            <label class="control-label" for="password">{{'Password' | translate}}</label>
+            <input type="password" class="form-control" [placeholder]="'Your password' | translate" formControlName="password">
         </div>
 
-        <button type="submit" class="btn btn-primary">{{'Authenticate' | translate}}</button>
+        <div class="flex justify-content-center">
+            <button type="submit" class="btn btn-primary">
+                <span class="fas fa-sign-in-alt"></span>
+                <span>{{'Authenticate' | translate}}</span>
+            </button>
+        </div>
     </form>
 </div>

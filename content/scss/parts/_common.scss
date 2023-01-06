@@ -1,0 +1,179 @@
+@use '../vars';
+
+@mixin css
+{
+    //############## MISC ##############
+
+    hr
+    {
+        margin-bottom: vars.$sizeXs;
+        margin-top: vars.$sizeXs;
+        border: none;
+        border-top-width: 1px;
+        border-top-style: solid;
+        border-top-color: var(--separator-foreground);
+    }
+
+    .text-selection
+    {
+        user-select: text;
+    }
+
+    .line-height-default
+    {
+        line-height: 1em;
+    }
+    
+    .border-round
+    {
+        border-radius: vars.$borderRadius;
+    }
+
+    .top-border-round
+    {
+        border-top-left-radius: vars.$borderRadius;
+        border-top-right-radius: vars.$borderRadius;
+    }
+
+    .bottom-border-round
+    {
+        border-bottom-left-radius: vars.$borderRadius;
+        border-bottom-right-radius: vars.$borderRadius;
+    }
+
+    .left-border-round
+    {
+        border-top-left-radius: vars.$borderRadius;
+        border-bottom-left-radius: vars.$borderRadius;
+    }
+
+    .right-border-round
+    {
+        border-top-right-radius: vars.$borderRadius;
+        border-bottom-right-radius: vars.$borderRadius;
+    }
+
+    .top-left-border-round
+    {
+        border-top-left-radius: vars.$borderRadius;
+    }
+
+    .bottom-left-border-round
+    {
+        border-bottom-left-radius: vars.$borderRadius;
+    }
+
+    .top-right-border-round
+    {
+        border-top-right-radius: vars.$borderRadius;
+    }
+
+    .bottom-right-border-round
+    {
+        border-bottom-right-radius: vars.$borderRadius;
+    }
+
+    .extra-small-text
+    {
+        font-size: 0.8rem;
+    }
+    
+    .small-text
+    {
+        font-size: 0.9rem;
+    }
+
+    .normal-text
+    {
+        font-size: 1rem;
+    }
+
+    .medium-text
+    {
+        font-size: 1.1rem;
+    }
+
+    .large-text
+    {
+        font-size: 1.2rem;
+    }
+
+    .extra-large-text
+    {
+        font-size: 1.5rem;
+    }
+
+    .extra-extra-large-text
+    {
+        font-size: 1.8rem;
+    }
+
+    //############## TEXTS ##############
+
+    .text-danger,
+    .text-error
+    {
+        color: var(--text-danger);
+    }
+
+    .text-warning
+    {
+        color: var(--text-warning);
+    }
+
+    .text-success
+    {
+        color: var(--text-success);
+    }
+
+    .text-info
+    {
+        color: var(--text-info);
+    }
+
+    @include generate-margin-padding(padding, vars.$sizes);
+    @include generate-margin-padding(margin, vars.$sizes);
+}
+
+@mixin generate-margin-padding($type, $sizes)
+{
+    @each $sizeType, $size in $sizes
+    {
+        .#{$type}-#{$sizeType}
+        {
+            #{$type}: $size;
+        }
+
+        .#{$type}-right-#{$sizeType}
+        {
+            #{$type}-right: $size;
+        }
+
+        .#{$type}-left-#{$sizeType}
+        {
+            #{$type}-left: $size;
+        }
+
+        .#{$type}-top-#{$sizeType}
+        {
+            #{$type}-top: $size;
+        }
+
+        .#{$type}-bottom-#{$sizeType}
+        {
+            #{$type}-bottom: $size;
+        }
+
+        .#{$type}-horizontal-#{$sizeType}
+        {
+            #{$type}-left: $size;
+            #{$type}-right: $size;
+        }
+
+        .#{$type}-vertical-#{$sizeType}
+        {
+            #{$type}-top: $size;
+            #{$type}-bottom: $size;
+        }
+    }
+}
