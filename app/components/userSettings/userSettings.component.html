@@ -30,7 +30,7 @@
         <div class="text-capitalize">{{'theme' | translate}}</div>
 
         <div>
-            <ng-select formControlName="theme">
+            <ng-select formControlName="theme" absolute>
                 <ng-option *ngFor="let theme of themes" [text]="theme | translate" [value]="theme"></ng-option>
             </ng-select>
         </div>
@@ -39,7 +39,7 @@
         <div class="text-capitalize">{{'language' | translate}}</div>
 
         <div>
-            <ng-select formControlName="language">
+            <ng-select formControlName="language" absolute>
                 <ng-option *ngFor="let lang of languages" [text]="lang.name" [value]="lang?.lang"></ng-option>
             </ng-select>
         </div>
@@ -51,7 +51,7 @@
         <div class="text-capitalize">{{'console log' | translate}}</div>
 
         <div>
-            <ng-select formControlName="consoleLogLevel">
+            <ng-select formControlName="consoleLogLevel" absolute>
                 <ng-option *ngFor="let level of logLevels" [text]="level.name" [value]="level?.value"></ng-option>
             </ng-select>
         </div>
@@ -61,7 +61,7 @@
             <div class="text-capitalize">{{'file log' | translate}}</div>
 
             <div>
-                <ng-select formControlName="fileLogLevel">
+                <ng-select formControlName="fileLogLevel" absolute>
                     <ng-option *ngFor="let level of logLevels" [text]="level.name" [value]="level?.value"></ng-option>
                 </ng-select>
             </div>
