@@ -36,5 +36,5 @@ export interface SettingsStorage
      * Sets logging settings object to storage
      * @param config Logging settings object to be stored
      */
-    setLogging(config: SettingsLogging);
+    setLogging(config: SettingsLogging): void;
 }

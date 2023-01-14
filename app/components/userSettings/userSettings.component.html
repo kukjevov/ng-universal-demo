@@ -40,7 +40,7 @@
 
         <div>
             <ng-select formControlName="language">
-                <ng-option *ngFor="let lang of languages" [text]="lang?.name" [value]="lang?.lang"></ng-option>
+                <ng-option *ngFor="let lang of languages" [text]="lang.name" [value]="lang?.lang"></ng-option>
             </ng-select>
         </div>
     </div>
@@ -52,7 +52,7 @@
 
         <div>
             <ng-select formControlName="consoleLogLevel">
-                <ng-option *ngFor="let level of logLevels" [text]="level?.name" [value]="level?.value"></ng-option>
+                <ng-option *ngFor="let level of logLevels" [text]="level.name" [value]="level?.value"></ng-option>
             </ng-select>
         </div>
 
@@ -62,7 +62,7 @@
 
             <div>
                 <ng-select formControlName="fileLogLevel">
-                    <ng-option *ngFor="let level of logLevels" [text]="level?.name" [value]="level?.value"></ng-option>
+                    <ng-option *ngFor="let level of logLevels" [text]="level.name" [value]="level?.value"></ng-option>
                 </ng-select>
             </div>
         </ng-template>

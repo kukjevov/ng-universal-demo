@@ -128,7 +128,7 @@ export class UserSettingsSAComponent
         this.loggingSettingsForm = formBuilder.group(
         <SettingsLoggingEnum>
         {
-            consoleLogLevel: LogEventLevel[loggingSettings.consoleLogLevel],
+            consoleLogLevel: LogEventLevel[loggingSettings.consoleLogLevel as keyof typeof LogEventLevel],
         });
 
         this.generalSettingsForm.valueChanges.subscribe((generalSettings: SettingsGeneral) =>
@@ -163,11 +163,13 @@ export class UserSettingsSAComponent
     {
         Object.keys(LogEventLevel).forEach(val =>
         {
-            if(!isNaN(+val))
+            const numVal = +val;
+
+            if(!isNaN(numVal))
             {
                 this.logLevels.push(
                 {
-                    name: LogEventLevel[val],
+                    name: LogEventLevel[numVal],
                     value: val
                 });
             }

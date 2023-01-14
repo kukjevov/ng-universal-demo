@@ -22,5 +22,5 @@ const platform = platformBrowser();
 runWhenModuleStable(platform.bootstrapModule(BrowserAppModule), (moduleRef: NgModuleRef<any>) =>
 {
     moduleRef.injector.get(RestTransferStateService)?.clearAndDeactivate();
-    jsDevMode && simpleNotification(jsDevMode && import.meta.webpackHot);
+    jsDevMode && simpleNotification(jsDevMode && !!import.meta.webpackHot);
 }, config.configuration.debug);

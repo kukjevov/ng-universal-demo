@@ -4,7 +4,7 @@ import {RESTClient, GET, BaseUrl, DefaultHeaders, ResponseTransform, POST, FullH
 import {UserIdentity, AccessToken, AuthInterceptor, SuppressAuthInterceptor} from '@anglr/authentication';
 import {ServiceUnavailableInterceptor, HttpGatewayTimeoutInterceptor, NoConnectionInterceptor} from '@anglr/error-handling';
 import {Dictionary} from '@jscrpt/common';
-import {Observable, Observer, throwError} from 'rxjs';
+import {NEVER, Observable, Observer, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
 import {config} from '../../../config';
@@ -24,7 +24,7 @@ export class AccountService extends RESTClient
     /**
      * Computed permissions for roles
      */
-    private _permissions: Dictionary<string[]>;
+    private _permissions: Dictionary<string[]>|undefined|null;
 
     //######################### private properties #########################
 
@@ -60,7 +60,7 @@ export class AccountService extends RESTClient
     @POST('logout')
     public logout(): Observable<void>
     {
-        return null;
+        return NEVER;
     }
 
     /**
@@ -77,7 +77,7 @@ export class AccountService extends RESTClient
     @GET('myaccount')
     public getUserIdentity(): Observable<UserIdentity>
     {
-        return null;
+        return NEVER;
     }
 
     //######################### private methods #########################
@@ -89,7 +89,7 @@ export class AccountService extends RESTClient
     @POST('authentication')
     private _login(@Body _body: HttpParams): Observable<void>
     {
-        return null;
+        return NEVER;
     }
 
     /**
@@ -187,7 +187,7 @@ export class AccountService extends RESTClient
 
         Object.keys(permissions).forEach(permission =>
         {
-            const roles = permissions[permission];
+            const roles = (permissions as Dictionary)[permission];
 
             if(Array.isArray(roles))
             {

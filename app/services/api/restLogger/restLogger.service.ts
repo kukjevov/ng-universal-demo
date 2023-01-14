@@ -3,7 +3,7 @@ import {RESTClient, BaseUrl, DefaultHeaders, POST, JsonContentType, Body, Disabl
 import {LoggerRestClient, RestLog} from '@anglr/common/structured-log';
 import {AuthInterceptor, SuppressAuthInterceptor} from '@anglr/authentication';
 import {ClientErrorHandlingMiddleware} from '@anglr/error-handling/rest';
-import {EMPTY, Observable} from 'rxjs';
+import {EMPTY, NEVER, Observable} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
 import {config} from '../../../config';
@@ -46,7 +46,7 @@ export class RestLoggerService extends RESTClient implements LoggerRestClient
     @POST('logger')
     public _log(@Body @ParameterTransform('_unhandledErrorsTransform') _logs: RestLog[]): Observable<void>
     {
-        return null;
+        return NEVER;
     }
 
     //######################### private methods #########################

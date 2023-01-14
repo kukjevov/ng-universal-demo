@@ -35,7 +35,7 @@ import {RestMockLoggerService} from '../services/api/restMockLogger';
  * Creates APP initialization factory, that first try to authorize user before doing anything else
  * @param authService Authentication service used for authentication of user
  */
-export function appInitializerFactory(authService: AuthenticationService<any>): () => Promise<void>
+export function appInitializerFactory(authService: AuthenticationService): () => Promise<void>
 {
     return async () =>
     {
@@ -201,7 +201,7 @@ export const providers: Provider[] =
     <ValueProvider>
     {
         provide: NORMAL_STATE_OPTIONS,
-        useValue: <NormalStateOptions<any>>
+        useValue: <NormalStateOptions>
         {
             texts:
             {
@@ -231,7 +231,7 @@ export const providers: Provider[] =
         provide: ConsoleSinkConfigService,
         useFactory: (settingsSvc: SettingsService) =>
         {
-            return new ConsoleSinkConfigService(null, LogEventLevel[settingsSvc?.settingsLogging?.consoleLogLevel]);
+            return new ConsoleSinkConfigService(undefined, LogEventLevel[settingsSvc.settingsLogging.consoleLogLevel as keyof typeof LogEventLevel]);
         },
         deps: [SettingsService]
     },
@@ -423,5 +423,4 @@ export const providers: Provider[] =
         },
         deps: [Injector]
     },
-    
 ];

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {RESTClient, GET, BaseUrl, DefaultHeaders} from '@anglr/rest';
-import {Observable} from 'rxjs';
+import {NEVER, Observable} from 'rxjs';
 
 import {ConfigReleaseData} from './configRelease.interface';
 import {config} from '../../../config';
@@ -22,6 +22,6 @@ export class ConfigReleaseService extends RESTClient
     @GET('config/release')
     public get(): Observable<ConfigReleaseData>
     {
-        return null;
+        return NEVER;
     }
 }

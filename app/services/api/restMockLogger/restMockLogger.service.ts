@@ -4,7 +4,8 @@ import {RESTClient, BaseUrl, DefaultHeaders, MockLogger, JsonContentType, Disabl
 import {ClientErrorHandlingMiddleware} from '@anglr/error-handling/rest';
 import {AuthInterceptor, SuppressAuthInterceptor} from '@anglr/authentication';
 import {isBlank, isString} from '@jscrpt/common';
-import {Observable} from 'rxjs';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
+import {NEVER, Observable} from 'rxjs';
 
 import {config} from '../../../config';
 
@@ -61,13 +62,12 @@ export class RestMockLoggerService extends RESTClient implements MockLogger
             responseString = JSON.stringify(response.body, null, 4);
         }
         
-        return await this
+        return await lastValueFrom(this
             ._logResponse(
             {
                 url: request.url,
                 response: responseString
-            })
-            .toPromise()
+            }))
             .catch(_ => console.warn('Failed to log mock data'));
     }
 
@@ -85,6 +85,6 @@ export class RestMockLoggerService extends RESTClient implements MockLogger
     @POST('mockLogger')
     private _logResponse(@Body _mock: {url: string, response: string}): Observable<any>
     {
-        return null;
+        return NEVER;
     }
 }

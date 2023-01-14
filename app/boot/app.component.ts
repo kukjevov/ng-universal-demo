@@ -7,6 +7,7 @@ import {AppHotkeysService} from '@anglr/common/hotkeys';
 import {AuthenticationService} from '@anglr/authentication';
 import {fadeInOutTrigger} from '@anglr/animations';
 import {nameof} from '@jscrpt/common';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {Hotkey} from 'angular2-hotkeys';
 import {Subscription} from 'rxjs';
@@ -36,7 +37,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * Subscription for router outlet activation changes
      */
-    private _routerOutletActivatedSubscription: Subscription;
+    private _routerOutletActivatedSubscription: Subscription|undefined|null;
 
     /**
      * Subscription for authenticated changes
@@ -101,10 +102,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
      * Router outlet that is used for loading routed components
      */
     @ViewChild('outlet')
-    public routerOutlet: RouterOutlet;
+    public routerOutlet: RouterOutlet|undefined|null;
 
     //######################### constructor #########################
-    constructor(_authSvc: AuthenticationService<any>,
+    constructor(_authSvc: AuthenticationService,
                 translateSvc: TranslateService,
                 private _changeDetector: ChangeDetectorRef,
                 private _appHotkeys: AppHotkeysService,
@@ -181,10 +182,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
      */
     public async ngOnInit(): Promise<void>
     {
-        const srvCfg = await this._configSvc.get().toPromise();
+        const srvCfg = await lastValueFrom(this._configSvc.get());
 
-        this.serverVersion = srvCfg.release;
-        this.serverName = srvCfg.name;
+        this.serverVersion = srvCfg?.release ?? '';
+        this.serverName = srvCfg?.name ?? '';
         
         this._changeDetector.detectChanges();
     }
@@ -196,9 +197,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
      */
     public ngAfterViewInit()
     {
-        this._routerOutletActivatedSubscription = this.routerOutlet.activateEvents.subscribe(() =>
+        this._routerOutletActivatedSubscription = this.routerOutlet?.activateEvents.subscribe(() =>
         {
-            this.routeComponentState = this.routerOutlet.activatedRouteData['animation'] || (<any>this.routerOutlet.activatedRoute.component).name;
+            this.routeComponentState = this.routerOutlet?.activatedRouteData['animation'] || (<any>this.routerOutlet?.activatedRoute.component).name;
         });
 
         this.initialized = true;
@@ -215,13 +216,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
         this._routerOutletActivatedSubscription = null;
 
         this._authChangedSubscription?.unsubscribe();
-        this._authChangedSubscription = null;
-
         this._settingsChangeSubscription?.unsubscribe();
-        this._settingsChangeSubscription = null;
-
         this._settingsDebuggingChangeSubscription?.unsubscribe();
-        this._settingsDebuggingChangeSubscription = null;
 
         this._appHotkeys.destroy();
     }
@@ -247,7 +243,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
                 this._changeDetector.detectChanges();
 
                 return false;
-            }, null, 'Show console'));
+            }, undefined, 'Show console'));
         }
     }
 }
