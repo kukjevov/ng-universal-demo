@@ -2,7 +2,6 @@
 
 @use 'misc' as misc;
 @use 'mixins';
-@use 'vars';
 
 @use 'parts/alerts' as alerts;
 @use 'parts/blocks' as blocks;
@@ -19,7 +18,6 @@
 .app-page
 {
     font-family: "Inter";
-    font-size: 14px;
     user-select: none;
     background-color: var(--page-background);
     color: var(--page-foreground);

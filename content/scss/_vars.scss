@@ -1,14 +1,19 @@
 //---------------------- SIZING ----------------------
-$sizeXs: 4px;
-$sizeSm: 10px;
-$sizeMd: 15px;
-$sizeLg: 20px;
+$sizeXs: .286rem; //4px
+$sizeSm: .714rem; //10px
+$sizeMd: 1.071rem; //15px
+$sizeLg: 1.429rem; //20px
 $sizeBg: $sizeLg;
 
-$negXsWidth: -4px;
-$negSmWidth: -10px;
-$negMdWidth: -15px;
-$negLgWidth: -20px;
+$negXsWidth: -.286rem;
+$negSmWidth: -.714rem;
+$negMdWidth: -1.071rem;
+$negLgWidth: -1.429rem;
+
+$rootMinFontSize: 12px;
+$rootMaxFontSize: 14px;
+$rootMinFontSizeWidth: 500px;
+$rootMaxFontSizeWidth: 800px;
 
 $responsiveTrasholdMd: 800px;
 
