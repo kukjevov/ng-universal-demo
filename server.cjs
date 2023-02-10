@@ -15,7 +15,7 @@ var app = connect();
 
 connectExtensions.extendConnectUse(app);
 
-const wwwroot = path.join(__dirname, "wwwroot");
+const wwwroot = path.join(__dirname, 'wwwroot');
 const serverPath = path.join(wwwroot, 'dist/server.es2015.js');
 const proxyUrlFile = path.join(__dirname, 'proxyUrl.cjs');
 var serverRenderFunc;

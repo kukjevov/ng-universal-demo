@@ -419,8 +419,7 @@ export const providers: Provider[] =
         provide: HTTP_CLIENT_ERROR_CUSTOM_HANDLER,
         useValue: <Record<number, HttpClientErrorCustomHandlerDef>>
         {
-            404: [handle404Func, error => new RestNotFoundError(error.errors)]
+            404: [handle404Func, error => new RestNotFoundError(error.errors)],
         },
-        deps: [Injector]
     },
 ];
