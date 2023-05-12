@@ -2,7 +2,7 @@
 node_modules/
 wwwroot/
 packages/
-mockLogger/
+**/mockLogger/mocks
 package-lock.json
 **/config/version.json
 **/config/config.*.json

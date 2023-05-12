@@ -3,7 +3,8 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../node_modules/@anglr/common/typings/positions/index.d.ts" />
 
-declare let isProduction: boolean;
+declare const isProduction: boolean;
+declare const isNgsw: boolean;
 
 interface ImportMeta
 {
