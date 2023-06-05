@@ -184,8 +184,8 @@ export default [function(options, args)
                 "numeral-languages": path.join(dirName, "node_modules/numeral/locales.js"),
                 "app": path.join(dirName, "app")
             },
-            mainFields: ssr ? ['esm2015', 'es2015', 'jsnext:main', 'module', 'main'] : ['esm2020', 'esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main'],
-            conditionNames: ['esm2020', 'es2015', 'import']
+            mainFields: ssr ? ['esm2022', 'esm2015', 'es2015', 'jsnext:main', 'module', 'main'] : ['esm2022', 'es2022', 'esm2020', 'esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main'],
+            conditionNames: ['esm2022', 'es2022', 'esm2020', 'es2015', 'import']
         },
         module:
         {
