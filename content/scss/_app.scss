@@ -22,6 +22,15 @@
     background-color: var(--page-background);
     color: var(--page-foreground);
 
+    //############## PACKAGES ##############
+
+    @include datetime.buildThemeCss;
+    @include meta.load-css('../../node_modules/@anglr/common/styles/light');
+
+    //############## SIZES ##############
+
+    @include mixins.buildSizes;
+
     //############## SCROLLBAR ##############
 
     @include mixins.thin-scrollbar-color('--page-scrollbar');
@@ -36,11 +45,6 @@
     @include forms.css;
     @include grid.css;
     @include titles.css;
-
-    //############## PACKAGES ##############
-
-    @include datetime.buildThemeCss;
-    @include meta.load-css('../../node_modules/@anglr/common/styles/light');
 
     //############## MISC ##############
 

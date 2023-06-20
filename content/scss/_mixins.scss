@@ -1,4 +1,5 @@
 @use 'sass:math';
+@use 'vars';
 
 @mixin thin-scrollbar-color($color)
 {
@@ -51,4 +52,21 @@
             }
         }
     }
+}
+
+@mixin buildSizes()
+{
+    --size-xs: #{vars.$sizeXs};
+    --size-sm: #{vars.$sizeSm};
+    --size-md: #{vars.$sizeMd};
+    --size-lg: #{vars.$sizeLg};
+    --size-bg: #{vars.$sizeBg};
+
+    --size-neg-xs: #{vars.$negXsWidth};
+    --size-neg-sm: #{vars.$negSmWidth};
+    --size-neg-md: #{vars.$negMdWidth};
+    --size-neg-lg: #{vars.$negLgWidth};
+
+    --border-radius: #{vars.$borderRadius};
+    --responsive-threshold-md: #{vars.$responsiveThresholdMd};
 }

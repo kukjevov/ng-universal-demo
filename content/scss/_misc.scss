@@ -85,6 +85,13 @@
         flex-direction: column;
     }
 
+    .flex-0
+    {
+        flex: 0;
+        min-width: 0;
+        min-height: 0;
+    }
+
     .flex-1
     {
         flex: 1;
@@ -320,6 +327,12 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+
+    .flexible-ellipsis
+    {
+        min-width: 0;
+        min-height: 0;
     }
 
     .line-height-1em
