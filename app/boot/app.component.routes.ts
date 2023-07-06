@@ -14,6 +14,7 @@ export const routesOptions: ModuleRoutesOptions =
     rootModuleConfig:
     {
         enableTracing: false,
+        bindToComponentInputs: true,
         // preloadingStrategy: PreloadAllModules
     },
     staticRoutesBefore:

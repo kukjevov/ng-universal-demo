@@ -112,7 +112,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy
                 private _configSvc: ConfigReleaseService,
                 settings: SettingsService,
                 @Inject(LOGGER) logger: Logger,
-                @Inject(DOCUMENT) document: HTMLDocument)
+                @Inject(DOCUMENT) document: Document,)
     {
         logger.verbose('Application is starting, main component constructed.');
 
