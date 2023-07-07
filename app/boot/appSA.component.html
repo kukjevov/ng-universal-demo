@@ -1,0 +1,25 @@
+<main-menu/>
+
+<progress-indicator/>
+<internal-server-error/>
+<global-notifications/>
+<hotkeys-cheatsheet/>
+
+<div class="content relative" [@routeAnimations]="routeComponentState">
+    <div class="main-content">
+        <router-outlet #outlet="outlet"/>
+    </div>
+</div>
+
+<div class="gui-version">GUI version: {{guiVersion}}</div>
+
+<console *ngIf="consoleVisible" @consoleAnimation/>
+
+<div class="loading-indicator" *ngIf="!initialized" @loaderAnimation>
+    <div class="loading-header">
+        <div class="loading-title">APP</div>
+    </div>
+
+    <div class="loading-card"></div>
+    <div class="loading-spinner"></div>
+</div>

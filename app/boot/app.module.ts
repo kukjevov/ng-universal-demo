@@ -1,5 +1,4 @@
 import {NgModule, ClassProvider} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {ModuleRoutes} from '@anglr/common/router';
@@ -12,8 +11,7 @@ import {HotkeyModule} from 'angular2-hotkeys';
 
 import {AppComponent} from './app.component';
 import {components, routesOptions} from './app.component.routes';
-import {APP_TRANSFER_ID} from '../misc/constants';
-import {providers} from './app.config';
+import {globalProviders} from './app.config';
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
 import {MenuModule} from '../modules';
 import {config} from '../config';
@@ -26,10 +24,6 @@ import {ReportMissingTranslationService} from '../services/missingTranslation';
 {
     imports:
     [
-        BrowserModule.withServerTransition(
-        {
-            appId: APP_TRANSFER_ID
-        }),
         HttpClientModule,
         InternalServerErrorModule,
         ProgressIndicatorModule,
@@ -58,7 +52,7 @@ import {ReportMissingTranslationService} from '../services/missingTranslation';
             useDefaultLang: !config.configuration.debugTranslations
         })
     ],
-    providers: providers,
+    providers: globalProviders,
     declarations:
     [
         AppComponent,

@@ -1,5 +1,5 @@
 import {NgModule, FactoryProvider} from '@angular/core';
-import {ServerModule, ServerTransferStateModule} from '@angular/platform-server';
+import {ServerModule} from '@angular/platform-server';
 import {AnglrExceptionHandlerOptions} from '@anglr/error-handling';
 import {ServerProvidersModule} from '@anglr/server-stuff';
 import {ServerHotkeysModule} from '@anglr/server-stuff/hotkeys';
@@ -26,7 +26,6 @@ export function anglrExceptionHandlerOptionsFactory()
     [
         AppModule,
         ServerModule,
-        ServerTransferStateModule,
         ServerProvidersModule,
         ServerHotkeysModule
     ],

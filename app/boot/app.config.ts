@@ -72,7 +72,7 @@ export function noConnectionInterceptorOptionsFactory(): NoConnectionInterceptor
 /**
  * Array of providers that are used in app module
  */
-export const providers: Provider[] =
+export const globalProviders: Provider[] =
 [
     //######################### HTTP INTERCEPTORS #########################
     HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER,
