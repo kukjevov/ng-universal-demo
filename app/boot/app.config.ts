@@ -2,7 +2,7 @@ import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider, Provider
 import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER, AuthenticationServiceOptions} from '@anglr/authentication';
 import {LocalPermanentStorageService} from '@anglr/common/store';
 import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS} from '@anglr/common';
-import {ConsoleSinkConfigService, LOGGER_REST_CLIENT, REST_SINK} from '@anglr/common/structured-log';
+import {ConsoleSinkConfigService, DEVELOPER_CONSOLE_SINK, LOGGER_REST_CLIENT, REST_SINK} from '@anglr/common/structured-log';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
 import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, handle404Func, HttpClientErrorResponseMapper, HttpClientValidationErrorResponseMapper, HTTP_CLIENT_ERROR_RESPONSE_MAPPER, HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER, RestNotFoundError} from '@anglr/error-handling';
 import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handling/material';
@@ -226,6 +226,7 @@ export const globalProviders: Provider[] =
 
     //######################### LOGGER #########################
     REST_SINK,
+    DEVELOPER_CONSOLE_SINK,
     <FactoryProvider>
     {
         provide: ConsoleSinkConfigService,
