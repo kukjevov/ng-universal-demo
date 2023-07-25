@@ -1,0 +1,11 @@
+{
+  "name": "Angular App",
+  "short_name": "Angular App",
+  "theme_color": "#0099d3",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
+  "icons": [
+  ]
+}

@@ -40,11 +40,11 @@ function getEntries(ssr, css)
         {
             ...css ? 
             {
-                style: [path.join(dirName, 'content/site.scss'),
-                        path.join(dirName, 'content/dark.scss'),
-                        path.join(dirName, 'content/light.scss')]
+                style: ['./content/site.scss',
+                        './content/dark.scss',
+                        './content/light.scss']
             } : {},
-            client: [path.join(dirName, 'app/main.browser.ts')]
+            client: ['./app/main.browser']
         };
 
         return entries;
@@ -68,7 +68,7 @@ function getSassLoaders()
 }
 
 const distPath = 'wwwroot/dist';
-const angularEntryFile = 'main.browser.bootstrap.ts';
+const angularEntryFile = 'main.browser.bootstrapComponent.ts';
 
 export default [function(options, args)
 {
@@ -102,7 +102,7 @@ export default [function(options, args)
             globalObject: 'self',
             path: path.join(dirName, distPath),
             filename: `[name].js`,
-            publicPath: prod ? 'dist/' : '/dist/',
+            publicPath: 'auto',
             chunkFilename: `[name].${ssr ? 'server' : 'client'}.chunk.js`,
             assetModuleFilename: 'assets/[hash][ext][query]'
         },
@@ -133,7 +133,7 @@ export default [function(options, args)
                             warnings: false
                         },
                         progress: true,
-                    }
+                    },
                 },
                 devtool: 'eval-source-map'
             } :
@@ -182,7 +182,6 @@ export default [function(options, args)
             {
                 "modernizr": path.join(dirName, "content/external/scripts/modernizr-custom.js"),
                 "numeral-languages": path.join(dirName, "node_modules/numeral/locales.js"),
-                "app": path.join(dirName, "app")
             },
             mainFields: ssr ? ['esm2022', 'esm2015', 'es2015', 'jsnext:main', 'module', 'main'] : ['esm2022', 'es2022', 'esm2020', 'esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main'],
             conditionNames: ['esm2022', 'es2022', 'esm2020', 'es2015', 'import']
@@ -279,7 +278,7 @@ export default [function(options, args)
                     resolve: 
                     {
                         fullySpecified: false
-                    }
+                    },
                 },
                 {
                     test: /\.html$/,
@@ -325,7 +324,7 @@ export default [function(options, args)
                 {
                     test: /\.(ttf|woff|woff2|eot|svg|png|jpeg|jpg|bmp|gif|icon|ico)$/,
                     type: 'asset/resource'
-                }
+                },
             ]
         },
         plugins:
@@ -353,8 +352,8 @@ export default [function(options, args)
             {
                 tsConfigPath: path.join(dirName, 'tsconfig.json'),
                 sourceMap: true,
-            })
-        ]
+            }),
+        ],
     };
 
     if(prod && esbuild)
