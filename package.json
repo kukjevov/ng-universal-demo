@@ -47,8 +47,8 @@
         "@angular/cdk": "16.1.4",
         "@anglr/animations": "9.1.0",
         "@anglr/authentication": "11.0.0",
-        "@anglr/common": "17.0.0-beta.20230711095959",
-        "@anglr/datetime": "6.1.0",
+        "@anglr/common": "17.0.0",
+        "@anglr/datetime": "7.0.0",
         "@anglr/error-handling": "12.0.0",
         "@anglr/grid": "9.0.4",
         "@anglr/md-help": "9.0.0",
@@ -57,7 +57,7 @@
         "@anglr/select": "12.0.0",
         "@anglr/server-stuff": "8.0.0",
         "@anglr/translate-extensions": "9.0.0",
-        "@jscrpt/common": "3.4.0",
+        "@jscrpt/common": "4.0.0",
         "@ngx-translate/core": "15.0.0",
         "angular2-hotkeys": "15.0.0",
         "zone.js": "0.13.1",
@@ -82,7 +82,7 @@
         "store": "2.0.12",
         "konami": "1.6.3",
         "structured-log": "0.2.0",
-        "tslib": "2.6.0"
+        "tslib": "2.6.1"
     },
     "devDependencies": {
         "@types/node": "14.14.31",

@@ -1,29 +1,24 @@
-@use 'sass:meta';
-
-@use '../vars';
 @use './themeColors' as themeColors;
 
+@use '@anglr/common/styles' as anglrCommon;
 @use '@anglr/datetime/styles' as datetime;
-@use '../../../node_modules/@anglr/common/styles/dark-colors-vars';
-@use '../../../node_modules/@anglr/common/styles/light-colors-vars';
 
 $theme: () !default;
 $themeName: null !default;
 $dateTimeTheme: null !default;
-$tooltipTheme: 'dark' !default;
-$multiButtonTheme: 'light' !default;
+$multiButtonTheme: null !default;
+$tooltipTheme: null !default;
 
 //---------------------- PAGE STYLING ----------------------
 .app-page.#{$themeName}
 {
-    @extend .multibutton-#{$multiButtonTheme}-theme;
-
     //############## THEME ##############
 
     @include themeColors.buildThemeColors($theme);
 
     //############## PACKAGES ##############
 
+    @include anglrCommon.buildThemeColorsTooltip($tooltipTheme);
+    @include anglrCommon.buildThemeColorsMultiButton($multiButtonTheme);
     @include datetime.buildThemeColors($dateTimeTheme);
-    @include meta.load-css("../../../node_modules/@anglr/common/styles/positions/#{$tooltipTheme}");
 }

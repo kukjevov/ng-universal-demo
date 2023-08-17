@@ -1,8 +1,8 @@
-import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider, Provider, ExistingProvider} from '@angular/core';
+import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders} from '@angular/core';
 import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER, AuthenticationServiceOptions} from '@anglr/authentication';
 import {LocalPermanentStorageService} from '@anglr/common/store';
-import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS} from '@anglr/common';
-import {ConsoleSinkConfigService, DEVELOPER_CONSOLE_SINK, LOGGER_REST_CLIENT, REST_SINK} from '@anglr/common/structured-log';
+import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLogger} from '@anglr/common';
+import {ConsoleSinkConfigService, DEVELOPER_CONSOLE_SINK, LOGGER_REST_CLIENT, REST_SINK, StructuredLogLogger, provideConsoleComponentSink} from '@anglr/common/structured-log';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
 import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, handle404Func, HttpClientErrorResponseMapper, HttpClientValidationErrorResponseMapper, HTTP_CLIENT_ERROR_RESPONSE_MAPPER, HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER, RestNotFoundError} from '@anglr/error-handling';
 import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handling/material';
@@ -10,7 +10,7 @@ import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPa
 import {DialogMetadataSelectorComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
 import {ReservedSpaceValidationErrorsContainerComponent, ValidationErrorRendererFactoryOptions, VALIDATION_ERROR_MESSAGES, VALIDATION_ERROR_RENDERER_FACTORY_OPTIONS} from '@anglr/common/forms';
 import {ConfirmationDialogOptions, CONFIRMATION_DIALOG_OPTIONS, MovableTitledDialogComponent, TitledDialogServiceOptions} from '@anglr/common/material';
-import {FLOATING_UI_POSITION} from '@anglr/common/floating-ui';
+import {FloatingUiPosition} from '@anglr/common/floating-ui';
 import {MD_HELP_NOTIFICATIONS, RenderMarkdownConfig, RENDER_MARKDOWN_CONFIG} from '@anglr/md-help/web';
 import {ClientErrorHandlingMiddleware, HttpClientErrorCustomHandlerDef, HTTP_CLIENT_ERROR_CUSTOM_HANDLER, REST_ERROR_HANDLING_MIDDLEWARE_ORDER} from '@anglr/error-handling/rest';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
@@ -72,7 +72,7 @@ export function noConnectionInterceptorOptionsFactory(): NoConnectionInterceptor
 /**
  * Array of providers that are used in app module
  */
-export const globalProviders: Provider[] =
+export const globalProviders: (Provider|EnvironmentProviders)[] =
 [
     //######################### HTTP INTERCEPTORS #########################
     HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER,
@@ -225,6 +225,8 @@ export const globalProviders: Provider[] =
     },
 
     //######################### LOGGER #########################
+    provideLogger(StructuredLogLogger),
+    provideConsoleComponentSink(),
     REST_SINK,
     DEVELOPER_CONSOLE_SINK,
     <FactoryProvider>
@@ -346,7 +348,7 @@ export const globalProviders: Provider[] =
     },
 
     //######################### POSITION #########################
-    FLOATING_UI_POSITION,
+    providePosition(FloatingUiPosition),
 
     //######################### MARKDOWN #########################
     <ValueProvider>

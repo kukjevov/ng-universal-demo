@@ -3,13 +3,13 @@
 	// for the documentation about the extensions.json format
 	"recommendations": [
 		"angular.ng-template",
-		"msjsdiag.debugger-for-chrome",
 		"eamodio.gitlens",
 		"ecmel.vscode-html-css",
 		"gruntfuggly.todo-tree",
 		"vscode-icons-team.vscode-icons",
 		"bierner.markdown-preview-github-styles",
 		"dbaeumer.vscode-eslint",
-		"mhutchie.git-graph"
+		"mhutchie.git-graph",
+		"ms-edgedevtools.vscode-edge-devtools"
 	]
 }

@@ -1,5 +1,3 @@
-@use 'sass:meta';
-
 @use 'misc' as misc;
 @use 'mixins';
 
@@ -12,6 +10,7 @@
 @use 'parts/grid' as grid;
 @use 'parts/titles' as titles;
 
+@use '@anglr/common/styles' as anglrCommon;
 @use '@anglr/datetime/styles' as datetime;
 
 //---------------------- PAGE STYLING ----------------------
@@ -24,8 +23,8 @@
 
     //############## PACKAGES ##############
 
+    @include anglrCommon.buildThemeCss;
     @include datetime.buildThemeCss;
-    @include meta.load-css('../../node_modules/@anglr/common/styles/light');
 
     //############## SIZES ##############
 

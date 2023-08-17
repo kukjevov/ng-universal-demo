@@ -3,7 +3,6 @@ import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {MatDialogModule} from '@angular/material/dialog';
 import {provideRouter, withComponentInputBinding} from '@angular/router';
 import {extractRoutes} from '@anglr/common/router';
-import {ConsoleLogModule} from '@anglr/common/structured-log';
 import {NotificationsGlobalModule} from '@anglr/notifications';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
 
@@ -23,7 +22,6 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     provideHttpClient(withInterceptorsFromDi(),),
     importProvidersFrom(MatDialogModule),
     importProvidersFrom(NotificationsGlobalModule.forRoot()),
-    importProvidersFrom(ConsoleLogModule.forRoot()),
     importProvidersFrom(TranslateModule.forRoot(
     {
         loader: <ClassProvider>

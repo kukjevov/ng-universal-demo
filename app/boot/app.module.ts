@@ -31,7 +31,7 @@ import {ReportMissingTranslationService} from '../services/missingTranslation';
         RouterModule,
         HotkeyModule,
         MenuModule,
-        ConsoleLogModule.forRoot(),
+        ConsoleLogModule,
         TranslateModule.forRoot(
         {
             loader: <ClassProvider>

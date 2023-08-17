@@ -1,3 +1,6 @@
+@use '@anglr/common/styles/themes/light' as anglrCommonLightTheme;
+@use '@anglr/common/styles/themes/dark' as anglrCommonDarkTheme;
 @use '@anglr/datetime/styles/themes/dark' as dateTimeTheme;
 @use './scss/theme/dark' as appTheme;
-@use 'scss/theme/theme' with ($theme: appTheme.defineTheme(), $themeName: 'dark', $tooltipTheme: 'light', $dateTimeTheme: dateTimeTheme.defineTheme());
+
+@use 'scss/theme/theme' with ($theme: appTheme.defineTheme(), $themeName: 'dark', $multiButtonTheme: anglrCommonDarkTheme.defineTheme(), $tooltipTheme: anglrCommonLightTheme.defineTheme(), $dateTimeTheme: dateTimeTheme.defineTheme());
