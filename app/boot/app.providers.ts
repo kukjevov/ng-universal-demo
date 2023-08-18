@@ -3,7 +3,6 @@ import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {MatDialogModule} from '@angular/material/dialog';
 import {provideRouter, withComponentInputBinding} from '@angular/router';
 import {extractRoutes} from '@anglr/common/router';
-import {NotificationsGlobalModule} from '@anglr/notifications';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
 
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
@@ -21,7 +20,6 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     provideZoneChangeDetection({eventCoalescing: true, runCoalescing: true}),
     provideHttpClient(withInterceptorsFromDi(),),
     importProvidersFrom(MatDialogModule),
-    importProvidersFrom(NotificationsGlobalModule.forRoot()),
     importProvidersFrom(TranslateModule.forRoot(
     {
         loader: <ClassProvider>

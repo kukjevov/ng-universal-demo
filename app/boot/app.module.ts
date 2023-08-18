@@ -27,7 +27,7 @@ import {ReportMissingTranslationService} from '../services/missingTranslation';
         HttpClientModule,
         InternalServerErrorModule,
         ProgressIndicatorModule,
-        NotificationsGlobalModule.forRoot(),
+        NotificationsGlobalModule,
         RouterModule,
         HotkeyModule,
         MenuModule,

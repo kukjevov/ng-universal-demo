@@ -52,7 +52,7 @@
         "@anglr/error-handling": "12.0.0",
         "@anglr/grid": "9.0.4",
         "@anglr/md-help": "9.0.0",
-        "@anglr/notifications": "9.0.0",
+        "@anglr/notifications": "10.0.0",
         "@anglr/rest": "13.0.0",
         "@anglr/select": "12.0.0",
         "@anglr/server-stuff": "8.0.0",

@@ -2,7 +2,7 @@ import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider, Provider
 import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER, AuthenticationServiceOptions} from '@anglr/authentication';
 import {LocalPermanentStorageService} from '@anglr/common/store';
 import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLogger} from '@anglr/common';
-import {ConsoleSinkConfigService, DEVELOPER_CONSOLE_SINK, LOGGER_REST_CLIENT, REST_SINK, StructuredLogLogger, provideConsoleComponentSink} from '@anglr/common/structured-log';
+import {ConsoleSinkConfigService, DEVELOPER_CONSOLE_SINK, DeveloperConsoleSinkOptions, LOGGER_REST_CLIENT, REST_SINK, StructuredLogLogger, provideConsoleComponentSink} from '@anglr/common/structured-log';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
 import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, handle404Func, HttpClientErrorResponseMapper, HttpClientValidationErrorResponseMapper, HTTP_CLIENT_ERROR_RESPONSE_MAPPER, HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER, RestNotFoundError} from '@anglr/error-handling';
 import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handling/material';
@@ -14,6 +14,7 @@ import {FloatingUiPosition} from '@anglr/common/floating-ui';
 import {MD_HELP_NOTIFICATIONS, RenderMarkdownConfig, RENDER_MARKDOWN_CONFIG} from '@anglr/md-help/web';
 import {ClientErrorHandlingMiddleware, HttpClientErrorCustomHandlerDef, HTTP_CLIENT_ERROR_CUSTOM_HANDLER, REST_ERROR_HANDLING_MIDDLEWARE_ORDER} from '@anglr/error-handling/rest';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
+import {provideGlobalNotifications} from '@anglr/notifications';
 import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
 import {LoggerMiddleware, MockLoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, REST_METHOD_MIDDLEWARES, REST_MOCK_LOGGER} from '@anglr/rest';
@@ -231,6 +232,14 @@ export const globalProviders: (Provider|EnvironmentProviders)[] =
     DEVELOPER_CONSOLE_SINK,
     <FactoryProvider>
     {
+        provide: DeveloperConsoleSinkOptions,
+        useFactory: () =>
+        {
+            return new DeveloperConsoleSinkOptions(LogEventLevel.information);
+        }
+    },
+    <FactoryProvider>
+    {
         provide: ConsoleSinkConfigService,
         useFactory: (settingsSvc: SettingsService) =>
         {
@@ -310,6 +319,7 @@ export const globalProviders: (Provider|EnvironmentProviders)[] =
     },
 
     //######################### NOTIFICATIONS #########################
+    provideGlobalNotifications(),
     DEFAULT_NOTIFICATIONS,
     <ExistingProvider>
     {
