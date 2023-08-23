@@ -1,8 +1,7 @@
 import {Component, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef, Inject} from '@angular/core';
 import {CommonModule, DOCUMENT} from '@angular/common';
 import {RouterModule, RouterOutlet} from '@angular/router';
-import {LOGGER, Logger, ProgressIndicatorModule} from '@anglr/common';
-import {ConsoleLogModule, consoleAnimationTrigger} from '@anglr/common/structured-log';
+import {ConsoleSAComponent, LOGGER, Logger, ProgressIndicatorModule, consoleAnimationTrigger} from '@anglr/common';
 import {AppHotkeysService} from '@anglr/common/hotkeys';
 import {InternalServerErrorModule} from '@anglr/error-handling';
 import {NotificationsGlobalModule} from '@anglr/notifications';
@@ -38,7 +37,7 @@ import {SettingsService} from '../services/settings';
         ProgressIndicatorModule,
         NotificationsGlobalModule,
         MenuModule,
-        ConsoleLogModule,
+        ConsoleSAComponent,
         HotkeyModule,
     ],
     animations: [routeAnimationTrigger, fadeInOutTrigger, consoleAnimationTrigger, loaderTrigger],

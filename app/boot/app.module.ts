@@ -2,8 +2,7 @@ import {NgModule, ClassProvider} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {ModuleRoutes} from '@anglr/common/router';
-import {ConsoleLogModule} from '@anglr/common/structured-log';
-import {ProgressIndicatorModule} from '@anglr/common';
+import {ConsoleSAComponent, ProgressIndicatorModule} from '@anglr/common';
 import {InternalServerErrorModule} from '@anglr/error-handling';
 import {NotificationsGlobalModule} from '@anglr/notifications';
 import {TranslateModule, TranslateLoader, MissingTranslationHandler} from '@ngx-translate/core';
@@ -31,7 +30,7 @@ import {ReportMissingTranslationService} from '../services/missingTranslation';
         RouterModule,
         HotkeyModule,
         MenuModule,
-        ConsoleLogModule,
+        ConsoleSAComponent,
         TranslateModule.forRoot(
         {
             loader: <ClassProvider>

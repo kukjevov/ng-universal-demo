@@ -1,8 +1,7 @@
-import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders} from '@angular/core';
+import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject} from '@angular/core';
 import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER, AuthenticationServiceOptions} from '@anglr/authentication';
-import {LocalPermanentStorageService} from '@anglr/common/store';
-import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLogger} from '@anglr/common';
-import {ConsoleSinkConfigService, DEVELOPER_CONSOLE_SINK, DeveloperConsoleSinkOptions, LOGGER_REST_CLIENT, REST_SINK, StructuredLogLogger, provideConsoleComponentSink} from '@anglr/common/structured-log';
+import {LocalPermanentStorage} from '@anglr/common/store';
+import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, provideLoggerRestClient, RestSink} from '@anglr/common';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
 import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, handle404Func, HttpClientErrorResponseMapper, HttpClientValidationErrorResponseMapper, HTTP_CLIENT_ERROR_RESPONSE_MAPPER, HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER, RestNotFoundError} from '@anglr/error-handling';
 import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handling/material';
@@ -10,7 +9,7 @@ import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPa
 import {DialogMetadataSelectorComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
 import {ReservedSpaceValidationErrorsContainerComponent, ValidationErrorRendererFactoryOptions, VALIDATION_ERROR_MESSAGES, VALIDATION_ERROR_RENDERER_FACTORY_OPTIONS} from '@anglr/common/forms';
 import {ConfirmationDialogOptions, CONFIRMATION_DIALOG_OPTIONS, MovableTitledDialogComponent, TitledDialogServiceOptions} from '@anglr/common/material';
-import {FloatingUiPosition} from '@anglr/common/floating-ui';
+import {FloatingUiDomPosition} from '@anglr/common/floating-ui';
 import {MD_HELP_NOTIFICATIONS, RenderMarkdownConfig, RENDER_MARKDOWN_CONFIG} from '@anglr/md-help/web';
 import {ClientErrorHandlingMiddleware, HttpClientErrorCustomHandlerDef, HTTP_CLIENT_ERROR_CUSTOM_HANDLER, REST_ERROR_HANDLING_MIDDLEWARE_ORDER} from '@anglr/error-handling/rest';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
@@ -20,7 +19,6 @@ import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_F
 import {LoggerMiddleware, MockLoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, REST_METHOD_MIDDLEWARES, REST_MOCK_LOGGER} from '@anglr/rest';
 import {DATETIME_REST_DATE_API} from '@anglr/rest/datetime';
 import {isString, isJsObject} from '@jscrpt/common';
-import {LogEventLevel} from 'structured-log';
 import {sk} from 'date-fns/locale';
 
 import {config} from '../config';
@@ -222,36 +220,25 @@ export const globalProviders: (Provider|EnvironmentProviders)[] =
     <ClassProvider>
     {
         provide: PERMANENT_STORAGE,
-        useClass: LocalPermanentStorageService
+        useClass: LocalPermanentStorage
     },
 
     //######################### LOGGER #########################
-    provideLogger(StructuredLogLogger),
-    provideConsoleComponentSink(),
-    REST_SINK,
-    DEVELOPER_CONSOLE_SINK,
-    <FactoryProvider>
-    {
-        provide: DeveloperConsoleSinkOptions,
-        useFactory: () =>
-        {
-            return new DeveloperConsoleSinkOptions(LogEventLevel.information);
-        }
-    },
-    <FactoryProvider>
-    {
-        provide: ConsoleSinkConfigService,
-        useFactory: (settingsSvc: SettingsService) =>
-        {
-            return new ConsoleSinkConfigService(undefined, LogEventLevel[settingsSvc.settingsLogging.consoleLogLevel as keyof typeof LogEventLevel]);
-        },
-        deps: [SettingsService]
-    },
-    <ClassProvider>
-    {
-        provide: LOGGER_REST_CLIENT,
-        useClass: RestLoggerService
-    },
+    provideLoggerConfig(config => config
+        .writeTo(cfg => cfg.writeTo(ConsoleComponentSink)
+                           .minimumLevel(() =>
+                           {
+                               const settings = inject(SettingsService);
+
+                               return () => LogLevel[settings.settingsLogging.consoleLogLevel as keyof typeof LogLevel];
+                           }))
+        .writeTo(DeveloperConsoleSink)
+        .writeTo(RestSink)
+        .enrichWith(LogLevelEnricher)
+        .enrichWith(TimestampEnricher)
+        .minimumLevel(LogLevel.Warning)
+        .messageTemplate('{{timestamp}} [{{logLevel}}] {{messageLog}}')),
+    provideLoggerRestClient(RestLoggerService),
     <ClassProvider>
     {
         provide: SETTINGS_STORAGE,
@@ -358,7 +345,7 @@ export const globalProviders: (Provider|EnvironmentProviders)[] =
     },
 
     //######################### POSITION #########################
-    providePosition(FloatingUiPosition),
+    providePosition(FloatingUiDomPosition),
 
     //######################### MARKDOWN #########################
     <ValueProvider>

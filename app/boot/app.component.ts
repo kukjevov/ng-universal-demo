@@ -1,8 +1,7 @@
 import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, Inject, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
-import {LOGGER, Logger} from '@anglr/common';
-import {consoleAnimationTrigger} from '@anglr/common/structured-log';
+import {LOGGER, Logger, consoleAnimationTrigger} from '@anglr/common';
 import {AppHotkeysService} from '@anglr/common/hotkeys';
 import {AuthenticationService} from '@anglr/authentication';
 import {fadeInOutTrigger} from '@anglr/animations';

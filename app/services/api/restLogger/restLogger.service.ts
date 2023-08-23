@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {RESTClient, BaseUrl, DefaultHeaders, POST, JsonContentType, Body, DisableInterceptor, ParameterTransform, DisableMiddleware} from '@anglr/rest';
-import {LoggerRestClient, RestLog} from '@anglr/common/structured-log';
 import {AuthInterceptor, SuppressAuthInterceptor} from '@anglr/authentication';
 import {ClientErrorHandlingMiddleware} from '@anglr/error-handling/rest';
+import {LoggerRestClient, RestLog} from '@anglr/common';
 import {EMPTY, NEVER, Observable} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
