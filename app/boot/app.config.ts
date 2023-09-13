@@ -236,7 +236,7 @@ export const globalProviders: (Provider|EnvironmentProviders)[] =
         .writeTo(RestSink)
         .enrichWith(LogLevelEnricher)
         .enrichWith(TimestampEnricher)
-        .minimumLevel(LogLevel.Warning)
+        .minimumLevel(LogLevel.Verbose)
         .messageTemplate('{{timestamp}} [{{logLevel}}] {{messageLog}}')),
     provideLoggerRestClient(RestLoggerService),
     <ClassProvider>

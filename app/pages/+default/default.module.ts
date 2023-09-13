@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {ModuleRoutes} from '@anglr/common/router';
+import {NotificationsLocalModule} from '@anglr/notifications';
 
 import {components} from './default.routes';
 import {DebuggingFeatureModule, DisplayingFeatureModule, FormsFeatureModule} from '../../modules';
@@ -14,6 +15,7 @@ import {DebuggingFeatureModule, DisplayingFeatureModule, FormsFeatureModule} fro
         DisplayingFeatureModule,
         FormsFeatureModule,
         DebuggingFeatureModule,
+        NotificationsLocalModule,
     ],
     declarations:
     [

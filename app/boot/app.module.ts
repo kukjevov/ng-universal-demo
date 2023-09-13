@@ -5,6 +5,7 @@ import {ModuleRoutes} from '@anglr/common/router';
 import {ConsoleSAComponent, ProgressIndicatorModule} from '@anglr/common';
 import {InternalServerErrorModule} from '@anglr/error-handling';
 import {NotificationsGlobalModule} from '@anglr/notifications';
+import {TitledDialogModule} from '@anglr/common/material';
 import {TranslateModule, TranslateLoader, MissingTranslationHandler} from '@ngx-translate/core';
 import {HotkeyModule} from 'angular2-hotkeys';
 
@@ -31,6 +32,7 @@ import {ReportMissingTranslationService} from '../services/missingTranslation';
         HotkeyModule,
         MenuModule,
         ConsoleSAComponent,
+        TitledDialogModule,
         TranslateModule.forRoot(
         {
             loader: <ClassProvider>

@@ -3,6 +3,7 @@ import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {MatDialogModule} from '@angular/material/dialog';
 import {provideRouter, withComponentInputBinding} from '@angular/router';
 import {extractRoutes} from '@anglr/common/router';
+import {TitledDialogService} from '@anglr/common/material';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
 
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
@@ -20,6 +21,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     provideZoneChangeDetection({eventCoalescing: true, runCoalescing: true}),
     provideHttpClient(withInterceptorsFromDi(),),
     importProvidersFrom(MatDialogModule),
+    TitledDialogService,
     importProvidersFrom(TranslateModule.forRoot(
     {
         loader: <ClassProvider>
