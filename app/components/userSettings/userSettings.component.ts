@@ -100,7 +100,7 @@ export class UserSettingsSAComponent
     //######################### constructors #########################
     constructor(settingsSvc: SettingsService,
                 formBuilder: FormBuilder,
-                debugDataEnabled: DebugDataEnabledService)
+                debugDataEnabled: DebugDataEnabledService,)
     {
         const settings = settingsSvc.settings;
         const debuggingSettings = settingsSvc.settingsDebugging;

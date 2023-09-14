@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef, Inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef, Inject, OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import {CommonModule, DOCUMENT} from '@angular/common';
 import {RouterModule, RouterOutlet} from '@angular/router';
 import {ConsoleSAComponent, LOGGER, Logger, ProgressIndicatorModule, consoleAnimationTrigger} from '@anglr/common';
@@ -44,7 +44,7 @@ import {SettingsService} from '../services/settings';
     providers: [AppHotkeysService, ConfigReleaseService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppSAComponent
+export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
 {
     //######################### private fields #########################
     
