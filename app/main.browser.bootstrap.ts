@@ -3,24 +3,32 @@ import './dependencies';
 import './dependencies.browser';
 import 'zone.js';
 import './hacks';
-import {platformBrowser} from '@angular/platform-browser';
-import {NgModuleRef, enableProdMode} from '@angular/core';
-import {runWhenModuleStable} from '@anglr/common';
+import {EnvironmentProviders, Provider, enableProdMode} from '@angular/core';
+import {bootstrapApplication} from '@angular/platform-browser';
+import {runWhenAppStable} from '@anglr/common';
 import {RestTransferStateService} from '@anglr/rest';
 import {simpleNotification} from '@jscrpt/common';
 
+import {AppSAComponent} from './boot/app.component';
 import {config} from './config';
-import {BrowserAppModule} from './boot/browser-app.module';
+import {appProviders} from './boot/app.providers';
+import {browserAppProviders} from './boot/browser-app.providers';
+import {globalProviders} from './boot/app.config';
 
 if(isProduction)
 {
     enableProdMode();
 }
 
-const platform = platformBrowser();
+const providers: (Provider|EnvironmentProviders)[] =
+[
+    ...appProviders,
+    ...browserAppProviders,
+    ...globalProviders,
+];
 
-runWhenModuleStable(platform.bootstrapModule(BrowserAppModule), (moduleRef: NgModuleRef<any>) =>
+runWhenAppStable(bootstrapApplication(AppSAComponent, {providers}), appRef =>
 {
-    moduleRef.injector.get(RestTransferStateService)?.clearAndDeactivate();
+    appRef.injector.get(RestTransferStateService)?.clearAndDeactivate();
     jsDevMode && simpleNotification(jsDevMode && !!import.meta.webpackHot);
 }, config.configuration.debug);

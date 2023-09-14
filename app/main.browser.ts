@@ -6,7 +6,7 @@ async function main()
 {
     await loadConfig();
     
-    await import('./main.browser.bootstrapComponent');
+    await import('./main.browser.bootstrap');
 }
 
 main();

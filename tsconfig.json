@@ -18,6 +18,7 @@
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "importHelpers": true,
+        "forceConsistentCasingInFileNames": true,
         "newLine": "lf",
         "moduleResolution": "node",
         "outDir": "wwwroot/app",
