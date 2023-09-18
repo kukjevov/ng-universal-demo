@@ -5,11 +5,6 @@ import {config} from './config';
 
 globalDefine(global =>
 {
-    if(!global.Document)
-    {
-        global.Document = function(){};
-    }
-
     if(!global.Konami)
     {
         global.Konami = function(){};

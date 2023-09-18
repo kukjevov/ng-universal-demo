@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef, Inject
 import {CommonModule, DOCUMENT} from '@angular/common';
 import {RouterModule, RouterOutlet} from '@angular/router';
 import {ConsoleSAComponent, LOGGER, Logger, ProgressIndicatorModule, consoleAnimationTrigger} from '@anglr/common';
-import {AppHotkeysService} from '@anglr/common/hotkeys';
+import {AppHotkeysService, HotkeysCheatsheetSAComponent} from '@anglr/common/hotkeys';
 import {InternalServerErrorModule} from '@anglr/error-handling';
 import {NotificationsGlobalModule} from '@anglr/notifications';
 import {fadeInOutTrigger} from '@anglr/animations';
@@ -11,7 +11,7 @@ import {lastValueFrom} from '@jscrpt/common/rxjs';
 import {nameof} from '@jscrpt/common';
 import {TranslateService} from '@ngx-translate/core';
 import {Subscription} from 'rxjs';
-import {Hotkey, HotkeyModule} from 'angular2-hotkeys';
+import {Hotkey} from 'angular2-hotkeys';
 
 import {MenuModule} from '../modules';
 import {loaderTrigger, routeAnimationTrigger} from './app.component.animations';
@@ -38,7 +38,7 @@ import {SettingsService} from '../services/settings';
         NotificationsGlobalModule,
         MenuModule,
         ConsoleSAComponent,
-        HotkeyModule,
+        HotkeysCheatsheetSAComponent,
     ],
     animations: [routeAnimationTrigger, fadeInOutTrigger, consoleAnimationTrigger, loaderTrigger],
     providers: [AppHotkeysService, ConfigReleaseService],

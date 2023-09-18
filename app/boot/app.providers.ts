@@ -1,23 +1,22 @@
 import {ClassProvider, EnvironmentProviders, Provider, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
 import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {provideClientHydration} from '@angular/platform-browser';
 import {MatDialogModule} from '@angular/material/dialog';
 import {provideRouter, withComponentInputBinding} from '@angular/router';
-import {extractRoutes} from '@anglr/common/router';
 import {TitledDialogService} from '@anglr/common/material';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
 
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
 import {ReportMissingTranslationService} from '../services/missingTranslation';
 import {config} from '../config';
-import {accessDeniedRoute} from '../pages/accessDenied/accessDenied.route';
-import {notFoundRoute} from '../pages/notFound/notFound.route';
-import {components} from './app.component.routes';
+import {routes} from './app.component.routes';
 
 /**
  * Root app providers 
  */
 export const appProviders: (Provider|EnvironmentProviders)[] =
 [
+    provideClientHydration(),
     provideZoneChangeDetection({eventCoalescing: true, runCoalescing: true}),
     provideHttpClient(withInterceptorsFromDi(),),
     importProvidersFrom(MatDialogModule),
@@ -41,14 +40,6 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
             },
         useDefaultLang: !config.configuration.debugTranslations
     })),
-    provideRouter([
-                      {
-                          path: '',
-                          loadChildren: () => import('../pages/+default/default.module').then(({DefaultModule}) => DefaultModule)
-                      },
-                      ...extractRoutes(components),
-                      accessDeniedRoute,
-                      notFoundRoute,
-                  ],
+    provideRouter(routes,
                   withComponentInputBinding()),
 ];

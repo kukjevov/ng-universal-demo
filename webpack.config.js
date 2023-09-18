@@ -31,7 +31,7 @@ function getEntries(ssr, css)
     if(ssr)
     {
         return {
-            server: path.join(dirName, 'app/main.server.ts')
+            server: path.join(dirName, 'app/main.server')
         };
     }
     else
@@ -102,9 +102,17 @@ export default [function(options, args)
             globalObject: 'self',
             path: path.join(dirName, distPath),
             filename: `[name].js`,
-            publicPath: 'auto',
+            publicPath: ssr ? '/': 'auto',
             chunkFilename: `[name].${ssr ? 'server' : 'client'}.chunk.js`,
-            assetModuleFilename: 'assets/[hash][ext][query]'
+            assetModuleFilename: 'assets/[hash][ext][query]',
+            ...ssr ?
+                {
+                    library:
+                    {
+                        type: 'commonjs2',
+                    }
+                } :
+                {}
         },
         mode: 'development',
         ...hmr ?

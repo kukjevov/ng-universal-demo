@@ -18,15 +18,17 @@ module.exports = function(app)
 
             try
             {
+                
                 const mockdata = JSON.parse(body);
-                const url = `mocks/mockLogger/mocks/${mockdata.url}`;
+                const requestUrl = mockdata.url.replace(/http(s)?:\/\/.*?\//, '');
+                const url = `mocks/mockLogger/mocks/${requestUrl}`;
 
                 if(!mockdata.response)
                 {
                     return;
                 }
 
-                console.log(`logging mock for path ${chalk.yellow(mockdata.url)}`)
+                console.log(`logging mock for path ${chalk.yellow(requestUrl)}`)
 
                 if (!fs.existsSync(url))
                 {
