@@ -67,21 +67,21 @@ function getSassLoaders()
     return [{loader: MiniCssExtractPlugin.loader, options: {publicPath: ''}}, 'css-loader', 'sass-loader'];
 }
 
-const distPath = 'wwwroot/dist';
-const angularEntryFile = 'main.browser.bootstrapComponent.ts';
+const angularEntryFile = 'main.browser.bootstrap.ts';
 
 export default [function(options, args)
 {
-    var prod = args && args.mode == 'production' || false;
-    var hmr = !!options && !!options.hmr;
-    var ssr = !!options && !!options.ssr;
-    var debug = !!options && !!options.debug;
-    var css = !!options && !!options.css;
-    var html = !!options && !!options.html;
-    var nomangle = !!options && !!options.nomangle;
-    var noCache = !!options && !!options.noCache;
-    var esbuild = !!options && !!options.esbuild;
-    var ngsw = process.env.NGSW == 'true';
+    const prod = args && args.mode == 'production' || false;
+    const hmr = !!options && !!options.hmr;
+    const ssr = !!options && !!options.ssr;
+    const debug = !!options && !!options.debug;
+    const css = !!options && !!options.css;
+    const html = !!options && !!options.html;
+    const nomangle = !!options && !!options.nomangle;
+    const noCache = !!options && !!options.noCache;
+    const esbuild = !!options && !!options.esbuild;
+    const ngsw = process.env.NGSW == 'true';
+    const distPath = `wwwroot/dist${ssr ? '/ssr' : ''}`;
 
     if(!!options && options.ngsw != undefined)
     {

@@ -17,7 +17,7 @@ const app = connect();
 connectExtensions.extendConnectUse(app);
 
 const wwwroot = path.join(__dirname, 'wwwroot');
-const serverPath = path.join(wwwroot, 'dist/server.js');
+const serverPath = path.join(wwwroot, 'dist/ssr/server.js');
 const proxyUrlFile = path.join(__dirname, 'proxyUrl.cjs');
 let serverRenderFunc;
 let proxyUrl = "http://127.0.0.1:8080";
