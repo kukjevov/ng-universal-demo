@@ -5,7 +5,7 @@ import {createHash} from 'crypto';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ScriptExtHtmlWebpackPlugin from 'script-ext-html-webpack-plugin';
 // import HtmlWebpackTagsPlugin from 'html-webpack-tags-plugin';
-// import CopyWebpackPlugin from 'copy-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import WebpackNotifierPlugin from 'webpack-notifier';
 import CompressionPlugin from 'compression-webpack-plugin';
@@ -339,9 +339,25 @@ export default [function(options, args)
         [
             new WebpackNotifierPlugin({title: `Webpack - ${hmr ? 'HMR' : (ssr ? 'SSR' : 'BUILD')}`, excludeWarnings: true, alwaysNotify: true, sound: false}),
             //copy external dependencies
-            // new CopyWebpackPlugin(
-            // {
-            // }),
+            new CopyWebpackPlugin(
+            {
+                patterns:
+                [
+                    {
+                        context: "node_modules/@angular/service-worker",
+                        from: "ngsw-worker.js",
+                        to: ".."
+                    },
+                    {
+                        from: "manifest.webmanifest",
+                        to: ".."
+                    }
+                ],
+                options: 
+                {
+                    concurrency: 10,
+                },
+            }),
             new BitBarWebpackProgressPlugin(),
             new webpack.DefinePlugin(
             {
