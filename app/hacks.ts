@@ -1,15 +1,7 @@
-import {isFunction, isBlank, globalDefine} from '@jscrpt/common';
+import {isFunction, isBlank} from '@jscrpt/common';
 import {Observable, Subscription} from 'rxjs';
 
 import {config} from './config';
-
-globalDefine(global =>
-{
-    if(!global.Konami)
-    {
-        global.Konami = function(){};
-    }
-});
 
 //HACK - prevents application crash if no error handler provided
 const observableSubscribe = Observable.prototype.subscribe;

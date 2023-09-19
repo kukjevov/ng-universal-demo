@@ -3,6 +3,11 @@ import {LocalStorage} from 'node-localstorage';
 
 globalDefine(global =>
 {
+    if(!global.Konami)
+    {
+        global.Konami = function(){};
+    }
+
     if(!global.Document)
     {
         global.Document = function(){};

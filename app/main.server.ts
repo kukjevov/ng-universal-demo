@@ -10,27 +10,21 @@ xhr2.prototype._restrictedHeaders.cookie2 = false;
 import 'zone.js/node';
 import './server.pollyfils';
 import './hacks';
-import {EnvironmentProviders, Provider, enableProdMode} from '@angular/core';
+import {FactoryProvider, enableProdMode} from '@angular/core';
 import {provideServerRendering, renderApplication} from '@angular/platform-server';
 import {serverRenderFactory, ServerRenderOptions} from '@anglr/server-stuff';
 import {provideServerHotkeysService} from '@anglr/server-stuff/hotkeys';
+import {AnglrExceptionHandlerOptions} from '@anglr/error-handling';
 
 import {AdditionalData, getAdditionalProviders} from './server.providers';
 import {loadDefaultConfig} from './config.loader';
-import {bootstrapApplication, provideClientHydration} from '@angular/platform-browser';
+import {bootstrapApplication} from '@angular/platform-browser';
 import {AppSAComponent} from './boot/app.component';
 import {appProviders} from './boot/app.providers';
-import {globalProviders} from './boot/app.config';
+import {config} from './config';
 
 enableProdMode();
 loadDefaultConfig();
-
-const providers: (Provider|EnvironmentProviders)[] =
-[
-    ...appProviders,
-    // ...browserAppProviders,
-    ...globalProviders,
-];
 
 /**
  * Gets promise that renders app into string
@@ -44,10 +38,14 @@ function getRenderPromise(options: ServerRenderOptions): Promise<string>
         {
             providers:
             [
-                ...providers,
+                ...appProviders,
                 provideServerRendering(),
-                provideClientHydration(),
                 provideServerHotkeysService(),
+                <FactoryProvider>
+                {
+                    provide: AnglrExceptionHandlerOptions,
+                    useFactory: () => new AnglrExceptionHandlerOptions(config.configuration.debug, false)
+                },
                 ...options.appProviders ?? [],
             ]
         });
