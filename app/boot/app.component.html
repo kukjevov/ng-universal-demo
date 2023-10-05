@@ -13,13 +13,19 @@
 
 <div class="gui-version">GUI version: {{guiVersion}}</div>
 
-<console *ngIf="consoleVisible" @consoleAnimation/>
+@if(consoleVisible)
+{
+    <console @consoleAnimation/>
+}
 
-<div class="loading-indicator" *ngIf="!initialized" @loaderAnimation>
-    <div class="loading-header">
-        <div class="loading-title">APP</div>
+@if(!initialized)
+{
+    <div class="loading-indicator" @loaderAnimation>
+        <div class="loading-header">
+            <div class="loading-title">APP</div>
+        </div>
+
+        <div class="loading-card"></div>
+        <div class="loading-spinner"></div>
     </div>
-
-    <div class="loading-card"></div>
-    <div class="loading-spinner"></div>
-</div>
+}

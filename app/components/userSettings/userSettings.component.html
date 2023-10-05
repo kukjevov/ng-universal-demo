@@ -25,63 +25,84 @@
 
 <div>
     <!-- GENERAL SETTIGNS -->
-    <div class="settings-items" [formGroup]="generalSettingsForm" *ngIf="activeSection == UserSettingsSections.General">
-        <!-- THEME -->
-        <div class="text-capitalize">{{'theme' | translate}}</div>
-
-        <div>
-            <ng-select formControlName="theme" absolute>
-                <ng-option *ngFor="let theme of themes" [text]="theme | translate" [value]="theme"></ng-option>
-            </ng-select>
-        </div>
-
-        <!-- LANGUAGE -->
-        <div class="text-capitalize">{{'language' | translate}}</div>
-
-        <div>
-            <ng-select formControlName="language" absolute>
-                <ng-option *ngFor="let lang of languages" [text]="lang.name" [value]="lang?.lang"></ng-option>
-            </ng-select>
-        </div>
-    </div>
-
-    <!-- LOGGING SETTIGNS -->
-    <div class="settings-items" [formGroup]="loggingSettingsForm" *ngIf="activeSection == UserSettingsSections.Logging">
-        <!-- CONSOLE LOG LEVEL -->
-        <div class="text-capitalize">{{'console log' | translate}}</div>
-
-        <div>
-            <ng-select formControlName="consoleLogLevel" absolute>
-                <ng-option *ngFor="let level of logLevels" [text]="level.name" [value]="level?.value"></ng-option>
-            </ng-select>
-        </div>
-
-        <!-- FILE LOG LEVEL -->
-        <ng-template [authorize]="'authorized-electron'">
-            <div class="text-capitalize">{{'file log' | translate}}</div>
-
+    @if(activeSection == UserSettingsSections.General)
+    {
+        <div class="settings-items" [formGroup]="generalSettingsForm">
+            <!-- THEME -->
+            <div class="text-capitalize">{{'theme' | translate}}</div>
+    
             <div>
-                <ng-select formControlName="fileLogLevel" absolute>
-                    <ng-option *ngFor="let level of logLevels" [text]="level.name" [value]="level?.value"></ng-option>
+                <ng-select formControlName="theme" absolute>
+                    @for(theme of themes; track theme)
+                    {
+                        <ng-option [text]="theme | translate" [value]="theme"></ng-option>
+                    }
                 </ng-select>
             </div>
-        </ng-template>
-    </div>
+    
+            <!-- LANGUAGE -->
+            <div class="text-capitalize">{{'language' | translate}}</div>
+    
+            <div>
+                <ng-select formControlName="language" absolute>
+                    @for(lang of languages; track lang)
+                    {
+                        <ng-option [text]="lang.name" [value]="lang?.lang"></ng-option>
+                    }
+                </ng-select>
+            </div>
+        </div>
+    }
+
+    <!-- LOGGING SETTIGNS -->
+    @if(activeSection == UserSettingsSections.Logging)
+    {
+        <div class="settings-items" [formGroup]="loggingSettingsForm">
+            <!-- CONSOLE LOG LEVEL -->
+            <div class="text-capitalize">{{'console log' | translate}}</div>
+    
+            <div>
+                <ng-select formControlName="consoleLogLevel" absolute>
+                    @for(level of logLevels; track level)
+                    {
+                        <ng-option [text]="level.name" [value]="level?.value"></ng-option>
+                    }
+                </ng-select>
+            </div>
+    
+            <!-- FILE LOG LEVEL -->
+            <ng-container *authorize="'authorized-electron'">
+                <div class="text-capitalize">{{'file log' | translate}}</div>
+    
+                <div>
+                    <ng-select formControlName="fileLogLevel" absolute>
+                        @for(level of logLevels; track level)
+                        {
+                            <ng-option [text]="level.name" [value]="level?.value"></ng-option>
+                        }
+                    </ng-select>
+                </div>
+            </ng-container>
+        </div>
+    }
 
     <!-- DEBUGGING SETTIGNS -->
-    <div class="settings-items" [formGroup]="debuggingSettingsForm" *ngIf="activeSection == UserSettingsSections.Debugging">
-        <!-- CONSOLE -->
-        <div class="text-capitalize">{{'console' | translate}}</div>
-
-        <div>
-            <mat-slide-toggle formControlName="consoleEnabled"></mat-slide-toggle>
+    @if(activeSection == UserSettingsSections.Debugging)
+    {
+        <div class="settings-items" [formGroup]="debuggingSettingsForm">
+            <!-- CONSOLE -->
+            <div class="text-capitalize">{{'console' | translate}}</div>
+    
+            <div>
+                <mat-slide-toggle formControlName="consoleEnabled"></mat-slide-toggle>
+            </div>
+    
+            <!-- DEBUG DATA -->
+            <div class="text-capitalize">{{'debug data' | translate}}</div>
+    
+            <div>
+                <mat-slide-toggle formControlName="debugData"></mat-slide-toggle>
+            </div>
         </div>
-
-        <!-- DEBUG DATA -->
-        <div class="text-capitalize">{{'debug data' | translate}}</div>
-
-        <div>
-            <mat-slide-toggle formControlName="debugData"></mat-slide-toggle>
-        </div>
-    </div>
+    }
 </div>
