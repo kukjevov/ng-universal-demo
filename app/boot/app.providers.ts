@@ -10,7 +10,7 @@ import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions
 import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, handle404Func, HttpClientErrorResponseMapper, HttpClientValidationErrorResponseMapper, HTTP_CLIENT_ERROR_RESPONSE_MAPPER, HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER, RestNotFoundError} from '@anglr/error-handling';
 import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handling/material';
 import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions, METADATA_SELECTOR_TYPE, METADATA_SELECTOR_OPTIONS, CONTENT_RENDERER_OPTIONS, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, GRID_INITIALIZER_TYPE, GRID_INITIALIZER_OPTIONS, QueryPermanentStorageGridInitializerOptions, QueryGridInitializerComponent} from '@anglr/grid';
-import {DialogMetadataSelectorComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
+import {DialogMetadataSelectorSAComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
 import {ReservedSpaceValidationErrorsContainerComponent, ValidationErrorRendererFactoryOptions, VALIDATION_ERROR_MESSAGES, VALIDATION_ERROR_RENDERER_FACTORY_OPTIONS} from '@anglr/common/forms';
 import {ConfirmationDialogOptions, CONFIRMATION_DIALOG_OPTIONS, MovableTitledDialogComponent, TitledDialogServiceOptions, TitledDialogService} from '@anglr/common/material';
 import {FloatingUiDomPosition} from '@anglr/common/floating-ui';
@@ -176,7 +176,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     <ValueProvider>
     {
         provide: METADATA_SELECTOR_TYPE,
-        useValue: DialogMetadataSelectorComponent
+        useValue: DialogMetadataSelectorSAComponent
     },
     <ValueProvider>
     {
