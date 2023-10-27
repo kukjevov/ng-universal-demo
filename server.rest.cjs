@@ -55,7 +55,7 @@ function getConfigPath()
 module.exports = function(app)
 {
     app.use(bodyParser.urlencoded({extended: true}))
-        .use(bodyParser.json());
+        .use(bodyParser.json({limit: '50mb'}));
 
     var rest = Rest.create(
     {

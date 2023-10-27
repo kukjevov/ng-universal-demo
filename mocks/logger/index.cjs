@@ -37,15 +37,15 @@ function writeError(error)
 {
     console.log(`${chalk.bold.whiteBright(error.timestamp)} [${formatLogLevel(error.logLevel)}] ${error.message}`);
 
-    if(error.info)
+    if(error.err)
     {
-        if(Array.isArray(error.info))
+        if(Array.isArray(error.err))
         {
-            error.info.forEach(writeErrorDetail);
+            error.err.forEach(writeErrorDetail);
         }
         else
         {
-            writeErrorDetail(error.info);
+            writeErrorDetail(error.err);
         }
     }
 }

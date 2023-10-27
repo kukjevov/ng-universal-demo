@@ -25,7 +25,7 @@ let proxyUrl = "http://127.0.0.1:8080";
 const key = fs.readFileSync('server.key');
 const cert = fs.readFileSync('server.crt');
 
-const options = 
+const options =
 {
     key: key,
     cert: cert
@@ -115,7 +115,7 @@ app.use(createProxyMiddleware(['/api', '/swagger'],
                                   ws: true,
                                   secure: false,
                                   changeOrigin: true,
-                                  on: 
+                                  on:
                                   {
                                       error,
                                   },
@@ -159,12 +159,12 @@ app.use(function (req, res, next)
 
 //maybe move to https://www.npmjs.com/package/express-static-gzip
 //return static files
-app.use(gzipStatic(wwwroot, 
+app.use(gzipStatic(wwwroot,
                    {
                        maxAge: '7d',
-                       setHeaders: function setCustomCacheControl (res, path) 
+                       setHeaders: function setCustomCacheControl (res, path)
                        {
-                           if (serveStatic.mime.lookup(path) === 'text/html') 
+                           if (serveStatic.mime.lookup(path) === 'text/html')
                            {
                                // Custom Cache-Control for HTML files
                                res.setHeader('Cache-Control', 'public, max-age=0');

@@ -5,7 +5,7 @@ import {provideRouter, withComponentInputBinding} from '@angular/router';
 import {MatDialogModule} from '@angular/material/dialog';
 import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER, AuthenticationServiceOptions} from '@anglr/authentication';
 import {LocalPermanentStorage} from '@anglr/common/store';
-import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, provideLoggerRestClient, RestSink, LOGGER_REST_CLIENT} from '@anglr/common';
+import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, provideLoggerRestClient, RestSink, LOGGER_REST_CLIENT, providePermanentStorage} from '@anglr/common';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
 import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, handle404Func, HttpClientErrorResponseMapper, HttpClientValidationErrorResponseMapper, HTTP_CLIENT_ERROR_RESPONSE_MAPPER, HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER, RestNotFoundError} from '@anglr/error-handling';
 import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handling/material';
@@ -61,17 +61,17 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     {
         loader: <ClassProvider>
         {
-            provide: TranslateLoader, 
+            provide: TranslateLoader,
             useClass: WebpackTranslateLoaderService
         },
-        ...config.configuration.debugTranslations ? 
+        ...config.configuration.debugTranslations ?
             {
                 missingTranslationHandler:
                 {
                     provide: MissingTranslationHandler,
                     useClass: ReportMissingTranslationService
                 }
-            } : 
+            } :
             {
             },
         useDefaultLang: !config.configuration.debugTranslations
@@ -216,7 +216,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
             }
         }
     },
-    
+
     //############################ SELECT GLOBAL OPTIONS ############################
     <ValueProvider>
     {
@@ -239,12 +239,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     },
 
     //######################### PERMANENT STORAGE #########################
-    //TODO
-    <ClassProvider>
-    {
-        provide: PERMANENT_STORAGE,
-        useClass: LocalPermanentStorage
-    },
+    providePermanentStorage(LocalPermanentStorage),
 
     //######################### LOGGER #########################
     provideLoggerConfig(config => config
@@ -361,7 +356,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         provide: TitledDialogServiceOptions,
         useValue: new TitledDialogServiceOptions(MovableTitledDialogComponent)
     },
-    
+
     //######################### CONFIRMATION DIALOG #########################
     <ValueProvider>
     {
@@ -411,7 +406,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     <ValueProvider>
     {
         provide: HTTP_CLIENT_ERROR_RESPONSE_MAPPER,
-        useValue: <HttpClientErrorResponseMapper>(err => 
+        useValue: <HttpClientErrorResponseMapper>(err =>
         {
             if(err?.error?.errors)
             {
@@ -427,14 +422,14 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
             {
                 return [JSON.stringify(err?.error)];
             }
-            
+
             return [err.message];
         })
     },
     <ValueProvider>
     {
         provide: HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER,
-        useValue: <HttpClientValidationErrorResponseMapper>(err => 
+        useValue: <HttpClientValidationErrorResponseMapper>(err =>
         {
             if(err?.error?.validationErrors)
             {

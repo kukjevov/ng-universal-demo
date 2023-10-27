@@ -54,11 +54,6 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
     private _routerOutletActivatedSubscription: Subscription|undefined|null;
 
     /**
-     * Subscription for authenticated changes
-     */
-    private _authChangedSubscription: Subscription;
-
-    /**
      * Subscription for changes of general settings
      */
     private _settingsChangeSubscription: Subscription;
@@ -79,11 +74,6 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
      * Indication whether is console visible
      */
     public consoleVisible: boolean = false;
-
-    /**
-     * Indication whether is used authenticated
-     */
-    public authenticated: boolean = false;
 
     /**
      * Name of state for routed component animation
@@ -167,22 +157,6 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
         translateSvc.setDefaultLang('en');
         translateSvc.use(settings.settings.language);
 
-        _authSvc
-            .getUserIdentity()
-            .then(identity =>
-            {
-                this.authenticated = identity.isAuthenticated;
-
-                _changeDetector.detectChanges();
-            });
-
-        this._authChangedSubscription = _authSvc.authenticationChanged.subscribe(identity =>
-        {
-            this.authenticated = identity.isAuthenticated;
-
-            _changeDetector.detectChanges();
-        });
-
         if(settings.settingsDebugging?.consoleEnabled)
         {
             this._toggleConsoleHotkey();
@@ -229,7 +203,6 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
         this._routerOutletActivatedSubscription?.unsubscribe();
         this._routerOutletActivatedSubscription = null;
 
-        this._authChangedSubscription?.unsubscribe();
         this._settingsChangeSubscription?.unsubscribe();
         this._settingsDebuggingChangeSubscription?.unsubscribe();
 

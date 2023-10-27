@@ -4,7 +4,8 @@
 {
     //############## GRID ##############
 
-    ng-grid
+    ng-grid,
+    [nggrid]
     {
         div.css-grid-content-renderer
         {
@@ -159,7 +160,8 @@
 
     .highlight-block
     {
-        ng-grid
+        ng-grid,
+        [nggrid]
         {
             div.css-grid-content-renderer
             {
