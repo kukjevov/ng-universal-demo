@@ -1,6 +1,5 @@
 import webpack from 'webpack';
 import path from 'path';
-// import {ScriptTarget} from 'typescript';
 import {createHash} from 'crypto';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ScriptExtHtmlWebpackPlugin from 'script-ext-html-webpack-plugin';
