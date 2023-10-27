@@ -3,7 +3,6 @@ node_modules/
 wwwroot/
 packages/
 **/mockLogger/mocks
-package-lock.json
 **/config/version.json
 **/config/config.*.json
 **/server.mock.*.cjs
