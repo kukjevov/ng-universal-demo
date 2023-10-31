@@ -89,13 +89,11 @@ export class AccountService extends RESTClient
     @POST('authentication')
     private _login(@Body _body: HttpParams): Observable<void>
     {
-        return NEVER;
+         return NEVER;
     }
 
     /**
      * Method transforms response of get method
-     * @param response Response to be transformed
-     * @returns Observable Transformed response
      */
     //@ts-ignore
     private getUserIdentityResponseTransform(response: Observable<HttpResponse<any>>): Observable<any>
@@ -104,7 +102,7 @@ export class AccountService extends RESTClient
         {
             if(error.status == 401)
             {
-                return new Observable((observer: Observer<any>) =>
+                return new Observable((observer: Observer<unknown>) =>
                 {
                     observer.next(
                     {
