@@ -1,4 +1,4 @@
-import {Dictionary} from '@jscrpt/common';
+import type {Dictionary} from '@jscrpt/common';
 
 import {Configuration, config as cfg} from './config';
 import defaultConfig from '../config/config.json';

@@ -250,8 +250,9 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
 
                                return () => LogLevel[settings.settingsLogging.consoleLogLevel as keyof typeof LogLevel];
                            }))
+        .writeTo(cfg => cfg.writeTo(RestSink)
+                           .minimumLevel(LogLevel.Error))
         .writeTo(DeveloperConsoleSink)
-        .writeTo(RestSink)
         .enrichWith(LogLevelEnricher)
         .enrichWith(TimestampEnricher)
         .minimumLevel(LogLevel.Verbose)
