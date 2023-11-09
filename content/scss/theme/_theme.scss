@@ -2,12 +2,13 @@
 
 @use '@anglr/common/styles' as anglrCommon;
 @use '@anglr/datetime/styles' as datetime;
+@use '@anglr/grid/styles' as grid;
 
 $theme: () !default;
 $themeName: null !default;
 $dateTimeTheme: null !default;
-$multiButtonTheme: null !default;
-$tooltipTheme: null !default;
+$anglrCommonTheme: null !default;
+$gridTheme: null !default;
 
 //---------------------- PAGE STYLING ----------------------
 .app-page.#{$themeName}
@@ -18,7 +19,8 @@ $tooltipTheme: null !default;
 
     //############## PACKAGES ##############
 
-    @include anglrCommon.buildThemeColorsTooltip($tooltipTheme);
-    @include anglrCommon.buildThemeColorsMultiButton($multiButtonTheme);
+    @include anglrCommon.buildThemeColorsTooltip($anglrCommonTheme);
+    @include anglrCommon.buildThemeColorsMultiButton($anglrCommonTheme);
     @include datetime.buildThemeColors($dateTimeTheme);
+    @include grid.buildThemeColors($gridTheme);
 }

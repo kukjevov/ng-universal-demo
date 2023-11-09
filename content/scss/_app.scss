@@ -12,6 +12,7 @@
 
 @use '@anglr/common/styles' as anglrCommon;
 @use '@anglr/datetime/styles' as datetime;
+@use '@anglr/grid/styles' as gridPackage;
 
 //---------------------- PAGE STYLING ----------------------
 .app-page
@@ -25,6 +26,7 @@
 
     @include anglrCommon.buildThemeCss;
     @include datetime.buildThemeCss;
+    @include gridPackage.buildThemeCss;
 
     //############## SIZES ##############
 
