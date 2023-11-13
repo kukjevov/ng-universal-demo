@@ -139,6 +139,8 @@ app.use(function (req, res, next)
             return;
         }
 
+        console.log('SSR Enabled, loading SSR page');
+
         res.setHeader('Content-Type', 'text/html');
 
         getServerRenderFunc()(path.join(wwwroot, 'index.html'), req.originalUrl, {baseUrl: "http://localhost:8888/", requestCookies: req.headers['cookie']}, function(err, succ)

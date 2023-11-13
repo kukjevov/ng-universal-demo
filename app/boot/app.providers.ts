@@ -9,7 +9,7 @@ import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
 import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, handle404Func, HttpClientErrorResponseMapper, HttpClientValidationErrorResponseMapper, HTTP_CLIENT_ERROR_RESPONSE_MAPPER, HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER, RestNotFoundError} from '@anglr/error-handling';
 import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handling/material';
-import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions, METADATA_SELECTOR_TYPE, METADATA_SELECTOR_OPTIONS, CONTENT_RENDERER_OPTIONS, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, GRID_INITIALIZER_TYPE, GRID_INITIALIZER_OPTIONS, QueryPermanentStorageGridInitializerOptions, QueryGridInitializerComponent} from '@anglr/grid';
+import {BasicPagingOptions, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, QueryPermanentStorageGridInitializerOptions, QueryGridInitializerComponent, provideNoDataRendererOptions, provideGridInitializerType, providePagingOptions, provideMetadataSelectorType, provideMetadataSelectorOptions, provideGridInitializerOptions, provideContentRendererOptions} from '@anglr/grid';
 import {DialogMetadataSelectorSAComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
 import {ReservedSpaceValidationErrorsContainerComponent, ValidationErrorRendererFactoryOptions, VALIDATION_ERROR_MESSAGES, VALIDATION_ERROR_RENDERER_FACTORY_OPTIONS} from '@anglr/common/forms';
 import {ConfirmationDialogOptions, CONFIRMATION_DIALOG_OPTIONS, MovableTitledDialogComponent, TitledDialogServiceOptions, TitledDialogService} from '@anglr/common/material';
@@ -146,65 +146,37 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     },
 
     //######################### GRID GLOBAL OPTIONS #########################
-    <ValueProvider>
+    provideNoDataRendererOptions(
     {
-        provide: NO_DATA_RENDERER_OPTIONS,
-        useValue: <NoDataRendererOptions>
+        texts:
         {
-            texts:
-            {
-                loading: 'Nahrávam dáta ...',
-                noData: 'Neboli nájdené dáta odpovedajúce zadaným parametrom',
-                notLoaded: 'Neboli načítané žiadne dáta zatiaľ'
-            }
+            loading: 'Nahrávam dáta ...',
+            noData: 'Neboli nájdené dáta odpovedajúce zadaným parametrom',
+            notLoaded: 'Neboli načítané žiadne dáta zatiaľ'
         }
-    },
-    <ValueProvider>
+    }),
+    provideGridInitializerType(QueryGridInitializerComponent),
+    provideMetadataSelectorType(DialogMetadataSelectorSAComponent),
+    providePagingOptions<BasicPagingOptions>(
     {
-        provide: GRID_INITIALIZER_TYPE,
-        useValue: QueryGridInitializerComponent
-    },
-    <ValueProvider>
+        itemsPerPageValues: [15, 30, 60],
+        initialItemsPerPage: 15
+    }),
+    provideMetadataSelectorOptions<DialogMetadataSelectorOptions>(
     {
-        provide: PAGING_OPTIONS,
-        useValue: <BasicPagingOptions>
+        showButtonVisible: false
+    }),
+    provideGridInitializerOptions<QueryPermanentStorageGridInitializerOptions>(
+    {
+        storageIppName: 'all-grid-ipp'
+    }),
+    provideContentRendererOptions<TableContentRendererOptions>(
+    {
+        cssClasses:
         {
-            itemsPerPageValues: [15, 30, 60],
-            initialItemsPerPage: 15
+            containerDiv: 'table-container thin-scrollbar'
         }
-    },
-    <ValueProvider>
-    {
-        provide: METADATA_SELECTOR_TYPE,
-        useValue: DialogMetadataSelectorSAComponent
-    },
-    <ValueProvider>
-    {
-        provide: METADATA_SELECTOR_OPTIONS,
-        useValue: <DialogMetadataSelectorOptions>
-        {
-            showButtonVisible: false
-        }
-    },
-    <ValueProvider>
-    {
-        provide: GRID_INITIALIZER_OPTIONS,
-        useValue: <QueryPermanentStorageGridInitializerOptions>
-        {
-            storageIppName: 'all-grid-ipp'
-        }
-    },
-    <ValueProvider>
-    {
-        provide: CONTENT_RENDERER_OPTIONS,
-        useValue: <TableContentRendererOptions>
-        {
-            cssClasses:
-            {
-                containerDiv: 'table-container thin-scrollbar'
-            }
-        }
-    },
+    }),
     <ValueProvider>
     {
         provide: HEADER_CONTENT_RENDERER_OPTIONS,
