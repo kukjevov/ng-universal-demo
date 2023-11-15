@@ -9,7 +9,6 @@ import {bootstrapApplication} from '@angular/platform-browser';
 import {provideServiceWorker} from '@angular/service-worker';
 import {runWhenAppStable} from '@anglr/common';
 import {AnglrExceptionHandlerOptions} from '@anglr/error-handling';
-import {RestTransferStateService} from '@anglr/rest';
 import {simpleNotification} from '@jscrpt/common';
 import {HotkeyModule} from 'angular2-hotkeys';
 
@@ -42,8 +41,7 @@ const providers: (Provider|EnvironmentProviders)[] =
     })),
 ];
 
-runWhenAppStable(bootstrapApplication(AppSAComponent, {providers}), appRef =>
+runWhenAppStable(bootstrapApplication(AppSAComponent, {providers}), () =>
 {
-    appRef.injector.get(RestTransferStateService)?.clearAndDeactivate();
     jsDevMode && simpleNotification(jsDevMode && !!import.meta.webpackHot);
 }, config.configuration.debug);
