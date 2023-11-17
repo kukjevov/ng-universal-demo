@@ -3,7 +3,7 @@ import {CommonModule, DOCUMENT} from '@angular/common';
 import {RouterModule, RouterOutlet} from '@angular/router';
 import {ConsoleSAComponent, LOGGER, Logger, ProgressIndicatorModule, consoleAnimationTrigger} from '@anglr/common';
 import {AppHotkeysService, HotkeysCheatsheetSAComponent} from '@anglr/common/hotkeys';
-import {InternalServerErrorModule} from '@anglr/error-handling';
+import {InternalServerErrorSAComponent} from '@anglr/error-handling';
 import {NotificationsGlobalModule} from '@anglr/notifications';
 import {fadeInOutTrigger} from '@anglr/animations';
 import {AuthenticationService} from '@anglr/authentication';
@@ -33,7 +33,7 @@ import {SettingsService} from '../services/settings';
     [
         CommonModule,
         RouterModule,
-        InternalServerErrorModule,
+        InternalServerErrorSAComponent,
         ProgressIndicatorModule,
         NotificationsGlobalModule,
         MenuModule,
@@ -47,7 +47,7 @@ import {SettingsService} from '../services/settings';
 export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
 {
     //######################### private fields #########################
-    
+
     /**
      * Subscription for router outlet activation changes
      */
@@ -129,7 +129,7 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
         });
 
         this._settingsChangeSubscription = settings.settingsChange
-            .subscribe(itm => 
+            .subscribe(itm =>
             {
                 if(itm == nameof<SettingsGeneral>('theme'))
                 {
@@ -146,7 +146,7 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
             });
 
         this._settingsDebuggingChangeSubscription = settings.settingsDebuggingChange
-            .subscribe(itm => 
+            .subscribe(itm =>
             {
                 if(itm == nameof<SettingsDebug>('consoleEnabled'))
                 {
@@ -164,7 +164,7 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
     }
 
     //######################### public methods - implementation of OnInit #########################
-    
+
     /**
      * Initialize component
      */
@@ -174,12 +174,12 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
 
         this.serverVersion = srvCfg?.release ?? '';
         this.serverName = srvCfg?.name ?? '';
-        
+
         this._changeDetector.detectChanges();
     }
 
     //######################### public methods - implementation of AfterViewInit #########################
-    
+
     /**
      * Called when view was initialized
      */
@@ -194,7 +194,7 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */

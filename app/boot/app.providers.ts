@@ -7,8 +7,8 @@ import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, SUPPRESS_AUTH_INTERCEP
 import {LocalPermanentStorage} from '@anglr/common/store';
 import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, provideLoggerRestClient, RestSink, LOGGER_REST_CLIENT, providePermanentStorage} from '@anglr/common';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
-import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, handle404Func, HttpClientErrorResponseMapper, HttpClientValidationErrorResponseMapper, HTTP_CLIENT_ERROR_RESPONSE_MAPPER, HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER, RestNotFoundError} from '@anglr/error-handling';
-import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handling/material';
+import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, handle404Func, HttpClientErrorResponseMapper, HttpClientValidationErrorResponseMapper, HTTP_CLIENT_ERROR_RESPONSE_MAPPER, HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER, RestNotFoundError, provideInternalServerErrorRenderer, provideAnglrExceptionExtenders, errorWithUrlExtender} from '@anglr/error-handling';
+import {DialogInternalServerErrorRenderer} from '@anglr/error-handling/material';
 import {BasicPagingOptions, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, QueryPermanentStorageGridInitializerOptions, QueryGridInitializerComponent, provideNoDataRendererOptions, provideGridInitializerType, providePagingOptions, provideMetadataSelectorType, provideMetadataSelectorOptions, provideGridInitializerOptions, provideContentRendererOptions} from '@anglr/grid';
 import {DialogMetadataSelectorSAComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
 import {ReservedSpaceValidationErrorsContainerComponent, ValidationErrorRendererFactoryOptions, VALIDATION_ERROR_MESSAGES, VALIDATION_ERROR_RENDERER_FACTORY_OPTIONS} from '@anglr/common/forms';
@@ -20,8 +20,8 @@ import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import {provideGlobalNotifications} from '@anglr/notifications';
 import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
-import {LoggerMiddleware, MockLoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, REST_METHOD_MIDDLEWARES, REST_MOCK_LOGGER} from '@anglr/rest';
-import {DATETIME_REST_DATE_API} from '@anglr/rest/datetime';
+import {LoggerMiddleware, MockLoggerMiddleware, provideMockLogger, provideRestMethodMiddlewares, ReportProgressMiddleware, ResponseTypeMiddleware} from '@anglr/rest';
+import {provideRestDateTime} from '@anglr/rest/datetime';
 import {isString, isJsObject} from '@jscrpt/common';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {sk} from 'date-fns/locale';
@@ -115,9 +115,12 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     },
 
     //######################### ERROR HANDLING #########################
-    ERROR_WITH_URL_EXTENDER,
+    provideAnglrExceptionExtenders(
+    [
+        errorWithUrlExtender,
+    ]),
     ANGLR_EXCEPTION_HANDLER_PROVIDER,
-    DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER,
+    provideInternalServerErrorRenderer(DialogInternalServerErrorRenderer),
 
     //######################### APP INITIALIZER #########################
     <FactoryProvider>
@@ -357,25 +360,17 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     },
 
     //######################### REST CONFIG #########################
-    DATETIME_REST_DATE_API,
-    <ClassProvider>
-    {
-        provide: REST_MOCK_LOGGER,
-        useClass: RestMockLoggerService
-    },
+    provideRestDateTime(),
+    provideMockLogger(RestMockLoggerService),
     REST_ERROR_HANDLING_MIDDLEWARE_ORDER,
-    <ValueProvider>
-    {
-        provide: REST_METHOD_MIDDLEWARES,
-        useValue:
-        [
-            LoggerMiddleware,
-            ResponseTypeMiddleware,
-            ReportProgressMiddleware,
-            ClientErrorHandlingMiddleware,
-            ...jsDevMode ? [...config.configuration.disableMockLogger ? [] : [MockLoggerMiddleware]] : [],
-        ]
-    },
+    provideRestMethodMiddlewares(
+    [
+        LoggerMiddleware,
+        ResponseTypeMiddleware,
+        ReportProgressMiddleware,
+        ClientErrorHandlingMiddleware,
+        ...jsDevMode ? [...config.configuration.disableMockLogger ? [] : [MockLoggerMiddleware]] : [],
+    ]),
     <ValueProvider>
     {
         provide: HTTP_CLIENT_ERROR_RESPONSE_MAPPER,
