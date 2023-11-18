@@ -41,7 +41,7 @@ const providers: (Provider|EnvironmentProviders)[] =
     })),
 ];
 
-runWhenAppStable(bootstrapApplication(AppSAComponent, {providers}), () =>
+runWhenAppStable(bootstrapApplication(AppSAComponent, {providers}), _ =>
 {
     jsDevMode && simpleNotification(jsDevMode && !!import.meta.webpackHot);
 }, config.configuration.debug);

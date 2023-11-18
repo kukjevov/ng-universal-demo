@@ -149,6 +149,8 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     },
 
     //######################### GRID GLOBAL OPTIONS #########################
+    provideGridInitializerType(QueryGridInitializerComponent),
+    provideMetadataSelectorType(DialogMetadataSelectorSAComponent),
     provideNoDataRendererOptions(
     {
         texts:
@@ -158,8 +160,6 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
             notLoaded: 'Neboli načítané žiadne dáta zatiaľ'
         }
     }),
-    provideGridInitializerType(QueryGridInitializerComponent),
-    provideMetadataSelectorType(DialogMetadataSelectorSAComponent),
     providePagingOptions<BasicPagingOptions>(
     {
         itemsPerPageValues: [15, 30, 60],
