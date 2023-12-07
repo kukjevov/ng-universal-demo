@@ -7,7 +7,6 @@ const connect = require('connect'),
       path = require('path'),
       fs = require('fs'),
       https = require('https'),
-      cors = require('cors'),
       connectExtensions = require('nodejs-connect-extensions');
 
 require('dotenv').config();
@@ -73,6 +72,8 @@ console.log(`Using proxy url '${proxyUrl}'`);
 //enable webpack only if run with --webpack param
 if(!!argv.webpack)
 {
+    const cors = require('cors');
+
     app.use(cors());
 
     //WEBPACK 5 DEV SERVER
@@ -109,7 +110,7 @@ function error(err, req, res)
 }
 
 //proxy special requests to other location
-app.use(createProxyMiddleware(['/api', '/swagger'],
+app.use(createProxyMiddleware(['/api'],
                               {
                                   target: proxyUrl,
                                   ws: true,

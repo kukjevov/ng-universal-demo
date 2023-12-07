@@ -7,7 +7,7 @@ import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, SUPPRESS_AUTH_INTERCEP
 import {LocalPermanentStorage} from '@anglr/common/store';
 import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, provideLoggerRestClient, RestSink, LOGGER_REST_CLIENT, providePermanentStorage} from '@anglr/common';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
-import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, handle404Func, HttpClientErrorResponseMapper, HttpClientValidationErrorResponseMapper, HTTP_CLIENT_ERROR_RESPONSE_MAPPER, HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER, RestNotFoundError, provideInternalServerErrorRenderer, provideAnglrExceptionExtenders, errorWithUrlExtender} from '@anglr/error-handling';
+import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, provideInternalServerErrorRenderer, provideAnglrExceptionExtenders, errorWithUrlExtender, provideHttpClientErrorResponseMapper, provideHttpClientValidationErrorResponseMapper, provideHttpClientErrorMessages, provideHttpClientErrorHandlers, handleHttp404Error} from '@anglr/error-handling';
 import {DialogInternalServerErrorRenderer} from '@anglr/error-handling/material';
 import {BasicPagingOptions, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, QueryPermanentStorageGridInitializerOptions, QueryGridInitializerComponent, provideNoDataRendererOptions, provideGridInitializerType, providePagingOptions, provideMetadataSelectorType, provideMetadataSelectorOptions, provideGridInitializerOptions, provideContentRendererOptions} from '@anglr/grid';
 import {DialogMetadataSelectorSAComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
@@ -15,14 +15,14 @@ import {ReservedSpaceValidationErrorsContainerComponent, ValidationErrorRenderer
 import {ConfirmationDialogOptions, CONFIRMATION_DIALOG_OPTIONS, MovableTitledDialogComponent, TitledDialogServiceOptions, TitledDialogService} from '@anglr/common/material';
 import {FloatingUiDomPosition} from '@anglr/common/floating-ui';
 import {MD_HELP_NOTIFICATIONS, RenderMarkdownConfig, RENDER_MARKDOWN_CONFIG} from '@anglr/md-help/web';
-import {ClientErrorHandlingMiddleware, HttpClientErrorCustomHandlerDef, HTTP_CLIENT_ERROR_CUSTOM_HANDLER, REST_ERROR_HANDLING_MIDDLEWARE_ORDER} from '@anglr/error-handling/rest';
+import {REST_ERROR_HANDLING_MIDDLEWARE_ORDER, HttpClientErrorProcessingMiddleware, CatchHttpClientErrorMiddleware} from '@anglr/error-handling/rest';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import {provideGlobalNotifications} from '@anglr/notifications';
 import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
 import {LoggerMiddleware, MockLoggerMiddleware, provideMockLogger, provideRestMethodMiddlewares, ReportProgressMiddleware, ResponseTypeMiddleware} from '@anglr/rest';
 import {provideRestDateTime} from '@anglr/rest/datetime';
-import {isString, isJsObject} from '@jscrpt/common';
+import {isString} from '@jscrpt/common';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {sk} from 'date-fns/locale';
 
@@ -368,51 +368,40 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         LoggerMiddleware,
         ResponseTypeMiddleware,
         ReportProgressMiddleware,
-        ClientErrorHandlingMiddleware,
+        HttpClientErrorProcessingMiddleware,
+        CatchHttpClientErrorMiddleware,
         ...jsDevMode ? [...config.configuration.disableMockLogger ? [] : [MockLoggerMiddleware]] : [],
     ]),
-    <ValueProvider>
+    provideHttpClientErrorResponseMapper(err =>
     {
-        provide: HTTP_CLIENT_ERROR_RESPONSE_MAPPER,
-        useValue: <HttpClientErrorResponseMapper>(err =>
+        if(err?.error?.errors)
         {
-            if(err?.error?.errors)
-            {
-                return err?.error?.errors;
-            }
+            return err?.error?.errors;
+        }
 
-            if(isString(err?.error))
-            {
-                return [err?.error];
-            }
+        if(isString(err?.error))
+        {
+            return [err?.error];
+        }
 
-            if(isJsObject(err?.error))
-            {
-                return [JSON.stringify(err?.error)];
-            }
-
-            return [err.message];
-        })
-    },
-    <ValueProvider>
+        return [];
+    }),
+    provideHttpClientValidationErrorResponseMapper(err =>
     {
-        provide: HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER,
-        useValue: <HttpClientValidationErrorResponseMapper>(err =>
+        if(err?.error?.validationErrors)
         {
-            if(err?.error?.validationErrors)
-            {
-                return err?.error?.validationErrors;
-            }
+            return err?.error?.validationErrors;
+        }
 
-            return null;
-        })
-    },
-    <ValueProvider>
+        return null;
+    }),
+    provideHttpClientErrorMessages(
     {
-        provide: HTTP_CLIENT_ERROR_CUSTOM_HANDLER,
-        useValue: <Record<number, HttpClientErrorCustomHandlerDef>>
-        {
-            404: [handle404Func, error => new RestNotFoundError(error.errors)],
-        },
-    },
+        400: 'Chyba spracovania dát!',
+        404: 'Záznam pre požadované ID sa nenašiel!',
+    }),
+    provideHttpClientErrorHandlers(
+    {
+        404: handleHttp404Error,
+    }),
 ];
