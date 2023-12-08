@@ -12,7 +12,7 @@ import {DialogInternalServerErrorRenderer} from '@anglr/error-handling/material'
 import {BasicPagingOptions, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, QueryPermanentStorageGridInitializerOptions, QueryGridInitializerComponent, provideNoDataRendererOptions, provideGridInitializerType, providePagingOptions, provideMetadataSelectorType, provideMetadataSelectorOptions, provideGridInitializerOptions, provideContentRendererOptions} from '@anglr/grid';
 import {DialogMetadataSelectorSAComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
 import {ReservedSpaceValidationErrorsContainerComponent, ValidationErrorRendererFactoryOptions, VALIDATION_ERROR_MESSAGES, VALIDATION_ERROR_RENDERER_FACTORY_OPTIONS} from '@anglr/common/forms';
-import {ConfirmationDialogOptions, CONFIRMATION_DIALOG_OPTIONS, MovableTitledDialogComponent, TitledDialogServiceOptions, TitledDialogService} from '@anglr/common/material';
+import {MovableTitledDialogComponent, TitledDialogServiceOptions, TitledDialogService, provideConfirmationDialogOptions} from '@anglr/common/material';
 import {FloatingUiDomPosition} from '@anglr/common/floating-ui';
 import {MD_HELP_NOTIFICATIONS, RenderMarkdownConfig, RENDER_MARKDOWN_CONFIG} from '@anglr/md-help/web';
 import {REST_ERROR_HANDLING_MIDDLEWARE_ORDER, HttpClientErrorProcessingMiddleware, CatchHttpClientErrorMiddleware} from '@anglr/error-handling/rest';
@@ -334,16 +334,16 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     },
 
     //######################### CONFIRMATION DIALOG #########################
-    <ValueProvider>
+    provideConfirmationDialogOptions(
     {
-        provide: CONFIRMATION_DIALOG_OPTIONS,
-        useValue: <ConfirmationDialogOptions>
+        cssClasses:
         {
-            confirmationText: 'Prajete si pokračovať?',
-            dialogCancelText: 'Nie',
-            dialogConfirmText: 'Áno'
-        }
-    },
+            closeButton: 'btn btn-danger margin-right-small',
+        },
+        confirmationText: 'Prajete si pokračovať?',
+        dialogCancelText: 'Nie',
+        dialogConfirmText: 'Áno',
+    }),
 
     //######################### POSITION #########################
     providePosition(FloatingUiDomPosition),
