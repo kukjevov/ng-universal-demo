@@ -1,4 +1,82 @@
-Home page
-<debug-data [copyClick]="'a toto sa skopirovalo'">
-    <div>debug - toto sa kopiruje</div>
-</debug-data>
+<button type="button" (click)="togglePaging()">toggle paging</button>
+
+<button type="button" (click)="incFirst()">click first</button>
+<button type="button" (click)="incSecond()">click second</button>
+<button type="button" (click)="call400()">400</button>
+<button type="button" (click)="call404()">404</button>
+{{computed()}}
+
+<div #grid ngGrid [gridOptions]="gridOptions">
+    <ng-container matrixGridColumn="country" title="country">
+        <div *headerCellTemplate>country</div>
+        <div *contentCellTemplate="let row=datum">{{row?.country}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="city" title="city">
+        <div *headerCellTemplate>city</div>
+        <div *contentCellTemplate="let row=datum; let startingIndex=startingIndex; let rowIndex=rowIndex; let index=index">{{row?.city}} {{index}} {{startingIndex}} {{rowIndex}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="zip" title="zip">
+        <div *headerCellTemplate orderable>zip</div>
+        <div *contentCellTemplate="let row=datum">{{row?.zip}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="street" title="street">
+        <div *headerCellTemplate>street</div>
+        <div *contentCellTemplate="let row=datum">{{row?.street}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="houseNumber" title="houseNumber" [visible]="false">
+        <div *headerCellTemplate orderable>houseNumber</div>
+        <div *contentCellTemplate="let row=datum">{{row?.houseNumber}}</div>
+    </ng-container>
+
+    <div contentRowContainer *contentRowContainerTemplate="let datum=datum" class="grid-content-row-css-grid" (click)="toggleDetail(datum)"></div>
+    
+    <div *contentRowContainerTemplate="let datum=datum; let contentCssClasses=contentCssClasses; predicate: detailPredicate" [ngClass]="contentCssClasses.contentRowContainerClass">
+        <div class="grid-whole-row">
+            <div class="flex-row">
+                <div class="bold">person name</div>
+                <div>{{datum.citizen.name}}</div>
+            </div>
+
+            <div class="flex-row">
+                <div class="bold">person surname</div>
+                <div>{{datum.citizen.surname}}</div>
+            </div>
+
+            <div class="flex-row">
+                <div class="bold">person birth date</div>
+                <div>{{datum.citizen.birthDate | dateFormat}}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <span gridContainer *gridContainerTemplate></span>
+    <span headerContainer *headerContainerTemplate></span> -->
+    <!-- <div contentContainer *contentContainerTemplate class="grid-body-css-grid"></div> -->
+    <!-- <span footerContainer *footerContainerTemplate></span> -->
+
+    <!-- <div *contentRowContainerTemplate="let data=datum" class="margin-bottom-small">
+        <div><span class="bold">City:</span> {{data.city}}</div>
+        <div><span class="bold">Street:</span> {{data.street}}</div>
+    </div> -->
+    <!-- <div headerRowContainer *headerRowContainerTemplate class="grid-header-row-css-grid"></div> -->
+    <!-- <span footerRowContainer *footerRowContainerTemplate></span> -->
+    <!-- <basic-table-metadata>
+        <basic-table-column id="country" name="country" title="Country"/>
+
+        <basic-table-column id="city" name="city" title="City">
+            <div *bodyCellTemplate="let row; let index=rowIndex">{{row.city}} {{index}}</div>
+        </basic-table-column>
+
+        <basic-table-column id="zip" name="zip" title="ZIP" [ordering]="true"/>
+        <basic-table-column id="street" name="street" title="Street"/>
+        <basic-table-column id="houseNumber" name="houseNumber" title="House Number" [ordering]="true"/>
+    </basic-table-metadata> -->
+</div>
+
+<button type="button" class="btn btn-primary" [showMetadataSelectorFor]="grid">
+    <span>výber stĺpcov</span>
+</button>

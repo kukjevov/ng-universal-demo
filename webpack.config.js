@@ -189,6 +189,10 @@ export default [function(options, args)
             {
                 "modernizr": path.join(dirName, "content/external/scripts/modernizr-custom.js"),
                 "numeral-languages": path.join(dirName, "node_modules/numeral/locales.js"),
+                "@anglr/error-handling/html2canvas": path.join(dirName, "packages/ng-error-canvas/index.ts"),
+                "@anglr/error-handling/material": path.join(dirName, "packages/ng-error-material/index.ts"),
+                "@anglr/error-handling/rest": path.join(dirName, "packages/ng-error-rest/index.ts"),
+                "@anglr/error-handling": path.join(dirName, "packages/ng-error/index.ts"),
             },
             mainFields: ssr ? ['esm2022', 'esm2015', 'es2015', 'jsnext:main', 'module', 'main'] : ['esm2022', 'es2022', 'esm2020', 'esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main'],
             conditionNames: ['esm2022', 'es2022', 'esm2020', 'es2015', 'import']
