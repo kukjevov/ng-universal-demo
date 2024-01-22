@@ -1,9 +1,12 @@
 <div class="align-self-center">
     <h1 class="text-uppercase text-center">{{'gui' | translate}}</h1>
 
-    <div class="alert alert-danger" *ngIf="authenticationError" @slideInOut>
-        {{'Authentication failed! Please check your credentials and try again.' | translate}}
-    </div>
+    @if(authenticationError)
+    {
+        <div class="alert alert-danger" @slideInOut>
+            {{'Authentication failed! Please check your credentials and try again.' | translate}}
+        </div>
+    }
 
     <form class="form" role="form" [formGroup]="form" (submit)="$event.preventDefault(); $event.stopPropagation(); login()">
         <div class="form-group margin-bottom-extra-small">

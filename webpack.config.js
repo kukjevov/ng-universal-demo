@@ -14,7 +14,7 @@ import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import TerserPlugin from 'terser-webpack-plugin';
 import {AngularWebpackPlugin} from '@ngtools/webpack';
 import linkerPlugin from '@angular/compiler-cli/linker/babel';
-import asyncGeneratorFunctions from '@babel/plugin-proposal-async-generator-functions';
+import asyncGeneratorFunctions from '@babel/plugin-transform-async-generator-functions';
 import asyncToGenerator from '@babel/plugin-transform-async-to-generator';
 import {HmrLoader} from '@angular-devkit/build-angular/src/tools/webpack/plugins/hmr/hmr-loader.js';
 import {JavaScriptOptimizerPlugin} from '@angular-devkit/build-angular/src/tools/webpack/plugins/javascript-optimizer-plugin.js';
@@ -30,7 +30,7 @@ function getEntries(ssr, css)
     if(ssr)
     {
         return {
-            server: path.join(dirName, 'app/main.server')
+            server: path.join(dirName, './app/main.server')
         };
     }
     else
@@ -308,7 +308,7 @@ export default [function(options, args)
                     use: ['raw-loader'],
                     include:
                     [
-                        path.join(dirName, 'packages')
+                        path.join(dirName, 'packages'),
                     ]
                 },
                 {
@@ -317,7 +317,7 @@ export default [function(options, args)
                     exclude:
                     [
                         path.join(dirName, 'app'),
-                        path.join(dirName, 'packages')
+                        path.join(dirName, 'packages'),
                     ]
                 },
                 {

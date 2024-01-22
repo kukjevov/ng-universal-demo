@@ -1,4 +1,3 @@
-.idea/
 node_modules/
 wwwroot/
 packages/
@@ -13,5 +12,4 @@ proxyUrl.cjs
 *.log
 *.bak
 *.orig
-*.pdf
 *~

@@ -1,10 +1,11 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {FormGroup, FormBuilder} from '@angular/forms';
+import {FormGroup, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
 import {AuthenticationService} from '@anglr/authentication';
 import {slideInOutTrigger} from '@anglr/animations';
 import {Logger, LOGGER} from '@anglr/common';
+import {TranslateModule} from '@ngx-translate/core';
 import {EMPTY} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
@@ -19,6 +20,12 @@ import {catchError} from 'rxjs/operators';
     {
         '[class.justify-content-center]': 'true'
     },
+    standalone: true,
+    imports:
+    [
+        TranslateModule,
+        ReactiveFormsModule,
+    ],
     animations: [slideInOutTrigger],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
