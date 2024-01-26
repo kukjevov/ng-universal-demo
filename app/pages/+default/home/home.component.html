@@ -1,4 +1,14 @@
-Home page
-<debug-data [copyClick]="'a toto sa skopirovalo'">
-    <div>debug - toto sa kopiruje</div>
-</debug-data>
+<div class="flex-row">
+    <button (click)="add()">add</button>
+    <button (click)="remove()">remove</button>
+    <button (click)="swap()">swap</button>
+    <button (click)="detach()">detach</button>
+    <button (click)="reattach()">reattach</button>
+    <button (click)="detectChanges()">detect changes</button>
+    <button (click)="markForCheck()">mark for check</button>
+</div>
+
+@for(meta of metadata; track meta.id)
+{
+    <ng-container renderer [metadata]="meta"></ng-container>
+}

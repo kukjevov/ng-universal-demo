@@ -1,0 +1,6 @@
+<div>id: {{id}}</div>
+<div>data: {{data}}</div>
+<div>random str: {{randomStr}}</div>
+<button (click)="data=(data ?? 0)+1; invalidateVisuals()">add</button>
+
+<div #element></div>
