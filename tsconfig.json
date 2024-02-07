@@ -22,15 +22,6 @@
         "newLine": "lf",
         "moduleResolution": "node",
         "outDir": "wwwroot/app",
-        "baseUrl": ".",
-        "paths": 
-        {
-            "@anglr/error-handling/html2canvas": ["packages/ng-error-canvas/index.ts"],
-            "@anglr/error-handling/material": ["packages/ng-error-material/index.ts"],
-            "@anglr/error-handling/rest": ["packages/ng-error-rest/index.ts"],
-            "@anglr/error-handling": ["packages/ng-error/index.ts"],
-            "sourcemapped-stacktrace" : ["packages/ng-error-typings/sourcemapped-stacktrace/index.d.ts"],
-        },
         "lib":
         [
             "es2020",

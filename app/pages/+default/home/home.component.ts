@@ -2,15 +2,17 @@ import {Component, ChangeDetectionStrategy, signal, computed, ViewChild, Injecto
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
 import {Authorize, AuthGuard} from '@anglr/authentication';
-import {BasicPagingOptions, BasicPagingSAComponent, Grid, GridDataRowContext, GridOptions, PreviousNextPagingSAComponent, SimpleOrdering, SyncDataLoaderOptions, SyncDataLoaderSAComponent} from '@anglr/grid';
+import {AttachPluginsSADirective, BasicPagingOptions, BasicPagingSAComponent, Grid, GridDataRowContext, GridOptions, MatrixGridModule, PreviousNextPagingSAComponent, ShowMetadataSelectorForSADirective, SimpleOrdering, SyncDataLoaderOptions, SyncDataLoaderSAComponent, UseTableSADirective} from '@anglr/grid';
 import {invalidateContent, patchOptions, patchPluginsOptions, reinitialize, reinitializeOptions} from '@anglr/grid/extensions';
-import {DialogMetadataSelectorOptions} from '@anglr/grid/material';
+import {provideHttpClientErrorMessages} from '@anglr/error-handling';
+import {DialogMetadataSelectorOptions, DialogMetadataSelectorSAComponent} from '@anglr/grid/material';
 import {AsSignal} from '@anglr/common';
+import {MarkdownModule} from '@anglr/md-help/web';
 import {RecursivePartial} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {ErrorService} from '../../../services/api/error';
-import {provideHttpClientErrorMessages} from '../../../../packages/ng-error';
+import {DebuggingFeatureModule, DisplayingFeatureModule, FormsFeatureModule} from '../../../modules';
 
 const data =
 [
@@ -275,6 +277,20 @@ const data =
 {
     selector: 'home-view',
     templateUrl: 'home.component.html',
+    standalone: true,
+    imports:
+    [
+        DisplayingFeatureModule,
+        FormsFeatureModule,
+        DebuggingFeatureModule,
+        MatrixGridModule,
+        MarkdownModule,
+        UseTableSADirective,
+        AttachPluginsSADirective,
+        BasicPagingSAComponent,
+        DialogMetadataSelectorSAComponent,
+        ShowMetadataSelectorForSADirective,
+    ],
     providers:
     [
         ErrorService,

@@ -6,6 +6,49 @@
 <button type="button" (click)="call404()">404</button>
 {{computed()}}
 
+<div ngGrid [gridOptions]="gridOptions">
+    <ng-container matrixGridColumn="country" title="country">
+        <div *headerCellTemplate>country</div>
+        <div *contentCellTemplate="let row=datum">{{row?.country}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="city" title="city">
+        <div *headerCellTemplate>city</div>
+        <div *contentCellTemplate="let row=datum; let startingIndex=startingIndex; let rowIndex=rowIndex; let index=index">{{row?.city}} {{index}} {{startingIndex}} {{rowIndex}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="zip" title="zip">
+        <div *headerCellTemplate orderable>zip</div>
+        <div *contentCellTemplate="let row=datum">{{row?.zip}}</div>
+    </ng-container>
+
+    @if(true)
+    {
+        <ng-container matrixGridColumn="street" title="street">
+            <div *headerCellTemplate>street</div>
+            <div *contentCellTemplate="let row=datum">{{row?.street}}</div>
+        </ng-container>
+    
+        <ng-container matrixGridColumn="houseNumber" title="houseNumber">
+            <div *headerCellTemplate orderable>houseNumber</div>
+            <div *contentCellTemplate="let row=datum">{{row?.houseNumber}}</div>
+        </ng-container>
+ 
+    }
+
+    <div *headerRowContainerTemplate="let cssClasses = contentCssClasses" [ngClass]="cssClasses.headerRowContainerClass">
+        <div style="grid-column: auto/span 2;">krajina + mest</div>
+        <div>psc</div>
+
+        @if(true)
+        {
+            <div style="grid-column: auto/span 2;">ulica + cislo</div>
+        }
+    </div>
+
+    <div headerRowContainer *headerRowContainerTemplate="let cssClasses = contentCssClasses" [ngClass]="cssClasses.headerRowContainerClass"></div>
+</div>
+
 <div #grid ngGrid [gridOptions]="gridOptions">
     <ng-container matrixGridColumn="country" title="country">
         <div *headerCellTemplate>country</div>
