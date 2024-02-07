@@ -1,15 +1,6 @@
-@use 'misc' as misc;
-@use 'mixins';
-
-@use 'parts/alerts' as alerts;
-@use 'parts/blocks' as blocks;
-@use 'parts/buttons' as buttons;
-@use 'parts/common.components' as commonComponents;
-@use 'parts/common' as common;
-@use 'parts/forms' as forms;
-@use 'parts/grid' as grid;
-@use 'parts/titles' as titles;
-
+@use '@css-styles/common' as mixins;
+@use '@css-styles/common' as misc;
+@use '@css-styles/themes' as themes;
 @use '@anglr/common/styles' as anglrCommon;
 @use '@anglr/datetime/styles' as datetime;
 @use '@anglr/grid/styles' as gridPackage;
@@ -17,7 +8,8 @@
 //---------------------- PAGE STYLING ----------------------
 .app-page
 {
-    font-family: "Inter";
+    font-family: var(--font-family);
+    -webkit-user-select: none;
     user-select: none;
     background-color: var(--page-background);
     color: var(--page-foreground);
@@ -28,26 +20,22 @@
     @include datetime.buildThemeCss;
     @include gridPackage.buildThemeCss;
 
-    //############## SIZES ##############
-
-    @include mixins.buildSizes;
-
     //############## SCROLLBAR ##############
 
-    @include mixins.thin-scrollbar-color('--page-scrollbar');
+    @include mixins.thin-scrollbar-color(--page-scrollbar);
 
     //############## PARTS ##############
 
-    @include alerts.css;
-    @include blocks.css;
-    @include buttons.css;
-    @include commonComponents.css;
-    @include common.css;
-    @include forms.css;
-    @include grid.css;
-    @include titles.css;
+    @include themes.css-alerts;
+    @include themes.css-blocks;
+    @include themes.css-buttons;
+    @include themes.css-common-components;
+    @include themes.css-forms;
+    @include themes.css-grid;
+    @include themes.css-titles;
 
     //############## MISC ##############
 
-    @include misc.css;
+    @include themes.css-common;
+    @include misc.misc-css;
 }

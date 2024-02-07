@@ -1,8 +1,7 @@
+@use '@css-styles/common';
 @use 'externalStyle';
 @use 'scss/fonts';
 @use 'scss/app';
-@use 'scss/mixins';
-@use 'scss/vars';
 
 // ---------------------- COMMON ----------------------
 *, *:focus
@@ -18,7 +17,6 @@
 html
 {
     height: 100%;
-    @include mixins.fluid-type(vars.$rootMinFontSizeWidth, vars.$rootMaxFontSizeWidth, vars.$rootMinFontSize, vars.$rootMaxFontSize);
 }
 
 body
@@ -37,7 +35,7 @@ app
 
     router-outlet+*, router-outlet+*+*
     {
-        @extend .thin-scrollbar;
+        @extend %thin-scrollbar;
 
         overflow-y: hidden;
         flex: 1;
@@ -45,7 +43,7 @@ app
         flex-direction: column;
         min-height: 0;
         min-width: 0;
-        padding: 0 0 5px;
+        padding: 0 3% 5px;
 
         &.scrollable
         {

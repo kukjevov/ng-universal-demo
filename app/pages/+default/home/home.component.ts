@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
 import {Authorize, AuthGuard} from '@anglr/authentication';
+import {DebugDataCopyClickModule} from '@anglr/common/material';
 
 /**
  * Home component
@@ -9,6 +10,11 @@ import {Authorize, AuthGuard} from '@anglr/authentication';
 {
     selector: 'home-view',
     templateUrl: 'home.component.html',
+    standalone: true,
+    imports:
+    [
+        DebugDataCopyClickModule,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRedirectRoute('', 'home')

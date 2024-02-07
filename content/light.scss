@@ -1,9 +1,14 @@
 @use '@anglr/common/styles/themes/light' as anglrCommonTheme;
 @use '@anglr/datetime/styles/themes/light' as dateTimeTheme;
 @use '@anglr/grid/styles/themes/light' as gridTheme;
+@use '@css-styles/themes' as themes;
+
+@use './scss/theme/defaultTheme' as defaultTheme;
 @use './scss/theme/light' as appTheme;
 
-@use 'scss/theme/theme' with ($theme: appTheme.defineTheme(),
+@use 'scss/theme/theme' with ($fontSize: appTheme.$fontSize,
+                              $theme: themes.defineTheme(),
+                              $appTheme: defaultTheme.defineTheme(appTheme.$appTheme),
                               $themeName: 'light',
                               $anglrCommonTheme: anglrCommonTheme.defineTheme(),
                               $dateTimeTheme: dateTimeTheme.defineTheme(),

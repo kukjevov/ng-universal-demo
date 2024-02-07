@@ -1,10 +1,15 @@
-@use './themeColors' as themeColors;
-
+@use '@css-styles/common' as vars;
+@use '@css-styles/common' as mixins;
+@use '@css-styles/themes' as themes;
 @use '@anglr/common/styles' as anglrCommon;
 @use '@anglr/datetime/styles' as datetime;
 @use '@anglr/grid/styles' as grid;
 
+@use './themeColors';
+
+$fontSize: 14px !default;
 $theme: () !default;
+$appTheme: () !default;
 $themeName: null !default;
 $dateTimeTheme: null !default;
 $anglrCommonTheme: null !default;
@@ -13,7 +18,19 @@ $gridTheme: null !default;
 //---------------------- PAGE STYLING ----------------------
 .app-page.#{$themeName}
 {
+    //############## FLUID FONT ##############
+
+    @include mixins.fluid-type(vars.$rootMinFontSizeWidth, vars.$rootMaxFontSizeWidth, vars.$rootMinFontSize, $fontSize);
+
+    //############## SIZES ##############
+
+    @include mixins.buildSizes(mixins.strip-unit($fontSize));
+
     //############## THEME ##############
+
+    @include themes.buildThemeColors($theme);
+
+    //############## APP THEME ##############
 
     @include themeColors.buildThemeColors($theme);
 

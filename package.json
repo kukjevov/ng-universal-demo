@@ -59,6 +59,8 @@
         "@anglr/server-stuff": "9.0.0-beta.20230918140008",
         "@anglr/translate-extensions": "9.0.0",
         "@jscrpt/common": "6.0.0",
+        "@css-styles/common": "1.0.0",
+        "@css-styles/themes": "1.0.0-beta.20240207094240",
         "@ngx-translate/core": "15.0.0",
         "angular2-hotkeys": "16.0.1",
         "zone.js": "0.14.2",

@@ -1,5 +1,3 @@
-@use "../../../content/scss/vars";
-
 :host
 {
     display: flex;
@@ -16,7 +14,7 @@
     span[class^="fas"],
     span[class^="glyphicon"]
     {
-        margin-right: vars.$sizeSm;
+        margin-right: var(--size-sm);
     }
 }
 
@@ -26,7 +24,7 @@
     display: grid;
     grid-template-columns: auto 160px;
     grid-template-rows: auto;
-    column-gap: vars.$sizeSm;
-    row-gap: vars.$sizeXs;
+    column-gap: var(--size-sm);
+    row-gap: var(--size-sm);
     align-items: center;
 }

@@ -1,14 +1,11 @@
-@use 'sass:map';
+@use 'sass:color';
 
-@use 'defaultTheme';
+//############## FONT ##############
 
-$_theme:
+$fontSize: 14px;
+
+//############## LIGHT THEME ##############
+
+$appTheme:
 (
 );
-
-@function defineTheme($colors: ())
-{
-    $colors: map.deep-merge($_theme, $colors);
-
-    @return defaultTheme.defineTheme($colors);
-}
