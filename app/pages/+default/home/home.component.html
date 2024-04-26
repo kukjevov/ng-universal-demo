@@ -1,4 +1,80 @@
-Home page
-<debug-data [copyClick]="'a toto sa skopirovalo'">
-    <div>debug - toto sa kopiruje</div>
-</debug-data>
+<div ngGrid [gridOptions]="gridOptions">
+    <ng-container matrixGridColumn="id">
+        <div *headerCellTemplate>id</div>
+        <div *contentCellTemplate="let row=datum">{{row.id}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="name">
+        <div *headerCellTemplate>name</div>
+        <div *contentCellTemplate="let row=datum">{{row.name}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="surname">
+        <div *headerCellTemplate>surname</div>
+        <div *contentCellTemplate="let row=datum">{{row.surname}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="name1">
+        <div *headerCellTemplate>name</div>
+        <div *contentCellTemplate="let row=datum">{{row.name}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="surname1">
+        <div *headerCellTemplate>surname</div>
+        <div *contentCellTemplate="let row=datum">{{row.surname}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="name2">
+        <div *headerCellTemplate>name</div>
+        <div *contentCellTemplate="let row=datum">{{row.name}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="surname2">
+        <div *headerCellTemplate>surname</div>
+        <div *contentCellTemplate="let row=datum">{{row.surname}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="name3">
+        <div *headerCellTemplate>name</div>
+        <div *contentCellTemplate="let row=datum">{{row.name}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="surname3">
+        <div *headerCellTemplate>surname</div>
+        <div *contentCellTemplate="let row=datum">{{row.surname}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="name4">
+        <div *headerCellTemplate>name</div>
+        <div *contentCellTemplate="let row=datum">{{row.name}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="surname4">
+        <div *headerCellTemplate>surname</div>
+        <div *contentCellTemplate="let row=datum">{{row.surname}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="name5">
+        <div *headerCellTemplate>name</div>
+        <div *contentCellTemplate="let row=datum">{{row.name}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="surname5">
+        <div *headerCellTemplate>surname</div>
+        <div *contentCellTemplate="let row=datum">{{row.surname}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="name6">
+        <div *headerCellTemplate>name</div>
+        <div *contentCellTemplate="let row=datum">{{row.name}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="surname6">
+        <div *headerCellTemplate>surname</div>
+        <div *contentCellTemplate="let row=datum">{{row.surname}}</div>
+    </ng-container>
+
+    <div gridContainer *gridContainerTemplate="['id']; let cssClasses = contentCssClasses; let columns=gridColumns" [ngClass]="cssClasses.gridContainerClass" [style.grid-template-columns]="columns | cssGridTemplateColumns"></div>
+    <div gridContainer *gridContainerTemplate="['id']; exclude: true; let cssClasses = contentCssClasses; let columns=gridColumns" [ngClass]="cssClasses.gridContainerClass" [style.grid-template-columns]="columns | cssGridTemplateColumns"></div>
+    <div gridContainer *gridContainerTemplate="['id']; let cssClasses = contentCssClasses; let columns=gridColumns" [ngClass]="cssClasses.gridContainerClass" [style.grid-template-columns]="columns | cssGridTemplateColumns"></div>
+</div>
