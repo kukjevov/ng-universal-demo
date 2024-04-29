@@ -1,7 +1,5 @@
 /* eslint-disable ressurectit/imports-order */
 import './dependencies';
-import './dependencies.browser';
-import 'zone.js';
 import './hacks';
 import {EnvironmentProviders, FactoryProvider, Provider, enableProdMode, importProvidersFrom} from '@angular/core';
 import {provideAnimations} from '@angular/platform-browser/animations';

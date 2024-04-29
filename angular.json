@@ -1,0 +1,131 @@
+{
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "version": 1,
+    "projects":
+    {
+        "app":
+        {
+            "root": "",
+            "sourceRoot": "",
+            "projectType": "application",
+            "architect":
+            {
+                "build":
+                {
+                    "builder": "@angular-devkit/build-angular:application",
+                    "options": 
+                    {
+                        "baseHref": "/",
+                        "outputPath": 
+                        {
+                            "base": "wwwroot",
+                            "browser": "",
+                            "server": "server"
+                        },
+                        "index": "index.html",
+                        "browser": "app/main.browser.ts",
+                        "tsConfig": "tsconfig.json",
+                        "inlineStyleLanguage": "scss",
+                        "polyfills": 
+                        [
+                            "zone.js"
+                        ],
+                        "styles": 
+                        [
+                            "content/site.scss",
+                            "content/light.scss",
+                            "content/dark.scss"
+                        ],
+                        "allowedCommonJsDependencies": 
+                        [
+                            "numeral",
+                            "numeral-languages",
+                            "konami",
+                            "mousetrap",
+                            "extend",
+                            "sourcemapped-stacktrace",
+                            "marked",
+                            "highlight.js",
+                            "store",
+                            "store/plugins/expire",
+                            "store/storages/sessionStorage"
+                        ],
+                        "scripts": 
+                        [
+                            "konami",
+                            "numeral"
+                        ],
+                        "serviceWorker": false
+                    },
+                    "configurations": 
+                    {
+                        "production": 
+                        {
+                            "define": 
+                            {
+                                "isProduction": "true",
+                                "jsDevMode": "false"
+                            },
+                            "budgets": 
+                            [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "500kb",
+                                    "maximumError": "1mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "2kb",
+                                    "maximumError": "4kb"
+                                }
+                            ],
+                            "outputHashing": "all",
+                            "serviceWorker": "ngsw-config.json"
+                        },
+                        "development": 
+                        {
+                            "define": 
+                            {
+                                "isProduction": "false",
+                                "jsDevMode": "true"
+                            },
+                            "optimization": false,
+                            "extractLicenses": false,
+                            "sourceMap": true
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "serve":
+                {
+                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "options": 
+                    {
+                        "proxyConfig": "proxy.conf.json",
+                        "port": 8888
+                    },
+                    "configurations":
+                    {
+                        "production": 
+                        {
+                            "buildTarget": "app:build:production"
+                        },
+                        "development": 
+                        {
+                            "buildTarget": "app:build:development"
+                        }
+                    },
+                    "defaultConfiguration": "development"
+                }
+            }
+        }
+    },
+    "cli": 
+    {
+        "analytics": false,
+        "warnings": 
+        {
+            "versionMismatch": true
+        }
+    }
+}

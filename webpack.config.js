@@ -361,7 +361,6 @@ export default [function(options, args)
             new webpack.DefinePlugin(
             {
                 isProduction: prod,
-                isNgsw: ngsw,
                 jsDevMode: !prod,
                 ...prod ? {ngDevMode: false} : {},
                 ngI18nClosureMode: false

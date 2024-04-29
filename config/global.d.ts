@@ -1,5 +1,4 @@
 declare const isProduction: boolean;
-declare const isNgsw: boolean;
 
 interface ImportMeta
 {

@@ -18,10 +18,17 @@
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "importHelpers": true,
+        "useDefineForClassFields": false,
+        "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "newLine": "lf",
         "moduleResolution": "node",
         "outDir": "wwwroot/app",
+        "paths": 
+        {
+            "modernizr": ["./content/external/scripts/modernizr-custom.js"],
+            "numeral-languages": ["./node_modules/numeral/locales.js"]
+        },
         "lib":
         [
             "es2020",

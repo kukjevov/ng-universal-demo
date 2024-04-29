@@ -20,6 +20,7 @@ const serverPath = path.join(wwwroot, 'dist/ssr/server.js');
 const proxyUrlFile = path.join(__dirname, 'proxyUrl.cjs');
 let serverRenderFunc;
 let proxyUrl = "http://127.0.0.1:8080";
+let port = 8888;
 
 const key = fs.readFileSync('server.key');
 const cert = fs.readFileSync('server.crt');
@@ -69,19 +70,10 @@ if(process.env.SERVER_PROXY_HOST)
 
 console.log(`Using proxy url '${proxyUrl}'`);
 
-//enable webpack only if run with --webpack param
-if(!!argv.webpack)
+//start with dev port
+if(!!argv.devPort)
 {
-    const cors = require('cors');
-
-    app.use(cors());
-
-    //WEBPACK 5 DEV SERVER
-    app.use(createProxyMiddleware(['/dist'],
-    {
-        target: 'http://localhost:9000',
-        ws: true,
-    }));
+    port = 8880;
 }
 
 //mock rest api
@@ -175,9 +167,9 @@ app.use(gzipStatic(wwwroot,
                        }
                    }));
 
-console.log("Listening on port 8888 => http://localhost:8888");
+console.log(`Listening on port ${port} => http://localhost:port`);
 //create node.js http server and listen on port
-app.listen(8888);
+app.listen(port);
 console.log("Listening on port 443 => https://localhost");
 //create node.js https server and listen on port
 https.createServer(options, app).listen(443);
