@@ -1,11 +1,11 @@
 {
     "compilerOptions":
     {
-        "target": "es2020",
-        "module": "es2020",
+        "target": "ES2022",
+        "module": "ES2022",
         "sourceMap": true,
-        "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
+        "declaration": false,
         "removeComments": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
@@ -23,7 +23,7 @@
         "forceConsistentCasingInFileNames": true,
         "newLine": "lf",
         "moduleResolution": "node",
-        "outDir": "wwwroot/app",
+        "outDir": "wwwroot/out-tsc",
         "paths": 
         {
             "modernizr": ["./content/external/scripts/modernizr-custom.js"],
@@ -31,7 +31,7 @@
         },
         "lib":
         [
-            "es2020",
+            "ES2022",
             "dom"
         ],
         "types":
@@ -53,7 +53,8 @@
     "include":
     [
         "app/**/*.ts",
-        "packages/**/*.ts"
+        "packages/**/*.ts",
+        "server.ts"
     ],
     "exclude":
     [
@@ -62,6 +63,7 @@
     "angularCompilerOptions":
     {
         "strictInjectionParameters": true,
+        "strictInputAccessModifiers": true,
         "strictTemplates": true
     }
 }

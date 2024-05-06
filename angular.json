@@ -24,10 +24,11 @@
                         },
                         "index": "index.html",
                         "browser": "app/main.browser.ts",
-                        "tsConfig": "tsconfig.json",
+                        "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
                         "polyfills": 
                         [
+                            "modernizr",
                             "zone.js"
                         ],
                         "styles": 
@@ -101,6 +102,7 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": 
                     {
+                        "hmr": true,
                         "proxyConfig": "proxy.conf.json",
                         "port": 8888
                     },

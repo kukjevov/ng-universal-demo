@@ -1,5 +1,3 @@
-import 'modernizr';
-
 import {loadConfig} from './config.loader';
 
 async function main()

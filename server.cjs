@@ -1,5 +1,4 @@
 const connect = require('connect'),
-      gzipStatic = require('connect-gzip-static'),
       serveStatic = require('serve-static'),
       history = require('connect-history-api-fallback'),
       {createProxyMiddleware} = require('http-proxy-middleware'),
