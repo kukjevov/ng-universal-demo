@@ -9,8 +9,6 @@ import {AppSAComponent} from './boot/app.component';
 import {config} from './config';
 import {appConfig} from './boot/app.config';
 
-console.log(config);
-
 if(isProduction)
 {
     enableProdMode();
