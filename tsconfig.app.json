@@ -9,7 +9,7 @@
     [
         "app/main.browser.ts",
         "config/global.d.ts",
-        "src/main.server.ts",
+        "app/main.server.ts",
         "server.ts"
     ],
     "include": 

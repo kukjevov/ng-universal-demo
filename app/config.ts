@@ -3,6 +3,8 @@ import {StringDictionary} from '@jscrpt/common';
 
 import defaultConfig from '../config/config.json';
 
+declare const configOverride: Configuration;
+
 /**
  * Language definition
  */
@@ -117,4 +119,8 @@ export interface Configuration
     logging: SettingsLogging;
 }
 
-export const config: Configuration = defaultConfig;
+export const config: Configuration =
+{
+    ...defaultConfig,
+    ...configOverride,
+};

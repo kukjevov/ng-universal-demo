@@ -1,10 +1,22 @@
-import {loadConfig} from './config.loader';
+/* eslint-disable ressurectit/imports-order */
+import '../config/configBrowserOverride';
+import {enableProdMode} from '@angular/core';
+import {bootstrapApplication} from '@angular/platform-browser';
+import {runWhenAppStable} from '@anglr/common';
+import {simpleNotification} from '@jscrpt/common';
 
-async function main()
+import {AppSAComponent} from './boot/app.component';
+import {config} from './config';
+import {appConfig} from './boot/app.config';
+
+console.log(config);
+
+if(isProduction)
 {
-    await loadConfig();
-    
-    await import('./main.browser.bootstrap');
+    enableProdMode();
 }
 
-main();
+runWhenAppStable(bootstrapApplication(AppSAComponent, appConfig), _ =>
+{
+    jsDevMode && simpleNotification(jsDevMode && !!import.meta.webpackHot);
+}, config.configuration.debug);

@@ -1,11 +1,8 @@
 *
 
 !config/config.json
-!config/config.environment.json
+!config/config.environment.js
 !mocks
 !wwwroot
-!server.cjs
+!server.js
 !server.mock.cjs
-!server.rest.cjs
-!server.crt
-!server.key

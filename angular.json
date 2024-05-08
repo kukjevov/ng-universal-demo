@@ -15,11 +15,12 @@
                     "builder": "@angular-devkit/build-angular:application",
                     "options": 
                     {
+                        "deleteOutputPath": false,
                         "baseHref": "/",
                         "outputPath": 
                         {
                             "base": "wwwroot",
-                            "browser": "",
+                            "browser": "browser",
                             "server": "server"
                         },
                         "index": "index.html",
@@ -54,8 +55,15 @@
                         "scripts": 
                         [
                             "konami",
-                            "numeral"
+                            "numeral",
+                            "numeral-languages"
                         ],
+                        "server": "app/main.server.ts",
+                        "prerender": false,
+                        "ssr": 
+                        {
+                            "entry": "server.ts"
+                        },
                         "serviceWorker": false
                     },
                     "configurations": 

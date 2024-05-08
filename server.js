@@ -4,7 +4,6 @@ import {fileURLToPath} from 'node:url';
 import {dirname} from 'node:path';
 import path from 'path';
 import fs from 'fs';
-// import {dirname, join, resolve} from 'node:path';
 import {createProxyMiddleware} from 'http-proxy-middleware';
 import yargs from 'yargs/yargs';
 import {hideBin} from 'yargs/helpers';
@@ -12,7 +11,6 @@ import {extendConnectUse} from 'nodejs-connect-extensions';
 import dotenv from 'dotenv';
 
 import serverMock from './server.mock.cjs';
-import customRestApi from './server.rest.cjs';
 
 async function run()
 {
@@ -20,25 +18,22 @@ async function run()
     const server = express();
 
     server.use(compression());
-    // const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-    // const browserDistFolder = resolve(serverDistFolder, '../browser');
-    // const indexHtml = join(serverDistFolder, 'index.server.html');
     
     dotenv.config();
     
     extendConnectUse(server);
     
     const dirName = dirname(fileURLToPath(import.meta.url));
-    const wwwroot = path.join(dirName, 'wwwroot');
+    const wwwroot = path.join(dirName, 'wwwroot', 'browser');
     const indexHtml = path.join(wwwroot, 'index.html')
-    // const serverPath = path.join(wwwroot, 'dist/ssr/server.js');
+    const serverPath = path.join(dirName, 'wwwroot', 'server', 'server.mjs');
     const proxyUrlFile = path.join(dirName, 'proxyUrl.js');
     let proxyUrl = "http://127.0.0.1:8080";
     let port = process.env['PORT'] || 8888;
-    
+
     if(fs.existsSync(proxyUrlFile))
     {
-        proxyUrl = await import(proxyUrlFile);
+        proxyUrl = await import('proxyUrl.js');
     }
     
     if(process.env.SERVER_PROXY_HOST)
@@ -92,9 +87,6 @@ async function run()
                                          },
                                      }));
     
-    //custom rest api
-    customRestApi(server);
-
     server.set('view engine', 'html');
     server.set('views', wwwroot);
     
@@ -114,7 +106,17 @@ async function run()
         }
     }));
 
-    server.get('/*', (req, res) => res.sendFile(indexHtml));
+    
+    if(fs.existsSync(serverPath))
+    {
+        const {applyServerSideRendering} = await import('./wwwroot/server/server.mjs');
+        
+        applyServerSideRendering(server);
+    }
+    else
+    {
+        server.get('/*', (_, res) => res.sendFile(indexHtml));
+    }
     
     //create node.js http server and listen on port
     server.listen(port, () =>
