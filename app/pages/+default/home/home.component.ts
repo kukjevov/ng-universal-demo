@@ -3,6 +3,8 @@ import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
 import {Authorize, AuthGuard} from '@anglr/authentication';
 import {DebugDataCopyClickModule} from '@anglr/common/material';
 
+import {CustomSAComponent} from '../../../components';
+
 /**
  * Home component
  */
@@ -14,6 +16,7 @@ import {DebugDataCopyClickModule} from '@anglr/common/material';
     imports:
     [
         DebugDataCopyClickModule,
+        CustomSAComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

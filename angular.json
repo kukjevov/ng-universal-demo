@@ -13,11 +13,11 @@
                 "build":
                 {
                     "builder": "@angular-devkit/build-angular:application",
-                    "options": 
+                    "options":
                     {
                         "deleteOutputPath": false,
                         "baseHref": "/",
-                        "outputPath": 
+                        "outputPath":
                         {
                             "base": "wwwroot",
                             "browser": "browser",
@@ -27,18 +27,18 @@
                         "browser": "app/main.browser.ts",
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
-                        "polyfills": 
+                        "polyfills":
                         [
                             "modernizr",
                             "zone.js"
                         ],
-                        "styles": 
+                        "styles":
                         [
                             "content/site.scss",
                             "content/light.scss",
                             "content/dark.scss"
                         ],
-                        "allowedCommonJsDependencies": 
+                        "allowedCommonJsDependencies":
                         [
                             "numeral",
                             "numeral-languages",
@@ -52,7 +52,7 @@
                             "store/plugins/expire",
                             "store/storages/sessionStorage"
                         ],
-                        "scripts": 
+                        "scripts":
                         [
                             "konami",
                             "numeral",
@@ -60,22 +60,22 @@
                         ],
                         "server": "app/main.server.ts",
                         "prerender": false,
-                        "ssr": 
+                        "ssr":
                         {
                             "entry": "server.ts"
                         },
                         "serviceWorker": false
                     },
-                    "configurations": 
+                    "configurations":
                     {
-                        "production": 
+                        "production":
                         {
-                            "define": 
+                            "define":
                             {
                                 "isProduction": "true",
                                 "jsDevMode": "false"
                             },
-                            "budgets": 
+                            "budgets":
                             [
                                 {
                                     "type": "initial",
@@ -91,9 +91,9 @@
                             "outputHashing": "all",
                             "serviceWorker": "ngsw-config.json"
                         },
-                        "development": 
+                        "development":
                         {
-                            "define": 
+                            "define":
                             {
                                 "isProduction": "false",
                                 "jsDevMode": "true"
@@ -108,7 +108,7 @@
                 "serve":
                 {
                     "builder": "@angular-devkit/build-angular:dev-server",
-                    "options": 
+                    "options":
                     {
                         "hmr": true,
                         "proxyConfig": "proxy.conf.json",
@@ -116,11 +116,11 @@
                     },
                     "configurations":
                     {
-                        "production": 
+                        "production":
                         {
                             "buildTarget": "app:build:production"
                         },
-                        "development": 
+                        "development":
                         {
                             "buildTarget": "app:build:development"
                         }
@@ -128,12 +128,106 @@
                     "defaultConfiguration": "development"
                 }
             }
+        },
+        "custom":
+        {
+            "root": "",
+            "sourceRoot": "",
+            "projectType": "application",
+            "architect":
+            {
+                "build":
+                {
+                    "builder": "@angular-devkit/build-angular:application",
+                    "options":
+                    {
+                        "deleteOutputPath": false,
+                        "baseHref": "/",
+                        "outputPath":
+                        {
+                            "base": "wwwroot",
+                            "browser": "customComponent"
+                        },
+                        "index": "index.html",
+                        "browser": "app/main.webComponent.ts",
+                        "tsConfig": "tsconfig.web.json",
+                        "inlineStyleLanguage": "scss",
+                        "polyfills":
+                        [
+                            "zone.js"
+                        ],
+                        "styles":
+                        [
+                            "content/site.scss",
+                            "content/light.scss",
+                            "content/dark.scss"
+                        ],
+                        "allowedCommonJsDependencies":
+                        [
+                            "numeral",
+                            "numeral-languages",
+                            "konami",
+                            "mousetrap",
+                            "extend",
+                            "sourcemapped-stacktrace",
+                            "marked",
+                            "highlight.js",
+                            "store",
+                            "store/plugins/expire",
+                            "store/storages/sessionStorage"
+                        ],
+                        "scripts":
+                        [
+                            "konami",
+                            "numeral",
+                            "numeral-languages"
+                        ]
+                    },
+                    "configurations":
+                    {
+                        "production":
+                        {
+                            "define":
+                            {
+                                "isProduction": "true",
+                                "jsDevMode": "false"
+                            },
+                            "budgets":
+                            [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "500kb",
+                                    "maximumError": "1mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "2kb",
+                                    "maximumError": "4kb"
+                                }
+                            ],
+                            "outputHashing": "all"
+                        },
+                        "development":
+                        {
+                            "define":
+                            {
+                                "isProduction": "false",
+                                "jsDevMode": "true"
+                            },
+                            "optimization": false,
+                            "extractLicenses": false,
+                            "sourceMap": true
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                }
+            }
         }
     },
-    "cli": 
+    "cli":
     {
         "analytics": false,
-        "warnings": 
+        "warnings":
         {
             "versionMismatch": true
         }

@@ -1,9 +1,9 @@
-import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
+import {FactoryProvider, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
 import {provideClientHydration} from '@angular/platform-browser';
 import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {provideRouter, withComponentInputBinding} from '@angular/router';
 import {MatDialogModule} from '@angular/material/dialog';
-import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER, AuthenticationServiceOptions} from '@anglr/authentication';
+import {AUTH_INTERCEPTOR_PROVIDER, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER, AuthenticationServiceOptions} from '@anglr/authentication';
 import {LocalPermanentStorage} from '@anglr/common/store';
 import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, provideLoggerRestClient, RestSink, providePermanentStorage} from '@anglr/common';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
@@ -123,30 +123,6 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     provideInternalServerErrorRenderer(DialogInternalServerErrorRenderer),
 
     //######################### APP INITIALIZER #########################
-    <FactoryProvider>
-    {
-        useFactory: () =>
-        {
-            const authService: AuthenticationService = inject(AuthenticationService);
-
-            return async () =>
-            {
-                try
-                {
-                    await authService
-                        .getUserIdentity();
-                }
-                catch(e)
-                {
-                    alert(`Authentication failed: ${e}`);
-
-                    throw e;
-                }
-            };
-        },
-        provide: APP_INITIALIZER,
-        multi: true
-    },
 
     //######################### GRID GLOBAL OPTIONS #########################
     provideGridInitializerType(QueryGridInitializerComponent),

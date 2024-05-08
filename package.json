@@ -4,8 +4,9 @@
     "description": "Angular sample application",
     "type": "module",
     "scripts": {
-        "build": "ng build --configuration development",
-        "build:min": "ng build",
+        "build": "ng build app --configuration development",
+        "build:web": "ng build custom --configuration development",
+        "build:min": "ng build app",
         "prebuild": "npm run version:build && npm run config:build",
         "prebuild:min": "npm run clean && npm run version:build && npm run config:build",
         "clean": "rimraf wwwroot config/configOverride.js config/configServerOverride.js config/configBrowserOverride.js version.json",
@@ -16,7 +17,7 @@
         "server": "node server.js",
         "lint": "eslint app/**/*.ts",
         "prestart": "npm run version:build && npm run config:build",
-        "start": "concurrently \"npm run server -- --devPort\" \"ng serve\""
+        "start": "concurrently \"npm run server -- --devPort\" \"ng serve app\""
     },
     "engines": {
         "node": "^18.13.0 || >=20.9.0"
@@ -28,6 +29,7 @@
         "@angular/common": "17.3.6",
         "@angular/compiler": "17.3.6",
         "@angular/core": "17.3.6",
+        "@angular/elements": "17.3.6",
         "@angular/forms": "17.3.6",
         "@angular/platform-browser": "17.3.6",
         "@angular/platform-browser-dynamic": "17.3.6",
