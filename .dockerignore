@@ -4,5 +4,7 @@
 !config/config.environment.js
 !mocks
 !wwwroot
+!generateConfig.js
+!package.json
 !server.js
 !server.mock.cjs

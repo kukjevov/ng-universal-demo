@@ -107,7 +107,7 @@ async function run()
     }));
 
     
-    if(fs.existsSync(serverPath))
+    if(fs.existsSync(serverPath) && !argv.devPort)
     {
         const {applyServerSideRendering} = await import('./wwwroot/server/server.mjs');
         

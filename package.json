@@ -4,7 +4,7 @@
     "description": "Angular sample application",
     "type": "module",
     "scripts": {
-        "build": "ng build --configuration development",
+        "build": "ng build -c development",
         "build:min": "ng build",
         "prebuild": "npm run version:build && npm run config:build",
         "prebuild:min": "npm run clean && npm run version:build && npm run config:build",

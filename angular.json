@@ -15,7 +15,6 @@
                     "builder": "@angular-devkit/build-angular:application",
                     "options": 
                     {
-                        "deleteOutputPath": false,
                         "baseHref": "/",
                         "outputPath": 
                         {
@@ -49,11 +48,16 @@
                             "marked",
                             "highlight.js",
                             "store",
+                            "node-localstorage",
                             "store/plugins/expire",
                             "store/storages/sessionStorage"
                         ],
                         "scripts": 
                         [
+                            {
+                                "input": "config/configBrowserOverride.js",
+                                "bundleName": "configBrowserOverride"
+                            },
                             "konami",
                             "numeral",
                             "numeral-languages"
@@ -79,8 +83,8 @@
                             [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "500kb",
-                                    "maximumError": "1mb"
+                                    "maximumWarning": "1mb",
+                                    "maximumError": "2mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
@@ -132,6 +136,11 @@
     },
     "cli": 
     {
+        "cache": 
+        {
+            "environment": "local",
+            "enabled": true
+        },
         "analytics": false,
         "warnings": 
         {
