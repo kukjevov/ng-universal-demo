@@ -3,4 +3,21 @@
     <a routerLink="/lazy" routerLinkActive="active" class="margin-right-extra-small">Lazy</a>
     <a (click)="logout()">Logout</a>
     <a (click)="openSettings()" class="fas fa-cog"></a>
+    
+    @if(versionUpdateSvc.updateAvailable())
+    {
+        <div class="align-self-center margin-left-small">
+            @if(versionUpdateSvc.updateReady())
+            {
+                <button type="button" class="btn btn-warning" (click)="versionUpdateSvc.activateVersion()">
+                    <span class="fas fa-clock"></span>
+                    <span>inštalovať aktualizáciu</span>
+                </button>
+            }
+            @else 
+            {
+                <div class="text-warning first-letter-uppercase">sťahujem aktualizáciu</div>
+            }
+        </div>
+    }
 </div>

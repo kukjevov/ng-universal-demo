@@ -37,6 +37,7 @@ import {AccountAuthOptions} from '../services/api/account/accountAuth.options';
 import {RestMockLoggerService} from '../services/api/restMockLogger';
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
 import {ReportMissingTranslationService} from '../services/missingTranslation';
+import {VersionUpdateService} from '../services/versionUpdate';
 
 /**
  * Array of providers that are used in app module
@@ -128,9 +129,12 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         useFactory: () =>
         {
             const authService: AuthenticationService = inject(AuthenticationService);
+            const swUpdate: VersionUpdateService = inject(VersionUpdateService);
 
             return async () =>
             {
+                await swUpdate.initialize();
+
                 try
                 {
                     await authService

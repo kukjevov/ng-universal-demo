@@ -4,6 +4,7 @@ import {AuthenticationService} from '@anglr/authentication';
 import {TitledDialogService} from '@anglr/common/material';
 
 import {UserSettingsSAComponent} from '../../../../components';
+import {VersionUpdateService} from '../../../../services/versionUpdate';
 
 /**
  * Component used for displaying application main menu
@@ -12,15 +13,15 @@ import {UserSettingsSAComponent} from '../../../../components';
 {
     selector: 'main-menu',
     templateUrl: 'mainMenu.component.html',
-    // styleUrls: ['mainMenu.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainMenuComponent
 {
     //######################### constructor #########################
-    constructor(private _authSvc: AuthenticationService<any>,
+    constructor(private _authSvc: AuthenticationService,
                 private _router: Router,
-                private _dialog: TitledDialogService)
+                private _dialog: TitledDialogService,
+                protected versionUpdateSvc: VersionUpdateService,)
     {
     }
 
