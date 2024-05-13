@@ -5,7 +5,7 @@ import {provideRouter, withComponentInputBinding} from '@angular/router';
 import {MatDialogModule} from '@angular/material/dialog';
 import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER, AuthenticationServiceOptions} from '@anglr/authentication';
 import {LocalPermanentStorage} from '@anglr/common/store';
-import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, provideLoggerRestClient, RestSink, providePermanentStorage} from '@anglr/common';
+import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, provideLoggerRestClient, RestSink, providePermanentStorage, TOOLTIP_OPTIONS, TooltipOptions} from '@anglr/common';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
 import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, provideInternalServerErrorRenderer, provideAnglrExceptionExtenders, errorWithUrlExtender, provideHttpClientErrorResponseMapper, provideHttpClientValidationErrorResponseMapper, provideHttpClientErrorMessages, provideHttpClientErrorHandlers, handleHttp404Error} from '@anglr/error-handling';
 import {DialogInternalServerErrorRenderer} from '@anglr/error-handling/material';
@@ -22,7 +22,7 @@ import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
 import {LoggerMiddleware, MockLoggerMiddleware, provideMockLogger, provideRestMethodMiddlewares, ReportProgressMiddleware, ResponseTypeMiddleware} from '@anglr/rest';
 import {provideRestDateTime} from '@anglr/rest/datetime';
-import {isString} from '@jscrpt/common';
+import {RecursivePartial, isString} from '@jscrpt/common';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {sk} from 'date-fns/locale';
 
@@ -217,6 +217,16 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         useClass: NgxTranslateStringLocalizationService
     },
 
+    //######################### TOOLTIP #########################
+    <ValueProvider>
+    {
+        provide: TOOLTIP_OPTIONS,
+        useValue: <RecursivePartial<TooltipOptions>>
+        {
+            stopPropagation: true,
+        }
+    },
+
     //######################### PERMANENT STORAGE #########################
     providePermanentStorage(LocalPermanentStorage),
 
@@ -234,7 +244,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         .writeTo(DeveloperConsoleSink)
         .enrichWith(LogLevelEnricher)
         .enrichWith(TimestampEnricher)
-        .minimumLevel(LogLevel.Verbose)
+        .minimumLevel(LogLevel.Information)
         .messageTemplate('{{timestamp}} [{{logLevel}}] {{messageLog}}')),
     provideLoggerRestClient(RestLoggerService),
 
@@ -353,7 +363,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         provide: RENDER_MARKDOWN_CONFIG,
         useValue: <RenderMarkdownConfig>
         {
-            assetsPathPrefix: 'dist/md',
+            assetsPathPrefix: 'md',
             baseUrl: '/pomoc'
         }
     },

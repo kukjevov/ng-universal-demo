@@ -38,6 +38,7 @@ $gridTheme: null !default;
 
     @include anglrCommon.buildThemeColorsTooltip($anglrCommonTheme);
     @include anglrCommon.buildThemeColorsMultiButton($anglrCommonTheme);
+    @include anglrCommon.buildThemeColorsDebugData($anglrCommonTheme);
     @include datetime.buildThemeColors($dateTimeTheme);
     @include grid.buildThemeColors($gridTheme);
 }

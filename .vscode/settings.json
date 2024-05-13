@@ -14,7 +14,7 @@
     "files.eol": "\n",
     "css.styleSheets":
     [
-        "wwwroot/dist/style.css",
+        "wwwroot/browser/styles.css",
         "app/**/${fileBasenameNoExtension}.scss"
     ]
 }
