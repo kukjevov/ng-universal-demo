@@ -126,10 +126,12 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     //######################### APP INITIALIZER #########################
     <FactoryProvider>
     {
+        provide: APP_INITIALIZER,
+        multi: true,
         useFactory: () =>
         {
-            const authService: AuthenticationService = inject(AuthenticationService);
-            const swUpdate: VersionUpdateService = inject(VersionUpdateService);
+            const authService = inject(AuthenticationService);
+            const swUpdate = inject(VersionUpdateService);
 
             return async () =>
             {
@@ -147,9 +149,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
                     throw e;
                 }
             };
-        },
-        provide: APP_INITIALIZER,
-        multi: true
+        }
     },
 
     //######################### GRID GLOBAL OPTIONS #########################

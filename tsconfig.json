@@ -23,7 +23,7 @@
         "forceConsistentCasingInFileNames": true,
         "newLine": "lf",
         "moduleResolution": "node",
-        "outDir": "wwwroot/out-tsc",
+        "outDir": "wwwroot/app-tsc",
         "paths": 
         {
             "modernizr": ["./content/external/scripts/modernizr-custom.js"],
@@ -64,6 +64,13 @@
     {
         "strictInjectionParameters": true,
         "strictInputAccessModifiers": true,
-        "strictTemplates": true
+        "strictTemplates": true,
+        "extendedDiagnostics":
+        {
+            "checks":
+            {
+                "interpolatedSignalNotInvoked": "error"
+            }
+        }
     }
 }
