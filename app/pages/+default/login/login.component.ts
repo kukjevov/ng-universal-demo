@@ -45,7 +45,7 @@ export class LoginComponent
     public authenticationError: boolean = false;
     
     //######################### constructor #########################
-    constructor(private _authService: AuthenticationService<any>,
+    constructor(private _authService: AuthenticationService,
                 private _router: Router,
                 private _activeRoute: ActivatedRoute,
                 private _changeDetector: ChangeDetectorRef,

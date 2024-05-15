@@ -11,7 +11,7 @@ import {StatusCodeService} from '@anglr/common';
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NotFoundComponent
+export default class NotFoundComponent
 {
     //######################### constructor #########################
     constructor(statusCodeService: StatusCodeService)

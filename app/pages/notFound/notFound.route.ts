@@ -6,5 +6,5 @@ import {Route} from '@angular/router';
 export const notFoundRoute: Route =
 {
     path: '**',
-    loadComponent: () => import('./notFound.component').then(({NotFoundComponent}) => NotFoundComponent)
+    loadComponent: () => import('./notFound.component')
 };

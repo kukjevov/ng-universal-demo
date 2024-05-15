@@ -11,7 +11,7 @@ import {StatusCodeService} from '@anglr/common';
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AccessDeniedComponent
+export default class AccessDeniedComponent
 {
     //######################### constructor #########################
     constructor(statusCodeService: StatusCodeService)
