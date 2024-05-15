@@ -8,6 +8,6 @@ import {components} from './default.routes';
  */
 @NgModule()
 @ModuleRoutes(components)
-export class DefaultModule
+export default class DefaultModule
 {
 }

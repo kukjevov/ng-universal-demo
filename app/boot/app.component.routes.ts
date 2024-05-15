@@ -8,7 +8,7 @@ export const routes: Routes =
 [
     {
         path: '',
-        loadChildren: () => import('../pages/+default/default.module').then(({DefaultModule}) => DefaultModule)
+        loadChildren: () => import('../pages/+default/default.module')
     },
     ...extractRoutes(
     [
