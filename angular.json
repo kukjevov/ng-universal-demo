@@ -30,7 +30,9 @@
                         "polyfills":
                         [
                             "modernizr",
-                            "zone.js"
+                            "zone.js",
+                            "numeral",
+                            "numeral-languages"
                         ],
                         "styles":
                         [
@@ -59,9 +61,7 @@
                                 "input": "config/configBrowserOverride.js",
                                 "bundleName": "configBrowserOverride"
                             },
-                            "konami",
-                            "numeral",
-                            "numeral-languages"
+                            "konami"
                         ],
                         "server": "app/main.server.ts",
                         "prerender": false,
