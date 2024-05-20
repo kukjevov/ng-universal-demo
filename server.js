@@ -33,7 +33,7 @@ async function run()
 
     if(fs.existsSync(proxyUrlFile))
     {
-        proxyUrl = await import('proxyUrl.js');
+        proxyUrl = (await import('./proxyUrl.js')).default;
     }
     
     if(process.env.SERVER_PROXY_HOST)

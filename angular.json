@@ -12,11 +12,12 @@
             {
                 "build":
                 {
-                    "builder": "@angular-devkit/build-angular:application",
-                    "options": 
+                    "builder": "@angular-builders/custom-esbuild:application",
+                    "options":
                     {
+                        "plugins": ["./globalsReplace.js"],
                         "baseHref": "/",
-                        "outputPath": 
+                        "outputPath":
                         {
                             "base": "wwwroot",
                             "browser": "browser",
@@ -26,18 +27,18 @@
                         "browser": "app/main.browser.ts",
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
-                        "polyfills": 
+                        "polyfills":
                         [
                             "modernizr",
                             "zone.js"
                         ],
-                        "styles": 
+                        "styles":
                         [
                             "content/site.scss",
                             "content/light.scss",
                             "content/dark.scss"
                         ],
-                        "allowedCommonJsDependencies": 
+                        "allowedCommonJsDependencies":
                         [
                             "numeral",
                             "numeral-languages",
@@ -52,7 +53,7 @@
                             "store/plugins/expire",
                             "store/storages/sessionStorage"
                         ],
-                        "scripts": 
+                        "scripts":
                         [
                             {
                                 "input": "config/configBrowserOverride.js",
@@ -64,22 +65,22 @@
                         ],
                         "server": "app/main.server.ts",
                         "prerender": false,
-                        "ssr": 
+                        "ssr":
                         {
                             "entry": "server.ts"
                         },
                         "serviceWorker": false
                     },
-                    "configurations": 
+                    "configurations":
                     {
-                        "production": 
+                        "production":
                         {
-                            "define": 
+                            "define":
                             {
                                 "isProduction": "true",
                                 "jsDevMode": "false"
                             },
-                            "budgets": 
+                            "budgets":
                             [
                                 {
                                     "type": "initial",
@@ -95,9 +96,9 @@
                             "outputHashing": "all",
                             "serviceWorker": "ngsw-config.json"
                         },
-                        "development": 
+                        "development":
                         {
-                            "define": 
+                            "define":
                             {
                                 "isProduction": "false",
                                 "jsDevMode": "true"
@@ -111,20 +112,20 @@
                 },
                 "serve":
                 {
-                    "builder": "@angular-devkit/build-angular:dev-server",
-                    "options": 
+                    "builder": "@angular-builders/custom-esbuild:dev-server",
+                    "options":
                     {
-                        "hmr": true,
+                        "hmr": false,
                         "proxyConfig": "proxy.conf.json",
                         "port": 8888
                     },
                     "configurations":
                     {
-                        "production": 
+                        "production":
                         {
                             "buildTarget": "app:build:production"
                         },
-                        "development": 
+                        "development":
                         {
                             "buildTarget": "app:build:development"
                         }
@@ -134,15 +135,15 @@
             }
         }
     },
-    "cli": 
+    "cli":
     {
-        "cache": 
+        "cache":
         {
             "environment": "local",
-            "enabled": true
+            "enabled": false
         },
         "analytics": false,
-        "warnings": 
+        "warnings":
         {
             "versionMismatch": true
         }
