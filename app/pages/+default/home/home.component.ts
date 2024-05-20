@@ -2,6 +2,7 @@ import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {ComponentRedirectRoute} from '@anglr/common/router';
 import {Authorize, ComponentRouteAuthorized} from '@anglr/authentication';
 import {DebugDataCopyClickModule} from '@anglr/common/material';
+import {NumeralSAPipe} from '@anglr/common/numeral';
 
 /**
  * Home component
@@ -14,6 +15,7 @@ import {DebugDataCopyClickModule} from '@anglr/common/material';
     imports:
     [
         DebugDataCopyClickModule,
+        NumeralSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -140,7 +140,7 @@
         "cache":
         {
             "environment": "local",
-            "enabled": false
+            "enabled": true
         },
         "analytics": false,
         "warnings":
