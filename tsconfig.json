@@ -26,8 +26,7 @@
         "outDir": "wwwroot/app-tsc",
         "paths": 
         {
-            "modernizr": ["./content/external/scripts/modernizr-custom.js"],
-            "numeral-languages": ["./node_modules/numeral/locales.js"]
+            "modernizr": ["./content/external/scripts/modernizr-custom.js"]
         },
         "lib":
         [

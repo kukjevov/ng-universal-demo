@@ -1,4 +1,4 @@
-import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
+import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideExperimentalZonelessChangeDetection} from '@angular/core';
 import {provideClientHydration} from '@angular/platform-browser';
 import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {provideRouter, withComponentInputBinding} from '@angular/router';
@@ -54,8 +54,8 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     //######################### HTTP CLIENT #########################
     provideHttpClient(withInterceptorsFromDi(),),
 
-    //######################### ZONE #########################
-    provideZoneChangeDetection({eventCoalescing: true, runCoalescing: true}),
+    //######################### ZONELESS #########################
+    provideExperimentalZonelessChangeDetection(),
 
     //######################### TRANSLATIONS #########################
     importProvidersFrom(TranslateModule.forRoot(

@@ -1,9 +1,9 @@
-/* eslint-disable ressurectit/imports-order */
 import {enableProdMode} from '@angular/core';
 import {bootstrapApplication} from '@angular/platform-browser';
 import {runWhenAppStable} from '@anglr/common';
 import {simpleNotification} from '@jscrpt/common';
 
+import './hacks';
 import {AppSAComponent} from './boot/app.component';
 import {config} from './config';
 import {appConfig} from './boot/app.config';

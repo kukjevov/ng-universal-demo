@@ -12,10 +12,9 @@
             {
                 "build":
                 {
-                    "builder": "@angular-builders/custom-esbuild:application",
+                    "builder": "@angular-devkit/build-angular:application",
                     "options":
                     {
-                        "plugins": ["./globalsReplace.js"],
                         "baseHref": "/",
                         "outputPath":
                         {
@@ -29,10 +28,7 @@
                         "inlineStyleLanguage": "scss",
                         "polyfills":
                         [
-                            "modernizr",
-                            "zone.js",
-                            "numeral",
-                            "numeral-languages"
+                            "modernizr"
                         ],
                         "styles":
                         [
@@ -43,7 +39,6 @@
                         "allowedCommonJsDependencies":
                         [
                             "numeral",
-                            "numeral-languages",
                             "konami",
                             "mousetrap",
                             "extend",
@@ -112,10 +107,10 @@
                 },
                 "serve":
                 {
-                    "builder": "@angular-builders/custom-esbuild:dev-server",
+                    "builder": "@angular-devkit/build-angular:dev-server",
                     "options":
                     {
-                        "hmr": false,
+                        "hmr": true,
                         "proxyConfig": "proxy.conf.json",
                         "port": 8888
                     },
@@ -140,7 +135,7 @@
         "cache":
         {
             "environment": "local",
-            "enabled": false
+            "enabled": true
         },
         "analytics": false,
         "warnings":
