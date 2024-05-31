@@ -2,7 +2,6 @@
 /* eslint-disable ressurectit/imports-order */
 import '../config/configServerOverride';
 import './server.pollyfils';
-import './hacks';
 import {enableProdMode} from '@angular/core';
 import {bootstrapApplication} from '@angular/platform-browser';
 

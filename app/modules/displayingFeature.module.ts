@@ -1,8 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
-import {CommonUtilsModule, CommonLocalizeModule, TooltipModule} from '@anglr/common';
-import {NumeralSAPipe} from '@anglr/common/numeral';
+import {CommonUtilsModule, CommonLocalizeModule, TooltipModule, NumeralPipe} from '@anglr/common';
 import {AuthorizeDirective} from '@anglr/authentication';
 import {DatePipesModule} from '@anglr/datetime';
 import {TranslateModule} from '@ngx-translate/core';
@@ -14,7 +13,7 @@ import {TranslateModule} from '@ngx-translate/core';
 {
     imports:
     [
-        NumeralSAPipe,
+        NumeralPipe,
         AuthorizeDirective,
     ],
     exports:
@@ -23,7 +22,7 @@ import {TranslateModule} from '@ngx-translate/core';
         RouterModule,
         CommonUtilsModule,
         CommonLocalizeModule,
-        NumeralSAPipe,
+        NumeralPipe,
         TooltipModule,
         TranslateModule,
         DatePipesModule,
