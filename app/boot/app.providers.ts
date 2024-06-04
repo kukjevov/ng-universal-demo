@@ -24,6 +24,7 @@ import {LoggerMiddleware, MockLoggerMiddleware, provideMockLogger, provideRestMe
 import {provideRestDateTime} from '@anglr/rest/datetime';
 import {isString} from '@jscrpt/common';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {provideScrollbarOptions, provideScrollbarPolyfill} from 'ngx-scrollbar';
 import {sk} from 'date-fns/locale';
 
 import {routes} from './app.component.routes';
@@ -57,6 +58,14 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     //######################### ZONELESS #########################
     provideExperimentalZonelessChangeDetection(),
 
+    //######################### NGX SCROLLBAR #########################
+
+    provideScrollbarPolyfill('assets/scroll-timeline-polyfill.js'),
+    provideScrollbarOptions(
+    {
+        visibility: 'hover',
+        appearance: 'compact',
+    }),
     //######################### TRANSLATIONS #########################
     importProvidersFrom(TranslateModule.forRoot(
     {
