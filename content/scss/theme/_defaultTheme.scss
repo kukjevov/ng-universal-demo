@@ -11,9 +11,10 @@ $_defaultTheme:
 (
 );
 
-@function defineTheme($theme: ())
+@function defineTheme($theme: (), $customization: ())
 {
     $theme: map.deep-merge($_defaultTheme, $theme);
+    $theme: map.deep-merge($theme, $customization);
 
     @return $theme;
 }

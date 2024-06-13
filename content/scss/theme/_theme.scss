@@ -32,7 +32,7 @@ $gridTheme: null !default;
 
     //############## APP THEME ##############
 
-    @include themeColors.buildThemeColors($theme);
+    @include themeColors.buildThemeColors($appTheme);
 
     //############## PACKAGES ##############
 
