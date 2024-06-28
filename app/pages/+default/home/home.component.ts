@@ -3,6 +3,8 @@ import {ComponentRedirectRoute} from '@anglr/common/router';
 import {Authorize, ComponentRouteAuthorized} from '@anglr/authentication';
 import {DebugDataCopyClickModule} from '@anglr/common/material';
 
+const name = 'test';
+
 /**
  * Home component
  */
@@ -22,4 +24,15 @@ import {DebugDataCopyClickModule} from '@anglr/common/material';
 @Authorize('home-page')
 export class HomeComponent
 {
+    //######################### public methods - implementation of OnInit #########################
+    
+    /**
+     * @inheritdoc
+     */
+    public async ngOnInit(): Promise<void>
+    {
+        const component = await import(`../${name}`);
+
+        console.log(component);
+    }
 }
