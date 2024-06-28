@@ -7,7 +7,7 @@
 @use './scss/theme/light' as appTheme;
 
 @use 'scss/theme/theme' with ($fontSize: appTheme.$fontSize,
-                              $theme: themes.defineTheme(),
+                              $theme: themes.defineTheme(appTheme.$appTheme),
                               $appTheme: defaultTheme.defineTheme(appTheme.$appTheme),
                               $themeName: 'light',
                               $anglrCommonTheme: anglrCommonTheme.defineTheme(),

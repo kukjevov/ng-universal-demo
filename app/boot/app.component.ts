@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef, Inject, OnInit, AfterViewInit, OnDestroy} from '@angular/core';
-import {CommonModule, DOCUMENT} from '@angular/common';
-import {RouterModule, RouterOutlet} from '@angular/router';
+import {DOCUMENT} from '@angular/common';
+import {RouterOutlet} from '@angular/router';
 import {ConsoleSAComponent, LOGGER, Logger, ProgressIndicatorModule, consoleAnimationTrigger} from '@anglr/common';
 import {AppHotkeysService, HotkeysCheatsheetComponent} from '@anglr/common/hotkeys';
 import {InternalServerErrorSAComponent} from '@anglr/error-handling';
@@ -31,8 +31,7 @@ import {SettingsService} from '../services/settings';
     standalone: true,
     imports:
     [
-        CommonModule,
-        RouterModule,
+        RouterOutlet,
         InternalServerErrorSAComponent,
         ProgressIndicatorModule,
         NotificationsGlobalModule,
@@ -183,7 +182,7 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * Called when view was initialized
      */
-    public ngAfterViewInit()
+    public ngAfterViewInit(): void
     {
         this._routerOutletActivatedSubscription = this.routerOutlet?.activateEvents.subscribe(() =>
         {
@@ -198,7 +197,7 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * Called when component is destroyed
      */
-    public ngOnDestroy()
+    public ngOnDestroy(): void
     {
         this._routerOutletActivatedSubscription?.unsubscribe();
         this._routerOutletActivatedSubscription = null;
