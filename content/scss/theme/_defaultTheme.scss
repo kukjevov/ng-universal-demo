@@ -1,14 +1,50 @@
 @use 'sass:color';
 @use 'sass:map';
 
+@use '@css-styles/common' as mixins;
+
+//############## FONT ##############
+
+$fontSize: 14px;
+
 //############## AVAILABLE COLORS ##############
 
+$gray-0: #e5e5e5;
+$gray-1: #e0e0e0;
+$gray-2: #cccccc;
+$gray-3: #aaaaaa;
+$gray-4: #9d9d9d;
+$gray-5: #737373;
+$gray-6: #555555;
+$gray-7: #444444;
+$gray-8: #383838;
+$gray-9: #1e1e1e;
 
+$white: #fff;
+$lightBlue: #28b8ff;
+$darkBlue: #004e75;
+$blue: #007ebd;
+$darkGreen: #0b7e01;
+
+$primary: $lightBlue;
+$primaryAlt: $blue;
+$secondary: $darkBlue;
 
 //############## DEFAULT THEME ##############
 
 $_defaultTheme:
 (
+    page:
+    (
+        side:
+        (
+            width: 2%,
+        ),
+        content:
+        (
+            width: 1280px,
+        ),
+    ),
 );
 
 @function defineTheme($theme: (), $customization: ())

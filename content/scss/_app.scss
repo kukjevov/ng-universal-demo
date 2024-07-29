@@ -5,6 +5,8 @@
 @use '@anglr/datetime/styles' as datetime;
 @use '@anglr/grid/styles' as gridPackage;
 
+@use 'parts/app' as app;
+
 //---------------------- PAGE STYLING ----------------------
 .app-page
 {
@@ -33,6 +35,7 @@
     @include themes.css-forms;
     @include themes.css-grid;
     @include themes.css-titles;
+    @include app.css;
 
     //############## MISC ##############
 

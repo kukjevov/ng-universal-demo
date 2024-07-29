@@ -1,0 +1,77 @@
+@use '@css-styles/common';
+
+@mixin css
+{
+    app
+    {
+        display: grid;
+        height: 100vh;
+        grid-template-columns: [fullscreen-start] minmax(var(--page-side-width), 1fr) [content-start] minmax(0, var(--page-content-width)) [content-end] minmax(var(--page-side-width), 1fr) [fullscreen-end];
+        grid-template-rows: [fullscreen-start header-start] auto [header-end content-start] 1fr [content-end footer-start] auto [footer-end fullscreen-end];
+    
+        .page-header
+        {
+            grid-row: header;
+            grid-column: content;
+        }
+    
+        .page-footer
+        {
+            grid-row: footer;
+            grid-column: content;
+        }
+    
+        .page-content
+        {
+            grid-row: content;
+            grid-column: content;
+        }
+
+        .fullscreen
+        {
+            grid-row: fullscreen;
+            grid-column: fullscreen;
+        }
+
+        .page-header,
+        .page-footer,
+        .page-content
+        {
+            &.fullscreen,
+            &.fullscreen-background
+            {
+                display: grid;
+                grid-template-columns: subgrid;
+                grid-template-rows: auto;
+                grid-column: fullscreen;
+            }
+    
+            &.fullscreen-background
+            {
+                &>*
+                {
+                    grid-column: content;
+                }
+            }
+        }
+
+        router-outlet+*,
+        router-outlet+*+*
+        {
+            @extend %thin-scrollbar;
+
+            grid-row: fullscreen;
+            grid-column: fullscreen;
+
+            display: grid;
+            grid-template-columns: subgrid;
+            grid-template-rows: subgrid;
+            overflow-y: hidden;
+
+            &.scrollable
+            {
+                overflow-y: scroll;
+            }
+        }
+    }
+}

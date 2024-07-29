@@ -1,3 +1,5 @@
+@use "sass:meta";
+
 @use '@css-styles/common' as vars;
 @use '@css-styles/common' as mixins;
 @use '@css-styles/themes' as themes;
@@ -41,4 +43,8 @@ $gridTheme: null !default;
     @include anglrCommon.buildThemeColorsDebugData($anglrCommonTheme);
     @include datetime.buildThemeColors($dateTimeTheme);
     @include grid.buildThemeColors($gridTheme);
+
+    //############## EXTERNALS ##############
+
+    @include meta.load-css("highlight.js/styles/vs.css");
 }

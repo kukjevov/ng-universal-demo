@@ -1,26 +1,24 @@
-<main-menu/>
+<main-menu class="page-header"/>
 
-<progress-indicator/>
-<internal-server-error/>
-<global-notifications/>
-<hotkeys-cheatsheet/>
+<progress-indicator class="fullscreen"/>
+<internal-server-error class="fullscreen"/>
+<global-notifications class="fullscreen"/>
+<hotkeys-cheatsheet class="fullscreen"/>
 
-<div class="content relative" [@routeAnimations]="routeComponentState">
-    <div class="main-content">
-        <router-outlet #outlet="outlet"/>
-    </div>
+<div class="fullscreen page-content grid-subgrid">
+    <router-outlet/>
 </div>
 
-<div class="gui-version">GUI version: {{guiVersion}}</div>
+<div class="page-footer extra-small-text text-center">GUI version: {{guiVersion}}</div>
 
-@if(consoleVisible)
+@if(consoleVisible())
 {
-    <console @consoleAnimation/>
+    <console class="fullscreen" @consoleAnimation/>
 }
 
-@if(!initialized)
+<!-- @if(!initialized)
 {
-    <div class="loading-indicator" @loaderAnimation>
+    <div class="loading-indicator">
         <div class="loading-header">
             <div class="loading-title">APP</div>
         </div>
@@ -28,4 +26,4 @@
         <div class="loading-card"></div>
         <div class="loading-spinner"></div>
     </div>
-}
+} -->

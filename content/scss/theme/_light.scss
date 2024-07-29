@@ -1,8 +1,9 @@
 @use 'sass:color';
+@use 'defaultTheme' as defaults;
 
 //############## FONT ##############
 
-$fontSize: 14px;
+$fontSize: defaults.$fontSize;
 
 //############## LIGHT THEME ##############
 

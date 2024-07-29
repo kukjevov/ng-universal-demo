@@ -44,7 +44,7 @@ interface SettingsLoggingEnum
 {
     selector: 'user-settings',
     templateUrl: 'userSettings.component.html',
-    styleUrls: ['userSettings.component.scss'],
+    styleUrl: 'userSettings.component.scss',
     standalone: true,
     imports:
     [
@@ -53,7 +53,7 @@ interface SettingsLoggingEnum
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserSettingsSAComponent
+export class UserSettingsComponent
 {
     //######################### public properties - template bindings #########################
 

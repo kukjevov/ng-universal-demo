@@ -1,18 +1,11 @@
-@use '@css-styles/common';
+@use '@css-styles/common' as mixins;
 @use 'externalStyle';
 @use 'scss/fonts';
 @use 'scss/app';
 
 // ---------------------- COMMON ----------------------
-*, *:focus
-{
-    outline: none;
-}
 
-*
-{
-    box-sizing: border-box;
-}
+@include mixins.css-reset;
 
 html
 {
@@ -22,35 +15,9 @@ html
 body
 {
     overflow: hidden;
-    margin: 0;
-    padding: 0;
     height: 100%;
 }
 
-app
-{
-    display: flex;
-    height: 100vh;
-    flex-direction: column;
-
-    router-outlet+*, router-outlet+*+*
-    {
-        @extend %thin-scrollbar;
-
-        overflow-y: hidden;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        min-height: 0;
-        min-width: 0;
-        padding: 0 3% 5px;
-
-        &.scrollable
-        {
-            overflow-y: scroll;
-        }
-    }
-}
 
 .no-ie, .no-grid
 {

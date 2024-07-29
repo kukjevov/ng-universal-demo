@@ -5,7 +5,7 @@ import './server.pollyfils';
 import {enableProdMode} from '@angular/core';
 import {bootstrapApplication} from '@angular/platform-browser';
 
-import {AppSAComponent} from './boot/app.component';
+import {AppComponent} from './boot/app.component';
 import {config} from './boot/app.config.server';
 
 if(isProduction)
@@ -13,6 +13,6 @@ if(isProduction)
     enableProdMode();
 }
 
-const bootstrap = () => bootstrapApplication(AppSAComponent, config);
+const bootstrap = () => bootstrapApplication(AppComponent, config);
 
 export default bootstrap;

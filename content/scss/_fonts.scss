@@ -61,3 +61,13 @@
     src: url("../external/fonts/Inter/Inter-Black.ttf");
     font-weight: 900;
 }
+
+@font-face 
+{
+    font-family: 'Roboto Flex';
+    font-style: normal;
+    font-weight: 400;
+    font-stretch: 100%;
+    font-display: block;
+    src: url('../external/fonts/RobotoFlex/RobotoFlex-VariableFont_GRAD\,XOPQ\,XTRA\,YOPQ\,YTAS\,YTDE\,YTFI\,YTLC\,YTUC\,opsz\,slnt\,wdth\,wght.ttf') format('woff2');
+}

@@ -3,7 +3,7 @@ import {TitledDialogModule} from '@anglr/common/material';
 
 import {DisplayingFeatureModule} from '../../displayingFeature.module';
 import {MainMenuComponent} from '../components';
-import {UserSettingsSAComponent} from '../../../components';
+import {UserSettingsComponent} from '../../../components';
 
 /**
  * Module for menu components
@@ -13,7 +13,7 @@ import {UserSettingsSAComponent} from '../../../components';
     imports:
     [
         DisplayingFeatureModule,
-        UserSettingsSAComponent,
+        UserSettingsComponent,
         TitledDialogModule,
     ],
     declarations:
