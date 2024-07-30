@@ -21,11 +21,15 @@
             grid-column: content;
         }
     
-        .page-content
+        .page
         {
             grid-row: content;
-            grid-column: content;
             min-height: 0;
+        }
+
+        .page-content
+        {
+            grid-column: content;
             min-width: 0;
         }
 
@@ -61,7 +65,6 @@
         {
             @extend %thin-scrollbar;
 
-            grid-row: content;
             grid-column: fullscreen;
 
             display: grid;
@@ -71,6 +74,12 @@
             &.scrollable
             {
                 overflow-y: scroll;
+            }
+
+            &.page-content
+            {
+                display: flex;
+                flex-direction: column;
             }
         }
     }

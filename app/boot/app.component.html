@@ -1,12 +1,12 @@
-<main-menu class="page-header full-background"/>
-
 <progress-indicator class="fullscreen"/>
 <internal-server-error class="fullscreen"/>
 <global-notifications class="fullscreen"/>
 <hotkeys-cheatsheet class="fullscreen"/>
 
-<div class="full page-content">
-    <router-outlet/>
+<main-menu class="page-header full-background"/>
+
+<div class="full page-content page">
+    <router-outlet class="hidden"/>
 </div>
 
 <div class="page-footer extra-small-text text-center">GUI version: {{guiVersion}}</div>

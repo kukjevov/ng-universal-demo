@@ -26,7 +26,7 @@
     "dependencies": {
         "@anglr/animations": "10.1.0",
         "@anglr/authentication": "12.0.0",
-        "@anglr/common": "21.0.0",
+        "@anglr/common": "21.1.0",
         "@anglr/datetime": "8.0.2",
         "@anglr/error-handling": "13.0.0",
         "@anglr/grid": "10.1.1",

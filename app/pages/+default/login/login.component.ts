@@ -4,7 +4,7 @@ import {FormGroup, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
 import {AuthenticationService} from '@anglr/authentication';
 import {slideInOutTrigger} from '@anglr/animations';
-import {Logger, LOGGER} from '@anglr/common';
+import {Logger, LOGGER, WithPageContentCssClass} from '@anglr/common';
 import {TranslateModule} from '@ngx-translate/core';
 import {EMPTY} from 'rxjs';
 import {catchError} from 'rxjs/operators';
@@ -30,6 +30,7 @@ import {catchError} from 'rxjs/operators';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'login', data: {animation: 'login'}})
+@WithPageContentCssClass()
 export class LoginComponent
 {
     //######################### public properties #########################
