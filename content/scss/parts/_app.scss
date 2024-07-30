@@ -25,6 +25,8 @@
         {
             grid-row: content;
             grid-column: content;
+            min-height: 0;
+            min-width: 0;
         }
 
         .fullscreen
@@ -37,16 +39,15 @@
         .page-footer,
         .page-content
         {
-            &.fullscreen,
-            &.fullscreen-background
+            &.full,
+            &.full-background
             {
                 display: grid;
                 grid-template-columns: subgrid;
-                grid-template-rows: auto;
                 grid-column: fullscreen;
             }
     
-            &.fullscreen-background
+            &.full-background
             {
                 &>*
                 {
@@ -60,12 +61,11 @@
         {
             @extend %thin-scrollbar;
 
-            grid-row: fullscreen;
+            grid-row: content;
             grid-column: fullscreen;
 
             display: grid;
             grid-template-columns: subgrid;
-            grid-template-rows: subgrid;
             overflow-y: hidden;
 
             &.scrollable
