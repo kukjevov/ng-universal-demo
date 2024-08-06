@@ -14,7 +14,10 @@ import {DialogMetadataSelectorSAComponent, DialogMetadataSelectorOptions} from '
 import {ReservedSpaceValidationErrorsContainerComponent, ValidationErrorRendererFactoryOptions, VALIDATION_ERROR_MESSAGES, VALIDATION_ERROR_RENDERER_FACTORY_OPTIONS} from '@anglr/common/forms';
 import {MovableTitledDialogComponent, TitledDialogServiceOptions, TitledDialogService, provideConfirmationDialogOptions} from '@anglr/common/material';
 import {FloatingUiDomPosition} from '@anglr/common/floating-ui';
-import {MD_HELP_NOTIFICATIONS, RenderMarkdownConfig, RENDER_MARKDOWN_CONFIG} from '@anglr/md-help/web';
+import {assetsPathPrefixExtension, IncludeMarkdownExtension, provideMarkdownRendererExtensions, GfmHeadingIdExtension} from '@anglr/md-help';
+import {MermaidExtension} from '@anglr/md-help/mermaid';
+import {baseUrlExtension} from '@anglr/md-help/baseurl';
+import {HighlightJsExtension} from '@anglr/md-help/highlightjs';
 import {REST_ERROR_HANDLING_MIDDLEWARE_ORDER, HttpClientErrorProcessingMiddleware, CatchHttpClientErrorMiddleware} from '@anglr/error-handling/rest';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import {provideGlobalNotifications} from '@anglr/notifications';
@@ -309,11 +312,6 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     DEFAULT_NOTIFICATIONS,
     <ExistingProvider>
     {
-        provide: MD_HELP_NOTIFICATIONS,
-        useExisting: NOTIFICATIONS
-    },
-    <ExistingProvider>
-    {
         provide: ERROR_HANDLING_NOTIFICATIONS,
         useExisting: NOTIFICATIONS
     },
@@ -348,15 +346,12 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     providePosition(FloatingUiDomPosition),
 
     //######################### MARKDOWN #########################
-    <ValueProvider>
-    {
-        provide: RENDER_MARKDOWN_CONFIG,
-        useValue: <RenderMarkdownConfig>
-        {
-            assetsPathPrefix: 'md',
-            baseUrl: '/pomoc'
-        }
-    },
+    provideMarkdownRendererExtensions(GfmHeadingIdExtension,
+                                      HighlightJsExtension,
+                                      baseUrlExtension('pomoc/'),
+                                      MermaidExtension,
+                                      assetsPathPrefixExtension('md'),
+                                      IncludeMarkdownExtension,),
 
     //######################### REST CONFIG #########################
     provideRestDateTime(),
