@@ -12,6 +12,15 @@ import dotenv from 'dotenv';
 
 import serverMock from './server.mock.cjs';
 
+const consoleLog = console.log;
+const logs = [];
+
+console.log = (message, ...optionalParams) =>
+{
+    logs.push(JSON.stringify(message) + ', ' + optionalParams.map(itm => JSON.stringify(itm)).join(', '));
+    consoleLog(message, ...optionalParams);
+};
+
 async function run()
 {
     const argv = yargs(hideBin(process.argv)).argv;
@@ -48,6 +57,8 @@ async function run()
     {
         port = 8880;
     }
+
+    server.get('/consoleLog', (_, res) => res.send(logs));
     
     //mock rest api
     serverMock(server);

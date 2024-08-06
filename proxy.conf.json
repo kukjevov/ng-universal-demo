@@ -4,5 +4,11 @@
         "target": "http://localhost:8880",
         "secure": false,
         "changeOrigin": true
+    },
+    "/consoleLog":
+    {
+        "target": "http://localhost:8880",
+        "secure": false,
+        "changeOrigin": true
     }
 }
