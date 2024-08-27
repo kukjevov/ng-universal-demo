@@ -11,14 +11,14 @@ import isArray from 'lodash/isArray.js';
 dotenv.config();
 
 const require = createRequire(import.meta.url);
-const defaultConfig = require('./config/config.json');
+const defaultConfig = require('../config/config.json');
 const dirName = dirname(fileURLToPath(import.meta.url));
-const customConfigPath = path.join(dirName, 'config', `config.${process.env.NODE_ENV}.json`);
-const configEnvPath = path.join(dirName, 'config', `config.environment.js`);
+const customConfigPath = path.join(dirName, '..', 'config', `config.${process.env.NODE_ENV}.json`);
+const configEnvPath = path.join(dirName, '..', 'config', `config.environment.js`);
 
-const templateFile = path.join(dirName, 'config', 'configOverride.js');
-const browserFile = path.join(dirName, 'config', 'configBrowserOverride.js');
-const serverFile = path.join(dirName, 'config', 'configServerOverride.js');
+const templateFile = path.join(dirName, '..',  'config', 'configOverride.js');
+const browserFile = path.join(dirName, '..', 'config', 'configBrowserOverride.js');
+const serverFile = path.join(dirName, '..', 'config', 'configServerOverride.js');
 
 const options =
 {
@@ -32,7 +32,7 @@ let config = defaultConfig;
 
 if(fs.existsSync(customConfigPath) && process.env.NODE_ENV)
 {
-    const override = require(`./config/config.${process.env.NODE_ENV}.json`);
+    const override = require(`../config/config.${process.env.NODE_ENV}.json`);
 
     config = mergeWith(config, override, (objValue, srcValue) =>
     {

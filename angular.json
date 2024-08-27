@@ -42,8 +42,6 @@
                             "mousetrap",
                             "extend",
                             "sourcemapped-stacktrace",
-                            "marked",
-                            "highlight.js",
                             "store",
                             "node-localstorage",
                             "store/plugins/expire",
