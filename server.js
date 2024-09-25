@@ -13,12 +13,26 @@ import dotenv from 'dotenv';
 import serverMock from './server.mock.cjs';
 
 const consoleLog = console.log;
+const consoleError = console.error;
+const consoleWarn = console.warn;
 const logs = [];
 
 console.log = (message, ...optionalParams) =>
 {
     logs.push(JSON.stringify(message) + ', ' + optionalParams.map(itm => JSON.stringify(itm)).join(', '));
     consoleLog(message, ...optionalParams);
+};
+
+console.error = (message, ...optionalParams) =>
+{
+    logs.push('ERROR: ' + JSON.stringify(message) + ', ' + optionalParams.map(itm => JSON.stringify(itm)).join(', '));
+    consoleError(message, ...optionalParams);
+};
+
+console.warn = (message, ...optionalParams) =>
+{
+    logs.push('WARNING: ' + JSON.stringify(message) + ', ' + optionalParams.map(itm => JSON.stringify(itm)).join(', '));
+    consoleWarn(message, ...optionalParams);
 };
 
 async function run()

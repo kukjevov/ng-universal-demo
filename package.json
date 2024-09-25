@@ -11,7 +11,7 @@
         "clean": "rimraf wwwroot config/configOverride.js config/configServerOverride.js config/configBrowserOverride.js version.json",
         "clean:deps": "rimraf package-lock.json node_modules .angular || echo 'node_modules removed'",
         "clean:all": "npm run clean && npm run clean:deps",
-        "version:build": "ngv -e \"node write.version.cjs\"",
+        "version:build": "ngv -e \"node .utils/write.version.js\"",
         "config:build": "node .utils/generateConfig.js",
         "server": "node server.js",
         "lint": "eslint app/**/*.ts",
