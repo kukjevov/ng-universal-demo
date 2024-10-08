@@ -38,14 +38,15 @@
                         ],
                         "allowedCommonJsDependencies":
                         [
-                            "konami",
                             "mousetrap",
                             "extend",
                             "sourcemapped-stacktrace",
                             "store",
-                            "node-localstorage",
-                            "store/plugins/expire",
-                            "store/storages/sessionStorage"
+                            "dayjs",
+                            "@braintree/sanitize-url",
+                            "dompurify",
+                            "elkjs",
+                            "cytoscape-cose-bilkent"
                         ],
                         "scripts":
                         [
@@ -76,8 +77,8 @@
                             [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "1mb",
-                                    "maximumError": "2mb"
+                                    "maximumWarning": "2mb",
+                                    "maximumError": "4mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
