@@ -64,11 +64,15 @@
         "strictInjectionParameters": true,
         "strictInputAccessModifiers": true,
         "strictTemplates": true,
+        "strictStandalone": true,
         "extendedDiagnostics":
         {
             "checks":
             {
-                "interpolatedSignalNotInvoked": "error"
+                "interpolatedSignalNotInvoked": "error",
+                "unusedStandaloneImports": "error",
+                "uninvokedFunctionInEventBinding": "error",
+                "missingControlFlowDirective": "error"
             }
         }
     }

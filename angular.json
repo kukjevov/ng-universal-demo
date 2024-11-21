@@ -62,7 +62,11 @@
                         {
                             "entry": "server.ts"
                         },
-                        "serviceWorker": false
+                        "serviceWorker": false,
+                        "security": 
+                        {
+                            "autoCsp": true
+                        }
                     },
                     "configurations":
                     {

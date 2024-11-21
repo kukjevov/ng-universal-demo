@@ -1,10 +1,11 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '@anglr/authentication';
-import {TitledDialogService} from '@anglr/common/material';
+import {TitledDialogModule, TitledDialogService} from '@anglr/common/material';
 
 import {UserSettingsComponent} from '../../../../components';
 import {VersionUpdateService} from '../../../../services/versionUpdate';
+import {DisplayingFeatureModule} from '../../../displayingFeature.module';
 
 /**
  * Component used for displaying application main menu
@@ -13,6 +14,11 @@ import {VersionUpdateService} from '../../../../services/versionUpdate';
 {
     selector: 'main-menu',
     templateUrl: 'mainMenu.component.html',
+    imports:
+    [
+        DisplayingFeatureModule,
+        TitledDialogModule,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainMenuComponent
