@@ -4,8 +4,7 @@ import {FormGroup, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
 import {AuthenticationService} from '@anglr/authentication';
 import {slideInOutTrigger} from '@anglr/animations';
-import {Logger, LOGGER, WithPageContentCssClass} from '@anglr/common';
-import {TranslateModule} from '@ngx-translate/core';
+import {LocalizePipe, Logger, LOGGER, WithPageContentCssClass} from '@anglr/common';
 import {EMPTY} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
@@ -23,7 +22,7 @@ import {catchError} from 'rxjs/operators';
     standalone: true,
     imports:
     [
-        TranslateModule,
+        LocalizePipe,
         ReactiveFormsModule,
     ],
     animations: [slideInOutTrigger],
@@ -44,7 +43,7 @@ export class LoginComponent
      * Indication that there is authentication error
      */
     public authenticationError: boolean = false;
-    
+
     //######################### constructor #########################
     constructor(private _authService: AuthenticationService,
                 private _router: Router,
@@ -57,12 +56,12 @@ export class LoginComponent
         {
             userName: null,
             password: null,
-            rememberMe: null
+            rememberMe: null,
         });
     }
-    
+
     //######################### public methods #########################
-    
+
     /**
      * Logs in user
      */
@@ -76,15 +75,15 @@ export class LoginComponent
                 this._logger.error(`Failed to log in '${e}'`);
                 this.authenticationError = true;
                 this._changeDetector.detectChanges();
-                
+
                 return EMPTY;
             }))
             .subscribe(() =>
             {
                 this.authenticationError = false;
-                
+
                 this._changeDetector.detectChanges();
-                
+
                 if(this._activeRoute.snapshot.queryParams.returnUrl)
                 {
                     this._router.navigateByUrl(this._activeRoute.snapshot.queryParams.returnUrl);

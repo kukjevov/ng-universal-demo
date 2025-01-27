@@ -1,28 +1,28 @@
 <div class="align-self-center">
-    <h1 class="text-uppercase text-center ">{{'gui' | translate}}</h1>
+    <h1 class="text-uppercase text-center ">{{'gui' | localize}}</h1>
 
     @if(authenticationError)
     {
         <div class="alert alert-danger" @slideInOut>
-            {{'Authentication failed! Please check your credentials and try again.' | translate}}
+            {{'Authentication failed! Please check your credentials and try again.' | localize}}
         </div>
     }
 
     <form class="form" role="form" [formGroup]="form" (submit)="$event.preventDefault(); $event.stopPropagation(); login()">
         <div class="form-group margin-bottom-extra-small">
-            <label class="control-label" for="username">{{'Login' | translate}}</label>
-            <input type="text" class="form-control" [placeholder]="'Your login' | translate" formControlName="userName">
+            <label class="control-label" for="username">{{'Login' | localize}}</label>
+            <input type="text" class="form-control" [placeholder]="'Your login' | localize" formControlName="userName">
         </div>
 
         <div class="form-group margin-bottom-small">
-            <label class="control-label" for="password">{{'Password' | translate}}</label>
-            <input type="password" class="form-control" [placeholder]="'Your password' | translate" formControlName="password">
+            <label class="control-label" for="password">{{'Password' | localize}}</label>
+            <input type="password" class="form-control" [placeholder]="'Your password' | localize" formControlName="password">
         </div>
 
         <div class="flex justify-content-center">
             <button type="submit" class="btn btn-primary">
                 <span class="fas fa-sign-in-alt"></span>
-                <span>{{'Authenticate' | translate}}</span>
+                <span>{{'Authenticate' | localize}}</span>
             </button>
         </div>
     </form>

@@ -5,12 +5,12 @@ import {provideRouter, withComponentInputBinding} from '@angular/router';
 import {MatDialogModule} from '@angular/material/dialog';
 import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER, AuthenticationServiceOptions} from '@anglr/authentication';
 import {LocalPermanentStorage} from '@anglr/common/store';
-import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, provideLoggerRestClient, RestSink, providePermanentStorage} from '@anglr/common';
+import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, provideLoggerRestClient, RestSink, providePermanentStorage, provideStringLocalization} from '@anglr/common';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
 import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, provideInternalServerErrorRenderer, provideAnglrExceptionExtenders, errorWithUrlExtender, provideHttpClientErrorResponseMapper, provideHttpClientValidationErrorResponseMapper, provideHttpClientErrorMessages, provideHttpClientErrorHandlers, handleHttp404Error} from '@anglr/error-handling';
 import {DialogInternalServerErrorRenderer} from '@anglr/error-handling/material';
 import {BasicPagingOptions, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, QueryPermanentStorageGridInitializerOptions, QueryGridInitializerComponent, provideNoDataRendererOptions, provideGridInitializerType, providePagingOptions, provideMetadataSelectorType, provideMetadataSelectorOptions, provideGridInitializerOptions, provideContentRendererOptions} from '@anglr/grid';
-import {DialogMetadataSelectorSAComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
+import {DialogMetadataSelectorComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
 import {ReservedSpaceValidationErrorsContainerComponent, ValidationErrorRendererFactoryOptions, VALIDATION_ERROR_MESSAGES, VALIDATION_ERROR_RENDERER_FACTORY_OPTIONS} from '@anglr/common/forms';
 import {MovableTitledDialogComponent, TitledDialogServiceOptions, TitledDialogService, provideConfirmationDialogOptions} from '@anglr/common/material';
 import {FloatingUiDomPosition} from '@anglr/common/floating-ui';
@@ -66,14 +66,14 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         loader: <ClassProvider>
         {
             provide: TranslateLoader,
-            useClass: WebpackTranslateLoaderService
+            useClass: WebpackTranslateLoaderService,
         },
         ...config.configuration.debugTranslations ?
             {
                 missingTranslationHandler:
                 {
                     provide: MissingTranslationHandler,
-                    useClass: ReportMissingTranslationService
+                    useClass: ReportMissingTranslationService,
                 }
             } :
             {
@@ -157,7 +157,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
 
     //######################### GRID GLOBAL OPTIONS #########################
     provideGridInitializerType(QueryGridInitializerComponent),
-    provideMetadataSelectorType(DialogMetadataSelectorSAComponent),
+    provideMetadataSelectorType(DialogMetadataSelectorComponent),
     provideNoDataRendererOptions(
     {
         texts:
@@ -213,12 +213,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     },
 
     //######################### STRING LOCALIZATION #########################
-    //TODO
-    <ClassProvider>
-    {
-        provide: STRING_LOCALIZATION,
-        useClass: NgxTranslateStringLocalizationService
-    },
+    provideStringLocalization(NgxTranslateStringLocalizationService),
 
     //######################### PERMANENT STORAGE #########################
     providePermanentStorage(LocalPermanentStorage),

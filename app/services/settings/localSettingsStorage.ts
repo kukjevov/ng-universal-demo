@@ -1,6 +1,6 @@
 import {Inject, Injectable} from '@angular/core';
 import {PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
-import {extend} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 
 import {config, SettingsGeneral, SettingsDebug, SettingsLogging} from '../../config';
 import {SettingsStorage} from './settings.interface';

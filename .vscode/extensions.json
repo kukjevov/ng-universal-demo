@@ -7,8 +7,8 @@
 		"ecmel.vscode-html-css",
 		"gruntfuggly.todo-tree",
 		"vscode-icons-team.vscode-icons",
-		"bierner.markdown-preview-github-styles",
 		"dbaeumer.vscode-eslint",
+		"bierner.markdown-preview-github-styles",
 		"mhutchie.git-graph",
 		"ms-edgedevtools.vscode-edge-devtools"
 	]

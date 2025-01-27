@@ -1,5 +1,5 @@
 import {Injectable, KeyValueDiffers, Inject, KeyValueDiffer} from '@angular/core';
-import {extend} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {Subject, Observable} from 'rxjs';
 
 import {SettingsStorage} from './settings.interface';

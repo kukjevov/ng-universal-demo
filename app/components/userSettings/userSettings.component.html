@@ -3,7 +3,7 @@
        [class.active]="activeSection == UserSettingsSections.General"
        (click)="activeSection = UserSettingsSections.General">
         <span class="fas fa-cog"></span>
-        <span>{{'general' | translate}}</span>
+        <span>{{'general' | localize}}</span>
     </a>
 
     <a class="btn-line"
@@ -11,7 +11,7 @@
        (click)="activeSection = UserSettingsSections.Logging"
        *authorize="'logging-settings'">
         <span class="fas fa-pen"></span>
-        <span>{{'logging' | translate}}</span>
+        <span>{{'logging' | localize}}</span>
     </a>
 
     <a class="btn-line"
@@ -19,7 +19,7 @@
        (click)="activeSection = UserSettingsSections.Debugging"
        *authorize="'debug-settings'">
         <span class="fas fa-bug"></span>
-        <span>{{'debug' | translate}}</span>
+        <span>{{'debug' | localize}}</span>
     </a>
 </div>
 
@@ -29,25 +29,25 @@
     {
         <div class="settings-items" [formGroup]="generalSettingsForm">
             <!-- THEME -->
-            <div class="text-capitalize">{{'theme' | translate}}</div>
+            <div class="text-capitalize">{{'theme' | localize}}</div>
     
             <div>
                 <ng-select formControlName="theme" absolute>
                     @for(theme of themes; track theme)
                     {
-                        <ng-option [text]="theme | translate" [value]="theme"></ng-option>
+                        <ng-option [text]="theme | localize" [value]="theme"/>
                     }
                 </ng-select>
             </div>
     
             <!-- LANGUAGE -->
-            <div class="text-capitalize">{{'language' | translate}}</div>
+            <div class="text-capitalize">{{'language' | localize}}</div>
     
             <div>
                 <ng-select formControlName="language" absolute>
                     @for(lang of languages; track lang)
                     {
-                        <ng-option [text]="lang.name" [value]="lang?.lang"></ng-option>
+                        <ng-option [text]="lang.name" [value]="lang?.lang"/>
                     }
                 </ng-select>
             </div>
@@ -59,26 +59,26 @@
     {
         <div class="settings-items" [formGroup]="loggingSettingsForm">
             <!-- CONSOLE LOG LEVEL -->
-            <div class="text-capitalize">{{'console log' | translate}}</div>
+            <div class="text-capitalize">{{'console log' | localize}}</div>
     
             <div>
                 <ng-select formControlName="consoleLogLevel" absolute>
                     @for(level of logLevels; track level)
                     {
-                        <ng-option [text]="level.name" [value]="level?.value"></ng-option>
+                        <ng-option [text]="level.name" [value]="level?.value"/>
                     }
                 </ng-select>
             </div>
     
             <!-- FILE LOG LEVEL -->
             <ng-container *authorize="'authorized-electron'">
-                <div class="text-capitalize">{{'file log' | translate}}</div>
+                <div class="text-capitalize">{{'file log' | localize}}</div>
     
                 <div>
                     <ng-select formControlName="fileLogLevel" absolute>
                         @for(level of logLevels; track level)
                         {
-                            <ng-option [text]="level.name" [value]="level?.value"></ng-option>
+                            <ng-option [text]="level.name" [value]="level?.value"/>
                         }
                     </ng-select>
                 </div>
@@ -91,17 +91,17 @@
     {
         <div class="settings-items" [formGroup]="debuggingSettingsForm">
             <!-- CONSOLE -->
-            <div class="text-capitalize">{{'console' | translate}}</div>
+            <div class="text-capitalize">{{'console' | localize}}</div>
     
             <div>
-                <mat-slide-toggle formControlName="consoleEnabled"></mat-slide-toggle>
+                <mat-slide-toggle formControlName="consoleEnabled"/>
             </div>
     
             <!-- DEBUG DATA -->
-            <div class="text-capitalize">{{'debug data' | translate}}</div>
+            <div class="text-capitalize">{{'debug data' | localize}}</div>
     
             <div>
-                <mat-slide-toggle formControlName="debugData"></mat-slide-toggle>
+                <mat-slide-toggle formControlName="debugData"/>
             </div>
         </div>
     }

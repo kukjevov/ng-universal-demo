@@ -1,9 +1,9 @@
 import {Component, ChangeDetectionStrategy, ViewChild, Inject, AfterViewInit, OnDestroy, WritableSignal, signal} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
-import {ConsoleSAComponent, LOGGER, Logger, ProgressIndicatorModule, consoleAnimationTrigger} from '@anglr/common';
+import {ConsoleComponent, LOGGER, Logger, ProgressIndicatorModule, consoleAnimationTrigger} from '@anglr/common';
 import {AppHotkeysService, HotkeysCheatsheetComponent} from '@anglr/common/hotkeys';
-import {InternalServerErrorSAComponent} from '@anglr/error-handling';
+import {InternalServerErrorComponent} from '@anglr/error-handling';
 import {NotificationsGlobalModule} from '@anglr/notifications';
 import {fadeInOutTrigger} from '@anglr/animations';
 import {AuthenticationService} from '@anglr/authentication';
@@ -31,11 +31,11 @@ import {SettingsService} from '../services/settings';
     imports:
     [
         RouterOutlet,
-        InternalServerErrorSAComponent,
+        InternalServerErrorComponent,
         ProgressIndicatorModule,
         NotificationsGlobalModule,
         MenuModule,
-        ConsoleSAComponent,
+        ConsoleComponent,
         HotkeysCheatsheetComponent,
     ],
     animations: [routeAnimationTrigger, fadeInOutTrigger, consoleAnimationTrigger, loaderTrigger],

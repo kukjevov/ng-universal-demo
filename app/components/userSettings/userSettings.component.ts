@@ -1,12 +1,13 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {FormGroup, FormBuilder} from '@angular/forms';
-import {DebugDataEnabledService, LogLevel} from '@anglr/common';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {FormGroup, FormBuilder, ReactiveFormsModule} from '@angular/forms';
+import {DebugDataEnabledService, LocalizePipe, LogLevel} from '@anglr/common';
+import {AuthorizeDirective} from '@anglr/authentication';
+import {NgSelectModule} from '@anglr/select';
 import {ValueNamePair} from '@jscrpt/common';
 
 import {config, SettingsGeneral, SettingsDebug, LanguageDef} from '../../config';
 import {SettingsService} from '../../services/settings';
-import {DisplayingFeatureModule} from '../../modules/displayingFeature.module';
-import {FormsFeatureModule} from '../../modules/formsFeature.module';
 
 /**
  * Available sections for user settings
@@ -26,7 +27,7 @@ enum UserSettingsSections
     /**
      * Debugging settings
      */
-    Debugging
+    Debugging,
 }
 
 interface SettingsLoggingEnum
@@ -48,8 +49,11 @@ interface SettingsLoggingEnum
     standalone: true,
     imports:
     [
-        DisplayingFeatureModule,
-        FormsFeatureModule,
+        LocalizePipe,
+        NgSelectModule,
+        AuthorizeDirective,
+        ReactiveFormsModule,
+        MatSlideToggleModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
