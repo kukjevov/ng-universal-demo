@@ -1,10 +1,11 @@
 *
 
+!config/version.json
 !config/config.json
 !config/config.environment.js
 !mocks
 !wwwroot
-!generateConfig.js
+!.utils/generateConfig.js
 !package.json
 !server.js
 !server.mock.cjs

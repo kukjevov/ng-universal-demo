@@ -46,7 +46,6 @@ interface SettingsLoggingEnum
     selector: 'user-settings',
     templateUrl: 'userSettings.component.html',
     styleUrl: 'userSettings.component.scss',
-    standalone: true,
     imports:
     [
         LocalizePipe,

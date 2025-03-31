@@ -1,4 +1,4 @@
-import {FactoryProvider, APP_INITIALIZER, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideExperimentalZonelessChangeDetection} from '@angular/core';
+import {FactoryProvider, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideExperimentalZonelessChangeDetection, provideAppInitializer} from '@angular/core';
 import {provideClientHydration} from '@angular/platform-browser';
 import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {provideRouter, withComponentInputBinding} from '@angular/router';
@@ -127,33 +127,25 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     provideInternalServerErrorRenderer(DialogInternalServerErrorRenderer),
 
     //######################### APP INITIALIZER #########################
-    <FactoryProvider>
+    provideAppInitializer(async () =>
     {
-        provide: APP_INITIALIZER,
-        multi: true,
-        useFactory: () =>
+        const authService = inject(AuthenticationService);
+        const swUpdate = inject(VersionUpdateService);
+
+        await swUpdate.initialize();
+
+        try
         {
-            const authService = inject(AuthenticationService);
-            const swUpdate = inject(VersionUpdateService);
-
-            return async () =>
-            {
-                await swUpdate.initialize();
-
-                try
-                {
-                    await authService
-                        .getUserIdentity();
-                }
-                catch(e)
-                {
-                    alert(`Authentication failed: ${e}`);
-
-                    throw e;
-                }
-            };
+            await authService
+                .getUserIdentity();
         }
-    },
+        catch(e)
+        {
+            alert(`Authentication failed: ${e}`);
+
+            throw e;
+        }
+    }),
 
     //######################### GRID GLOBAL OPTIONS #########################
     provideGridInitializerType(QueryGridInitializerComponent),
