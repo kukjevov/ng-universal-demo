@@ -65,7 +65,7 @@
                         "serviceWorker": false,
                         "security": 
                         {
-                            "autoCsp": true
+                            "autoCsp": false
                         }
                     },
                     "configurations":
