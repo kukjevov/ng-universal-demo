@@ -112,7 +112,7 @@ export class AccountService extends RESTClient
                         firstName: '',
                         surname: ''
                     });
-                    
+
                     observer.complete();
                 });
             }

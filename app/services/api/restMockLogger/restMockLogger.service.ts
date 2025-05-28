@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpRequest, HttpResponse} from '@angular/common/http';
 import {RESTClient, BaseUrl, DefaultHeaders, MockLogger, JsonContentType, DisableMiddleware, DisableInterceptor, POST, Body, MockLoggerMiddleware, LoggerMiddleware} from '@anglr/rest';
-import {ClientErrorHandlingMiddleware} from '@anglr/error-handling/rest';
+import {CatchHttpClientErrorMiddleware, HttpClientErrorProcessingMiddleware} from '@anglr/error-handling/rest';
 import {AuthInterceptor, SuppressAuthInterceptor} from '@anglr/authentication';
 import {isBlank, isString} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
@@ -50,7 +50,7 @@ export class RestMockLoggerService extends RESTClient implements MockLogger
             const bytes = new Uint8Array(response.body as ArrayBuffer);
             const len = bytes.byteLength;
 
-            for (let x = 0; x < len; x++) 
+            for (let x = 0; x < len; x++)
             {
                 binary += String.fromCharCode(bytes[x]);
             }
@@ -61,7 +61,7 @@ export class RestMockLoggerService extends RESTClient implements MockLogger
         {
             responseString = JSON.stringify(response.body, null, 4);
         }
-        
+
         return await lastValueFrom(this
             ._logResponse(
             {
@@ -72,13 +72,14 @@ export class RestMockLoggerService extends RESTClient implements MockLogger
     }
 
     //######################### private fields #########################
-    
+
     /**
      * Gets information about running application
      * @returns Observable
      */
     @JsonContentType()
-    @DisableMiddleware(ClientErrorHandlingMiddleware)
+    @DisableMiddleware(HttpClientErrorProcessingMiddleware)
+    @DisableMiddleware(CatchHttpClientErrorMiddleware)
     @DisableMiddleware(LoggerMiddleware)
     @DisableMiddleware(MockLoggerMiddleware)
     @DisableInterceptor(AuthInterceptor)

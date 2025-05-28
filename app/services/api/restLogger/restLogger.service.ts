@@ -1,13 +1,70 @@
 import {Injectable} from '@angular/core';
 import {RESTClient, BaseUrl, DefaultHeaders, POST, JsonContentType, Body, DisableInterceptor, ParameterTransform, DisableMiddleware, LoggerMiddleware} from '@anglr/rest';
+import {CatchHttpClientErrorMiddleware, HttpClientErrorProcessingMiddleware} from '@anglr/error-handling/rest';
 import {AuthInterceptor, SuppressAuthInterceptor} from '@anglr/authentication';
-import {ClientErrorHandlingMiddleware} from '@anglr/error-handling/rest';
 import {LoggerRestClient, RestLog} from '@anglr/common';
 import {EMPTY, NEVER, Observable} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
 import {config} from '../../../config';
 import version from '../../../../config/version.json';
+
+/**
+ * Removes unhandled error text from logs
+ */
+function unhandledErrorsTransform(logs: RestLog[]): RestLog[]
+{
+    function addBasicInfo(log: {version?: string, id?: string})
+    {
+        if(!log)
+        {
+            return;
+        }
+
+        log.version = version.version;
+        log.id = 'angular-gui';
+    }
+
+    for(let x = 0; x < logs.length; x++)
+    {
+        const obj: RestLog & {info?: any} = logs[x];
+        let unhandledErrorIndex: number;
+
+        //remove unhandled error message and serialize
+        if((unhandledErrorIndex = obj.message.indexOf('Unhandled error: ')) >= 0)
+        {
+            const message = obj.message.substring(unhandledErrorIndex + 'Unhandled error: '.length);
+
+            try
+            {
+                obj.info = JSON.parse(message);
+
+                if(Array.isArray(obj.info))
+                {
+                    obj.info = obj.info[0];
+                }
+
+                addBasicInfo(obj.info);
+            }
+            catch
+            {
+                obj.info = {};
+
+                addBasicInfo(obj.info);
+            }
+        }
+        else
+        {
+            obj.info = {};
+
+            addBasicInfo(obj.info);
+        }
+
+        logs[x] = obj;
+    }
+
+    return logs;
+}
 
 /**
  * Service used for logging logs on server
@@ -41,72 +98,13 @@ export class RestLoggerService extends RESTClient implements LoggerRestClient
      */
     @JsonContentType()
     @DisableMiddleware(LoggerMiddleware)
-    @DisableMiddleware(ClientErrorHandlingMiddleware)
+    @DisableMiddleware(CatchHttpClientErrorMiddleware)
+    @DisableMiddleware(HttpClientErrorProcessingMiddleware)
     @DisableInterceptor(AuthInterceptor)
     @DisableInterceptor(SuppressAuthInterceptor)
     @POST('logger')
-    public _log(@Body @ParameterTransform('_unhandledErrorsTransform') _logs: RestLog[]): Observable<void>
+    public _log(@Body @ParameterTransform(unhandledErrorsTransform) _logs: RestLog[]): Observable<void>
     {
         return NEVER;
-    }
-
-    //######################### private methods #########################
-
-    /**
-     * Removes unhandled error text from logs
-     * @param logs - Logs to be transformed
-     */
-    //@ts-ignore
-    private _unhandledErrorsTransform(logs: RestLog[]): RestLog[]
-    {
-        function addBasicInfo(log: {version?: string, id?: string})
-        {
-            if(!log)
-            {
-                return;
-            }
-
-            log.version = version.version;
-            log.id = 'angular-gui';
-        }
-
-        for(let x = 0; x < logs.length; x++)
-        {
-            const obj: RestLog & {info?: any} = logs[x];
-
-            //remove unhandled error message and serialize
-            if(obj.message.startsWith('Unhandled error: '))
-            {
-                const message = obj.message.replace('Unhandled error: ', '');
-
-                try
-                {
-                    obj.info = JSON.parse(message);
-
-                    if(Array.isArray(obj.info))
-                    {
-                        obj.info = obj.info[0];
-                    }
-
-                    addBasicInfo(obj.info);
-                }
-                catch
-                {
-                    obj.info = {};
-
-                    addBasicInfo(obj.info);
-                }
-            }
-            else
-            {
-                obj.info = {};
-
-                addBasicInfo(obj.info);
-            }
-
-            logs[x] = obj;
-        }
-
-        return logs;
     }
 }

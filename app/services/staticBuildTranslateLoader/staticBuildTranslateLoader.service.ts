@@ -6,7 +6,7 @@ import {Observable, Observer} from 'rxjs';
  * Service used as webpack translate loader
  */
 @Injectable()
-export class WebpackTranslateLoaderService implements TranslateLoader
+export class StaticBuildTranslateLoaderService implements TranslateLoader
 {
     //######################### public methods - implementation of TranslateLoader #########################
 

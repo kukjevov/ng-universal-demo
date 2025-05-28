@@ -79,9 +79,9 @@ async function run()
     
     function error(err, req, res)
     {
-        if(err.code == "ECONNREFUSED" || err.code == "ECONNRESET")
+        if(err.code == 'ECONNREFUSED' || err.code == 'ECONNRESET')
         {
-            res.writeHead(503,
+            res.writeHead?.(503,
             {
                 'Content-Type': 'text/plain'
             });
@@ -91,7 +91,7 @@ async function run()
             return;
         }
     
-        res.writeHead(504,
+        res.writeHead?.(504,
         {
             'Content-Type': 'text/plain'
         });
@@ -100,8 +100,8 @@ async function run()
     }
     
     //proxy special requests to other location
-    server.use(createProxyMiddleware(['/api'],
-                                     {
+    server.use(createProxyMiddleware({
+                                         pathFilter: ['/api'],
                                          target: proxyUrl,
                                          ws: true,
                                          secure: false,
@@ -131,7 +131,6 @@ async function run()
         }
     }));
 
-    
     if(fs.existsSync(serverPath) && !argv.devPort)
     {
         const {applyServerSideRendering} = await import('./wwwroot/server/server.mjs');
@@ -140,7 +139,14 @@ async function run()
     }
     else
     {
-        server.get('/*', (_, res) => res.sendFile(indexHtml));
+        server.get('/*', (_, res) =>
+        {
+            res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+            res.setHeader('Expires', '-1');
+            res.setHeader('Pragma', 'no-cache');
+
+            return res.sendFile(indexHtml);
+        });
     }
     
     //create node.js http server and listen on port

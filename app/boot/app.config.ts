@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig =
         <FactoryProvider>
         {
             provide: AnglrExceptionHandlerOptions,
-            useFactory: () => new AnglrExceptionHandlerOptions(config.configuration.debug, false)
+            useFactory: () => new AnglrExceptionHandlerOptions(config.configuration.debug, false),
         },
         provideServiceWorker('ngsw-worker.js', 
         {
@@ -28,7 +28,7 @@ export const appConfig: ApplicationConfig =
         }),
         importProvidersFrom(HotkeyModule.forRoot(
         {
-            cheatSheetCloseEsc: true
+            cheatSheetCloseEsc: true,
         })),
     ],
 };

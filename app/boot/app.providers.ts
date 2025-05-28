@@ -1,4 +1,4 @@
-import {FactoryProvider, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideExperimentalZonelessChangeDetection, provideAppInitializer} from '@angular/core';
+import {FactoryProvider, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideZonelessChangeDetection, provideAppInitializer} from '@angular/core';
 import {provideClientHydration} from '@angular/platform-browser';
 import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {provideRouter, withComponentInputBinding} from '@angular/router';
@@ -7,7 +7,7 @@ import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, SUPPRESS_AUTH_INTERCEP
 import {LocalPermanentStorage} from '@anglr/common/store';
 import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, provideLoggerRestClient, RestSink, providePermanentStorage, provideStringLocalization} from '@anglr/common';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
-import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, provideInternalServerErrorRenderer, provideAnglrExceptionExtenders, errorWithUrlExtender, provideHttpClientErrorResponseMapper, provideHttpClientValidationErrorResponseMapper, provideHttpClientErrorMessages, provideHttpClientErrorHandlers, handleHttp404Error} from '@anglr/error-handling';
+import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, provideInternalServerErrorRenderer, provideAnglrExceptionExtenders, errorWithUrlExtender, provideHttpClientErrorResponseMapper, provideHttpClientValidationErrorResponseMapper, provideHttpClientErrorHandlers, handleHttp404Error, provideHttpClientErrorConfigs} from '@anglr/error-handling';
 import {DialogInternalServerErrorRenderer} from '@anglr/error-handling/material';
 import {BasicPagingOptions, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, QueryPermanentStorageGridInitializerOptions, QueryGridInitializerComponent, provideNoDataRendererOptions, provideGridInitializerType, providePagingOptions, provideMetadataSelectorType, provideMetadataSelectorOptions, provideGridInitializerOptions, provideContentRendererOptions} from '@anglr/grid';
 import {DialogMetadataSelectorComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
@@ -23,7 +23,7 @@ import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import {provideGlobalNotifications} from '@anglr/notifications';
 import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
-import {LoggerMiddleware, MockLoggerMiddleware, provideMockLogger, provideRestMethodMiddlewares, ReportProgressMiddleware, ResponseTypeMiddleware} from '@anglr/rest';
+import {LoggerMiddleware, MockLoggerMiddleware, provideMockLogger, provideRestMethodMiddlewares, ReportProgressMiddleware, ResponseTypeMiddleware, RestMiddlewareType} from '@anglr/rest';
 import {provideRestDateTime} from '@anglr/rest/datetime';
 import {isString} from '@jscrpt/common';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
@@ -38,9 +38,9 @@ import {SETTINGS_STORAGE} from '../misc/tokens';
 import {RestLoggerService} from '../services/api/restLogger';
 import {AccountAuthOptions} from '../services/api/account/accountAuth.options';
 import {RestMockLoggerService} from '../services/api/restMockLogger';
-import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
 import {ReportMissingTranslationService} from '../services/missingTranslation';
 import {VersionUpdateService} from '../services/versionUpdate';
+import {StaticBuildTranslateLoaderService} from '../services/staticBuildTranslateLoader';
 
 /**
  * Array of providers that are used in app module
@@ -58,7 +58,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     provideHttpClient(withInterceptorsFromDi(),),
 
     //######################### ZONELESS #########################
-    provideExperimentalZonelessChangeDetection(),
+    provideZonelessChangeDetection(),
 
     //######################### TRANSLATIONS #########################
     importProvidersFrom(TranslateModule.forRoot(
@@ -66,7 +66,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         loader: <ClassProvider>
         {
             provide: TranslateLoader,
-            useClass: WebpackTranslateLoaderService,
+            useClass: StaticBuildTranslateLoaderService,
         },
         ...config.configuration.debugTranslations ?
             {
@@ -186,7 +186,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         {
             cssClasses:
             {
-                thDefault: 'header-default fixed-header'
+                thDefault: 'header-default fixed-header',
             }
         }
     },
@@ -197,11 +197,15 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         provide: NORMAL_STATE_OPTIONS,
         useValue: <NormalStateOptions>
         {
+            cssClasses:
+            {
+                normalStateElement: 'form-control-select',
+            },
             texts:
             {
-                nothingSelected: NOTHING_SELECTED
-            }
-        }
+                nothingSelected: NOTHING_SELECTED,
+            },
+        },
     },
 
     //######################### STRING LOCALIZATION #########################
@@ -300,12 +304,12 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     <ExistingProvider>
     {
         provide: ERROR_HANDLING_NOTIFICATIONS,
-        useExisting: NOTIFICATIONS
+        useExisting: NOTIFICATIONS,
     },
     <ExistingProvider>
     {
         provide: CLIENT_ERROR_NOTIFICATIONS,
-        useExisting: NOTIFICATIONS
+        useExisting: NOTIFICATIONS,
     },
 
     //######################### TITLED DIALOG #########################
@@ -314,7 +318,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     <ValueProvider>
     {
         provide: TitledDialogServiceOptions,
-        useValue: new TitledDialogServiceOptions(MovableTitledDialogComponent)
+        useValue: new TitledDialogServiceOptions(MovableTitledDialogComponent),
     },
 
     //######################### CONFIRMATION DIALOG #########################
@@ -346,12 +350,12 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     REST_ERROR_HANDLING_MIDDLEWARE_ORDER,
     provideRestMethodMiddlewares(
     [
-        LoggerMiddleware,
-        ResponseTypeMiddleware,
-        ReportProgressMiddleware,
-        HttpClientErrorProcessingMiddleware,
-        CatchHttpClientErrorMiddleware,
-        ...jsDevMode ? [...config.configuration.disableMockLogger ? [] : [MockLoggerMiddleware]] : [],
+        LoggerMiddleware as RestMiddlewareType,
+        ResponseTypeMiddleware as RestMiddlewareType,
+        ReportProgressMiddleware as RestMiddlewareType,
+        HttpClientErrorProcessingMiddleware as RestMiddlewareType,
+        CatchHttpClientErrorMiddleware as RestMiddlewareType,
+        ...jsDevMode ? [...config.configuration.disableMockLogger ? [] : [MockLoggerMiddleware as RestMiddlewareType]] : [],
     ]),
     provideHttpClientErrorResponseMapper(err =>
     {
@@ -376,10 +380,16 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
 
         return null;
     }),
-    provideHttpClientErrorMessages(
+    provideHttpClientErrorConfigs(
     {
-        400: 'Chyba spracovania dát!',
-        404: 'Záznam pre požadované ID sa nenašiel!',
+        400:
+        {
+            message: 'Chyba spracovania dát!',
+        },
+        404:
+        {
+            message: 'Záznam pre požadované ID sa nenašiel!',
+        },
     }),
     provideHttpClientErrorHandlers(
     {

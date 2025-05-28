@@ -7,9 +7,10 @@
 @use './scss/theme/light' as appTheme;
 
 @use 'scss/theme/theme' with ($fontSize: appTheme.$fontSize,
-                              $theme: themes.defineTheme(appTheme.$appTheme),
+                              $theme: themes.defineTheme(appTheme.$fontSize, defaultTheme.$defaultTheme, appTheme.$appTheme),
                               $appTheme: defaultTheme.defineTheme(appTheme.$appTheme),
                               $themeName: 'light',
                               $anglrCommonTheme: anglrCommonTheme.defineTheme(),
                               $dateTimeTheme: dateTimeTheme.defineTheme(),
-                              $gridTheme: gridTheme.defineTheme());
+                              $gridTheme: gridTheme.defineTheme(),
+                              $hljs: 'vs');

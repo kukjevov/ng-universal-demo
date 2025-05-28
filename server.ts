@@ -34,8 +34,8 @@ export function applyServerSideRendering(server: express.Express): void
                     },
                 ],
             })
-            .then((html) => res.send(html))
-            .catch((err) => next(err));
+            .then(html => res.send(html))
+            .catch(err => next(err));
     });
 }
 

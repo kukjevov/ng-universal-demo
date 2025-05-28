@@ -9,30 +9,103 @@ $fontSize: 14px;
 
 //############## AVAILABLE COLORS ##############
 
-$gray-0: #e5e5e5;
-$gray-1: #e0e0e0;
-$gray-2: #cccccc;
-$gray-3: #aaaaaa;
-$gray-4: #9d9d9d;
-$gray-5: #737373;
-$gray-6: #555555;
-$gray-7: #444444;
-$gray-8: #383838;
-$gray-9: #1e1e1e;
+$gray-transparent-1000: #00000033;
+
+$gray-50: #f6f6f6;
+$gray-100: #E7E7E7;
+$gray-200: #D1D1D1;
+$gray-300: #B0B0B0;
+$gray-400: #9d9d9d;
+$gray-500: #6D6D6D;
+$gray-600: #5D5D5D;
+$gray-700: #4F4F4F;
+$gray-800: #3B3B3B;
+$gray-900: #262626;
+$gray-1000: #000c14;
 
 $white: #fff;
-$lightBlue: #28b8ff;
-$darkBlue: #004e75;
-$blue: #007ebd;
-$darkGreen: #0b7e01;
+$black: #000;
 
-$primary: $lightBlue;
-$primaryAlt: $blue;
-$secondary: $darkBlue;
+$blue-50: #EAF8FB;
+$blue-100: #D1EEF5;
+$blue-200: #A2D1F2;
+$blue-300: #50B6E8;
+$blue-400: #05A3E0;
+$blue-500: #0283B3;
+$blue-600: #02709D;
+$blue-700: #02597C;
+$blue-800: #024768;
+$blue-900: #013553;
+$blue-950: #012B44;
+$blue-1000: #011E30;
+$blue-1050: #000C14;
+
+$red-50: #fef2f2;
+$red-100: #fde3e3;
+$red-200: #fccccc;
+$red-300: #f8a9a9;
+$red-400: #f37676;
+$red-500: #e84b4b;
+$red-600: #c62828;
+$red-700: #b32222;
+$red-800: #7e1414;
+$red-900: #490c0c;
+$red-950: #300606;
+$red-1000: #240303;
+
+$green-50: #f3faf3;
+$green-100: #e2f6e3;
+$green-200: #c7ebc9;
+$green-300: #9bda9e;
+$green-400: #67c16b;
+$green-500: #42a547;
+$green-600: #2e7d32;
+$green-700: #2a6b2d;
+$green-800: #265529;
+$green-900: #204724;
+$green-950: #0d260f;
+$green-1000: #061b08;
+
+$yellow-50: #fefbe8;
+$yellow-100: #fef7c3;
+$yellow-200: #feed8a;
+$yellow-300: #fdd835;
+$yellow-400: #fac615;
+$yellow-500: #eaad08;
+$yellow-600: #ca8504;
+$yellow-700: #e49400;
+$yellow-800: #be7d02;
+$yellow-900: #6b4a0d;
+$yellow-950: #432e06;
+$yellow-1000: #2a1b00;
+
+$brownYellow-50: #fff9e9;
+$brownYellow-100: #fff6e1;
+$brownYellow-200: #fef0d0;
+$brownYellow-300: #fde1a1;
+$brownYellow-400: #ffcf74;
+$brownYellow-500: #fbc342;
+$brownYellow-600: #fab413;
+$brownYellow-700: #c8900f;
+$brownYellow-800: #af7a00;
+$brownYellow-900: #4a3403;
+$brownYellow-950: #3d2b00;
+$brownYellow-1000: #241b04;
+
+$orange-50: #fceddf;
+$orange-100: #f6d1b0;
+$orange-200: #f1b27b;
+$orange-300: #eb9248;
+$orange-400: #e87c25;
+$orange-500: #e2660c;
+$orange-600: #dd5b10;
+$orange-700: #d74c13;
+$orange-800: #cf3913;
+$orange-900: #c30e14;
 
 //############## DEFAULT THEME ##############
 
-$_defaultTheme:
+$defaultTheme:
 (
     page:
     (
@@ -49,7 +122,7 @@ $_defaultTheme:
 
 @function defineTheme($theme: (), $customization: ())
 {
-    $theme: map.deep-merge($_defaultTheme, $theme);
+    $theme: map.deep-merge($defaultTheme, $theme);
     $theme: map.deep-merge($theme, $customization);
 
     @return $theme;

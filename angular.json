@@ -56,12 +56,6 @@
                             },
                             "konami"
                         ],
-                        "server": "app/main.server.ts",
-                        "prerender": false,
-                        "ssr":
-                        {
-                            "entry": "server.ts"
-                        },
                         "serviceWorker": false,
                         "security": 
                         {
