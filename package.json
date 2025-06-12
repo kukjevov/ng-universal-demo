@@ -33,7 +33,7 @@
         "@anglr/md-help": "10.0.2",
         "@anglr/notifications": "11.0.0",
         "@anglr/rest": "14.0.0",
-        "@anglr/select": "13.1.0",
+        "@anglr/select": "13.1.1",
         "@anglr/server-stuff": "9.0.0",
         "@anglr/translate-extensions": "10.1.0",
         "@angular/animations": "20.0.0",
