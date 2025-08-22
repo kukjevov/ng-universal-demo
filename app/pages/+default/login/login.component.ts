@@ -3,10 +3,11 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {FormGroup, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
 import {AuthenticationService} from '@anglr/authentication';
-import {slideInOutTrigger} from '@anglr/animations';
 import {LocalizePipe, Logger, LOGGER, WithPageContentCssClass} from '@anglr/common';
 import {EMPTY} from 'rxjs';
 import {catchError} from 'rxjs/operators';
+
+import {AnimateRouteDirective} from '../../../directives';
 
 /**
  * Page containing login form
@@ -19,13 +20,15 @@ import {catchError} from 'rxjs/operators';
     {
         '[class.justify-content-center]': 'true'
     },
-    standalone: true,
     imports:
     [
         LocalizePipe,
         ReactiveFormsModule,
     ],
-    animations: [slideInOutTrigger],
+    hostDirectives:
+    [
+        AnimateRouteDirective,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'login', data: {animation: 'login'}})

@@ -3,7 +3,7 @@
 
     @if(authenticationError)
     {
-        <div class="alert alert-danger" @slideInOut>
+        <div class="alert alert-danger" animate.enter="slide-in">
             {{'Authentication failed! Please check your credentials and try again.' | localize}}
         </div>
     }

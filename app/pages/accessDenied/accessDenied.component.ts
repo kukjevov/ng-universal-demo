@@ -1,6 +1,8 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {StatusCodeService} from '@anglr/common';
 
+import {AnimateRouteDirective} from '../../directives';
+
 /**
  * Component used for displaying access denied page
  */
@@ -8,7 +10,10 @@ import {StatusCodeService} from '@anglr/common';
 {
     selector: 'access-denied-view',
     templateUrl: 'accessDenied.component.html',
-    standalone: true,
+    hostDirectives:
+    [
+        AnimateRouteDirective,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class AccessDeniedComponent

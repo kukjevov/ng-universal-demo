@@ -10,7 +10,7 @@ import {config} from '../config';
 /**
  * Application configuration for browser
  */
-export const appConfig: ApplicationConfig = 
+export const appConfig: ApplicationConfig =
 {
     providers:
     [
@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig =
             provide: AnglrExceptionHandlerOptions,
             useFactory: () => new AnglrExceptionHandlerOptions(config.configuration.debug, false),
         },
-        provideServiceWorker('ngsw-worker.js', 
+        provideServiceWorker('ngsw-worker.js',
         {
             enabled: isProduction,
             registrationStrategy: 'registerWhenStable:15000',

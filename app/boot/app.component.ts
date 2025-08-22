@@ -5,7 +5,6 @@ import {ConsoleComponent, LOGGER, Logger, ProgressIndicatorModule, consoleAnimat
 import {AppHotkeysService, HotkeysCheatsheetComponent} from '@anglr/common/hotkeys';
 import {InternalServerErrorComponent} from '@anglr/error-handling';
 import {NotificationsGlobalModule} from '@anglr/notifications';
-import {fadeInOutTrigger} from '@anglr/animations';
 import {AuthenticationService} from '@anglr/authentication';
 import {nameof} from '@jscrpt/common';
 import {TranslateService} from '@ngx-translate/core';
@@ -13,7 +12,6 @@ import {Subscription} from 'rxjs';
 import {Hotkey} from 'angular2-hotkeys';
 
 import {MenuModule} from '../modules';
-import {loaderTrigger, routeAnimationTrigger} from './app.component.animations';
 import {ConfigReleaseService} from '../services/api/configRelease/configRelease.service';
 import {SettingsDebug, SettingsGeneral} from '../config';
 import version from '../../config/version.json';
@@ -38,7 +36,7 @@ import {SettingsService} from '../services/settings';
         ConsoleComponent,
         HotkeysCheatsheetComponent,
     ],
-    animations: [routeAnimationTrigger, fadeInOutTrigger, consoleAnimationTrigger, loaderTrigger],
+    animations: [consoleAnimationTrigger],
     providers: [AppHotkeysService, ConfigReleaseService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

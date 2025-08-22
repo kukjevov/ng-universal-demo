@@ -1,0 +1,90 @@
+@mixin css
+{
+    .slide-in
+    {
+        interpolate-size: allow-keywords;
+        overflow: hidden;
+        transition: all var(--slide-in-height-duration, 400ms) ease-in, 
+                    opacity var(--slide-in-opacity-duration, 300ms) ease-in var(--slide-in-opacity-delay, 100ms);
+        max-height: 1000px;
+
+        @starting-style
+        {
+            height: 0;
+            max-height: 0;
+            opacity: 0;
+            margin: 0;
+            padding: 0;
+            border-width: 0;
+        }
+    }
+
+    .slide-out
+    {
+        interpolate-size: allow-keywords;
+        overflow: hidden;
+        transition: all var(--slide-out-height-duration, 300ms) ease-out var(--slide-out-height-delay, 100ms), 
+                    opacity var(--slide-out-opacity-duration, 400ms) ease-out;
+
+        height: 0;
+        opacity: 0;
+        margin: 0;
+        padding: 0;
+        border-width: 0;
+    }
+
+    .fly-in
+    {
+        position: 'absolute';
+        transform: translateX(0);
+        transition: all var(--fly-in-duration, 400ms) ease-in;
+
+        @starting-style
+        {
+            opacity: var(--fly-in-from-opacity, 0);
+            transform: var(--fly-in-from-transform, translateX(25%));
+        }
+    }
+
+    .fly-out
+    {
+        position: 'absolute';
+        opacity: var(--fly-out-to-opacity, 0);
+        transform: var(--fly-out-to-transform, translateX(-25%));
+        transition: all var(--fly-out-duration, 400ms) ease-in;
+    }
+
+    .fade-in
+    {
+        transition: opacity var(--fade-in-duration, 400ms) ease-in;
+
+        @starting-style
+        {
+            opacity: var(--fade-in-from-opacity, 0);
+        }
+    }
+
+    .fade-out
+    {
+        opacity: var(--fade-out-to-opacity, 0);
+        transition: opacity var(--fade-out-duration, 400ms) ease-out;
+    }
+
+    .page-fade-in
+    {
+        grid-row: 1/2;
+        transition: opacity var(--fade-in-duration, 400ms) ease-in;
+
+        @starting-style
+        {
+            opacity: var(--fade-in-from-opacity, 0);
+        }
+    }
+
+    .page-fade-out
+    {
+        grid-row: 1/2;
+        opacity: var(--fade-out-to-opacity, 0);
+        transition: opacity var(--fade-out-duration, 400ms) ease-out;
+    }
+}

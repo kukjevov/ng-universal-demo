@@ -7,7 +7,8 @@
 @use '@anglr/datetime/styles' as datetime;
 @use '@anglr/grid/styles' as grid;
 
-@use './themeColors';
+@use 'themeColors';
+@use '../animations' as animations;
 
 $fontSize: 14px !default;
 $theme: () !default;
@@ -54,4 +55,9 @@ $hljs: null !default;
     //############## EXTERNALS ##############
 
     @include meta.load-css("highlight.js/styles/#{$hljs}.css");
+
+    
+    //############## ANIMATIONS ##############
+
+    @include animations.css;
 }
