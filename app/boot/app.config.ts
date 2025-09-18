@@ -1,6 +1,5 @@
 import {ApplicationConfig, FactoryProvider, importProvidersFrom} from '@angular/core';
 import {provideServiceWorker} from '@angular/service-worker';
-import {provideAnimations} from '@angular/platform-browser/animations';
 import {AnglrExceptionHandlerOptions} from '@anglr/error-handling';
 import {HotkeyModule} from 'angular2-hotkeys';
 
@@ -15,7 +14,6 @@ export const appConfig: ApplicationConfig =
     providers:
     [
         ...appProviders,
-        provideAnimations(),
         <FactoryProvider>
         {
             provide: AnglrExceptionHandlerOptions,

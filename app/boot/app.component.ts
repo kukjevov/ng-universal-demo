@@ -1,7 +1,7 @@
-import {Component, ChangeDetectionStrategy, ViewChild, Inject, AfterViewInit, OnDestroy, WritableSignal, signal} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, OnDestroy, WritableSignal, signal} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
-import {ConsoleComponent, LOGGER, Logger, ProgressIndicatorModule, consoleAnimationTrigger} from '@anglr/common';
+import {ConsoleComponent, LOGGER, Logger, ProgressIndicatorModule} from '@anglr/common';
 import {AppHotkeysService, HotkeysCheatsheetComponent} from '@anglr/common/hotkeys';
 import {InternalServerErrorComponent} from '@anglr/error-handling';
 import {NotificationsGlobalModule} from '@anglr/notifications';
@@ -36,18 +36,12 @@ import {SettingsService} from '../services/settings';
         ConsoleComponent,
         HotkeysCheatsheetComponent,
     ],
-    animations: [consoleAnimationTrigger],
     providers: [AppHotkeysService, ConfigReleaseService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent implements AfterViewInit, OnDestroy
+export class AppComponent implements OnDestroy
 {
     //######################### private fields #########################
-
-    /**
-     * Subscription for router outlet activation changes
-     */
-    private _routerOutletActivatedSubscription: Subscription|undefined|null;
 
     /**
      * Subscription for changes of general settings
@@ -72,11 +66,6 @@ export class AppComponent implements AfterViewInit, OnDestroy
     public consoleVisible: WritableSignal<boolean> = signal(false);
 
     /**
-     * Name of state for routed component animation
-     */
-    public routeComponentState: string = 'none';
-
-    /**
      * Current version of gui
      */
     public guiVersion: string = version.version;
@@ -85,14 +74,6 @@ export class AppComponent implements AfterViewInit, OnDestroy
      * Indication whether is application initialized
      */
     public initialized: boolean = false;
-
-    //######################### public properties - children #########################
-
-    /**
-     * Router outlet that is used for loading routed components
-     */
-    @ViewChild('outlet')
-    public routerOutlet: RouterOutlet|undefined|null;
 
     //######################### constructor #########################
     constructor(_authSvc: AuthenticationService,
@@ -146,21 +127,6 @@ export class AppComponent implements AfterViewInit, OnDestroy
         }
     }
 
-    //######################### public methods - implementation of AfterViewInit #########################
-
-    /**
-     * Called when view was initialized
-     */
-    public ngAfterViewInit(): void
-    {
-        // this._routerOutletActivatedSubscription = this.routerOutlet?.activateEvents.subscribe(() =>
-        // {
-        //     this.routeComponentState = this.routerOutlet?.activatedRouteData['animation'] || (<any>this.routerOutlet?.activatedRoute.component).name;
-        // });
-
-        // this.initialized = true;
-    }
-
     //######################### public methods - implementation of OnDestroy #########################
 
     /**
@@ -168,9 +134,6 @@ export class AppComponent implements AfterViewInit, OnDestroy
      */
     public ngOnDestroy(): void
     {
-        this._routerOutletActivatedSubscription?.unsubscribe();
-        this._routerOutletActivatedSubscription = null;
-
         this._settingsChangeSubscription?.unsubscribe();
         this._settingsDebuggingChangeSubscription?.unsubscribe();
 

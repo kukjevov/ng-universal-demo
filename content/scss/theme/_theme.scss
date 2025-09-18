@@ -56,8 +56,8 @@ $hljs: null !default;
 
     @include meta.load-css("highlight.js/styles/#{$hljs}.css");
 
-    
     //############## ANIMATIONS ##############
 
     @include animations.css;
+    @include themes.provideAllAnimations;
 }
