@@ -3,4 +3,21 @@
     <debug-data [copyClick]="'a toto sa skopirovalo'">
         <div>debug - toto sa kopiruje</div>
     </debug-data>
+
+    <button (click)="toggle.set(!toggle()); click()" class="margin-top-large" tooltip="toto je test">click</button>
+
+    <div #div></div>
+
+    <div class="flex-column">
+        @if(toggle())
+        {
+            <div animate [enterAnim]="'slide-in'" style="background-color: aliceblue;" [style.--fade-out-duration.ms]="200">
+                <div>toto</div>
+                <div>je</div>
+                <div>obsah</div>
+            </div>
+
+            <div class="test"></div>
+        }
+    </div>
 </div>
