@@ -1,13 +1,13 @@
-import {FactoryProvider, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideZonelessChangeDetection, provideAppInitializer} from '@angular/core';
+import {FactoryProvider, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideAppInitializer} from '@angular/core';
 import {provideClientHydration} from '@angular/platform-browser';
-import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {provideRouter, withComponentInputBinding} from '@angular/router';
 import {MatDialogModule} from '@angular/material/dialog';
-import {AuthenticationService, AUTH_INTERCEPTOR_PROVIDER, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER, AuthenticationServiceOptions} from '@anglr/authentication';
+import {AuthenticationService, AuthenticationServiceOptions, suppressAuthInterceptor, authInterceptor} from '@anglr/authentication';
 import {LocalPermanentStorage} from '@anglr/common/store';
-import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, provideLoggerRestClient, RestSink, providePermanentStorage, provideStringLocalization} from '@anglr/common';
+import {GlobalizationService, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, provideLoggerRestClient, RestSink, providePermanentStorage, provideStringLocalization, progressInterceptor} from '@anglr/common';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
-import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, provideInternalServerErrorRenderer, provideAnglrExceptionExtenders, errorWithUrlExtender, provideHttpClientErrorResponseMapper, provideHttpClientValidationErrorResponseMapper, provideHttpClientErrorHandlers, handleHttp404Error, provideHttpClientErrorConfigs} from '@anglr/error-handling';
+import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, ANGLR_EXCEPTION_HANDLER_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, provideInternalServerErrorRenderer, provideAnglrExceptionExtenders, errorWithUrlExtender, provideHttpClientErrorResponseMapper, provideHttpClientValidationErrorResponseMapper, provideHttpClientErrorHandlers, handleHttp404Error, provideHttpClientErrorConfigs, httpGatewayTimeoutInterceptor, serviceUnavailableInterceptor, httpServerErrorInterceptor, noConnectionInterceptor} from '@anglr/error-handling';
 import {DialogInternalServerErrorRenderer} from '@anglr/error-handling/material';
 import {BasicPagingOptions, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, QueryPermanentStorageGridInitializerOptions, QueryGridInitializerComponent, provideNoDataRendererOptions, provideGridInitializerType, providePagingOptions, provideMetadataSelectorType, provideMetadataSelectorOptions, provideGridInitializerOptions, provideContentRendererOptions} from '@anglr/grid';
 import {DialogMetadataSelectorComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
@@ -55,10 +55,16 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     provideClientHydration(),
 
     //######################### HTTP CLIENT #########################
-    provideHttpClient(withInterceptorsFromDi(),),
-
-    //######################### ZONELESS #########################
-    provideZonelessChangeDetection(),
+    provideHttpClient(withInterceptors(
+                      [
+                          httpGatewayTimeoutInterceptor,
+                          serviceUnavailableInterceptor,
+                          httpServerErrorInterceptor,
+                          noConnectionInterceptor,
+                          suppressAuthInterceptor,
+                          authInterceptor,
+                          progressInterceptor,
+                      ])),
 
     //######################### TRANSLATIONS #########################
     importProvidersFrom(TranslateModule.forRoot(
@@ -74,48 +80,39 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
                 {
                     provide: MissingTranslationHandler,
                     useClass: ReportMissingTranslationService,
-                }
+                },
             } :
             {
             },
         useDefaultLang: !config.configuration.debugTranslations
     })),
 
-    //######################### HTTP INTERCEPTORS #########################
-    HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER,
-    SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER,
-    HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER,
-    NO_CONNECTION_INTERCEPTOR_PROVIDER,
-    SUPPRESS_AUTH_INTERCEPTOR_PROVIDER,
-    AUTH_INTERCEPTOR_PROVIDER,
-    PROGRESS_INTERCEPTOR_PROVIDER,
-
     //######################### NO CONNECTION INTERCEPTOR OPTIONS #########################
     <FactoryProvider>
     {
         useFactory: () => new NoConnectionInterceptorOptions('Server je mimo prevádzky.'),
-        provide: NoConnectionInterceptorOptions
+        provide: NoConnectionInterceptorOptions,
     },
 
     //######################### HTTP GATEWAY TIMEOUT INTERCEPTOR OPTIONS #########################
     <FactoryProvider>
     {
         useFactory: () => new HttpGatewayTimeoutInterceptorOptions('Server neodpovedal v stanovenom čase.'),
-        provide: HttpGatewayTimeoutInterceptorOptions
+        provide: HttpGatewayTimeoutInterceptorOptions,
     },
 
     //######################### GLOBALIZATION SERVICE #########################
     <ClassProvider>
     {
         provide: GlobalizationService,
-        useClass: GlobalizationServiceImpl
+        useClass: GlobalizationServiceImpl,
     },
 
     //######################### AUTHENTICATION & AUTHORIZATION #########################
     <ClassProvider>
     {
         provide: AuthenticationServiceOptions,
-        useClass: AccountAuthOptions
+        useClass: AccountAuthOptions,
     },
 
     //######################### ERROR HANDLING #########################
