@@ -5,4 +5,4 @@ import path from 'path';
 
 const dirName = dirname(fileURLToPath(import.meta.url));
 
-fs.writeFileSync(path.join(dirName, '..',  'config', 'version.json'), `{"version": "${process.env.GIT_VERSION}"}`);
+fs.writeFileSync(path.join(dirName, '..', 'config', 'version.json'), `{"version": "${process.env.GIT_VERSION}"}`);

@@ -65,6 +65,7 @@
         "strictInputAccessModifiers": true,
         "strictTemplates": true,
         "strictStandalone": true,
+        "typeCheckHostBindings": true,
         "extendedDiagnostics":
         {
             "checks":

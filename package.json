@@ -104,7 +104,7 @@
         "express": "4.19.2",
         "http-proxy-middleware": "3.0.5",
         "nodejs-connect-extensions": "3.0.0",
-        "npm-git-version": "2.0.0",
+        "npm-git-version": "3.0.0",
         "rimraf": "6.0.1",
         "typescript": "5.9.2",
         "typescript-eslint": "8.44.1",
