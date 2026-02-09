@@ -41,6 +41,7 @@ import {RestMockLoggerService} from '../services/api/restMockLogger';
 import {ReportMissingTranslationService} from '../services/missingTranslation';
 import {VersionUpdateService} from '../services/versionUpdate';
 import {StaticBuildTranslateLoaderService} from '../services/staticBuildTranslateLoader';
+import {OVERLAY_DEFAULT_CONFIG, OverlayDefaultConfig} from '@angular/cdk/overlay';
 
 /**
  * Array of providers that are used in app module
@@ -392,4 +393,15 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     {
         404: handleHttp404Error,
     }),
+
+    //######################### CDK OVERLAY #########################
+    <ValueProvider>
+    {
+        provide: OVERLAY_DEFAULT_CONFIG,
+        useValue: <OverlayDefaultConfig>
+        {
+            usePopover: false,
+        },
+    },
+
 ];

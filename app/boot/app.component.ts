@@ -25,7 +25,6 @@ import {SettingsService} from '../services/settings';
     selector: 'app',
     templateUrl: 'app.component.html',
     styleUrl: 'app.component.scss',
-    standalone: true,
     imports:
     [
         RouterOutlet,

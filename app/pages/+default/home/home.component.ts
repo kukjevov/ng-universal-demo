@@ -13,7 +13,6 @@ import {AnimateRouteDirective} from '../../../directives';
 {
     selector: 'home-view',
     templateUrl: 'home.component.html',
-    standalone: true,
     imports:
     [
         DebugDataCopyClickModule,
