@@ -3,6 +3,7 @@ import {provideClientHydration} from '@angular/platform-browser';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {provideRouter, withComponentInputBinding} from '@angular/router';
 import {MatDialogModule} from '@angular/material/dialog';
+import {OVERLAY_DEFAULT_CONFIG, OverlayDefaultConfig} from '@angular/cdk/overlay';
 import {AuthenticationService, AuthenticationServiceOptions, suppressAuthInterceptor, authInterceptor} from '@anglr/authentication';
 import {LocalPermanentStorage} from '@anglr/common/store';
 import {GlobalizationService, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, provideLoggerRestClient, RestSink, providePermanentStorage, provideStringLocalization, progressInterceptor} from '@anglr/common';
@@ -19,7 +20,6 @@ import {MermaidExtension} from '@anglr/md-help/mermaid';
 import {baseUrlExtension} from '@anglr/md-help/baseurl';
 import {HighlightJsExtension} from '@anglr/md-help/highlightjs';
 import {REST_ERROR_HANDLING_MIDDLEWARE_ORDER, HttpClientErrorProcessingMiddleware, CatchHttpClientErrorMiddleware} from '@anglr/error-handling/rest';
-import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import {provideGlobalNotifications} from '@anglr/notifications';
 import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
@@ -32,7 +32,6 @@ import {sk} from 'date-fns/locale';
 import {routes} from './app.component.routes';
 import {config} from '../config';
 import {GlobalizationService as GlobalizationServiceImpl} from '../services/globalization/globalization.service';
-import {NOTHING_SELECTED} from '../misc/constants';
 import {SettingsService, LocalSettingsStorage} from '../services/settings';
 import {SETTINGS_STORAGE} from '../misc/tokens';
 import {RestLoggerService} from '../services/api/restLogger';
@@ -41,7 +40,6 @@ import {RestMockLoggerService} from '../services/api/restMockLogger';
 import {ReportMissingTranslationService} from '../services/missingTranslation';
 import {VersionUpdateService} from '../services/versionUpdate';
 import {StaticBuildTranslateLoaderService} from '../services/staticBuildTranslateLoader';
-import {OVERLAY_DEFAULT_CONFIG, OverlayDefaultConfig} from '@angular/cdk/overlay';
 
 /**
  * Array of providers that are used in app module
@@ -187,23 +185,6 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
                 thDefault: 'header-default fixed-header',
             }
         }
-    },
-
-    //############################ SELECT GLOBAL OPTIONS ############################
-    <ValueProvider>
-    {
-        provide: NORMAL_STATE_OPTIONS,
-        useValue: <NormalStateOptions>
-        {
-            cssClasses:
-            {
-                normalStateElement: 'form-control-select',
-            },
-            texts:
-            {
-                nothingSelected: NOTHING_SELECTED,
-            },
-        },
     },
 
     //######################### STRING LOCALIZATION #########################

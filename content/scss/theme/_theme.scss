@@ -6,6 +6,7 @@
 @use '@anglr/common/styles' as anglrCommon;
 @use '@anglr/datetime/styles' as datetime;
 @use '@anglr/grid/styles' as grid;
+@use '@anglr/select/styles' as select;
 
 @use 'themeColors';
 @use '../animations' as animations;
@@ -17,6 +18,7 @@ $themeName: null !default;
 $dateTimeTheme: null !default;
 $anglrCommonTheme: null !default;
 $gridTheme: null !default;
+$selectTheme: null !default;
 $hljs: null !default;
 
 //---------------------- PAGE STYLING ----------------------
@@ -51,6 +53,7 @@ $hljs: null !default;
     @include anglrCommon.buildThemeColorsDebugData($anglrCommonTheme);
     @include datetime.buildThemeColors($dateTimeTheme);
     @include grid.buildThemeColors($gridTheme);
+    @include select.buildThemeVars($selectTheme);
 
     //############## EXTERNALS ##############
 

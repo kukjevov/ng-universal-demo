@@ -1,6 +1,7 @@
 @use '@anglr/common/styles/themes/dark' as anglrCommonTheme;
 @use '@anglr/datetime/styles/themes/dark' as dateTimeTheme;
 @use '@anglr/grid/styles/themes/dark' as gridTheme;
+@use '@anglr/select/styles/themes/dark' as selectTheme;
 @use '@css-styles/themes' as themes;
 
 @use './scss/theme/defaultTheme' as defaultTheme;
@@ -13,4 +14,5 @@
                               $anglrCommonTheme: anglrCommonTheme.defineTheme(),
                               $dateTimeTheme: dateTimeTheme.defineTheme(),
                               $gridTheme: gridTheme.defineTheme(),
+                              $selectTheme: selectTheme.defineTheme(),
                               $hljs: 'vs2015');

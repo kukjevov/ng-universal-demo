@@ -4,6 +4,7 @@
 @use '@anglr/common/styles' as anglrCommon;
 @use '@anglr/datetime/styles' as datetime;
 @use '@anglr/grid/styles' as gridPackage;
+@use '@anglr/select/styles' as selectPackage;
 
 @use 'parts/app' as app;
 
@@ -11,8 +12,6 @@
 .app-page
 {
     font-family: var(--font-family);
-    -webkit-user-select: none;
-    user-select: none;
     background-color: var(--page-background);
     color: var(--page-foreground);
 
@@ -21,6 +20,7 @@
     @include anglrCommon.buildThemeCss;
     @include datetime.buildThemeCss;
     @include gridPackage.buildThemeCss;
+    @include selectPackage.buildThemeCss;
 
     //############## SCROLLBAR ##############
 

@@ -3,7 +3,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {FormGroup, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {DebugDataEnabledService, LocalizePipe, LogLevel} from '@anglr/common';
 import {AuthorizeDirective} from '@anglr/authentication';
-import {NgSelectModule} from '@anglr/select';
+import {SelectControlValueAccessor, SelectModule} from '@anglr/select';
 import {ValueNamePair} from '@jscrpt/common';
 
 import {config, SettingsGeneral, SettingsDebug, LanguageDef} from '../../config';
@@ -49,10 +49,11 @@ interface SettingsLoggingEnum
     imports:
     [
         LocalizePipe,
-        NgSelectModule,
+        SelectModule,
         AuthorizeDirective,
         ReactiveFormsModule,
         MatSlideToggleModule,
+        SelectControlValueAccessor,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

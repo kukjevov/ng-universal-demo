@@ -117,13 +117,13 @@ async function run()
     server.set('views', wwwroot);
     
     // Serve static files from /browser
-    server.use(express.static(wwwroot, 
+    server.use(express.static(wwwroot,
     {
         maxAge: '1y',
         setHeaders: (res, path) => 
         {
             if (mime.lookup(path) === 'text/html' ||
-               path.indexOf('configBrowserOverride') >= 0) 
+                path.indexOf('configBrowserOverride') >= 0) 
             {
                 // Skip cache on html to load new builds.
                 res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
