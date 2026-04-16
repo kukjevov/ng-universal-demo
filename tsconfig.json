@@ -24,10 +24,6 @@
         "newLine": "lf",
         "moduleResolution": "bundler",
         "outDir": "wwwroot/app-tsc",
-        "paths": 
-        {
-            "modernizr": ["./content/external/scripts/modernizr-custom.js"]
-        },
         "lib":
         [
             "ES2022",

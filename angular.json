@@ -26,10 +26,6 @@
                         "browser": "app/main.browser.ts",
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
-                        "polyfills":
-                        [
-                            "modernizr"
-                        ],
                         "styles":
                         [
                             "content/site.scss",
