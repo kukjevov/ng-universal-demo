@@ -1,0 +1,41 @@
+# Comments
+
+- Use JSDoc comments everywhere (classes, interfaces, types, functions, constants, properties, methods, parameters, etc.)
+- Use JSDoc for all members, also for private, protected
+- Use title `//######################### <name-of-title> #########################` for group of members in class or interface, where `<name-of-title>` is descriptive name of the group:
+  - supported names of titles are: `private fields`, `protected fields`, `protected properties`, `protected properties - template bindings`, `protected properties - children`, `public properties`, `public properties - inputs`, `public properties - outputs`, `public properties - models`, `constructor`, `public methods - implementation of <interface-name>`, `public methods`, `protected methods - template bindings`, `protected methods - overrides`, `protected methods`, `private methods`
+  - use empty line before and after title (except if its first line of the block)
+  - order members in class or interface according to the following rules (unless dependencies between members require different order):
+    - private fields
+    - protected fields
+    - protected properties
+    - protected properties - template bindings 
+    - protected properties - children
+    - public properties
+    - public properties - inputs
+    - public properties - outputs
+    - public properties - models
+    - constructor
+    - public methods - implementation of <interface-name>
+    - public methods
+    - protected methods - template bindings
+    - protected methods - overrides
+    - protected methods
+    - private methods
+  - when to use each group
+    - private fields - use this for all private properties
+    - protected fields - use this for all protected properties that are used only in component
+    - protected properties - use this only for getter and setter properties
+    - protected properties - template bindings  - use this for properties that are used in template
+    - protected properties - children - use this for Angular *view child/children* and *content child/children* properties
+    - public properties - use this for rest of public properties
+    - public properties - inputs - use this for Angular *inputs* properties
+    - public properties - outputs - use this for Angular *outputs* properties
+    - public properties - models - use this for Angular *model* properties
+    - constructor - use this only for constructor
+    - public methods - implementation of <interface-name> - use this for each method that was implemented by <interface-name>
+    - public methods - use this for rest of public methods
+    - protected methods - template bindings - use this for protected methdos that are used in template
+    - protected methods - overrides - use this for all protected methods that are overriden
+    - protected methods - use this for all protected methods that are used only in component
+    - private methods - use this for all private methods

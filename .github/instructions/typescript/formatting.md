@@ -1,0 +1,43 @@
+# Formatting
+
+- Order typescript imports, use following rules:
+  - put `@angular/core` on first place
+  - then put other `@angular/core/*` imports
+  - then put other `@angular/*` imports
+  - then put `@anglr/*` imports
+  - then put `@jscrpt/common` and `@jscrpt/common/*` imports
+  - then put other *scoped* imports (e.g. `@fortawesome/*`, `@ngx-translate/*`, etc.)
+  - then other absolute imports
+  - then relative imports
+  - use empty line to separate absolute and relative imports
+- Use 4 spaces for indentation
+- For new lines use LF (line feed) character, not CRLF (carriage return + line feed)
+- Put empty line at the end of file
+- Always put opening braces on the new line, except case when object or array literal used together with `return` statement, in that case put opening brace on same line as `return`
+- Always use single quotes for strings
+- Always use semicolons at the end of statements
+- Always use block braces for control flow statements (if, for, while, switch), even if they are optional
+- Do not use braces around single parameter lambda functions, unless the parameter type is unknown
+- Do not use space after control flow statements (if, for, while, switch)
+- Do not put space after opening braces and before closing braces in oneline object literals, arrays, and function parameters, deconstructions, and imports (e.g. `import {Component} from '@angular/core';`, not `import { Component } from '@angular/core';`)
+- never wrap `import` statements, always keep them on one line, does not matter what is length of that line
+- Use empty line after before and after control flow statements (if, for, while, switch) (unless its first or last line of the block)
+- Always put comma at the end of the line in multiline object literals, arrays, and function parameters
+- Formatting arguments of function definition and declaration:
+  - Constructor arguments, put second and following arguments on new line, and align them with the first argument
+  - For other functions, if the function has more than 2 arguments and line length exceeds 120 characters, put second and following arguments on new line, and align them with the first argument
+- For method and function (also decorator use) calls:
+  - If there is only one parameter and it is not an object literal, keep it on the same line
+  - If there is only one parameter and it is lambda function, put body of lambda function on new line and use same indentation as previous line
+  - If there is only one paremeter and it is an object or array literal, put it on new line and use same indentation as previous line
+  - If there are more than one parameters and lenght does not exceed 120 characters, keep them on the same line
+  - If there are more than one parameters and lenght exceeds 120 characters, put second and following parameters on new line, and align them with the first parameter
+- Json literals:
+  - Put each property on new line and align them with the first property
+  - Opening and closing braces should be on their own line and aligned with the first property
+- Angular Component and Directive decorators:
+  - Follow rules for Json literals, but also:
+    - order properties in the following order: selector, templateUrl, template, styleUrl, styleUrls, styles, host, imports, providers, hostDirectives, changeDetection
+    - order array properties values in the following order: from shortest to longest (e.g. in `imports` property, put items with shorter names first)
+    - never use one line array or object literal for `imports`, `providers`, `host`
+    - always use `changeDetection: ChangeDetectionStrategy.OnPush`
