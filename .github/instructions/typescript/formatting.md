@@ -22,7 +22,7 @@
 - Do not put space after opening braces and before closing braces in oneline object literals, arrays, and function parameters, deconstructions, and imports (e.g. `import {Component} from '@angular/core';`, not `import { Component } from '@angular/core';`)
 - never wrap `import` statements, always keep them on one line, does not matter what is length of that line
 - Use empty line after before and after control flow statements (if, for, while, switch) (unless its first or last line of the block)
-- Always put comma at the end of the line in multiline object literals, arrays, and function parameters
+- Always put comma after last item in array literal, after last property in object literal or after last argument in function definition when defined across multiple lines
 - Formatting arguments of function definition and declaration:
   - Constructor arguments, put second and following arguments on new line, and align them with the first argument
   - For other functions, if the function has more than 2 arguments and line length exceeds 120 characters, put second and following arguments on new line, and align them with the first argument

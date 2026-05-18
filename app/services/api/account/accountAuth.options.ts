@@ -30,7 +30,7 @@ export class AccountAuthOptions extends AuthenticationServiceOptions
     {
         return this._accountSvc.login(accessToken);
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -43,7 +43,7 @@ export class AccountAuthOptions extends AuthenticationServiceOptions
 
         return this._location.path().indexOf('/login') == 0;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -51,7 +51,7 @@ export class AccountAuthOptions extends AuthenticationServiceOptions
     {
         return this._accountSvc.logout();
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -59,7 +59,7 @@ export class AccountAuthOptions extends AuthenticationServiceOptions
     {
         return this._accountSvc.getUserIdentity();
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -67,7 +67,7 @@ export class AccountAuthOptions extends AuthenticationServiceOptions
     {
         return this._router.navigate(['/login'], {queryParams: {returnUrl: this._location.path()}});
     }
-    
+
     /**
      * @inheritdoc
      */
