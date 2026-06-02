@@ -1,479 +1,440 @@
 ---
 name: css-styles
-description: Expert guide for using @css-styles/common and @css-styles/themes SCSS libraries when styling components, pages, or layouts. Use this skill whenever building UI, creating CSS/SCSS styles, designing components, working with themes, applying spacing/sizing/typography, or generating HTML templates with classes. Prioritizes existing utility classes, CSS variables, and mixins from these libraries over writing custom CSS. Trigger when the user mentions styling, theming, CSS variables, layout classes, buttons, forms, alerts, grids, animations, spacing, or any visual design work. Also trigger when creating Angular component styles, HTML templates with class attributes, or SCSS files. Do NOT use @css-styles/custom-themes — it is out of scope.
+description: Authoritative guide for the `@css-styles/common` and `@css-styles/themes` SCSS packages. Use this skill ANY time you are writing or modifying HTML/Angular templates, SCSS, or component styles in a project that depends on these packages — including dashboards, forms, dialogs, page layouts, buttons, alerts, tables/grids, and any styling work that mentions flex layout, spacing, themes, colors, or CSS variables. Prefer the utility classes and CSS variables documented here over hand-rolled CSS, raw pixel values, or competing utility frameworks (Bootstrap, Tailwind, Material utilities). Also use this skill when the user asks how to customize the theme, add a button variant, change colors, or override sizing.
 ---
 
-# CSS Styles Skill
+# @css-styles/common & @css-styles/themes
 
-This skill teaches how to use the `@css-styles/common` (v2.0.1) and `@css-styles/themes` (v2.5.0) SCSS libraries effectively. These are the project's core styling libraries — always prefer their utilities over writing custom CSS.
+These two SCSS packages provide a complete utility + theming layer for an application's styles. Together they provide:
 
-## Core Principle
+- A **size/spacing scale** driven by the app's font size (em + rem-fixed variants)
+- **Utility classes** for flex/grid layout, alignment, text, overflow, visibility, spacing, font sizing, border radius, gaps
+- **Themable components**: buttons, forms, alerts, blocks, grids, titles, texts, common components (dialogs, tooltips), animations
+- A **deep-merge theme system** where every color, padding, border, etc. lives in a single SCSS map and is emitted as CSS variables (`--theme-primary`, `--button-primary-background`, `--input-padding`, ...)
 
-Before writing any custom CSS, check if the needed style already exists as:
-1. A utility class (e.g., `.flex-row`, `.margin-sm`, `.bold`)
-2. A CSS custom property (e.g., `var(--size-padding-md)`, `var(--theme-primary)`)
-3. A SCSS placeholder selector to `@extend` (e.g., `@extend %flex-column`)
-4. A mixin to `@include` (e.g., `@include mixins.fluid-type(...)`)
+Everything is composed inside a single root selector (commonly `.app-page` or similar) in the host application's stylesheet. Components downstream only need to *use* the resulting classes and CSS variables.
 
-## How to Import
+## When to apply this skill
 
-```scss
-// In component SCSS files or global stylesheets:
-@use '@css-styles/common' as mixins;   // mixins, functions, variables
-@use '@css-styles/themes' as themes;   // theme component mixins, colors, theme functions
-```
+Whenever you produce HTML/templates or styles in a project that uses these packages, **default to**:
 
-The `as` alias is flexible — common conventions in this project are `mixins`, `vars`, `misc` for common and `themes` for themes.
+1. Reaching for an existing utility class (`flex-row`, `padding-small`, `gap-medium`, `text-uppercase`) before writing inline `style=""` or new CSS.
+2. Using component classes (`btn btn-primary`, `alert alert-info`, `highlight-block`, `form-group`, `form-control`, `page-title`, `section-title`) for standard elements.
+3. Referencing CSS variables (`var(--theme-primary)`, `var(--size-sm)`, `var(--page-background)`) in component-scoped SCSS instead of hard-coded colors/sizes.
+4. Customizing visuals by editing the theme map (`$theme` / `$appTheme`) rather than overriding selectors.
 
----
+If the user mentions Bootstrap, Tailwind, raw pixel values, or hand-written CSS for layout/spacing, redirect them to the equivalents documented here.
 
-## @css-styles/common — Complete Reference
-
-### SCSS Variables
-
-#### Sizing
-```scss
-$sizeXs: 4;  $sizeSm: 10;  $sizeMd: 15;  $sizeLg: 20;  $sizeBg: 20;
-```
-
-#### Font Sizes
-```scss
-$fontXxs: 10;  $fontXs: 12;  $fontSm: 14;  $fontMd: 16;
-$fontLg: 18;   $fontXl: 20;  $fontXxl: 22; $fontXxxl: 28;
-```
-
-#### Maps (used by build mixins)
-```scss
-$sizes: (none: 0, extra-small: 4, small: 10, medium: 15, large: 20, big: 20,
-         xs: 4, sm: 10, md: 15, lg: 20, bg: 20);
-
-$fontSizes: (extra-extra-small: 10, extra-small: 12, small: 14, medium: 16,
-             large: 18, extra-large: 20, extra-extra-large: 22, extra-extra-extra-large: 28);
-```
-
-### Functions
-
-| Function | Signature | Purpose |
-|----------|-----------|---------|
-| `is-map` | `is-map($var)` | Returns true if `$var` is a Sass map |
-| `strip-unit` | `strip-unit($value)` | Removes the unit from a CSS value |
-| `getSize` | `getSize($fontSize, $size, $fixed: false)` | Calculates size in `em` (responsive) or `rem` (fixed) relative to `$fontSize` |
-
-### Mixins
-
-| Mixin | Signature | Purpose |
-|-------|-----------|---------|
-| `in-layer` | `in-layer($layerName)` | Wraps content in `@layer` for cascade control |
-| `thin-scrollbar-color` | `thin-scrollbar-color($color, $background)` | Custom thin scrollbar with CSS variable colors |
-| `fluid-type` | `fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size)` | Fluid responsive font sizing between viewport breakpoints |
-| `css-reset` | `css-reset()` | Resets box-sizing, margin, padding, font inheritance |
-| `buildCssVars` | `buildCssVars($prefix, $map)` | Recursively converts nested Sass map to CSS custom properties |
-| `buildMarginCss` | `buildMarginCss($fontSize, $sizes)` | Generates `--size-margin-*` vars and `.margin-*` utility classes |
-| `buildPaddingCss` | `buildPaddingCss($fontSize, $sizes)` | Generates `--size-padding-*` vars and `.padding-*` utility classes |
-| `buildBorderRadiusCss` | `buildBorderRadiusCss($fontSize, $sizes)` | Generates `--size-borderRadius-*` vars and `.border-round-*` classes |
-| `buildGapsCss` | `buildGapsCss($fontSize, $sizes)` | Generates `--size-gap-*` vars and `.gap-*` / `.column-gap-*` / `.row-gap-*` classes |
-| `buildFontSizeCss` | `buildFontSizeCss($fontSize, $sizes)` | Generates `--size-font-*` vars and `.*-text` classes |
-| `buildFixedSizes` | `buildFixedSizes($fontSize)` | Generates `--size-1px` through `--size-32px` (em and rem variants) |
-| `buildSizes` | `buildSizes($fontSize, $sizes)` | Generates `--size-*` and `--size-fixed-*` variables |
-| `misc-css` | `misc-css()` | Generates all utility classes listed below |
-
-### Utility Classes
-
-All utilities exist as both CSS classes (`.name`) and SCSS placeholders (`%name`). Use classes in HTML templates, use `@extend %name` in SCSS files.
-
-#### Display & Layout
-| Class | CSS |
-|-------|-----|
-| `.block` | `display: block` |
-| `.hidden` | `display: none` |
-| `.inline-block` | `display: inline-block` |
-| `.flex` | `display: flex` |
-| `.contents` | `display: contents` |
-| `.flex-row` | `display: flex; flex-direction: row` |
-| `.flex-column` | `display: flex; flex-direction: column` |
-| `.flex-row-reverse` | `flex-direction: row-reverse` |
-| `.flex-wrap` | `flex-wrap: wrap` |
-
-#### Flex Grow (all include `min-width: 0; min-height: 0`)
-`.flex-0`, `.flex-025`, `.flex-05`, `.flex-075`, `.flex-1`, `.flex-2`, `.flex-3`, `.flex-4`, `.flex-5`
-
-#### Flexbox Alignment
-| Class | CSS |
-|-------|-----|
-| `.flex-end` | `justify-content: flex-end` |
-| `.justify-content-start` | `justify-content: start` |
-| `.justify-content-center` | `justify-content: center` |
-| `.justify-content-end` | `justify-content: end` |
-| `.justify-content-stretch` | `justify-content: stretch` |
-| `.justify-content-space-between` | `justify-content: space-between` |
-| `.justify-content-space-around` | `justify-content: space-around` |
-| `.justify-content-space-evenly` | `justify-content: space-evenly` |
-| `.align-items-center` | `align-items: center` |
-| `.align-items-start` | `align-items: start` |
-| `.align-items-end` | `align-items: end` |
-| `.align-self-start` | `align-self: start` |
-| `.align-self-center` | `align-self: center` |
-| `.align-self-end` | `align-self: end` |
-| `.align-self-stretch` | `align-self: stretch` |
-| `.justify-self-start` | `justify-self: start` |
-| `.justify-self-center` | `justify-self: center` |
-| `.justify-self-end` | `justify-self: end` |
-| `.justify-self-stretch` | `justify-self: stretch` |
-| `.align-content-start` | `align-content: start` |
-| `.align-content-center` | `align-content: center` |
-| `.align-content-end` | `align-content: end` |
-
-#### Grid
-| Class | CSS |
-|-------|-----|
-| `.grid-subgrid-columns` | `display: grid; grid-template-columns: subgrid` |
-| `.grid-subgrid-rows` | `display: grid; grid-template-rows: subgrid` |
-| `.grid-subgrid` | `display: grid; grid-template-columns: subgrid; grid-template-rows: subgrid` |
-| `.grid-whole-row` | `grid-column: 1 / -1; min-width: 0` |
-| `.grid-first-cell` | `grid-column: 1 / 2; grid-row: 1 / 2; min-width: 0; min-height: 0` |
-
-#### Position
-`.relative`, `.absolute`, `.left-0`, `.top-0`, `.right-0`, `.bottom-0`
-
-#### Sizing
-| Class | CSS |
-|-------|-----|
-| `.full-width` | `width: 100%` |
-| `.half-width` | `width: 50%` |
-| `.quarter-width` | `width: 25%` |
-| `.third-width` | `width: 33.33%` |
-| `.full-height` | `height: 100%` |
-| `.max-height-full` | `max-height: 100%` |
-| `.min-width-none` | `min-width: 0` |
-| `.min-height-none` | `min-height: 0` |
-| `.min-dimensions-none` | `min-width: 0; min-height: 0` |
-
-#### Typography
-| Class | CSS |
-|-------|-----|
-| `.text-center` | `text-align: center` |
-| `.text-right` | `text-align: right` |
-| `.text-left` | `text-align: left` |
-| `.bold` | `font-weight: bold` |
-| `.semi-bold` | `font-weight: 500` |
-| `.regular` | `font-weight: 400` |
-| `.semi-thin` | `font-weight: 300` |
-| `.ultra-thin` | `font-weight: 200` |
-| `.italic` | `font-style: italic` |
-| `.text-small-caps` | `font-variant-caps: small-caps` |
-| `.text-uppercase` | `text-transform: uppercase` |
-| `.text-capitalize` | `text-transform: capitalize` |
-| `.first-letter-uppercase` | First letter uppercase via `::first-letter` |
-| `.spread-text` | `letter-spacing: 1px` |
-| `.text-selection` | `user-select: text` |
-| `.text-ellipsis` | `overflow: hidden; text-overflow: ellipsis; white-space: nowrap` |
-| `.flexible-ellipsis` | `min-width: 0; min-height: 0` (enables ellipsis in flex containers) |
-| `.line-height-1em` | `line-height: 1em` |
-| `.font-1em` | `font-size: 1em` |
-
-#### Whitespace
-`.white-space-normal` / `.content-wrap`, `.white-space-nowrap` / `.content-nowrap`, `.white-space-pre`, `.white-space-pre-wrap`
-
-#### Overflow
-| Class | CSS |
-|-------|-----|
-| `.overflow-hidden` | `overflow: hidden` |
-| `.overflow-auto` | `overflow: auto` |
-| `.overflow-vertical-auto` | `overflow-y: auto` |
-| `.overflow-vertical-scroll` | `overflow-y: scroll` |
-| `.overflow-horizontal-auto` | `overflow-x: auto` |
-| `.overflow-horizontal-scroll` | `overflow-x: scroll` |
-| `.thin-scrollbar` | `scrollbar-width: thin` |
-
-#### Cursor
-`.cursor-pointer` / `.pointer-cursor`, `.cursor-not-allowed` / `.not-allowed-cursor`
-
-#### Misc
-| Class | CSS |
-|-------|-----|
-| `.va-middle` | `vertical-align: middle` |
-| `.va-top` | `vertical-align: top` |
-| `.notransition` | `transition: none !important` |
-| `.transition-all-400` | `transition: all 400ms` |
-| `.root-scale` / `.reset-scale` / `.reset-zoom` | `font-size: 1rem` |
-| `.print-hidden` | Hidden in print media |
-
-### Generated Spacing Classes (from build mixins)
-
-When `buildMarginCss`, `buildPaddingCss`, etc. are called, they generate classes using the size map keys:
-
-**Margin**: `.margin-{size}`, `.margin-right-{size}`, `.margin-left-{size}`, `.margin-top-{size}`, `.margin-bottom-{size}`, `.margin-horizontal-{size}`, `.margin-vertical-{size}` — plus `-fixed` variants for rem-based sizing.
-
-**Padding**: `.padding-{size}`, `.padding-right-{size}`, `.padding-left-{size}`, `.padding-top-{size}`, `.padding-bottom-{size}`, `.padding-horizontal-{size}`, `.padding-vertical-{size}` — plus `-fixed` variants.
-
-**Gap**: `.gap-{size}`, `.column-gap-{size}`, `.row-gap-{size}` — plus `-fixed` variants.
-
-**Border Radius**: `.border-round-{size}`, `.top-border-round-{size}`, `.bottom-border-round-{size}`, `.left-border-round-{size}`, `.right-border-round-{size}`, `.top-left-border-round-{size}`, `.top-right-border-round-{size}`, `.bottom-left-border-round-{size}`, `.bottom-right-border-round-{size}` — plus `-fixed` variants.
-
-**Font Size**: `.{size}-text` (e.g., `.small-text`, `.large-text`) — plus `-fixed` variants.
-
-Size keys: `none`, `extra-small`/`xs`, `small`/`sm`, `medium`/`md`, `large`/`lg`, `big`/`bg`.
-
-### CSS Custom Properties (from build mixins)
+## Package architecture (mental model)
 
 ```
---size-margin-{size}        --size-padding-{size}       --size-gap-{size}
---size-borderRadius-{size}  --size-font-{size}          --size-{size}
---size-fixed-{size}         --size-1px ... --size-32px   --size-fixed-1px ... --size-fixed-32px
---color-transparent
+@css-styles/common               (variables, functions, mixins, %placeholders, misc-css)
+   ↑ used by
+@css-styles/themes               (themable parts: buttons, forms, alerts, blocks, grids, titles,
+                                  texts, common-components, animations + defineTheme/buildThemeVars)
+   ↑ used by
+host application stylesheet      (calls buildSizes, buildThemeVars, css-buttons, etc.
+                                  on a single root selector)
 ```
 
----
+### What lives where
 
-## @css-styles/themes — Complete Reference
+| Layer | Purpose | Examples |
+|---|---|---|
+| `@css-styles/common/_vars.scss` | Size scale + font scale | `$sizeSm: 10`, `$sizes` map, `$fontSizes` map |
+| `@css-styles/common/_mixins.scss` | Mixins that generate utilities + helpers | `buildSizes`, `buildMarginCss`, `buildCssVars`, `fluid-type`, `thin-scrollbar-color`, `getSize`, `in-layer` |
+| `@css-styles/common/_misc.scss` | `%placeholders` + the `misc-css` mixin that exposes flex/text/overflow classes | `.flex-row`, `.flex-1`, `.text-ellipsis`, `.bold`, `.overflow-auto` |
+| `@css-styles/themes/parts/*` | Per-area component mixins (use CSS vars) | `css-buttons`, `css-forms`, `css-alerts`, `css-blocks`, `css-grid`, `css-titles`, `css-texts`, `css-common`, `css-common-components` |
+| `@css-styles/themes/theme/_defaultTheme.scss` | `defineTheme()` — default theme map with every knob | colors, paddings, borders, button states |
+| `@css-styles/themes/theme/_themeColors.scss` | `buildThemeVars($theme)` — emits CSS vars from theme map | `--theme-primary`, `--button-primary-background`, ... |
+| `@css-styles/themes/_animations.scss` | Slide/fly/fade in-out animations + `provideAllAnimations` | `.slide-in`, `.fade-out` |
 
-### Color Palette (_defaultColors.scss)
+## Quick reference: the utility classes you will use most
 
-Available as SCSS variables when importing themes:
+These are generated by the host app inside its root selector (commonly `.app-page`). Use them directly in templates.
 
-| Palette | Range | Main Color |
-|---------|-------|------------|
-| Grayscale | `$gray-1000` (#111) to `$gray-50` (#e5e5e5) | — |
-| Green | `$green-900` to `$green-50` | `$green-600` (#6aba4f) |
-| Blue | `$blue-900` to `$blue-50` | `$blue-800` (#3379b7) |
-| Azure | `$azure-900` to `$azure-50` | `$azure-500` (#5bbfde) |
-| Red | `$red-900` to `$red-50` | `$red-600` (#ec0e0e) |
-| Orange | `$orange-900` to `$orange-50` | `$orange-800` (#e4a256) |
-| Basic | `$white` (#fff), `$black` (#000) | — |
+### Layout (from `misc-css`)
+- `flex`, `flex-row`, `flex-column`, `flex-wrap`, `flex-end`, `flex-row-reverse`, `contents`
+- `flex-0`, `flex-025`, `flex-05`, `flex-075`, `flex-1`, `flex-2`, `flex-3`, `flex-4`, `flex-5` (each also sets `min-width: 0; min-height: 0`)
+- `align-items-{start|center|end}`, `align-self-{start|center|end|stretch}`, `align-content-{start|center|end}`
+- `justify-content-{start|center|end|stretch|space-between|space-around|space-evenly}`, `justify-self-{start|center|end|stretch}`
+- `grid-subgrid`, `grid-subgrid-rows`, `grid-subgrid-columns`, `grid-whole-row`, `grid-first-cell`
+- `relative`, `absolute`, `left-0`, `top-0`, `right-0`, `bottom-0`
 
-### Component Mixins
+### Sizing & overflow
+- `full-width`, `half-width`, `third-width`, `quarter-width`, `full-height`, `max-height-full`
+- `min-width-none`, `min-height-none`, `min-dimensions-none`, `max-width-none`
+- `overflow-{hidden|auto}`, `overflow-{vertical|horizontal}-{auto|scroll}`, `thin-scrollbar`, `table-container`
 
-These mixins generate complete component styles consuming CSS custom properties. They are called once globally (in `_app.scss`), not per component.
+### Text
+- `text-{left|right|center}`, `text-{uppercase|capitalize|small-caps}`, `first-letter-uppercase`
+- `bold`, `semi-bold` (500), `regular` (400), `semi-thin` (300), `ultra-thin` (200), `italic`
+- `text-ellipsis` (overflow + nowrap), `flexible-ellipsis` (only the min-sizing helper for parents)
+- `white-space-{normal|nowrap|pre|pre-wrap}`, `content-wrap` (alias for normal), `content-nowrap` (alias for nowrap)
+- `line-height-1em`, `font-1em`, `spread-text` (letter-spacing 1px)
 
-#### `css-alerts($alertTypes)`
-- **Default types**: `'info'`, `'warning'`, `'success'`, `'danger'`, `'error'`
-- **Generates**: `.alert`, `.alert-{type}`
-- **CSS vars**: `--alert-padding`, `--alert-borderRadius`, `--alert-borderWidth`, `--alert-borderStyle`, `--alert-margin`, `--alert-{type}-background`, `--alert-{type}-foreground`, `--alert-{type}-borderColor`
+### Display & misc
+- `block`, `inline-block`, `hidden`, `print-hidden` (display:none in print)
+- `cursor-pointer` / `pointer-cursor`, `cursor-not-allowed` / `not-allowed-cursor`
+- `va-{middle|top}`, `text-selection`, `notransition`, `transition-all-400`
+- `reset-scale` / `reset-zoom` / `root-scale` (restore `font-size: 1rem` inside a fluid-type container)
 
-#### `css-buttons($buttonTypes, $states)`
-- **Default types**: `'primary'`, `'success'`, `'info'`, `'warning'`, `'danger'`
-- **Default states**: `(onlyContent: only-content)`
-- **Generates**: `.btn`, `.btn-{type}`, `.btn.disabled`, `.btn.icon-only`, `.btn-{type}.{state}`
-- **Button states**: `:hover/:focus`, `:active`, `:disabled`
-- **CSS vars**: `--button-padding`, `--button-borderRadius`, `--button-fontFamily`, `--button-fontSize`, `--button-{type}-background`, `--button-{type}-foreground`, `--button-{type}-borderColor`, `--button-{type}-hover-*`, `--button-{type}-active-*`, `--button-{type}-disabled-*`
+### Spacing scale (generated from `$sizes`)
+Size names: `none`, `extra-small` (xs=4), `small` (sm=10), `medium` (md=15), `large` (lg=20), `big` (bg=20). Aliases `xs`/`sm`/`md`/`lg`/`bg` are also generated.
 
-#### `css-forms`
-- **Generates**: `.control-label`, `.form-group`, `.form-control`, `.form-control-static`, `.input-group`, `.input-group-addon`, `.has-error`, `.validation-error-div`, `.form-error`, `.inputs-gap`, `ng-select.form-control`
-- **CSS vars**: `--input-*` (background, foreground, border, borderRadius, padding, placeholder, disabled, focus, invalid, error, errors), `--label-*`, `--formGroup-*`, `--inputs-*`, `--select-tag-*`
+Every spacing class has an `em` (default, scales with font) and a `-fixed` (rem-based, ignores zoom) variant.
 
-#### `css-grid`
-- **Generates**: `[nggrid]`, `.grid-container-css-grid`, `.grid-body-css-grid`, `.grid-header-css-grid`, `.grid-header-row-css-grid`, `.grid-content-row-css-grid`, `ng-basic-paging`
-- **CSS vars**: `--grid-header-*`, `--grid-oddRow-*`, `--grid-evenRow-*`
+- **Margins**: `margin-{size}`, `margin-{top|right|bottom|left}-{size}`, `margin-{horizontal|vertical}-{size}` (+ `-fixed`)
+- **Paddings**: `padding-{size}`, `padding-{top|right|bottom|left}-{size}`, `padding-{horizontal|vertical}-{size}` (+ `-fixed`)
+- **Gaps**: `gap-{size}`, `column-gap-{size}`, `row-gap-{size}` (+ `-fixed`)
+- **Border radius**: `border-round-{size}`, `top-border-round-{size}`, `bottom-border-round-{size}`, `left-border-round-{size}`, `right-border-round-{size}`, `top-left-border-round-{size}`, `top-right-border-round-{size}`, `bottom-left-border-round-{size}`, `bottom-right-border-round-{size}` (+ `-fixed`)
+- **Font sizes** (from `$fontSizes`: `extra-extra-small`=10, `extra-small`=12, `small`=14, `medium`=16, `large`=18, `extra-large`=20, `extra-extra-large`=22, `extra-extra-extra-large`=28): `{size}-text` (+ `{size}-text-fixed`)
 
-#### `css-texts($textTypes)`
-- **Default types**: `'primary'`, `'danger'`, `'warning'`, `'success'`, `'info'`
-- **Generates**: `.text-{type}`, `.text-{type}-transparent`
-- **CSS vars**: `--text-{type}-foreground`, `--text-{type}-background`
+Plus raw fixed pixel CSS variables `--size-1px` … `--size-32px` (and `-fixed` variants) for use inside SCSS.
 
-#### `css-titles`
-- **Generates**: `.page-title`, `.section-title`, `.subsection-title`
-- **CSS vars**: `--title-page-*`
+### Component classes (from `themes` parts)
 
-#### `css-blocks($blockTypes)`
-- **Default types**: `'highlight'`
-- **Generates**: `.{type}-block`
-- **CSS vars**: `--block-{type}-*` (padding, borderRadius, background, foreground, scrollbar)
+- **Buttons** (`css-buttons`): `btn-<variant>` — built-in variants `primary`, `secondary`, `success`, `info`, `warning`, `danger`, `error`, `default`, plus any custom variants the host app declared (`link`, `my-new`, …). Base styling is applied via the attribute selector `[class|="btn"]` (since v2.6.0), so a single class `btn-primary` is sufficient. The legacy two-class form `btn btn-primary` still works. State modifiers: `:hover`, `:focus`, `:active`, `:disabled`/`.disabled`; layout modifiers: `.icon-only`, `.only-content` (text/icon variant), and container `.buttons-gap` for spacing groups of buttons.
+- **Forms** (`css-forms`): `form-group` (flex container, direction from `--formGroup-direction`), `form-control` (input/select/textarea), `form-control-static`, `input-group` + `input-group-addon`, `control-label`, `has-error` wrapper (turns inputs red), `.validation-error-div` + `.form-error`, `inputs-gap` (column/row gaps from theme).
+- **Alerts** (`css-alerts`): `alert-<type>` — `info`, `warning`, `success`, `danger`, `error` (configurable). Base padding/border is applied via `[class|="alert"]` (since v2.6.0), so the single class is sufficient; the legacy two-class form `alert alert-info` still works.
+- **Blocks** (`css-blocks`): `{name}-block` per configured block type. Defaults to `highlight-block`; host apps commonly enable additional ones like `primary-block` and `secondary-block`. Each pulls `--block-{name}-background`, `--block-{name}-foreground`, `--block-{name}-padding`, `--block-{name}-borderRadius`, `--block-{name}-scrollbar`.
+- **Titles** (`css-titles`): `page-title` (big themed bar), `section-title`, `subsection-title`.
+- **Texts** (`css-texts`): `text-{primary|danger|warning|success|info}` (background + foreground) and `text-{...}-transparent` (foreground only).
+- **Grid** (`css-grid`): styles the `[nggrid]` matrix renderer (header row, alternating rows, paging). Apply nothing manually — the grid component picks these up.
+- **Common** (`css-common`): `<hr>`, `semi-tight` (.9em), `tight` (.8em), `text-selection`, `text-selection-disabled`, `line-height-default`.
+- **Common components** (`css-common-components`): theming hooks for `titled-dialog`, `movable-titled-dialog`, `mat-dialog-container`, `date-time-picker`, `tooltip-popup`.
+- **Animations** (`provideAllAnimations`): `slide-in`, `slide-out`, `slide-in-animation`, `fly-in`, `fly-out`, `fade-in`, `fade-out` (each driven by `--{name}-duration` and similar CSS variables).
 
-#### `css-common`
-- **Generates**: `.semi-tight` (font-size: 0.9em), `.tight` (font-size: 0.8em), `.text-selection`, `.text-selection-disabled`, `.line-height-default`, `hr` styling
+For the full generated list (every size combination), see `references/utility-classes.md`.
 
-#### `css-common-components`
-- **Generates**: `titled-dialog`, `movable-titled-dialog`, `date-time-picker`, `tooltip-popup`, `mat-dialog-container`
+## Writing HTML with these utilities
 
-### Animation Mixins
+### Mental rules
 
-| Mixin | Classes | Customizable CSS Properties |
-|-------|---------|----------------------------|
-| `slideInAnimation` | `.slide-in`, `.slide-in-animation` | `--slide-in-duration`, `--slide-in-to-max-height` |
-| `slideOutAnimation` | `.slide-out` | `--slide-out-duration` |
-| `flyInAnimation` | `.fly-in` | `--fly-in-duration`, `--fly-in-from-opacity`, `--fly-in-from-transform` |
-| `flyOutAnimation` | `.fly-out` | `--fly-out-duration`, `--fly-out-from-opacity` |
-| `fadeInAnimation` | `.fade-in` | `--fade-in-duration`, `--fade-in-from-opacity`, `--fade-in-to-opacity` |
-| `fadeOutAnimation` | `.fade-out` | `--fade-out-duration`, `--fade-out-from-opacity` |
-| `provideAllAnimations` | All above | All animation variables |
+- **Flex first.** Layout is built with `flex-row` / `flex-column` + `flex-1` / `flex-2`. Avoid raw `<div style="display: flex">`. Avoid Bootstrap's `row`/`col-*`.
+- **Spacing comes from the scale.** Don't write `style="margin-top: 12px"`. Use `margin-top-small` (10px) or `margin-top-medium` (15px). When you need a literal px, use the `--size-12px` variable.
+- **Group with gaps, not margins.** Inside a flex/grid container, prefer `gap-{size}`, `inputs-gap`, or `buttons-gap` over per-child margins.
+- **Group form fields with `form-group`.** Each label + input pair lives in a `<div class="form-group">`. Multiple groups go in a row with `inputs-gap`.
+- **Buttons.** `<button class="btn-primary">` for the main action. Secondary actions: `btn-info`, `btn-secondary`. Destructive: `btn-danger`. Wrap groups in `<div class="flex-row buttons-gap">` or `<div class="flex-row flex-end buttons-gap">` to push to the right.
 
-### Theme System
+  > **Single-class usage (v2.6.0+).** Since v2.6.0 of `@css-styles/themes` the base button styling is applied via the attribute selector `[class|="btn"]`, so `class="btn-primary"` alone is enough — you no longer need `class="btn btn-primary"`. The older two-class form still works for backwards compatibility, so both styles coexist in legacy code. Prefer the single-class form in new templates; it's less noisy.
+- **Page chrome.** Pages typically open with `<div class="page-title top-border-round-xs text-uppercase flex-row">…</div>` followed by a block panel (`highlight-block`, or a custom one like `secondary-block` if the host app declared it) with `bottom-border-round-xs padding-horizontal-big` for the content. Within, `section-title` separates major regions.
+- **Status text.** `text-success`, `text-danger`, `text-warning`, `text-info`, `text-primary`. Use the `-transparent` suffix when you don't want a background block.
+- **Ellipsis for long text inside flex.** `class="text-ellipsis"` on the element + `min-width: 0` (already on `flex-{n}`) on its parent flex child.
 
-#### `defineTheme($fontSize, $theme, $customization)` function
+### Canonical patterns
 
-Creates a complete theme by deep-merging layers:
-1. Library defaults (built-in colors and spacing)
-2. `$theme` overrides (from custom theme package)
-3. `$customization` overrides (application-specific)
-
-#### `buildThemeVars($theme)` mixin
-
-Converts the merged theme map into flat CSS custom properties. Calls sub-mixins:
-`buildFontFamily`, `buildPageThemeVars`, `buildTitleThemeVars`, `buildBlockThemeVars`, `buildMiscThemeVars`, `buildLevelThemeVars`, `buildThemeThemeVars`, `buildAlertThemeVars`, `buildTextThemeVars`, `buildMainMenuThemeVars`, `buildDialogThemeVars`, `buildFormsThemeVars`, `buildGridThemeVars`, `buildButtonThemeVars`
-
-#### Theme Map Structure (top-level keys)
-```
-fontFamily, page, title, block, misc, level, theme, alert, text,
-mainMenu, dialog, formGroup, inputs, input, label, select, grid,
-buttons, button
-```
-
-Each key is a nested map. The `buildCssVars` mixin recursively flattens: `button.primary.background` → `--button-primary-background`.
-
-### High-Level Theme CSS Variables
-
-```scss
-// Semantic theme colors
---theme-primary          --theme-onPrimary
---theme-secondary        --theme-onSecondary
---theme-tertiary         --theme-onTertiary
---theme-success          --theme-onSuccess
---theme-info             --theme-onInfo
---theme-warning          --theme-onWarning
---theme-error            --theme-onError
---theme-primaryContainer --theme-secondaryContainer --theme-tertiaryContainer
-
-// Page-level
---page-background        --page-foreground          --page-scrollbar
---font-family
-
-// Semantic level colors
---level-success          --level-info               --level-warning
---level-error            --level-default
-```
-
----
-
-## Usage Patterns & Best Practices
-
-### In HTML Templates — Use Utility Classes
-
+**Page shell:**
 ```html
-<!-- Layout -->
-<div class="flex-row align-items-center gap-sm">
-  <span class="flex-1 text-ellipsis bold">Title</span>
-  <button class="btn btn-primary">Save</button>
+<div class="page-title top-border-round-xs text-uppercase flex-row">
+    <div class="flex-1">My page</div>
 </div>
-
-<!-- Spacing -->
-<div class="padding-md margin-bottom-sm border-round-sm">
-  <p class="small-text margin-none">Content</p>
+<div class="highlight-block bottom-border-round-xs padding-horizontal-big">
+    <!-- content -->
 </div>
-
-<!-- Alerts -->
-<div class="alert alert-warning">Warning message</div>
-
-<!-- Text semantic colors -->
-<span class="text-danger-transparent">Error text</span>
-<span class="text-success-transparent">Success text</span>
-
-<!-- Titles -->
-<h1 class="page-title">Page Title</h1>
-<h2 class="section-title">Section</h2>
-
-<!-- Forms -->
-<div class="form-group">
-  <label class="control-label">Name</label>
-  <input class="form-control" />
-</div>
-
-<!-- Animation -->
-<div class="fade-in">Animated content</div>
 ```
 
-### In SCSS — Use Placeholders, Variables, and Mixins
+**Filter form row:**
+```html
+<form class="flex-column inputs-gap" [formGroup]="filterConfig" (submit)="filter()">
+    <div class="flex-row inputs-gap">
+        <div class="form-group flex-1">
+            <label class="control-label">From</label>
+            <input class="form-control" formControlName="from">
+        </div>
+        <div class="form-group flex-1">
+            <label class="control-label">To</label>
+            <input class="form-control" formControlName="to">
+        </div>
+    </div>
+    <div class="flex-row flex-end buttons-gap">
+        <button type="button" class="btn-info" (click)="reset()">Reset</button>
+        <button type="submit" class="btn-primary">Filter</button>
+    </div>
+</form>
+```
+
+**Input group with addon:**
+```html
+<div class="input-group">
+    <span class="input-group-addon">€</span>
+    <input class="form-control" type="number">
+</div>
+```
+
+**Alert:**
+```html
+<div class="alert-warning">Heads up.</div>
+```
+
+> Both `<div class="alert-warning">` (v2.6.0+ single-class form) and the legacy `<div class="alert alert-warning">` produce the same result.
+
+**Toolbar:**
+```html
+<div class="flex-row align-items-center column-gap-small padding-small highlight-block">
+    <div class="flex-1 bold text-uppercase">Title</div>
+    <button class="btn-primary">Action</button>
+</div>
+```
+
+## Writing component-scoped SCSS
+
+Inside an Angular component's `.scss`, you have all the CSS variables and `%placeholders` available. Two import patterns:
+
+```scss
+// To use placeholders and mixins/functions from common:
+@use '@css-styles/common' as mixins;
+
+.my-thing
+{
+    @extend %flex-row, %align-items-center;
+    padding: var(--size-sm);
+    background: var(--block-highlight-background);
+    color: var(--theme-primary);
+    border-radius: var(--size-borderRadius-xs);
+    gap: var(--size-gap-small);
+
+    font-size: mixins.getSize(14px, 12);   // 12/14 em
+}
+```
+
+Guidelines:
+- **Always prefer CSS variables over hard-coded colors and sizes.** This keeps the component themable.
+- **Use `%placeholders`** (e.g. `@extend %flex-row, %text-ellipsis, %flex-1`) when the same set of declarations would otherwise be repeated; `@extend` keeps the bundle smaller than `@include`-ing dozens of one-line mixins. (See `references/utility-classes.md` for the full placeholder list — it mirrors the class list.)
+- **For raw pixel sizing inside scss**, use the `--size-Npx` variables (e.g. `var(--size-2px)`). Reach for `mixins.getSize($fontSize, N)` if you need an em value at a non-root font scale.
+
+## Customizing the size scale (replacing the defaults)
+
+Everything generated by the `build*` mixins in `@css-styles/common` is driven by **maps you pass in**, not hard-coded values. The defaults exported from `_vars.scss` (`$sizes`, `$fontSizes`, plus the primitive numbers `$sizeXs`/`$sizeSm`/…/`$fontXxs`/`$fontXs`/…) are just one possible set. You can replace them entirely — keeping the same naming conventions or inventing your own.
+
+### What is customizable
+
+| What | How | Where it shows up |
+|---|---|---|
+| The set of size *names* and their pixel values | Your own `$sizes` map | Generated class names: `margin-<name>`, `padding-<name>`, `gap-<name>`, `border-round-<name>`, plus CSS vars `--size-<name>`, `--size-margin-<name>`, etc. |
+| The set of font-size names and values | Your own `$fontSizes` map | Generated class names: `<name>-text`, plus CSS vars `--size-font-<name>` |
+| The root font size for em calculations | The `$fontSize` argument to every `build*` mixin and to `defineTheme` | Everything that uses `getSize($fontSize, N)` — paddings, margins, gaps, alert padding, button padding, input padding |
+
+The mixins don't care what's in the map — they iterate `@each $sizeName, $size in $sizes`, so you can use any names and any numeric values.
+
+### Replacing the size scale
 
 ```scss
 @use '@css-styles/common' as mixins;
 
-:host {
-  @extend %flex-column;
-  @extend %full-width;
-  gap: var(--size-gap-sm);
-  padding: var(--size-padding-md);
-  border-radius: var(--size-borderRadius-sm);
-  font-size: var(--size-font-small);
-}
+// A custom scale with different names and different pixel values.
+$mySizes:
+(
+    none:   0,
+    tiny:   2,
+    cozy:   6,
+    snug:   12,
+    roomy:  18,
+    airy:   28,
+    huge:   48,
+);
 
-.header {
-  @extend %flex-row;
-  @extend %align-items-center;
-  @extend %justify-content-space-between;
-  background: var(--theme-primary);
-  color: var(--theme-onPrimary);
-}
+$myFontSizes:
+(
+    caption: 11,
+    body:    14,
+    lead:    17,
+    heading: 22,
+    display: 32,
+);
 
-.scrollable {
-  @extend %overflow-auto;
-  @extend %thin-scrollbar;
-  @include mixins.thin-scrollbar-color(--page-scrollbar);
-}
+$rootFont: 16px;
 
-.title {
-  @include mixins.fluid-type(768px, 1024px, 14px, 18px);
-  @extend %bold;
+.app-page
+{
+    @include mixins.buildSizes($rootFont, $mySizes);
+    @include mixins.buildFontSizeCss($rootFont, $myFontSizes);
+    @include mixins.buildGapsCss($rootFont, $mySizes);
+    @include mixins.buildBorderRadiusCss($rootFont, $mySizes);
+    @include mixins.buildPaddingCss($rootFont, $mySizes);
+    @include mixins.buildMarginCss($rootFont, $mySizes);
+    @include mixins.buildFixedSizes($rootFont);
 }
 ```
 
-### Choosing Between em and rem (responsive vs fixed)
+The above generates classes like:
 
-- Default classes (e.g., `.margin-sm`) use **em** — they scale with parent font-size
-- `-fixed` variants (e.g., `.margin-sm-fixed`) use **rem** — consistent absolute size
-- CSS vars: `--size-padding-sm` (em) vs `--size-fixed-sm` (rem)
-- Pixel-specific: `--size-6px` (em-relative) vs `--size-fixed-6px` (rem-based)
+- `padding-cozy`, `padding-cozy-fixed`, `padding-top-cozy`, `padding-horizontal-roomy`, …
+- `gap-snug`, `column-gap-airy`, `row-gap-tiny`, …
+- `border-round-huge`, `top-border-round-cozy`, …
+- `body-text`, `display-text-fixed`, `heading-text`, …
 
-### Theme Variable Customization
+And CSS variables like `--size-cozy`, `--size-padding-cozy`, `--size-gap-airy`, `--size-borderRadius-huge`, `--size-font-body`, all with `-fixed` rem-based variants.
 
-Override any theme variable inline using CSS custom properties:
+### Extending instead of replacing
+
+If you want to keep the package defaults and just add a few names, merge maps with `map.merge`:
 
 ```scss
-.custom-button {
-  --button-primary-background: #custom-color;
-  --button-primary-foreground: white;
-  --button-primary-hover-background: darken(#custom-color, 10%);
-}
+@use 'sass:map';
+@use '@css-styles/common' as vars;
+@use '@css-styles/common' as mixins;
 
-.compact-form {
-  --formGroup-gap: 4px;
-  --input-padding: 4px 8px;
-  --label-font-size: 0.8em;
-}
+$mySizes: map.merge(vars.$sizes, (
+    tiny:  2,
+    giant: 40,
+));
 
-.custom-alert {
-  --alert-padding: 8px 16px;
-  --alert-borderRadius: 4px;
+@include mixins.buildSizes($fontSize, $mySizes);
+@include mixins.buildPaddingCss($fontSize, $mySizes);
+// ...etc.
+```
+
+Or mix-and-match: pass `vars.$sizes` to most builders and a different map to just one (e.g. a coarser scale for `buildBorderRadiusCss` than for margins).
+
+### Caveats and tips
+
+- **Use the same map across all spacing builders** unless you have a strong reason not to. Different size names for `padding-*` vs `margin-*` makes templates confusing.
+- **Pick one root `$fontSize`** and pass it everywhere. The whole scale is anchored to it (the em variants divide by it). If you change `$fontSize` later you don't need to change the maps — everything rescales automatically.
+- **`buildFixedSizes($fontSize)` is hard-coded `1px`–`32px`.** It generates `--size-1px` through `--size-32px`. If you need higher numbers, copy the mixin into your own SCSS and extend the range; the package doesn't expose a configurable variant.
+- **Class names with spaces or special characters won't work.** Map keys become CSS class fragments, so stick to identifier-safe names (letters, digits, dashes).
+- **CSS-variable naming follows the map key verbatim.** `cozy` → `--size-cozy`. If you want a multi-word key, use kebab-case (`semi-bold` → `--size-semi-bold`); the mixins don't transform names.
+- **Component themes (`buttons`, `inputs`, …) reference the *original* CSS-var names** (e.g. `var(--size-borderRadius-xs)`, `var(--size-sm)`, `var(--size-2px)`). If you completely replace the scale and the new map doesn't include those exact names, the default theme will reference undefined variables. Either keep the original names (`xs`, `sm`, `md`, `lg`, `bg`) in your map alongside your custom names, or override the relevant theme keys (`input.borderRadius`, `button.padding`, …) to point at your new variable names.
+
+## Customizing the theme
+
+The theme is **one big SCSS map**. Customization happens by passing your overrides through `themes.defineTheme()`, which deep-merges them with the package defaults.
+
+### Typical wiring
+
+```scss
+// Application entry stylesheet
+@use '@css-styles/themes' as themes;
+@use './theme/appTheme' as appTheme;
+@use './theme/theme' with (
+    $fontSize:  appTheme.$fontSize,
+    $theme:     themes.defineTheme(appTheme.$fontSize, appTheme.$theme),
+    $themeName: 'my-app',
+);
+```
+
+```scss
+// theme/_theme.scss — applied to a root selector
+@use '@css-styles/common' as vars;
+@use '@css-styles/common' as mixins;
+@use '@css-styles/themes' as themes;
+
+$fontSize: 14px !default;
+$theme: () !default;
+$themeName: null !default;
+
+.app-page.#{$themeName}
+{
+    @include mixins.fluid-type(768px, 1024px, 12px, $fontSize);
+
+    @include mixins.buildSizes($fontSize, vars.$sizes);
+    @include mixins.buildFontSizeCss($fontSize, vars.$fontSizes);
+    @include mixins.buildFixedSizes($fontSize);
+    @include mixins.buildGapsCss($fontSize, vars.$sizes);
+    @include mixins.buildBorderRadiusCss($fontSize, vars.$sizes);
+    @include mixins.buildPaddingCss($fontSize, vars.$sizes);
+    @include mixins.buildMarginCss($fontSize, vars.$sizes);
+
+    @include themes.buildThemeVars($theme);
+    // ...component parts: css-alerts, css-blocks, css-buttons, css-forms, css-grid, css-titles
 }
 ```
 
-### Customizing Animations
+The root selector name (`app-page` above) is conventional but not required — pick whatever the host app uses.
 
-```html
-<div class="slide-in" style="--slide-in-duration: 500ms; --slide-in-to-max-height: 200px;">
-  Slides in with custom duration and height
-</div>
+### How to change something
 
-<div class="fade-in" style="--fade-in-duration: 300ms; --fade-in-from-opacity: 0.5;">
-  Fades in from 50% opacity
-</div>
-```
+There are four levels of intervention; **always pick the highest-level one that works**:
 
-### Decision Guide
+1. **Override a CSS variable** in a narrow selector. Cheapest, no rebuild needed. Example:
+   ```scss
+   .my-special-section { --button-primary-background: #5bc0de; }
+   ```
 
-| Need | Use |
-|------|-----|
-| Layout in template | Utility classes: `.flex-row`, `.flex-1`, `.align-items-center` |
-| Layout in SCSS | Placeholders: `@extend %flex-row` |
-| Spacing in template | Classes: `.margin-sm`, `.padding-md`, `.gap-xs` |
-| Spacing in SCSS | Variables: `var(--size-padding-sm)`, `var(--size-margin-md)` |
-| Semantic colors | Variables: `var(--theme-primary)`, `var(--level-warning)` |
-| Component colors | Variables: `var(--button-primary-background)`, `var(--input-foreground)` |
-| Responsive font | Mixin: `@include mixins.fluid-type(...)` |
-| Fixed pixel sizes | Variables: `var(--size-6px)`, `var(--size-fixed-12px)` |
-| Scrollbar styling | Mixin: `@include mixins.thin-scrollbar-color(...)` |
-| Cascade management | Mixin: `@include mixins.in-layer(...)` |
-| Button styling | Classes: `.btn .btn-primary`, `.btn .btn-danger` |
-| Form inputs | Classes: `.form-group`, `.form-control`, `.control-label` |
-| Alerts/notifications | Classes: `.alert .alert-info`, `.alert .alert-danger` |
-| Text emphasis | Classes: `.text-danger-transparent`, `.text-success-transparent` |
-| Animations | Classes: `.fade-in`, `.slide-in`, `.fly-in` + CSS var overrides |
-| Titles/headings | Classes: `.page-title`, `.section-title`, `.subsection-title` |
+2. **Add a key to the app's theme map** (the `$theme`/`$appTheme` map the host application passes to `defineTheme`). This gets deep-merged into the default theme. Example, change the danger button background:
+   ```scss
+   $appTheme: (
+       button: (
+           danger: ( background: $_red ),
+       ),
+   );
+   ```
+   The map structure mirrors the CSS-var naming. `button > danger > background` becomes `--button-danger-background`. See `references/theme-customization.md` for the full theme map shape.
+
+3. **Add a new variant** (e.g. a new button type, block, alert): pass the new name in the host app's mixin call:
+   ```scss
+   @include themes.css-buttons($buttonTypes: ('primary', 'secondary', 'danger', 'link', 'my-new'));
+   @include themes.css-blocks($blockTypes: ('highlight', 'primary', 'secondary', 'my-new'));
+   @include themes.css-alerts($alertTypes: ('info', 'warning', 'success', 'danger', 'error', 'my-new'));
+   ```
+
+   **For buttons (v2.6.0+):** each variant's `background`/`foreground` already defaults to `var(--theme-<variant>)` / `var(--theme-on<Variant>)`. So if you also add the matching semantic colors to the theme, no per-variant button map is needed:
+   ```scss
+   $appTheme: (
+       theme: ( my-new: #6b46c1, onMyNew: #fff ),
+   );
+   ```
+   The `btn-my-new` class will then pick those colors up automatically. Only supply `button.my-new.*` explicitly when you need to override border, icon, hover/active, or the `onlyContent` state.
+
+   **For alerts and blocks:** the corresponding `--alert-<name>-*` / `--block-<name>-*` variables still need values, so add them to the theme map:
+   ```scss
+   $appTheme: (
+       alert: ( my-new: ( background: var(--theme-my-new), foreground: var(--theme-onMyNew), borderColor: var(--theme-my-new) ) ),
+       block: ( my-new: ( background: #f3eaff, foreground: #111, padding: var(--size-sm), borderRadius: var(--size-borderRadius-xs), scrollbar: #ccc ) ),
+   );
+   ```
+
+4. **Replace the default theme entirely.** `defineTheme` is only convenience for "defaults + your overrides". If you want a fully custom theme that owes nothing to the package defaults, you can build the map yourself and pass it straight to `buildThemeVars`:
+   ```scss
+   @use '@css-styles/themes' as themes;
+
+   $myTheme: (
+       fontFamily: 'Inter',
+       page:  ( background: #fff, foreground: #111, scrollbar: #ccc ),
+       theme: ( primary: #5bc0de, onPrimary: #fff,
+                success: #6aba4f, onSuccess: #fff,
+                error:   #ec0e0e, onError:   #fff,
+                /* …whatever your design needs… */ ),
+       button: ( padding: .5em 1em, borderRadius: 4px,
+                 primary: ( background: var(--theme-primary), foreground: var(--theme-onPrimary),
+                            hover:  ( background: #4aa9c8 ),
+                            active: ( background: #3a92ad ) ),
+                 /* …etc… */ ),
+       /* …only the areas you actually use… */
+   );
+
+   .app-page
+   {
+       @include themes.buildThemeVars($myTheme);
+       @include themes.css-buttons($buttonTypes: ('primary'));
+       /* …only the parts you want… */
+   }
+   ```
+   `buildThemeVars` walks the map recursively and emits a CSS variable for every leaf. Any key it doesn't find simply produces no CSS variable, and the corresponding component CSS will fall back to whatever fallback it declares (or be `unset`). This is useful when you're building a brand-new design system on top of these packages and don't want default colors, spacings, or button padding leaking in.
+
+   You can mix this with the size scale customization above to produce a completely custom design system that still benefits from the generators and mixin infrastructure.
+
+### Theme map top-level keys (high-signal subset)
+
+`fontFamily`, `page`, `title.page`, `block.<name>`, `misc.separator`, `level`, `theme` (primary/secondary/tertiary/success/info/warning/error + onX), `alert.<type>`, `text.<type>`, `mainMenu`, `dialog`, `formGroup`, `inputs`, `input` (with `placeholder`, `groupAddon`, `disabled`, `focus`, `invalid`, `error`, `errors`), `label`, `select.tag`, `grid` (header/evenRow/oddRow), `buttons` (gaps), `button` (with per-variant maps and per-variant `hover`/`active`/`disabled`/`onlyContent`).
+
+For the full nested shape with every key and what CSS var it produces, see `references/theme-customization.md`.
+
+## Colors palette (defaults)
+
+The default palette (`@css-styles/themes/src/theme/_defaultColors.scss`) provides nine swatches × ten shades:
+
+`white`, `black`, `gray-{50,100,…,1000}`, `green-{50..900}` (main 600), `blue-{50..900}` (main 800), `azure-{50..900}` (main 500), `red-{50..900}` (main 600), `orange-{50..900}` (main 800).
+
+Apps usually don't use these directly in templates — instead they appear inside the app's theme map under semantic keys (`theme.primary`, `button.danger.background`, …) and are surfaced as CSS variables.
+
+## When to NOT use this skill
+
+- Brand-new repos that don't depend on `@css-styles/*`. Use whatever that project ships with.
+- Email HTML, PDFs, or other rendering targets that don't load the app stylesheet.
+
+## Reference files
+
+- `references/utility-classes.md` — exhaustive list of every utility class (all size combinations, all placeholders).
+- `references/theme-customization.md` — full nested shape of the theme map with the CSS variable each key produces.
+- `references/usage-examples.md` — idiomatic HTML snippets (forms, dialogs, page chrome, button groups).

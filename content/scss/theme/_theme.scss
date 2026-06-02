@@ -8,7 +8,7 @@
 @use '@anglr/grid/styles' as grid;
 @use '@anglr/select/styles' as select;
 
-@use 'themeColors';
+@use './themeColors' as themeColors;
 @use '../animations' as animations;
 
 $fontSize: 14px !default;
