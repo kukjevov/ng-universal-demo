@@ -15,7 +15,7 @@ export function applyServerSideRendering(server: express.Express): void
     const commonEngine = new CommonEngine();
 
     // All regular routes use the Angular engine
-    server.get('*', (req, res, next) => 
+    server.get('*', (req, res, next) =>
     {
         const {protocol, originalUrl, baseUrl, headers} = req;
 
@@ -40,7 +40,7 @@ export function applyServerSideRendering(server: express.Express): void
 }
 
 // The Express app is exported so that it can be used by serverless Functions.
-export function app(): express.Express 
+export function app(): express.Express
 {
     const server = express();
     const serverDistFolder = dirname(fileURLToPath(import.meta.url));
@@ -50,7 +50,7 @@ export function app(): express.Express
     server.set('views', browserDistFolder);
 
     // Serve static files from /browser
-    server.get('*.*', express.static(browserDistFolder, 
+    server.get('*.*', express.static(browserDistFolder,
     {
         maxAge: '1y'
     }));

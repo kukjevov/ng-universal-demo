@@ -4,7 +4,7 @@ import {extractRoutes} from '@anglr/common/router';
 import {accessDeniedRoute} from '../pages/accessDenied/accessDenied.route';
 import {notFoundRoute} from '../pages/notFound/notFound.route';
 
-export const routes: Routes = 
+export const routes: Routes =
 [
     {
         path: '',

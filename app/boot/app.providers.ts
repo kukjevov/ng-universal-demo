@@ -16,6 +16,7 @@ import {ReservedSpaceValidationErrorsContainerComponent, ValidationErrorRenderer
 import {MovableTitledDialogComponent, TitledDialogServiceOptions, TitledDialogService, provideConfirmationDialogOptions} from '@anglr/common/material';
 import {FloatingUiDomPosition} from '@anglr/common/floating-ui';
 import {assetsPathPrefixExtension, IncludeMarkdownExtension, provideMarkdownRendererExtensions, GfmHeadingIdExtension} from '@anglr/md-help';
+import {CommonPositionerOptions, providePositionerOptions} from '@anglr/select';
 import {MermaidExtension} from '@anglr/md-help/mermaid';
 import {baseUrlExtension} from '@anglr/md-help/baseurl';
 import {HighlightJsExtension} from '@anglr/md-help/highlightjs';
@@ -152,28 +153,28 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         {
             loading: 'Nahrávam dáta ...',
             noData: 'Neboli nájdené dáta odpovedajúce zadaným parametrom',
-            notLoaded: 'Neboli načítané žiadne dáta zatiaľ'
+            notLoaded: 'Neboli načítané žiadne dáta zatiaľ',
         }
     }),
     providePagingOptions<BasicPagingOptions>(
     {
         itemsPerPageValues: [15, 30, 60],
-        initialItemsPerPage: 15
+        initialItemsPerPage: 15,
     }),
     provideMetadataSelectorOptions<DialogMetadataSelectorOptions>(
     {
-        showButtonVisible: false
+        showButtonVisible: false,
     }),
     provideGridInitializerOptions<QueryPermanentStorageGridInitializerOptions>(
     {
-        storageIppName: 'all-grid-ipp'
+        storageIppName: 'all-grid-ipp',
     }),
     provideContentRendererOptions<TableContentRendererOptions>(
     {
         cssClasses:
         {
-            containerDiv: 'table-container thin-scrollbar'
-        }
+            containerDiv: 'table-container thin-scrollbar',
+        },
     }),
     <ValueProvider>
     {
@@ -183,9 +184,15 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
             cssClasses:
             {
                 thDefault: 'header-default fixed-header',
-            }
-        }
+            },
+        },
     },
+
+    //######################### SELECT GLOBAL OPTIONS #########################
+    providePositionerOptions<CommonPositionerOptions>(
+    {
+        zIndex: 1,
+    }),
 
     //######################### STRING LOCALIZATION #########################
     provideStringLocalization(NgxTranslateStringLocalizationService),
@@ -215,7 +222,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     <ClassProvider>
     {
         provide: SETTINGS_STORAGE,
-        useClass: LocalSettingsStorage
+        useClass: LocalSettingsStorage,
     },
 
     //######################### DEBUG DATA #########################
@@ -237,7 +244,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     <ClassProvider>
     {
         provide: DATE_API,
-        useClass: DateFnsDateApi
+        useClass: DateFnsDateApi,
     },
     DATE_FNS_FORMAT_PROVIDER,
     DATE_FNS_DATE_API_OBJECT_TYPE,
@@ -246,8 +253,8 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         provide: DATE_FNS_LOCALE,
         useValue: <DateFnsLocale>
         {
-            locale: sk
-        }
+            locale: sk,
+        },
     },
 
     //######################### VALIDATION ERRORS #########################
@@ -266,7 +273,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
             birthNumber: 'Nesprávny formát rodného čísla.',
             email: 'Položka musí byť email.',
             availableUsername: 'Prihlasovacie meno je použité',
-        }
+        },
     },
     <ValueProvider>
     {
@@ -274,7 +281,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         useValue: <ValidationErrorRendererFactoryOptions>
         {
             container: ReservedSpaceValidationErrorsContainerComponent
-        }
+        },
     },
 
     //######################### NOTIFICATIONS #########################
@@ -384,5 +391,4 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
             usePopover: false,
         },
     },
-
 ];

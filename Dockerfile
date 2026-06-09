@@ -5,17 +5,17 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 WORKDIR approot
 
-RUN npm install --legacy-peer-deps "express@4.19.2" && \
-    npm install --legacy-peer-deps "compression@1.7.4" && \
-    npm install --legacy-peer-deps "lodash-es@4.17.21" && \
+RUN npm install --legacy-peer-deps "express@5.2.1" && \
+    npm install --legacy-peer-deps "compression@1.8.1" && \
+    npm install --legacy-peer-deps "lodash-es@4.18.1" && \
     npm install --legacy-peer-deps "envsub@4.1.0" && \
-    npm install --legacy-peer-deps "http-proxy-middleware@3.0.3" && \
-    npm install --legacy-peer-deps "yargs@17.7.2" && \
+    npm install --legacy-peer-deps "http-proxy-middleware@4.0.0" && \
+    npm install --legacy-peer-deps "yargs@18.0.0" && \
     npm install --legacy-peer-deps "body-parser@1.20.2" && \
-    npm install --legacy-peer-deps "@jscrpt/common@7.0.0" && \
+    npm install --legacy-peer-deps "@jscrpt/common@7.1.0" && \
     npm install --legacy-peer-deps "extend@3.0.2" && \
     npm install --legacy-peer-deps "chalk@4.1.2" && \
-    npm install --legacy-peer-deps "dotenv@10.0.0" && \
+    npm install --legacy-peer-deps "dotenv@17.4.2" && \
     npm install --legacy-peer-deps "tslib@2.8.1" && \
     npm install --legacy-peer-deps "nodejs-connect-extensions@3.0.0"
 
