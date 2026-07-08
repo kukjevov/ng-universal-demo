@@ -28,12 +28,11 @@ function unhandledErrorsTransform(logs: RestLog[]): RestLog[]
     for(let x = 0; x < logs.length; x++)
     {
         const obj: RestLog & {info?: any} = logs[x];
-        let unhandledErrorIndex: number;
 
         //remove unhandled error message and serialize
-        if((unhandledErrorIndex = obj.message.indexOf('Unhandled error: ')) >= 0)
+        if(obj.message.startsWith('Unhandled error: '))
         {
-            const message = obj.message.substring(unhandledErrorIndex + 'Unhandled error: '.length);
+            const message = obj.message.replace('Unhandled error: ', '');
 
             try
             {
