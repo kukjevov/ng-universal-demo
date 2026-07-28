@@ -6,5 +6,5 @@ import {Route} from '@angular/router';
 export const accessDeniedRoute: Route =
 {
     path: 'accessDenied',
-    loadComponent: () => import('./accessDenied.component')
+    loadComponent: () => import('./accessDenied.component'),
 };
