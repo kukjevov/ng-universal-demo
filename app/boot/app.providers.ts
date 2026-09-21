@@ -27,7 +27,7 @@ import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_F
 import {LoggerMiddleware, MockLoggerMiddleware, provideMockLogger, provideRestMethodMiddlewares, ReportProgressMiddleware, ResponseTypeMiddleware, RestMiddlewareType} from '@anglr/rest';
 import {provideRestDateTime} from '@anglr/rest/datetime';
 import {isString} from '@jscrpt/common';
-import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {MissingTranslationHandler, TranslateLoader, provideTranslateService} from '@ngx-translate/core';
 import {sk} from 'date-fns/locale';
 
 import {routes} from './app.component.routes';
@@ -67,7 +67,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
                       ])),
 
     //######################### TRANSLATIONS #########################
-    importProvidersFrom(TranslateModule.forRoot(
+    provideTranslateService(
     {
         loader: <ClassProvider>
         {
@@ -84,8 +84,8 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
             } :
             {
             },
-        useDefaultLang: !config.configuration.debugTranslations
-    })),
+        fallbackLang: 'en',
+    }),
 
     //######################### NO CONNECTION INTERCEPTOR OPTIONS #########################
     <FactoryProvider>

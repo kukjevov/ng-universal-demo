@@ -117,7 +117,6 @@ export class AppComponent implements OnDestroy
                 }
             });
 
-        translateSvc.setDefaultLang('en');
         translateSvc.use(settings.settings.language);
 
         if(settings.settingsDebugging?.consoleEnabled)
